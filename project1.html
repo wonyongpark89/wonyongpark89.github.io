@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | Wonyong Park</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #2d2d2d;
+            --text-light: #666666;
+            --highlight: #4f46e5;
+            --soft-gray: #f4f4f5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.8;
+            padding: 0 12%; /* Master Padding */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* --- Master Navigation --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 2.5rem; }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+        nav ul li a:hover, .active { color: var(--highlight); font-weight: 600; }
+
+        /* --- Project Header --- */
+        header { padding: 4rem 0 2rem 0; }
+        .project-category {
+            color: var(--highlight);
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; line-height: 1.2; margin-bottom: 2rem; }
+
+        /* --- Project Layout Grid --- */
+        .project-container {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 4rem;
+            margin-bottom: 5.25rem; /* Master 1.5x Spacing */
+        }
+
+        .project-sidebar {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .sidebar-item { margin-bottom: 2rem; }
+        .sidebar-label {
+            font-weight: 600;
+            color: var(--text-main);
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .project-content p { margin-bottom: 1.5rem; font-weight: 400; }
+        .project-content h2 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.6rem; 
+            margin: 2.5rem 0 1rem 0; 
+        }
+
+        /* --- Back Button --- */
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: var(--highlight);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        footer {
+            padding: 4rem 0;
+            text-align: center;
+            border-top: 1px solid #eee;
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        @media (max-width: 900px) {
+            body { padding: 0 5%; }
+            .project-container { grid-template-columns: 1fr; gap: 2rem; }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">WP.</a>
+        <ul>
+            <li><a href="index.html">About</a></li>
+            <li><a href="publications.html">Publications</a></li>
+            <li><a href="projects.html" class="active">Projects</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <span class="project-category">Research Project</span>
+        <h1>Education and Memorialisation for Disaster Justice</h1>
+    </header>
+
+    <main class="project-container">
+        <aside class="project-sidebar">
+            <div class="sidebar-item">
+                <span class="sidebar-label">Duration</span>
+                2024 — 2026
+            </div>
+            <div class="sidebar-item">
+                <span class="sidebar-label">Funder</span>
+                University of Southampton
+            </div>
+            <div class="sidebar-item">
+                <span class="sidebar-label">Partners</span>
+                Grenfell Foundation, <br>
+                Sewol Ferry Family Groups
+            </div>
+        </aside>
+
+        <article class="project-content">
+            <h2>Summary</h2>
+            <p>
+                This project investigates how societies remember past tragedies through education. By comparing the pedagogical responses to the Grenfell Tower, Hillsborough, and Sewol Ferry disasters, we explore how curricula can be designed to foster social justice, collective memory, and community resilience in the wake of unnatural disasters.
+            </p>
+            
+            <h2>Research Context</h2>
+            <p>
+                My research sits at the crossroads of science, the humanities and society. I am particularly interested in how science and STEM education can contribute to social justice, especially during moments of local or global crisis. This project specifically addresses the integration of "hazard literacy" and the role of memorialization in formal school settings.
+            </p>
+
+            <p>
+                Much of my work embraces cross-curricular approaches, linking science with subjects such as history, citizenship, religious education and even music. In this project, we are collaborating with community partners to ensure that educational materials are both research-informed and ethically grounded.
+            </p>
+
+            <h2>Outputs</h2>
+            <p>
+                Recent findings from this work were published in <em>Futures</em> (2025), exploring the fundamental importance of narratives through an integrative interdisciplinary approach. Additionally, technical reports have been provided to the Association for Science Education to assist in making research count in science education policy.
+            </p>
+
+            <a href="projects.html" class="back-link">← Back to Projects List</a>
+        </article>
+    </main>
+
+    <footer>
+        &copy; 2026 Wonyong Park | University of Southampton
+    </footer>
+
+</body>
+</html>
