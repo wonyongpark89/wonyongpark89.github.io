@@ -5,7 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wonyong Park | Associate Professor</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* CSS IS NOW INTERNAL TO PREVENT LOADING ERRORS */
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #2d2d2d;
+            --text-light: #666666;
+            --highlight: #4f46e5;
+            --soft-gray: #f4f4f5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding: 0 10%;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 2rem; }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+        nav ul li a:hover, .active { color: var(--highlight); font-weight: 600; }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5rem 0;
+            gap: 3rem;
+        }
+
+        .hero-content { flex: 2; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 0.5rem; }
+        .title-sub { font-size: 1.2rem; color: var(--text-light); margin-bottom: 1.5rem; }
+        .institution { color: var(--highlight); font-weight: 600; }
+
+        .hero-image { flex: 1; display: flex; justify-content: flex-end; }
+        .headshot {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid #eee;
+            background-color: var(--soft-gray);
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid #eee;
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        @media (max-width: 850px) {
+            .hero { flex-direction: column-reverse; text-align: center; }
+            .hero-image { justify-content: center; }
+        }
+    </style>
 </head>
 <body>
 
@@ -25,22 +107,17 @@
                 Associate Professor of Science Education <br>
                 <span class="institution">University of Southampton</span>
             </p>
-            <p>
-                My research focuses on the intersection of science, society, and education. 
-                I explore how scientific literacy and the nature of science can be integrated into 
-                modern curricula to prepare students for global challenges.
-            </p>
+            <p>My research focuses on the intersection of science, society, and education. I explore how scientific literacy and the nature of science can be integrated into modern curricula to prepare students for global challenges.</p>
             <br>
-            <p>Welcome to my academic profile. Here you can find my latest research, 
-               teaching portfolio, and ongoing projects.</p>
+            <p>Welcome to my academic profile. Here you can find my latest research, teaching portfolio, and ongoing projects.</p>
         </div>
 
         <div class="hero-image">
-            <img src="headshot.jpg" alt="Wonyong Park" class="headshot">
+            <img src="https://via.placeholder.com/250" alt="Wonyong Park" class="headshot">
         </div>
     </main>
 
-    <footer style="padding: 4rem 0; text-align: center; border-top: 1px solid #eee; font-size: 0.85rem; color: #999;">
+    <footer>
         &copy; 2026 Wonyong Park. Built for the University of Southampton.
     </footer>
 
