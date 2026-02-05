@@ -11,7 +11,7 @@
             --bg-color: #ffffff;
             --text-main: #2d2d2d;
             --text-light: #666666;
-            --highlight: #4f46e5; /* Indigo */
+            --highlight: #4f46e5;
             --soft-gray: #f4f4f5;
         }
 
@@ -21,11 +21,10 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
-            line-height: 1.7;
+            line-height: 1.6;
             padding: 0 10%;
         }
 
-        /* --- Navigation --- */
         nav {
             display: flex;
             justify-content: space-between;
@@ -52,7 +51,6 @@
         }
         nav ul li a:hover, .active { color: var(--highlight); font-weight: 600; }
 
-        /* --- Header --- */
         header { padding: 4rem 0 2rem 0; }
         h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; }
 
@@ -92,16 +90,25 @@
         }
 
         /* --- Publication Items --- */
-        .item { margin-bottom: 2rem; }
+        .category-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin: 2rem 0 1.5rem 0;
+            color: var(--text-main);
+            border-left: 4px solid var(--highlight);
+            padding-left: 1rem;
+        }
+
+        .item { margin-bottom: 1.8rem; }
         .item-meta {
             color: var(--highlight);
             font-weight: 600;
             font-size: 0.75rem;
             text-transform: uppercase;
             display: block;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
         }
-        .pub-text { font-size: 1rem; color: var(--text-main); }
+        .pub-text { font-size: 0.95rem; color: var(--text-main); }
         .pub-link { color: var(--highlight); text-decoration: none; font-size: 0.9rem; word-break: break-all; }
         .pub-link:hover { text-decoration: underline; }
 
@@ -111,7 +118,7 @@
             border-top: 1px solid #eee;
             font-size: 0.8rem;
             color: #999;
-            margin-top: 4rem;
+            margin-top: 5rem;
         }
     </style>
 </head>
@@ -132,64 +139,167 @@
 
     <div class="tabs">
         <button class="tab-btn active" onclick="openTab(event, 'journals')">Journal Articles</button>
-        <button class="tab-btn" onclick="openTab(event, 'books')">Books & Issues</button>
+        <button class="tab-btn" onclick="openTab(event, 'books')">Books & Special Issues</button>
         <button class="tab-btn" onclick="openTab(event, 'chapters')">Book Chapters</button>
-        <button class="tab-btn" onclick="openTab(event, 'opinions')">Opinions & Reports</button>
+        <button class="tab-btn" onclick="openTab(event, 'practitioner')">Opinions & Reports</button>
     </div>
 
     <div id="journals" class="tab-content active">
         <div class="item">
             <span class="item-meta">2026</span>
-            <p class="pub-text">Park, W., Erduran, S., & Hillier, J. (2026). Building connections to teach the nature of science. <em>Journal of Research in Science Teaching</em>, 63(2).<br>
-            <a href="https://doi.org/10.1002/tea.70029" class="pub-link">https://doi.org/10.1002/tea.70029</a></p>
+            <p class="pub-text">Park, W., Erduran, S., & Hillier, J. (2026). Building connections to teach the nature of science: An experienced science teacher’s formative assessment practices in a high school science classroom. <em>Journal of Research in Science Teaching</em>, 63(2), 161–185. <br><a href="https://doi.org/10.1002/tea.70029" class="pub-link">https://doi.org/10.1002/tea.70029</a></p>
         </div>
+
         <div class="item">
             <span class="item-meta">2025</span>
-            <p class="pub-text">Millar, V., Park, W., & Dillon, J. (2025). The science curriculum: Issues, tensions and future prospects. <em>International Journal of Science Education</em>.<br>
-            <a href="https://doi.org/10.1080/09500693.2025.2504644" class="pub-link">https://doi.org/10.1080/09500693.2025.2504644</a></p>
+            <p class="pub-text">Millar, V., Park, W., & Dillon, J. (2025). The science curriculum: Issues, tensions and future prospects. <em>International Journal of Science Education</em>, 47(15–16), 1965–1971. <br><a href="https://doi.org/10.1080/09500693.2025.2504644" class="pub-link">https://doi.org/10.1080/09500693.2025.2504644</a></p>
+            <p class="pub-text">Townend, I., Baden, D., Baker, J., Buermann, J., Dawson, I., Dbouk, W., Dearing, J. A., Doncaster, C. P., Eigenbrod, F., Hellman, T., Hoyle, R. B., & Ianni, A., Kassem, H., Katsikopoulou, K., Kunc, M., Manfren, M., Marshall, A., Park, W., Sengupta, D., & Wanick, V. (2025). Anticipating futures: Understanding the fundamental importance of narratives through an integrative interdisciplinary approach. <em>Futures</em>, 173, 103649. <br><a href="https://doi.org/10.1016/j.futures.2025.103649" class="pub-link">https://doi.org/10.1016/j.futures.2025.103649</a></p>
+            <p class="pub-text">Park, W. (2025). STEM education for transformative hazard literacy: from technological fixes to slow learning. <em>Journal of Hazard Literacy</em>, 1(1), e3. <br><a href="https://doi.org/10.63737/jhl.25.0014" class="pub-link">https://doi.org/10.63737/jhl.25.0014</a></p>
+            <p class="pub-text">Park, W., Grace, M., Hutton, C. W., & Knowles, S. G. (2025). Science education in an age of unnatural disasters: An introduction to the special issue. <em>Science & Education</em>, 34(3), 957–967. <br><a href="https://doi.org/10.1007/s11191-025-00652-1" class="pub-link">https://doi.org/10.1007/s11191-025-00652-1</a></p>
+            <p class="pub-text">Park, W., Shaby, N., & Newman, R. (2025). “We often forget it was a disaster”: Cross-curricular teacher collaboration to develop a curriculum unit on the Titanic disaster. <em>Science & Education</em>, 34(3), 1087–1114. <br><a href="https://doi.org/10.1007/s11191-024-00540-0" class="pub-link">https://doi.org/10.1007/s11191-024-00540-0</a></p>
         </div>
+
         <div class="item">
             <span class="item-meta">2024</span>
-            <p class="pub-text">Park, W., Lim, I., & Song, J. (2024). Exploring the intersection of disasters and science education. <em>Cultural Studies of Science Education</em>, 19(4).<br>
-            <a href="https://doi.org/10.1007/s11422-024-10225-3" class="pub-link">https://doi.org/10.1007/s11422-024-10225-3</a></p>
+            <p class="pub-text">Park, W., Lim, I., & Song, J. (2024). Exploring the intersection of disasters and science education with preservice science teachers through a disaster case study. <em>Cultural Studies of Science Education</em>, 19(4), 593–622. <br><a href="https://doi.org/10.1007/s11422-024-10225-3" class="pub-link">https://doi.org/10.1007/s11422-024-10225-3</a></p>
+            <p class="pub-text">Brock, R., & Park, W. (2024). Distinguishing nature of science beliefs, knowledge and understandings: Towards clarity and coherence in educational goals related to nature of science. <em>Science & Education</em>, 33(3), 495–516. <br><a href="https://doi.org/10.1007/s11191-022-00368-6" class="pub-link">https://doi.org/10.1007/s11191-022-00368-6</a></p>
+            <p class="pub-text">Park, W., Cullinane, A., Gandolfi, H., Alameh, S., & Mesci, G. (2024). Innovations and future directions in nature of science research: Reflections from early career academics. <em>Research in Science Education</em>, 54(1), 27–48. <br><a href="https://doi.org/10.1007/s11165-023-10102-z" class="pub-link">https://doi.org/10.1007/s11165-023-10102-z</a></p>
         </div>
-        <p style="color: #999; font-size: 0.9rem; font-style: italic;">(Add your remaining journal articles here using the same 'item' format)</p>
+
+        <div class="item">
+            <span class="item-meta">2023</span>
+            <p class="pub-text">Ha, H., Park, W., & Song, J. (2023). Preservice elementary teachers’ socioscientific reasoning during a decision-making activity in the context of COVID-19. <em>Science & Education</em>, 32(6), 1869–1886. <br><a href="https://doi.org/10.1007/s11191-022-00359-7" class="pub-link">https://doi.org/10.1007/s11191-022-00359-7</a></p>
+            <p class="pub-text">Park, W., Lee, H., Ko, Y., & Lee, H. (2023). “Safety” and “integration”: Examining the introduction of disaster into the science curriculum in South Korea. <em>Journal of Curriculum Studies</em>, 55(5), 580–597. <br><a href="https://doi.org/10.1080/00220272.2023.2239887" class="pub-link">https://doi.org/10.1080/00220272.2023.2239887</a></p>
+            <p class="pub-text">Park, W., Erduran, S., Song, J., & Kim, M. (2023). “It’s a lesson with no correct answer”: Design issues in preservice teachers’ collaborative lesson planning using history of science. <em>International Journal of Science Education</em>, 45(3), 181-203. <br><a href="https://doi.org/10.1080/09500693.2022.2154132" class="pub-link">https://doi.org/10.1080/09500693.2022.2154132</a></p>
+            <p class="pub-text">Park, W. & Brock, R. (2023). Is there a limit to resemblances? Revisiting the science-pseudoscience problem from a family resemblance perspective. <em>Science & Education</em>, 32(5), 1265-1286. <br><a href="https://doi.org/10.1007/s11191-022-00394-4" class="pub-link">https://doi.org/10.1007/s11191-022-00394-4</a></p>
+        </div>
+
+        <div class="item">
+            <span class="item-meta">2022</span>
+            <p class="pub-text">Cho, H-J., Jo, J.-H., Choi, N., Choi, J., & Park, W. (2022). Environmental themes and ecosystem services in picture books about forests for sustainability education. <em>Journal of Forest Research</em>, 27(6), 419–428. <br><a href="https://doi.org/10.1080/09500693.2022.2154132" class="pub-link">https://doi.org/10.1080/09500693.2022.2154132</a></p>
+            <p class="pub-text">Park, W., & Cho, H. (2022). The interaction of history and STEM learning goals in teacher-developed curriculum materials: Opportunities and challenges for STEAM education. <em>Asia Pacific Education Review</em>, 23(3), 457–474. <br><a href="https://doi.org/10.1007/s12564-022-09741-0" class="pub-link">https://doi.org/10.1007/s12564-022-09741-0</a></p>
+            <p class="pub-text">Park, W., Erduran, S., & Guilfoyle, L. (2022). Secondary teachers’ instructional practices on argumentation in the context of science and religious education. <em>International Journal of Science Education</em>, 44(8), 1251–1276. <br><a href="https://doi.org/10.1080/09500693.2022.2074565" class="pub-link">https://doi.org/10.1080/09500693.2022.2074565</a></p>
+            <p class="pub-text">Erduran, S., Guilfoyle, L., & Park, W. (2022). Science and religious education teachers’ perceptions of argumentation and its teaching. <em>Research in Science Education</em>, 52(2), 655–673. <br><a href="https://doi.org/10.1007/s11165-020-09966-2" class="pub-link">https://doi.org/10.1007/s11165-020-09966-2</a></p>
+            <p class="pub-text">Park, W., & Song, J. (2022). Looking back at “our science” and “our history”: Exploring Korean preservice teachers’ encounters with East Asian history of science. <em>Cultural Studies of Science Education</em>, 17(2), 355–381. <br><a href="https://doi.org/10.1007/s11422-021-10060-w" class="pub-link">https://doi.org/10.1007/s11422-021-10060-w</a></p>
+        </div>
+
+        <div class="item">
+            <span class="item-meta">2021</span>
+            <p class="pub-text">Park, W., Kim, D., & Kang, D. Y. (2021). Research trends in science and mathematics education in South Korea 2014–2018: A cross-disciplinary analysis of publications in selected local journals. <em>Asia-Pacific Science Education</em>, 7, 280–308. <br><a href="https://doi.org/10.1163/23641177-bja10029" class="pub-link">https://doi.org/10.1163/23641177-bja10029</a></p>
+            <p class="pub-text">Guilfoyle, L., Erduran, S., & Park, W. (2021). Science and religious education teachers’ views of the comparison of argumentation in science and religion. <em>Journal of Beliefs and Values</em>, 42(2), 190–204. <br><a href="https://doi.org/10.1080/13617672.2020.1805925" class="pub-link">https://doi.org/10.1080/13617672.2020.1805925</a></p>
+        </div>
+
+        <div class="item">
+            <span class="item-meta">2020</span>
+            <p class="pub-text">Park, W., Wu, J.-Y., & Erduran, S. (2020). The nature of STEM disciplines in the science education standards documents from the USA, Korea and Taiwan: Focusing on disciplinary aims, values and practices. <em>Science & Education</em>, 29(4), 899–927. <br><a href="https://doi.org/10.1007/s11191-020-00139-1" class="pub-link">https://doi.org/10.1007/s11191-020-00139-1</a></p>
+            <p class="pub-text">Park, W. (2020). Beyond the “two cultures” in the teaching of disaster: or how disaster education and science education could benefit each other. <em>Educational Philosophy and Theory</em>, 52(13), 1434–1448. <br><a href="https://doi.org/10.1080/00131857.2020.1751126" class="pub-link">https://doi.org/10.1080/00131857.2020.1751126</a></p>
+            <p class="pub-text">Park, W., Yang, S., & Song, J. (2020). Eliciting students’ understanding of nature of science with text-based tasks: Insights from new Korean high school textbooks. <em>International Journal of Science Education</em>, 42(3), 426–450. <br><a href="https://doi.org/10.1080/09500693.2020.1714094" class="pub-link">https://doi.org/10.1080/09500693.2020.1714094</a></p>
+        </div>
+
+        <div class="item">
+            <span class="item-meta">2019</span>
+            <p class="pub-text">Park, W., Yang, S., & Song, J. (2019). When modern physics meets nature of science: The representation of nature of science in general relativity in new Korean physics textbooks. <em>Science & Education</em>, 28(9–10), 1055–1083. <br><a href="https://doi.org/10.1007/s11191-019-00075-9" class="pub-link">https://doi.org/10.1007/s11191-019-00075-9</a></p>
+            <p class="pub-text">Erduran, S., Guilfoyle, L., Park, W., Chan, J., & Fancourt, N. (2019). Argumentation and interdisciplinarity: Reflections from the Oxford Argumentation in Religion and Science Project. <em>Disciplinary and Interdisciplinary Science Education Research</em>, 1, 8. <br><a href="https://doi.org/10.1186/s43031-019-0006-9" class="pub-link">https://doi.org/10.1186/s43031-019-0006-9</a></p>
+        </div>
+
+        <div class="item">
+            <span class="item-meta">2018</span>
+            <p class="pub-text">Park, W., & Song, J. (2018). Goethe’s conception of “experiment as mediator” and implications for practical work in school science. <em>Science & Education</em>, 27(1–2), 39–61. <br><a href="https://doi.org/10.1007/s11191-018-9965-z" class="pub-link">https://doi.org/10.1007/s11191-018-9965-z</a></p>
+        </div>
     </div>
 
     <div id="books" class="tab-content">
+        <h2 class="category-heading">Books</h2>
         <div class="item">
-            <span class="item-meta">Books • Under Contract</span>
-            <p class="pub-text">Park, W. <em>Disaster education for social justice: A STEM-centred approach.</em> Routledge.</p>
-            <p class="pub-text">Park, W., Summers, R., & Pleasants, J. (Eds.). <em>Nature of science in science curriculum: A global perspective.</em> Springer.</p>
+            <span class="item-meta">Under Contract</span>
+            <p class="pub-text">Park, W. (under contract). <em>Disaster education for social justice: A STEM-centred approach.</em> Routledge.</p>
         </div>
         <div class="item">
-            <span class="item-meta">Edited Special Issues</span>
-            <p class="pub-text">Park, W., & Guilfoyle, L. Research-informed policy and practice. <em>Research in Science Education</em>.</p>
-            <p class="pub-text">Park, W., Grace, M., et al. (2025). Science education in an age of unnatural disasters. <em>Science & Education</em>.</p>
+            <span class="item-meta">Under Contract</span>
+            <p class="pub-text">Park, W., Summers, R., & Pleasants, J. (under contract). (Eds.). <em>Nature of science in science curriculum and teacher education: A global perspective.</em> Springer.</p>
+        </div>
+
+        <h2 class="category-heading">Edited Special Issues</h2>
+        <div class="item">
+            <span class="item-meta">In Progress</span>
+            <p class="pub-text">Park, W., & Guilfoyle, L. (in progress). (Eds.). Research-informed policy and practice in science education. Special issue of <em>Research in Science Education</em>.</p>
+        </div>
+        <div class="item">
+            <span class="item-meta">2025</span>
+            <p class="pub-text">Millar, V., Park, W., & Dillon, J. (2025). (Eds). The science curriculum: Issues, tensions and future prospects. Special issue of <em>International Journal of Science Education</em>. (Volume 47, Issue 15–16) <br><a href="https://www.tandfonline.com/toc/tsed20/47/15-16" class="pub-link">https://www.tandfonline.com/toc/tsed20/47/15-16</a></p>
+        </div>
+        <div class="item">
+            <span class="item-meta">2025</span>
+            <p class="pub-text">Park, W., Grace, M., Hutton, C., & Knowles, S. G. (2025). (Eds.). Science education in an age of unnatural disasters. Special issue of <em>Science & Education</em>. (Volume 34, Issue 3) <br><a href="https://link.springer.com/journal/11191/volumes-and-issues/34-3" class="pub-link">https://link.springer.com/journal/11191/volumes-and-issues/34-3</a></p>
+        </div>
+        <div class="item">
+            <span class="item-meta">2025</span>
+            <p class="pub-text">Park, W., & Erduran, S. (2025) (Eds.). Argumentation and the problem of misinformation in science education. Topical collection of <em>Research in Science Education</em>. <br><a href="https://link.springer.com/collections/jfjieedgbd" class="pub-link">https://link.springer.com/collections/jfjieedgbd</a></p>
         </div>
     </div>
 
     <div id="chapters" class="tab-content">
         <div class="item">
             <span class="item-meta">2025</span>
-            <p class="pub-text">Park, W., Chun, J., & Ji, H. (2025). Why did the Fukushima nuclear accident happen?. In <em>Justice-oriented science teaching</em>. Springer.<br>
-            <a href="https://doi.org/10.1007/978-3-031-76297-0_21" class="pub-link">https://doi.org/10.1007/978-3-031-76297-0_21</a></p>
+            <p class="pub-text">Park, W., Chun, J., & Ji, H. (2025). Why did the Fukushima nuclear accident happen, and how did it affect people?. In D. Steele & A. K. Mercier (Eds.), <em>Justice-oriented science teaching and learning: Anchoring phenomena in secondary classrooms</em> (pp. 397–410). Springer. <br><a href="https://doi.org/10.1007/978-3-031-76297-0_21" class="pub-link">https://doi.org/10.1007/978-3-031-76297-0_21</a></p>
         </div>
         <div class="item">
             <span class="item-meta">2024</span>
-            <p class="pub-text">Skilling, K., & Park, W. (2024). STEM in a changing world. In <em>Ways of thinking in STEM-based problem solving</em>. Routledge.</p>
+            <p class="pub-text">Skilling, K., & Park, W. (2024). STEM in a changing world: “Insider” and “outsider” perspectives. In L. English & T. Lehmann (Eds.), <em>Ways of thinking in STEM-based problem solving: Teaching and learning in a new era</em> (pp. 15–28). Routledge. <br><a href="https://doi.org/10.4324/9781003404989-2" class="pub-link">https://doi.org/10.4324/9781003404989-2</a></p>
+            <p class="pub-text">Erduran, S., Guilfoyle, L., & Park, W. (2024). Broadening STEM education through cross-curricular collaboration: The case of argumentation in science and religious education. In Y. Li, Z. Zeng & N. Song (Eds.), <em>Disciplinary and interdisciplinary education in STEM: Changes and innovations</em> (241–264). Springer. <br><a href="https://doi.org/10.1007/978-3-031-52924-5_12" class="pub-link">https://doi.org/10.1007/978-3-031-52924-5_12</a></p>
+        </div>
+        <div class="item">
+            <span class="item-meta">2023</span>
+            <p class="pub-text">Erduran, S, & Park, W. (2023). A systemic approach to the integration of Big Science in science education. In P. Charitos, et al. (Eds.), <em>Big Science in the 21st century: Economic and social impacts</em>. IOP Publishing. <br><a href="https://doi.org/10.1088/978-0-7503-3631-4ch42" class="pub-link">https://doi.org/10.1088/978-0-7503-3631-4ch42</a></p>
+            <p class="pub-text">Erduran, S, & Park, W. (2023). Teaching and learning about argumentation in physics education. In F. Tasar & P. Heron (Eds.), <em>International handbook of physics education research: Learning physics</em> (pp. 1–32). AIP Publishing. <br><a href="https://doi.org/10.1063/9780735425477_016" class="pub-link">https://doi.org/10.1063/9780735425477_016</a></p>
+        </div>
+        <div class="item">
+            <span class="item-meta">2020</span>
+            <p class="pub-text">Park, W., Wu, J.-Y., & Erduran, S. (2020). Investigating the epistemic nature of STEM: Analysis of curriculum documents from the USA using the Family Resemblance Approach. In Anderson, J., & Li, Y. (Eds.) <em>Integrated approaches to STEM education: An international perspective</em> (pp. 137–155). Springer. <br><a href="https://doi.org/10.1007/978-3-030-52229-2_8" class="pub-link">https://doi.org/10.1007/978-3-030-52229-2_8</a></p>
+            <p class="pub-text">Yang, S., Park, W., & Song, J. (2020). Representations of nature of science in new Korean science textbooks: The case of “scientific inquiry and experimentation”. In A.-L. Tan., et al. (Eds.), <em>Science education in the 21st century</em> (pp. 19–35). Springer. <br><a href="https://doi.org/10.1007/978-981-15-5155-0_2" class="pub-link">https://doi.org/10.1007/978-981-15-5155-0_2</a></p>
+        </div>
+        <div class="item">
+            <span class="item-meta">2019</span>
+            <p class="pub-text">Park, W., & Song, J. (2019). Between realism and constructivism: A sketch of pluralism for science education. In E. Herring, et al. (Eds.), <em>The past, present and future of integrated history and philosophy of science</em> (pp. 228–247). Routledge. <br><a href="https://doi.org/10.4324/9781351214827-14" class="pub-link">https://doi.org/10.4324/9781351214827-14</a></p>
         </div>
     </div>
 
-    <div id="opinions" class="tab-content">
+    <div id="practitioner" class="tab-content">
+        <h2 class="category-heading">Opinions and Practitioner Pieces</h2>
         <div class="item">
-            <span class="item-meta">Opinion Piece • 2025</span>
-            <p class="pub-text">Park, W., Russell, H., & Fancourt, N. Never again: Disaster memory and education after Grenfell. <em>Teaching Citizenship</em>.</p>
+            <span class="item-meta">2025</span>
+            <p class="pub-text">Park, W., Russell, H., & Fancourt, N. (2025). Never again: Disaster memory and education for social justice after Grenfell. <em>Teaching Citizenship</em>, 61, 38-41. <br><a href="https://www.wonyongpark.com/files/neveragain.pdf" class="pub-link">https://www.wonyongpark.com/files/neveragain.pdf</a></p>
+            <p class="pub-text">Newman, R., & Park, W. (2025). Creating opportunities for learning across subjects through the Titanic disaster. <em>BERA Blog</em>. <br><a href="https://www.bera.ac.uk/blog/creating-opportunities-for-learning-across-subjects-through-the-titanic-disaster" class="pub-link">Link to Blog</a></p>
         </div>
         <div class="item">
-            <span class="item-meta">Technical Report • 2025</span>
-            <p class="pub-text">Park, W., et al. (2025). <em>Making research count in science education policy.</em> University of Southampton.<br>
-            <a href="https://doi.org/10.5258/SOTON/P1232" class="pub-link">https://doi.org/10.5258/SOTON/P1232</a></p>
+            <span class="item-meta">2024</span>
+            <p class="pub-text">Park, W., Miani, L., & Levrini, O. (2024). Disasters in the classroom: Lessons on talking to students about extreme climate events. <em>UNDRR PreventionWeb</em>. <br><a href="https://www.preventionweb.net/drr-community-voices/disasters-classroom-lessons-talking-students-about-extreme-climate-events" class="pub-link">Link to Piece</a></p>
+            <p class="pub-text">Park, W. (2024). Remembering Titanic: Lessons from a cross-curricular professional development project with science and history teachers. <em>Education in Science</em>, 294, 22–23. <br><a href="https://www.ase.org.uk/resources/education-in-science/issue-294/remembering-titanic" class="pub-link">Link to Article</a></p>
+        </div>
+        <div class="item">
+            <span class="item-meta">2023</span>
+            <p class="pub-text">Park, W. (2023). Computing education in the UK. <em>Science Times</em>. (written in Korean) <br><a href="https://www.sciencetimes.co.kr/news/%ec%98%81%ea%b5%ad%ec%9d%98-%ec%bb%b4%ed%93%a8%ed%8c%85-%ea%b5%90%ec%9c%a1-1/" class="pub-link">Link to Piece</a></p>
+            <p class="pub-text">Park, W. , Lee, S., Lee, E., & Lee, J. (2023). How South Koreans remember tragedy through education. <em>BERA Blog</em>. <br><a href="https://www.bera.ac.uk/blog/how-south-koreans-remember-tragedy-through-education" class="pub-link">Link to Blog</a></p>
+        </div>
+        <div class="item">
+            <span class="item-meta">2022</span>
+            <p class="pub-text">Park, W. (2022). Learning from Grenfell and Sewol: Why science education can be crucial for disaster justice and resilience. <em>HPS&ST Newsletter</em>. <br><a href="https://www.hpsst.com/opinion.html" class="pub-link">Link to Opinion</a></p>
+            <p class="pub-text">Park, W. (2022). K-Science Education: Korean science education from an international perspective. <em>Journal of Seoul Science Education</em> (written in Korean). <br><a href="http://webzine-ssp.kr/education_issue/54" class="pub-link">Link to Piece</a></p>
+        </div>
+        <div class="item">
+            <span class="item-meta">2020</span>
+            <p class="pub-text">Park, W. (2020). Preparing school science for the next disaster. <em>Teach311+COVID19 Collective Blog</em>. <br><a href="https://www.teach311.org/2020/06/25/wonyong-park/" class="pub-link">Link to Blog</a></p>
+        </div>
+
+        <h2 class="category-heading">Technical Reports</h2>
+        <div class="item">
+            <span class="item-meta">2025</span>
+            <p class="pub-text">Park, W., Downey, C., Hughes, C., Russell, H., Cutler, M., & Ladbrook, L. (2025). <em>Making research count in science education policy.</em> University of Southampton & Association for Science Education. <br><a href="https://doi.org/10.5258/SOTON/P1232" class="pub-link">https://doi.org/10.5258/SOTON/P1232</a></p>
+            <p class="pub-text">Park, W., Fancourt, N., Habibi, A., & Wahabi, H. (2025). <em>Teaching about Grenfell: Recommendations from the community.</em> <br><a href="https://doi.org/10.5258/SOTON/P1214" class="pub-link">https://doi.org/10.5258/SOTON/P1214</a></p>
+        </div>
+        <div class="item">
+            <span class="item-meta">2024</span>
+            <p class="pub-text">Park, W., Byrne, I., Scraton, P., Lee, J., Lee, E., Wahabi, H., & Calamelli, E., (2024). <em>Education and memorialisation for disaster justice: Lessons from Grenfell, Hillsborough and Sewol.</em> University of Southampton. <br><a href="https://doi.org/10.5258/SOTON/PP0070" class="pub-link">https://doi.org/10.5258/SOTON/PP0070</a></p>
         </div>
     </div>
 
