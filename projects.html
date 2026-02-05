@@ -2,13 +2,139 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Projects | Dr. Alex Carter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Wonyong Park</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #2d2d2d;
+            --text-light: #666666;
+            --highlight: #4f46e5;
+            --soft-gray: #f4f4f5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 0 10%;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 2rem; }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+        nav ul li a:hover, .active { color: var(--highlight); font-weight: 600; }
+
+        header { padding: 4rem 0 2rem 0; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; }
+
+        /* --- Project Grid --- */
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+            margin-bottom: 5rem;
+        }
+
+        .project-card {
+            display: flex;
+            gap: 3rem;
+            align-items: flex-start;
+        }
+
+        .project-thumb {
+            flex: 0 0 220px;
+            height: 160px;
+            background-color: var(--soft-gray);
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid #eee;
+        }
+
+        .project-info {
+            flex: 1;
+        }
+
+        .project-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .project-meta {
+            font-size: 0.85rem;
+            color: var(--highlight);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+        }
+
+        .project-summary {
+            font-size: 1rem;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+        }
+
+        .read-more {
+            color: var(--highlight);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-bottom: 1px solid transparent;
+            transition: 0.3s;
+        }
+
+        .read-more:hover {
+            border-bottom: 1px solid var(--highlight);
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid #eee;
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .project-card { flex-direction: column; gap: 1.5rem; }
+            .project-thumb { width: 100%; height: 200px; flex: none; }
+        }
+    </style>
 </head>
 <body>
+
     <nav>
-        <a href="index.html" class="logo">AC.</a>
+        <a href="index.html" class="logo">WP.</a>
         <ul>
             <li><a href="index.html">About</a></li>
             <li><a href="publications.html">Publications</a></li>
@@ -16,20 +142,53 @@
         </ul>
     </nav>
 
-    <section>
+    <header>
         <h1>Research Projects</h1>
-        <div class="item">
-            <span class="item-meta">Open Source</span>
-            <h3>The Lingua-Map Library</h3>
-            <p>A Python library for visualizing dialectal shifts across geographical regions using real-time data.</p>
-        </div>
-        <div class="item">
-            <span class="item-meta">Grant Funded</span>
-            <h3>Project Ethos</h3>
-            <p>Developing a benchmark for evaluating bias in generative models for low-resource languages.</p>
-        </div>
-    </section>
+    </header>
 
-    <footer>&copy; 2026 Dr. Alex Carter</footer>
+    <main class="project-list">
+
+        <article class="project-card">
+            <img src="https://via.placeholder.com/220x160" alt="Project Thumbnail" class="project-thumb">
+            <div class="project-info">
+                <div class="project-meta">2024 — 2026 | Funder: University of Southampton</div>
+                <h2>Education and Memorialisation for Disaster Justice</h2>
+                <p class="project-summary">
+                    This project investigates how societies remember past tragedies through education. By comparing the pedagogical responses to the Grenfell Tower, Hillsborough, and Sewol Ferry disasters, we explore how curricula can be designed to foster social justice, collective memory, and community resilience in the wake of unnatural disasters.
+                </p>
+                <a href="project1.html" class="read-more">View Project Details →</a>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <img src="https://via.placeholder.com/220x160" alt="Project Thumbnail" class="project-thumb">
+            <div class="project-info">
+                <div class="project-meta">2023 — 2025 | Funder: ESRC</div>
+                <h2>Making Research Count in Science Education Policy</h2>
+                <p class="project-summary">
+                    An interdisciplinary initiative aimed at bridging the gap between academic research and national science education policy. This project develops frameworks for evidence-based decision-making, ensuring that the latest insights into the nature of science and scientific inquiry directly inform teacher education and school curriculum standards.
+                </p>
+                <a href="project2.html" class="read-more">View Project Details →</a>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <img src="https://via.placeholder.com/220x160" alt="Project Thumbnail" class="project-thumb">
+            <div class="project-info">
+                <div class="project-meta">2025 — Present | Funder: Routledge Research</div>
+                <h2>Disaster Education for Social Justice</h2>
+                <p class="project-summary">
+                    Focusing on a STEM-centred approach, this project explores the integration of hazard literacy into the science classroom. We move beyond "technological fixes" to examine how slow learning and critical thinking about systemic risks can empower students to advocate for safer, more equitable futures in their communities.
+                </p>
+                <a href="project3.html" class="read-more">View Project Details →</a>
+            </div>
+        </article>
+
+    </main>
+
+    <footer>
+        &copy; 2026 Wonyong Park | University of Southampton
+    </footer>
+
 </body>
 </html>
