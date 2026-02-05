@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects | Wonyong Park</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects | Wonyong Park</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 
-    <style>
+  <style>
 :root{
   --bg-color:#ffffff;
   --text-main:#2d2d2d;
@@ -30,7 +30,7 @@ body{
   background-color:var(--bg-color);
   color:var(--text-main);
   line-height:1.75;
-  max-width:1100px; /* Match site width */
+  max-width:1100px;
   margin:0 auto;
   padding:0 24px;
   -webkit-font-smoothing:antialiased;
@@ -82,159 +82,150 @@ footer{
   border-top:1px solid var(--border-color);
   font-size:.85rem;
   color:#999;
-  margin-top: 4rem;
+  margin-top:4rem;
 }
 
-/* --- GRID LAYOUT CHANGES --- */
-
-.project-list {
-  display: grid;
-  /* Auto-fit columns: min 340px wide, expanding to fill space */
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); 
-  gap: 2rem;
-  margin-bottom: 5rem;
+/* Project grid */
+.project-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));
+  gap:2rem;
+  margin-bottom:5rem;
 }
 
-.project-card {
-  background-color: #fff;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: var(--card-shadow);
-  height: 100%; /* Make sure cards stretch to match row height */
+.project-card{
+  background:#fff;
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  padding:2rem;
+  display:flex;
+  flex-direction:column;
+  transition:all .3s cubic-bezier(.25,.8,.25,1);
+  box-shadow:var(--card-shadow);
+  height:100%;
 }
 
-/* Hover Effect */
-.project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--card-shadow-hover);
-  border-color: var(--highlight);
+.project-card:hover{
+  transform:translateY(-5px);
+  box-shadow:var(--card-shadow-hover);
+  border-color:var(--highlight);
 }
 
-.project-info {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+.project-info{
+  display:flex;
+  flex-direction:column;
+  flex:1;
 }
 
-.project-meta {
-  font-size: 0.75rem;
-  color: var(--highlight);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 1rem;
+/* Meta row: funder on the left (wrapping), badge pinned to the right */
+.project-meta{
+  font-size:.75rem;
+  color:var(--highlight);
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:1rem;
 
-  /* Keep badge aligned to the right edge of the card */
-  display: grid;
-  grid-template-columns: 1fr auto;
-  column-gap: 0.75rem;
-  align-items: start;
+  display:flex;
+  align-items:flex-start;   /* keeps badge aligned nicely when funder wraps */
+  gap:.75rem;
 }
 
-.project-meta-text {
-  min-width: 0;
+.project-meta .meta-left{
+  flex:1 1 auto;
+  min-width:0;              /* allows wrapping within flex layouts */
+  white-space:normal;       /* allow funder to wrap */
 }
 
-.project-info h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  line-height: 1.3;
-  margin-bottom: 1rem;
-  color: var(--text-main);
+.project-info h2{
+  font-family:'Playfair Display',serif;
+  font-size:1.5rem;
+  line-height:1.3;
+  margin-bottom:1rem;
 }
 
-.project-summary {
-  font-family: 'Source Sans 3', sans-serif;
-  font-size: 0.95rem;
-  color: var(--text-light);
-  margin-bottom: 1.5rem;
-  flex-grow: 1; /* Pushes the button to the bottom */
-  display: -webkit-box;
-  -webkit-line-clamp: 4; /* Limit summary lines */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.project-summary{
+  font-family:'Source Sans 3',sans-serif;
+  font-size:.95rem;
+  color:var(--text-light);
+  margin-bottom:1.5rem;
+  flex-grow:1;
+  display:-webkit-box;
+  -webkit-line-clamp:4;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
 }
 
-.read-more {
-  display: inline-flex;
-  align-items: center;
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: var(--highlight);
-  margin-top: auto; /* Anchors link to bottom */
+.read-more{
+  font-weight:600;
+  font-size:.9rem;
+  color:var(--highlight);
+  margin-top:auto;
 }
 
-.read-more:hover {
-  text-decoration: underline;
+.read-more:hover{text-decoration:underline;}
+
+/* Status badge */
+.status-badge{
+  margin-left:auto;         /* pins badge to the right edge */
+  flex:0 0 auto;            /* never shrink; never wrap */
+  white-space:nowrap;
+
+  font-size:.65rem;
+  font-weight:700;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  padding:.25em .55em;
+  border-radius:4px;
+  line-height:1.2;
+  color:#fff;
 }
 
-/* Status badge (right-aligned in meta row) */
-.status-badge {
-  display: inline-block;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  padding: 0.25em 0.55em;
-  border-radius: 4px;
-  line-height: 1.2;
-  color: #ffffff;
-  white-space: nowrap;
-}
+.status-live{background:var(--highlight);}
+.status-completed{background:#9ca3af;}
 
-.status-live { background-color: var(--highlight); }
-.status-completed { background-color: #9ca3af; }
-
-/* Mobile Adjustments */
+/* Mobile */
 @media (max-width:900px){
   body{padding:0 18px;}
-  nav{flex-direction:column;gap:1rem;padding:2rem 0;}
+  nav{flex-direction:column;gap:1rem;}
   nav ul{gap:1.5rem;flex-wrap:wrap;justify-content:center;}
   h1{font-size:2.2rem;}
-  
-  .project-list {
-    grid-template-columns: 1fr; /* Stack on mobile */
-  }
+  .project-list{grid-template-columns:1fr;}
 }
-
-</style>
+  </style>
 </head>
+
 <body>
 
-    <nav>
-        <a href="index.html" class="logo">WP.</a>
-        <ul>
-            <li><a href="index.html">About</a></li>
-            <li><a href="publications.html">Publications</a></li>
-            <li><a href="projects.html" class="active">Projects</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <a href="index.html" class="logo">WP.</a>
+    <ul>
+      <li><a href="index.html">About</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="projects.html" class="active">Projects</a></li>
+    </ul>
+  </nav>
 
-    <header>
-        <h1>Research Projects</h1>
-    </header>
+  <header>
+    <h1>Research Projects</h1>
+  </header>
 
-    <main class="project-list" id="projectList">
-        <p style="grid-column: 1/-1; color:#999;">Loading projects...</p>
-    </main>
+  <main class="project-list" id="projectList">
+    <p style="grid-column:1/-1;color:#999;">Loading projects…</p>
+  </main>
 
-    <footer>
-        &copy; 2026 Wonyong Park | University of Southampton
-    </footer>
+  <footer>
+    &copy; 2026 Wonyong Park | University of Southampton
+  </footer>
 
-<script>
+  <script>
 (() => {
-  const MAX_PROJECTS_TO_CHECK = 50; 
+  const MAX_PROJECTS_TO_CHECK = 50;
   const listEl = document.getElementById('projectList');
   if (!listEl) return;
 
   const normaliseSpace = (s) => (s || '').replace(/\s+/g, ' ').trim();
 
-  // Helper to clip text
   const firstNWords = (text, n) => {
     const words = normaliseSpace(text).split(' ').filter(Boolean);
     const clipped = words.slice(0, n).join(' ');
@@ -246,6 +237,7 @@ footer{
     for (const item of items) {
       const label = item.querySelector('.sidebar-label');
       if (!label) continue;
+
       if (normaliseSpace(label.textContent).toLowerCase() === labelText.toLowerCase()) {
         const clone = item.cloneNode(true);
         const cloneLabel = clone.querySelector('.sidebar-label');
@@ -256,7 +248,8 @@ footer{
     return '';
   };
 
-  const extractTitle = (doc) => normaliseSpace(doc.querySelector('header h1')?.textContent || '');
+  const extractTitle = (doc) =>
+    normaliseSpace(doc.querySelector('header h1')?.textContent || '');
 
   const extractSummaryText = (doc) => {
     const h2s = Array.from(doc.querySelectorAll('.project-content h2'));
@@ -272,6 +265,16 @@ footer{
     return normaliseSpace(parts.join(' '));
   };
 
+  const inferStatusFromDuration = (duration) => {
+    if (!duration) return null;
+    const years = duration.match(/\d{4}/g);
+    if (!years || !years.length) return null;
+
+    const endYear = parseInt(years[years.length - 1], 10);
+    const currentYear = new Date().getFullYear();
+    return endYear >= currentYear ? 'Live' : 'Completed';
+  };
+
   const renderCard = ({ n, title, duration, funder, summary }) => {
     const article = document.createElement('article');
     article.className = 'project-card';
@@ -279,14 +282,22 @@ footer{
     const info = document.createElement('div');
     info.className = 'project-info';
 
-    // Meta: Funder (Primary) or Duration
+    // Meta row with left text + right badge
     const meta = document.createElement('div');
     meta.className = 'project-meta';
-    // Prioritize showing Funder, or duration if funder missing
-    const metaText = document.createElement('span');
-    metaText.className = 'project-meta-text';
-    metaText.textContent = funder ? funder : (duration || 'Research Project');
-    meta.appendChild(metaText);
+
+    const metaLeft = document.createElement('span');
+    metaLeft.className = 'meta-left';
+    metaLeft.textContent = funder ? funder : (duration || 'Research Project');
+    meta.appendChild(metaLeft);
+
+    const status = inferStatusFromDuration(duration);
+    if (status) {
+      const badge = document.createElement('span');
+      badge.className = 'status-badge ' + (status.toLowerCase() === 'live' ? 'status-live' : 'status-completed');
+      badge.textContent = status;
+      meta.appendChild(badge);
+    }
 
     const h2 = document.createElement('h2');
     h2.textContent = title || `Project ${n}`;
@@ -298,7 +309,7 @@ footer{
     const a = document.createElement('a');
     a.className = 'read-more';
     a.href = `project${n}.html`;
-    a.textContent = 'View Project →';
+    a.textContent = 'View project →';
 
     info.appendChild(meta);
     info.appendChild(h2);
@@ -313,14 +324,14 @@ footer{
     const url = `project${n}.html`;
     const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) throw new Error(`Missing: ${url}`);
+
     const htmlText = await res.text();
     const doc = new DOMParser().parseFromString(htmlText, 'text/html');
 
     const title = extractTitle(doc);
     const duration = extractSidebarValue(doc, 'Duration');
     const funder = extractSidebarValue(doc, 'Funder');
-    // Slightly shorter summary for cards
-    const summary = firstNWords(extractSummaryText(doc), 35); 
+    const summary = firstNWords(extractSummaryText(doc), 35);
 
     return { n, title, duration, funder, summary };
   };
@@ -335,9 +346,7 @@ footer{
     found.sort((a, b) => b.n - a.n);
 
     listEl.innerHTML = '';
-    for (const proj of found) {
-      listEl.appendChild(renderCard(proj));
-    }
+    for (const proj of found) listEl.appendChild(renderCard(proj));
 
     if (found.length === 0) {
       const p = document.createElement('p');
@@ -347,7 +356,7 @@ footer{
     }
   })();
 })();
-</script>
+  </script>
 
 </body>
 </html>
