@@ -89,41 +89,44 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Publication Items --- */
-        .category-heading {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            margin: 2rem 0 2.5rem 0;
-            color: var(--text-main);
-            border-left: 4px solid var(--highlight);
-            padding-left: 1rem;
-        }
+ /* --- Publication Items --- */
+.category-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin: 2rem 0 3rem 0; /* Increased margin below heading */
+    color: var(--text-main);
+    border-left: 4px solid var(--highlight);
+    padding-left: 1rem;
+}
 
-        /* Increased spacing after each paragraph item */
-        .item { margin-bottom: 3.5rem; } 
-        
-        .item-meta {
-            color: var(--highlight);
-            font-weight: 600;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-        
-        .pub-text { 
-            font-size: 1rem; 
-            color: var(--text-main); 
-            margin-top: 0.5rem;
-        }
-        
-        .pub-link { 
-            color: var(--highlight); 
-            text-decoration: none; 
-            font-size: 0.95rem; 
-            word-break: break-all;
-            margin-left: 4px; /* Space between text and link */
-        }
+/* Updated: 1.5x larger spacing between items (5.25rem) */
+.item { 
+    margin-bottom: 5.25rem; 
+} 
+
+.item-meta {
+    color: var(--highlight);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* Updated: 1.5x larger padding above citation text (0.75rem) */
+.pub-text { 
+    font-size: 1rem; 
+    color: var(--text-main); 
+    margin-top: 0.75rem;
+}
+
+.pub-link { 
+    color: var(--highlight); 
+    text-decoration: none; 
+    font-size: 0.95rem; 
+    word-break: break-all;
+    margin-left: 4px;
+}
         
         .pub-link:hover { text-decoration: underline; }
 
