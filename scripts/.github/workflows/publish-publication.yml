@@ -1,0 +1,72 @@
+name: Publish publication entry
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  publish:
+    if: github.event.label.name == 'publish'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Parse issue fields
+        id: parse
+        shell: bash
+        run: |
+          python - << 'PY'
+          import json, re, os
+
+          event_path = os.environ["GITHUB_EVENT_PATH"]
+          with open(event_path, "r", encoding="utf-8") as f:
+            event = json.load(f)
+
+          body = event["issue"].get("body", "")
+
+          def section(name: str) -> str:
+            # Extract the text after '### Name' up to next '###' or end
+            m = re.search(rf"^###\s+{re.escape(name)}\s*\n(.+?)(?=\n###\s+|\Z)", body, flags=re.S | re.M)
+            return (m.group(1).strip() if m else "")
+
+          category = section("Category")
+          label = section("Label") or "New"
+          entry = section("Entry")
+
+          # Minimal sanitisation: forbid script tags
+          if re.search(r"<\s*script\b", entry, flags=re.I):
+            raise SystemExit("Entry contains <script>, which is not allowed.")
+
+          out = os.environ["GITHUB_OUTPUT"]
+          with open(out, "a", encoding="utf-8") as f:
+            f.write(f"category<<EOF\n{category}\nEOF\n")
+            f.write(f"label<<EOF\n{label}\nEOF\n")
+            f.write(f"entry<<EOF\n{entry}\nEOF\n")
+          PY
+
+      - name: Update publications.html
+        run: |
+          python scripts/append_publication.py \
+            --file publications.html \
+            --category "${{ steps.parse.outputs.category }}" \
+            --label "${{ steps.parse.outputs.label }}" \
+            --entry "${{ steps.parse.outputs.entry }}"
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "Add publication entry"
+          title: "Add publication entry"
+          body: "This PR was generated from a GitHub Issue labelled `publish`."
+          branch: "auto/add-publication-${{ github.event.issue.number }}"

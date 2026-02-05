@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Submit a Publication | Wonyong Park</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+:root{
+  --bg-color:#ffffff;
+  --text-main:#2d2d2d;
+  --text-light:#666666;
+  --highlight:#4f46e5;
+  --soft-gray:#f4f4f5;
+  --border-color:#eeeeee;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Inter',sans-serif;
+  background-color:var(--bg-color);
+  color:var(--text-main);
+  line-height:1.75;
+  max-width:900px;
+  margin:0 auto;
+  padding:0 24px;
+}
+
+header{padding:3rem 0 1rem 0;}
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:2.2rem;
+  line-height:1.15;
+  margin-bottom:.5rem;
+}
+
+p{
+  font-family:'Source Sans 3',sans-serif;
+  font-size:1.05rem;
+  margin:0 0 1rem 0;
+  color:var(--text-main);
+}
+
+.card{
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  padding:1.25rem;
+  background:#fff;
+}
+
+label{
+  display:block;
+  font-weight:600;
+  margin:.9rem 0 .35rem 0;
+}
+
+select, input, textarea{
+  width:100%;
+  font-family:'Inter',sans-serif;
+  font-size:1rem;
+  padding:.75rem .8rem;
+  border:1px solid var(--border-color);
+  border-radius:10px;
+  outline:none;
+}
+
+textarea{
+  min-height:160px;
+  font-family:'Source Sans 3',sans-serif;
+  font-size:1.05rem;
+  line-height:1.6;
+}
+
+.small{
+  font-size:.95rem;
+  color:var(--text-light);
+}
+
+.actions{
+  display:flex;
+  gap:.75rem;
+  margin-top:1rem;
+  flex-wrap:wrap;
+}
+
+button{
+  background:var(--highlight);
+  color:#fff;
+  border:none;
+  padding:.75rem 1rem;
+  border-radius:10px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+button.secondary{
+  background:var(--soft-gray);
+  color:var(--text-main);
+}
+
+code{
+  background:var(--soft-gray);
+  padding:.1rem .35rem;
+  border-radius:6px;
+}
+
+footer{
+  padding:2rem 0 3rem 0;
+  color:#999;
+  font-size:.85rem;
+}
+
+a{color:var(--highlight);text-decoration:none;border-bottom:1px solid transparent;}
+a:hover{border-bottom-color:var(--highlight);}
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Submit a publication</h1>
+  <p class="small">
+    This form creates a GitHub Issue. When you label the issue <code>publish</code>, a GitHub Action can open a PR that adds it to <code>publications.html</code>.
+  </p>
+</header>
+
+<section class="card">
+  <form id="pubForm">
+    <label for="repo">GitHub repository</label>
+    <input id="repo" name="repo" type="text" placeholder="e.g. wonyongpark/wonyongpark.github.io" required />
+    <p class="small">Tip: you only need to set this once; your browser will remember it.</p>
+
+    <label for="category">Category</label>
+    <select id="category" name="category" required>
+      <option value="" disabled selected>Select…</option>
+      <option>Edited Special Issues</option>
+      <option>Articles</option>
+      <option>Books</option>
+      <option>Book Chapters</option>
+      <option>Opinions and Practitioner Pieces</option>
+      <option>Technical Reports</option>
+    </select>
+
+    <label for="meta">Label (optional)</label>
+    <input id="meta" name="meta" type="text" placeholder="e.g. 2026 / In Press / Under Review" />
+    <p class="small">If left blank, it will be shown as “New”.</p>
+
+    <label for="text">Publication entry</label>
+    <textarea id="text" name="text" placeholder="Paste the publication as a single paragraph. You can include &lt;em&gt;italics&lt;/em&gt; and a link." required></textarea>
+    <p class="small">If you include HTML tags (e.g. <code>&lt;em&gt;</code>, <code>&lt;a&gt;</code>), they will be inserted as-is.</p>
+
+    <div class="actions">
+      <button type="submit">Create GitHub issue</button>
+      <button type="button" class="secondary" id="clearBtn">Clear</button>
+    </div>
+  </form>
+</section>
+
+<footer>
+  <p><a href="publications.html">← Back to Publications</a></p>
+</footer>
+
+<script>
+(() => {
+  const form = document.getElementById('pubForm');
+  const repoInput = document.getElementById('repo');
+  const clearBtn = document.getElementById('clearBtn');
+
+  // Remember repo locally
+  const savedRepo = localStorage.getItem('pub_submit_repo');
+  if (savedRepo) repoInput.value = savedRepo;
+
+  clearBtn.addEventListener('click', () => {
+    form.reset();
+    const saved = localStorage.getItem('pub_submit_repo');
+    if (saved) repoInput.value = saved;
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const repo = repoInput.value.trim();
+    const category = document.getElementById('category').value;
+    const meta = (document.getElementById('meta').value || '').trim();
+    const text = document.getElementById('text').value.trim();
+
+    if (!repo || !category || !text) return;
+
+    localStorage.setItem('pub_submit_repo', repo);
+
+    const title = `Add publication: ${category}`;
+    const bodyLines = [
+      `### Category`,
+      category,
+      ``,
+      `### Label`,
+      meta || 'New',
+      ``,
+      `### Entry`,
+      text,
+      ``,
+      `### Notes`,
+      `After creating this issue, add the label \`publish\` to trigger the PR workflow (if enabled).`
+    ];
+
+    const url = `https://github.com/${repo}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+    window.open(url, '_blank', 'noopener');
+  });
+})();
+</script>
+
+</body>
+</html>
