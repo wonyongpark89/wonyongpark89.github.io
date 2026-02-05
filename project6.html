@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teaching Disasters | Wonyong Park</title>
+  <meta name="description" content="Teaching Disasters: Professional Development for Teachers (ESRC IAA 2024–2025; The Grenfell Foundation 2024–2027).">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+:root{
+  --bg-color:#ffffff;
+  --text-main:#2d2d2d;
+  --text-light:#666666;
+  --highlight:#4f46e5;
+  --soft-gray:#f4f4f5;
+  --border-color:#eeeeee;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth; scrollbar-gutter: stable;}
+
+body{
+  font-family:'Inter',sans-serif;
+  background-color:var(--bg-color);
+  color:var(--text-main);
+  line-height:1.75;
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 24px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+a{
+  color:var(--highlight);
+  text-decoration:none;
+  border-bottom:1px solid transparent;
+  transition:border-color .2s ease,color .2s ease;
+}
+a:hover{border-bottom-color:var(--highlight);}
+
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:2.5rem 0;
+  border-bottom:1px solid var(--border-color);
+}
+.logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.5rem;
+  color:var(--text-main);
+  text-decoration:none;
+  font-weight:700;
+  border-bottom:none;
+}
+nav ul{display:flex;list-style:none;gap:2.5rem;}
+nav ul li a{
+  text-decoration:none;
+  color:var(--text-light);
+  font-size:.95rem;
+  transition:color .2s ease;
+  border-bottom:none;
+}
+nav ul li a:hover,
+nav ul li a.active{
+  color:var(--highlight);
+  font-weight:600;
+}
+
+header{padding:4rem 0 2rem 0;}
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:2.8rem;
+  line-height:1.15;
+  margin-bottom:1rem;
+}
+h2{
+  font-family:'Playfair Display',serif;
+  font-size:1.8rem;
+  margin:0 0 1.2rem 0;
+}
+
+p{
+  font-family:'Source Sans 3',sans-serif;
+  font-size:1rem;
+  font-weight:400;
+  color:var(--text-main);
+  margin:0 0 1.2rem 0;
+}
+
+footer{
+  padding:4rem 0;
+  text-align:center;
+  border-top:1px solid var(--border-color);
+  font-size:.85rem;
+  color:#999;
+}
+
+@media (max-width:900px){
+  body{padding:0 18px;}
+  nav{flex-direction:column;gap:1rem;padding:2rem 0;}
+  nav ul{gap:1.5rem;flex-wrap:wrap;justify-content:center;}
+  h1{font-size:2.2rem;}
+}
+
+/* Project detail page */
+.project-category{
+  color:var(--highlight);
+  font-weight:600;
+  font-size:.75rem;
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:.75rem;
+  letter-spacing:.5px;
+}
+
+.project-container{
+  display:grid;
+  grid-template-columns:260px 1fr;
+  gap:3.5rem;
+  padding-bottom:5rem;
+}
+
+.project-sidebar{
+  border-left:4px solid var(--soft-gray);
+  padding-left:1.25rem;
+  color:var(--text-main);
+}
+
+/* 1) Sidebar items all Source Sans 3 */
+.sidebar-item{
+  margin-bottom:1.5rem;
+  font-family:'Source Sans 3',sans-serif;
+}
+
+.sidebar-label{
+  display:block;
+  color:var(--text-light);
+  text-transform:uppercase;
+  font-size:.75rem;
+  letter-spacing:.6px;
+  margin-bottom:.35rem;
+  font-family:'Inter',sans-serif; /* keep labels consistent with nav typography */
+}
+
+.project-content h2{margin-top:2.25rem;}
+.project-content h2:first-of-type{margin-top:0;}
+
+.project-content ul{
+  margin:0 0 1.5rem 1.1rem;
+  font-family:'Source Sans 3',sans-serif;
+}
+.project-content li{margin:0 0 .6rem 0;}
+
+.back-link{
+  display:inline-block;
+  margin-top:1.5rem;
+  font-weight:600;
+  border-bottom:1px solid transparent;
+}
+
+
+@media (max-width:900px){
+  .project-container{grid-template-columns:1fr;gap:3.5rem;
+  }
+  .project-sidebar{
+    border-left:none;
+    border-top:1px solid var(--border-color);
+    padding:1.5rem 0 0 0;
+  }
+}
+  
+/* --- Image carousel --- */
+.carousel-section{
+  margin: 1.5rem 0 5rem 0;
+}
+
+.carousel{
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--soft-gray);
+}
+.carousel-track{
+  display:flex;
+  transition: transform 420ms ease;
+  will-change: transform;
+}
+.carousel-slide{
+  min-width: 100%;
+  position: relative;
+}
+.carousel-slide img{
+  display:block;
+  width:100%;
+  height: 420px;
+  object-fit: cover;
+}
+@media (max-width:900px){
+  .carousel-slide img{ height: 300px; }
+}
+
+.carousel-btn{
+  position:absolute;
+  top:50%;
+  transform: translateY(-50%);
+  border:1px solid rgba(0,0,0,.08);
+  background: rgba(255,255,255,.92);
+  width:44px;height:44px;
+  border-radius: 999px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+  transition: transform .15s ease, background .2s ease;
+}
+.carousel-btn:hover{ transform: translateY(-50%) scale(1.03); background:#fff; }
+.carousel-btn:active{ transform: translateY(-50%) scale(.98); }
+.carousel-btn:focus-visible{
+  outline:3px solid rgba(79,70,229,.35);
+  outline-offset: 2px;
+}
+.carousel-btn.prev{ left: 12px; }
+.carousel-btn.next{ right: 12px; }
+
+.carousel-meta{
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  gap: 1rem;
+  margin-top: .9rem;
+  flex-wrap: wrap;
+}
+.carousel-caption{
+  font-family:'Source Sans 3',sans-serif;
+  color: var(--text-light);
+  font-size:.95rem;
+  margin:0;
+}
+.carousel-dots{
+  display:flex;
+  gap: .5rem;
+  align-items:center;
+}
+.carousel-dot{
+  width:10px;height:10px;
+  border-radius: 999px;
+  border:1px solid rgba(0,0,0,.12);
+  background: #fff;
+  cursor:pointer;
+  padding:0;
+}
+.carousel-dot[aria-current="true"]{
+  background: var(--highlight);
+  border-color: var(--highlight);
+}
+.carousel-sr-only{
+  position:absolute;
+  width:1px;height:1px;
+  padding:0;margin:-1px;overflow:hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;border:0;
+}
+
+  
+
+
+/* --- Downloads (sidebar) --- */
+.download-list{
+  list-style:none;
+  padding:0;
+  margin: .25rem 0 0 0;
+  display:flex;
+  flex-direction:column;
+  gap:.5rem;
+}
+.download-link{
+  display:flex;
+  align-items:center;
+  gap:.55rem;
+  color: var(--text-main);
+  text-decoration:none;
+  border-bottom:none;
+  font-family:'Source Sans 3',sans-serif;
+  font-size:.95rem;
+  line-height:1.3;
+}
+.download-link:hover{
+  color: var(--highlight);
+}
+.download-icon{
+  display:inline-flex;
+  width:18px;
+  height:18px;
+  color: var(--highlight);
+}
+.download-filename{
+  color: inherit;
+}
+
+</style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">WP.</a>
+    <ul>
+      <li><a href="index.html">About</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="projects.html" class="active">Projects</a></li>
+    </ul>
+  </nav>
+
+  <header>
+    <span class="project-category">Research Project</span>
+    <h1>Teaching Disasters: Professional Development for Teachers</h1>
+  </header>
+
+  <main class="project-container">
+    <aside class="project-sidebar">
+      <div class="sidebar-item">
+        <span class="sidebar-label">Duration</span>
+        2024 - 2027
+      </div>
+
+      <div class="sidebar-item">
+        <span class="sidebar-label">Funder</span>
+        Economic and Social Research Council (ESRC) Impact Acceleration Account (2024–2025) &amp; The Grenfell Foundation (2024–2027)
+      </div>
+
+      <div class="sidebar-item">
+        <span class="sidebar-label">Partners</span>
+        The Grenfell Foundation<br>
+        Grenfell United<br>
+        Grenfell Tower Memorial Commission<br>
+        FutureLearn
+      </div>
+
+<div class="sidebar-item">
+  <span class="sidebar-label">Download</span>
+  <ul class="download-list" aria-label="Downloads">
+    <li>
+      <a class="download-link" href="#" aria-label="Download placeholder file 1">
+        <span class="download-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v10"></path>
+            <path d="M8 11l4 4 4-4"></path>
+            <path d="M4 21h16"></path>
+          </svg>
+        </span>
+        <span class="download-filename">Project Brief</span>
+      </a>
+    </li>
+    <li>
+      <a class="download-link" href="#" aria-label="Download placeholder file 2">
+        <span class="download-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v10"></path>
+            <path d="M8 11l4 4 4-4"></path>
+            <path d="M4 21h16"></path>
+          </svg>
+        </span>
+        <span class="download-filename">Slides / Summary</span>
+      </a>
+    </li>
+    <li>
+      <a class="download-link" href="#" aria-label="Download placeholder file 3">
+        <span class="download-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v10"></path>
+            <path d="M8 11l4 4 4-4"></path>
+            <path d="M4 21h16"></path>
+          </svg>
+        </span>
+        <span class="download-filename">Resources</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+      
+</aside>
+
+    <article class="project-content">
+      <h2>Summary</h2>
+      <p>
+        This project develops and evaluates a continuing professional development (CPD) course for teachers, co-designed with people affected by the Grenfell Tower fire (June 14, 2017) in North Kensington, London. Information is collected from teachers, students, and Grenfell community members involved in the project to evidence impact.
+      </p>
+      <p>
+        The project brings together expertise in disaster education, values, religions and ethics, and online learning and course development, with substantial input from—and collaboration with—the Grenfell community at all stages.
+      </p>
+
+      <h2>Aims</h2>
+      <ul>
+        <li>Work with disaster-affected communities, organisations, teachers, and young people to promote a culture of safety, justice, and resilience.</li>
+        <li>Support teachers to teach about human-made disasters such as Grenfell in an evidence-based and ethically sensitive manner.</li>
+        <li>Facilitate intergenerational dialogue about a national tragedy with respect.</li>
+      </ul>
+
+      <h2>Objectives</h2>
+      <ul>
+        <li>Develop a research-informed online CPD course on disaster education using the Grenfell Tower fire as an example, with principles that can be applied to other disasters.</li>
+        <li>Generate evidence of the impact of the CPD course on UK teachers.</li>
+        <li>Propose an innovative model of collaboration between researchers and disaster communities for social and cultural change.</li>
+        <li>Share the experience with other disaster communities within and outside the UK to facilitate mutual learning and solidarity.</li>
+      </ul>
+
+      <h2>Team</h2>
+      <ul>
+        <li>Wonyong Park, University of Southampton (Principal Investigator)</li>
+        <li>John Schulz, University of Southampton (Co-Investigator)</li>
+        <li>Nigel Fancourt, University of Oxford (Co-Investigator)</li>
+        <li>Hanan Wahabi, Grenfell Tower Memorial Commission (Co-Investigator)</li>
+        <li>Harry Russell, University of Southampton (Research Assistant)</li>
+      </ul>
+
+      <h2>Partners</h2>
+      <ul>
+        <li>The Grenfell Foundation</li>
+        <li>Grenfell United</li>
+        <li>Grenfell Tower Memorial Commission</li>
+      </ul>
+
+      <h2>Outputs</h2>
+
+      <section class="carousel-section" aria-label="Project gallery">
+        <div class="carousel-card">
+          <div class="carousel" id="wpCarousel" tabindex="0" aria-roledescription="carousel" aria-label="Project images">
+            <div class="carousel-track" id="wpCarouselTrack">
+              <figure class="carousel-slide" data-caption="Community-engaged CPD and co-design (placeholder image).">
+                <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80" alt="A workshop-style session with participants listening">
+              </figure>
+              <figure class="carousel-slide" data-caption="Online learning and course development (placeholder image).">
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80" alt="Laptop on desk representing online learning development">
+              </figure>
+              <figure class="carousel-slide" data-caption="Place-based learning in London (placeholder image).">
+                <img src="https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?auto=format&fit=crop&w=1600&q=80" alt="London city scene representing place-based context">
+              </figure>
+            </div>
+
+            <button class="carousel-btn prev" type="button" id="wpCarouselPrev" aria-label="Previous image">
+              <span aria-hidden="true">‹</span>
+            </button>
+            <button class="carousel-btn next" type="button" id="wpCarouselNext" aria-label="Next image">
+              <span aria-hidden="true">›</span>
+            </button>
+
+            <p class="carousel-sr-only" id="wpCarouselHelp">
+              Use the left and right arrow keys to navigate the images.
+            </p>
+          </div>
+
+          <div class="carousel-meta">
+            <p class="carousel-caption" id="wpCarouselCaption">Community-engaged CPD and co-design (placeholder image).</p>
+            <div class="carousel-dots" id="wpCarouselDots" aria-label="Choose an image"></div>
+          </div>
+        </div>
+      </section>
+
+      <a href="projects.html" class="back-link">← Back to Projects List</a>
+</article>
+  </main>
+
+  <script>
+    (function(){
+      const root = document.getElementById('wpCarousel');
+      const track = document.getElementById('wpCarouselTrack');
+      const slides = Array.from(track.querySelectorAll('.carousel-slide'));
+      const btnPrev = document.getElementById('wpCarouselPrev');
+      const btnNext = document.getElementById('wpCarouselNext');
+      const captionEl = document.getElementById('wpCarouselCaption');
+      const dotsWrap = document.getElementById('wpCarouselDots');
+
+      if(!root || slides.length === 0) return;
+
+      let index = 0;
+      let startX = null;
+      let isDragging = false;
+
+      // Build dots
+      slides.forEach((_, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'carousel-dot';
+        b.setAttribute('aria-label', 'Go to image ' + (i+1));
+        b.addEventListener('click', () => goTo(i));
+        dotsWrap.appendChild(b);
+      });
+
+      const dots = Array.from(dotsWrap.querySelectorAll('.carousel-dot'));
+
+      function update(){
+        track.style.transform = 'translateX(' + (-index * 100) + '%)';
+        const caption = slides[index].getAttribute('data-caption') || '';
+        captionEl.textContent = caption;
+        dots.forEach((d, i) => d.setAttribute('aria-current', String(i === index)));
+        btnPrev.disabled = (index === 0);
+        btnNext.disabled = (index === slides.length - 1);
+        btnPrev.style.opacity = btnPrev.disabled ? .45 : 1;
+        btnNext.style.opacity = btnNext.disabled ? .45 : 1;
+      }
+
+      function goTo(i){
+        index = Math.max(0, Math.min(slides.length - 1, i));
+        update();
+      }
+
+      function next(){ goTo(index + 1); }
+      function prev(){ goTo(index - 1); }
+
+      btnNext.addEventListener('click', next);
+      btnPrev.addEventListener('click', prev);
+
+      // Keyboard navigation
+      root.addEventListener('keydown', (e) => {
+        if(e.key === 'ArrowRight'){ e.preventDefault(); next(); }
+        if(e.key === 'ArrowLeft'){ e.preventDefault(); prev(); }
+      });
+
+      // Touch / pointer swipe support
+      const onPointerDown = (e) => {
+        isDragging = true;
+        startX = e.clientX ?? (e.touches && e.touches[0] && e.touches[0].clientX);
+      };
+      const onPointerUp = (e) => {
+        if(!isDragging) return;
+        isDragging = false;
+        const endX = e.clientX ?? (e.changedTouches && e.changedTouches[0] && e.changedTouches[0].clientX);
+        if(startX == null || endX == null) return;
+        const dx = endX - startX;
+        if(Math.abs(dx) > 40){
+          dx < 0 ? next() : prev();
+        }
+        startX = null;
+      };
+
+      root.addEventListener('pointerdown', onPointerDown);
+      root.addEventListener('pointerup', onPointerUp);
+      root.addEventListener('pointercancel', onPointerUp);
+
+      root.addEventListener('touchstart', onPointerDown, {passive:true});
+      root.addEventListener('touchend', onPointerUp, {passive:true});
+      root.addEventListener('touchcancel', onPointerUp, {passive:true});
+
+      // Initial state
+      update();
+    })();
+  </script>
+
+
+
+  <footer>
+    &copy; 2026 Wonyong Park | University of Southampton
+  </footer>
+
+</body>
+</html>
