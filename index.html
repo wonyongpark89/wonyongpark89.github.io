@@ -4,127 +4,157 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wonyong Park | Associate Professor</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
+
     <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-main: #2d2d2d;
-            --text-light: #666666;
-            --highlight: #4f46e5;
-            --soft-gray: #f4f4f5;
-        }
+:root{
+  --bg-color:#ffffff;
+  --text-main:#2d2d2d;
+  --text-light:#666666;
+  --highlight:#4f46e5;
+  --soft-gray:#f4f4f5;
+  --border-color:#eeeeee;
+}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+*{margin:0;padding:0;box-sizing:border-box;}
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.8;
-            padding: 0 12%;
-        }
+html{scroll-behavior:smooth;}
 
-        /* --- Navigation --- */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2.5rem 0;
-            border-bottom: 1px solid #eee;
-        }
+body{
+  font-family:'Inter',sans-serif;
+  background-color:var(--bg-color);
+  color:var(--text-main);
+  line-height:1.75;
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 24px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
 
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 700;
-        }
+a{
+  color:var(--highlight);
+  text-decoration:none;
+  border-bottom:1px solid transparent;
+  transition:border-color .2s ease,color .2s ease;
+}
+a:hover{border-bottom-color:var(--highlight);}
 
-        nav ul { display: flex; list-style: none; }
-        nav ul li { margin-left: 2.5rem; }
-        nav ul li a {
-            text-decoration: none;
-            color: var(--text-light);
-            font-size: 0.95rem;
-            transition: 0.3s;
-        }
-        nav ul li a:hover, .active { color: var(--highlight); font-weight: 600; }
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:2.5rem 0;
+  border-bottom:1px solid var(--border-color);
+}
 
-        /* --- Hero Section --- */
-        .hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 6rem 0;
-            gap: 4rem;
-        }
+.logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.5rem;
+  color:var(--text-main);
+  text-decoration:none;
+  font-weight:700;
+  border-bottom:none;
+}
 
-        .hero-content { flex: 2; }
-        .hero-image { flex: 1; display: flex; justify-content: flex-end; }
-        
-        .headshot {
-            width: 280px;
-            height: 280px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 1px solid #eee;
-            background-color: var(--soft-gray);
-        }
+nav ul{display:flex;list-style:none;gap:2.5rem;}
+nav ul li{margin:0;}
+nav ul li a{
+  text-decoration:none;
+  color:var(--text-light);
+  font-size:.95rem;
+  transition:color .2s ease;
+  border-bottom:none;
+}
+nav ul li a:hover,
+nav ul li a.active{
+  color:var(--highlight);
+  font-weight:600;
+}
 
-        h1 { font-family: 'Playfair Display', serif; font-size: 3rem; line-height: 1.2; margin-bottom: 1.5rem; }
-        h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--text-main); }
+header{padding:4rem 0 2rem 0;}
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:2.8rem;
+  line-height:1.15;
+  margin-bottom:1rem;
+}
+h2{
+  font-family:'Playfair Display',serif;
+  font-size:1.8rem;
+  margin:0 0 1.5rem 0;
+}
 
-        /* --- Content Layout --- */
-        section {
-            margin-bottom: 5.25rem; /* 1.5x Spacing for visibility */
-        }
+p{
+  font-size:1rem;
+  font-weight:400;
+  color:var(--text-main);
+  margin:0 0 1.5rem 0;
+}
 
-        p { margin-bottom: 1.5rem; }
+footer{
+  padding:4rem 0;
+  text-align:center;
+  border-top:1px solid var(--border-color);
+  font-size:.85rem;
+  color:#999;
+}
 
-        a {
-            color: var(--highlight);
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: 0.3s;
-        }
+@media (max-width:900px){
+  body{padding:0 18px;}
+  nav{flex-direction:column;gap:1rem;padding:2rem 0;}
+  nav ul{gap:1.5rem;flex-wrap:wrap;justify-content:center;}
+  h1{font-size:2.2rem;}
+}
 
-        a:hover { border-bottom: 1px solid var(--highlight); }
+/* Home page */
+.hero{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:6rem 0;
+  gap:4rem;
+}
 
-        ul.student-list {
-            list-style: none;
-            margin-top: 1rem;
-        }
+.hero-content{flex:2;}
+.hero-image{flex:1;display:flex;justify-content:flex-end;}
 
-        ul.student-list li {
-            margin-bottom: 1.2rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
+.headshot{
+  width:280px;
+  height:280px;
+  border-radius:50%;
+  object-fit:cover;
+  border:1px solid var(--border-color);
+  background-color:var(--soft-gray);
+}
 
-        ul.student-list li::before {
-            content: "•";
-            color: var(--highlight);
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-        }
+section{margin-bottom:5.25rem;}
 
-        footer {
-            padding: 4rem 0;
-            text-align: center;
-            border-top: 1px solid #eee;
-            font-size: 0.85rem;
-            color: #999;
-        }
+ul.student-list{list-style:none;margin-top:1rem;}
+ul.student-list li{
+  margin-bottom:1.2rem;
+  padding-left:1.5rem;
+  position:relative;
+}
+ul.student-list li::before{
+  content:"•";
+  color:var(--highlight);
+  font-weight:700;
+  position:absolute;
+  left:0;
+}
 
-        @media (max-width: 900px) {
-            body { padding: 0 5%; }
-            .hero { flex-direction: column-reverse; text-align: center; padding: 4rem 0; }
-            .hero-image { justify-content: center; }
-        }
-    </style>
+@media (max-width:900px){
+  .hero{flex-direction:column-reverse;text-align:center;padding:4rem 0;}
+  .hero-image{justify-content:center;}
+}
+
+.lead-note{margin-top:2rem;font-weight:600;}
+
+</style>
 </head>
 <body>
 
@@ -142,9 +172,9 @@
             <div class="hero-content">
                 <h1>Wonyong Park</h1>
                 <p>I am an Associate Professor of Science Education in <a href="https://www.southampton.ac.uk/about/faculties-schools-departments/southampton-education-school" target="_blank">Southampton Education School, University of Southampton</a>. I also serve as Deputy Chair of the Research Ethics Committee at the Faculty of Social Sciences, and the Ethics Champion for Southampton Education School.</p>
-                
+
                 <p>I work as Associate Editor of <a href="https://link.springer.com/journal/11165" target="_blank">Research in Science Education</a>, <a href="https://onlinelibrary.wiley.com/journal/10982736" target="_blank">Journal of Research in Science Teaching</a>, and <a href="https://www.ejhl.org/" target="_blank">Journal of Hazard Literacy</a>, and have previously guest-edited special issues for <a href="https://www.tandfonline.com/journals/tsed20" target="_blank">International Journal of Science Education</a> and <a href="https://link.springer.com/journal/11191" target="_blank">Science & Education</a>.</p>
-                
+
                 <p>I co-chair Strand 12 (Equity, Diversity and Identity in Science Education) of the <a href="https://www.esera.org/" target="_blank">European Science Education Research Association</a> and Co-Coordinator for Strand 13 (History, Philosophy, Sociology, and Nature of Science) of <a href="https://narst.org/strands" target="_blank">NARST: A Global Organization for Improving Science Education Through Research</a>.</p>
             </div>
             <div class="hero-image">
@@ -155,28 +185,28 @@
         <section id="work">
             <h2>My work and research</h2>
             <p>My research sits at the crossroads of science, the humanities and society. I am particularly interested in how science and STEM education can contribute to social justice, especially during moments of local or global crisis. Much of my work embraces cross-curricular approaches, linking science with subjects such as history, citizenship, religious education and even music. I am also committed to building stronger connections between research, policy and practice in science education.</p>
-            
+
             <p>My projects have received funding from the <a href="https://www.ukri.org/councils/esrc/" target="_blank">Economic and Social Research Council</a>, <a href="https://www.ukri.org/councils/research-england/" target="_blank">Research England</a>, <a href="https://www.nsf.gov/" target="_blank">the National Science Foundation</a>, <a href="https://www.unesco.org/en" target="_blank">UNESCO</a>, the <a href="https://intl.aks.ac.kr/english/index.do" target="_blank">Academy of Korean Studies</a>, <a href="https://www.grenfellfoundation.org.uk/" target="_blank">the Grenfell Foundation</a>, and <a href="https://www.iljufoundation.org/" target="_blank">Ilju Academic and Culture Foundation</a>.</p>
-            
+
             <p>I am putting together a <a href="https://www.zotero.org/groups/5106264/bibliography_of_disaster_education/library" target="_blank">Bibliography of Disaster Education</a>, a comprehensive list of publications, podcasts, news, policy reports and other sources for researching and teaching about disaster education. To find out more about my recent and current projects, see <a href="projects.html">Projects</a>.</p>
         </section>
 
         <section id="background">
             <h2>My background</h2>
             <p>I grew up in <a href="https://www.wonyongpark.com/projects/fertility/" target="_blank">an industrial coastal city</a> in South Korea, an environment that shaped much of my later interest in science, society and education. I studied physics education and completed my teacher training at <a href="https://en.snu.ac.kr/" target="_blank">Seoul National University</a>, where I also earned an MSc in science education.</p>
-            
+
             <p>After teaching in secondary schools in Seoul, I moved to the UK to undertake a DPhil in Science Education at the <a href="https://www.education.ox.ac.uk/" target="_blank">Department of Education, University of Oxford</a>, from 2018 to 2021. In my <a href="https://ora.ox.ac.uk/objects/uuid:f117fbd8-6e07-456a-b6ad-92ff74b28d0a" target="_blank">doctoral project</a>, I looked at how three high school science teachers assessed students' nature of science understandings in their classrooms.</p>
         </section>
 
         <section id="study">
             <h2>Study with me</h2>
             <p>I welcome prospective PhD students and postdoctoral researchers who share interests in science education, physics education, STEM education, disaster education or teacher education. For more information about PhD application, see <a href="https://www.southampton.ac.uk/study/postgraduate-research/education" target="_blank">this page</a>.</p>
-            
+
             <p>There are competitive PhD funding opportunities to study at the University of Southampton, for example, the <a href="https://southcoastdtp.ac.uk/" target="_blank">South Coast Doctoral Training Partnership</a> and <a href="https://www.southampton.ac.uk/doctoral-college/presidential-scholarships.page" target="_blank">other University-based scholarships</a>.</p>
 
             <p>If you are considering a postdoctoral pathway, you may wish to explore opportunities such as <a href="https://southcoastdtp.ac.uk/our-people/postdoctoral-fellows/" target="_blank">ESRC SCDTP Postdoctoral Fellowships</a>, <a href="https://marie-sklodowska-curie-actions.ec.europa.eu/actions/postdoctoral-fellowships" target="_blank">Marie Skłodowska-Curie Actions</a>, <a href="https://www.thebritishacademy.ac.uk/funding/postdoctoral-fellowships/" target="_blank">British Academy Postdoctoral Fellowships</a> and <a href="https://www.leverhulme.ac.uk/early-career-fellowships" target="_blank">Leverhulme Early Career Fellowships</a>.</p>
 
-            <p style="margin-top: 2rem; font-weight: 600;">I am privileged to be supervisor to four talented PhD students:</p>
+            <p class="lead-note">I am privileged to be supervisor to four talented PhD students:</p>
             <ul class="student-list">
                 <li><strong>Jingwen Song</strong>: Teacher professional development for action-oriented climate change education through socioscientific inquiry-based learning (SSIBL): a case study of an early childhood setting in Shanghai, China (started 2022)</li>
                 <li><strong>Emily Bastable</strong>: How can Knowledge Exchange and Enterprise be applied and integrated into Higher Education curricula? (started 2023)</li>

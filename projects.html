@@ -4,132 +4,171 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects | Wonyong Park</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
+
     <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-main: #2d2d2d;
-            --text-light: #666666;
-            --highlight: #4f46e5;
-            --soft-gray: #f4f4f5;
-        }
+:root{
+  --bg-color:#ffffff;
+  --text-main:#2d2d2d;
+  --text-light:#666666;
+  --highlight:#4f46e5;
+  --soft-gray:#f4f4f5;
+  --border-color:#eeeeee;
+}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+*{margin:0;padding:0;box-sizing:border-box;}
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            padding: 0 10%;
-        }
+html{scroll-behavior:smooth;}
 
-        /* --- Navigation --- */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2rem 0;
-            border-bottom: 1px solid #eee;
-        }
+body{
+  font-family:'Inter',sans-serif;
+  background-color:var(--bg-color);
+  color:var(--text-main);
+  line-height:1.75;
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 24px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
 
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 700;
-        }
+a{
+  color:var(--highlight);
+  text-decoration:none;
+  border-bottom:1px solid transparent;
+  transition:border-color .2s ease,color .2s ease;
+}
+a:hover{border-bottom-color:var(--highlight);}
 
-        nav ul { display: flex; list-style: none; }
-        nav ul li { margin-left: 2rem; }
-        nav ul li a {
-            text-decoration: none;
-            color: var(--text-light);
-            font-size: 0.95rem;
-            transition: 0.3s;
-        }
-        nav ul li a:hover, .active { color: var(--highlight); font-weight: 600; }
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:2.5rem 0;
+  border-bottom:1px solid var(--border-color);
+}
 
-        header { padding: 4rem 0 2rem 0; }
-        h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; }
+.logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.5rem;
+  color:var(--text-main);
+  text-decoration:none;
+  font-weight:700;
+  border-bottom:none;
+}
 
-        /* --- Project Grid --- */
-        .project-list {
-            display: flex;
-            flex-direction: column;
-            gap: 4rem;
-            margin-bottom: 5rem;
-        }
+nav ul{display:flex;list-style:none;gap:2.5rem;}
+nav ul li{margin:0;}
+nav ul li a{
+  text-decoration:none;
+  color:var(--text-light);
+  font-size:.95rem;
+  transition:color .2s ease;
+  border-bottom:none;
+}
+nav ul li a:hover,
+nav ul li a.active{
+  color:var(--highlight);
+  font-weight:600;
+}
 
-        .project-card {
-            display: flex;
-            gap: 3rem;
-            align-items: flex-start;
-        }
+header{padding:4rem 0 2rem 0;}
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:2.8rem;
+  line-height:1.15;
+  margin-bottom:1rem;
+}
+h2{
+  font-family:'Playfair Display',serif;
+  font-size:1.8rem;
+  margin:0 0 1.5rem 0;
+}
 
-        .project-thumb {
-            flex: 0 0 220px;
-            height: 160px;
-            background-color: var(--soft-gray);
-            border-radius: 8px;
-            object-fit: cover;
-            border: 1px solid #eee;
-        }
+p{
+  font-size:1rem;
+  font-weight:400;
+  color:var(--text-main);
+  margin:0 0 1.5rem 0;
+}
 
-        .project-info {
-            flex: 1;
-        }
+footer{
+  padding:4rem 0;
+  text-align:center;
+  border-top:1px solid var(--border-color);
+  font-size:.85rem;
+  color:#999;
+}
 
-        .project-info h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.7rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
-        }
+@media (max-width:900px){
+  body{padding:0 18px;}
+  nav{flex-direction:column;gap:1rem;padding:2rem 0;}
+  nav ul{gap:1.5rem;flex-wrap:wrap;justify-content:center;}
+  h1{font-size:2.2rem;}
+}
 
-        .project-meta {
-            font-size: 0.85rem;
-            color: var(--highlight);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 1rem;
-        }
+/* Projects page */
+h1{font-size:2.5rem;}
 
-        .project-summary {
-            font-size: 1rem;
-            color: var(--text-main);
-            margin-bottom: 1.5rem;
-        }
+.project-list{
+  display:flex;
+  flex-direction:column;
+  gap:4rem;
+  margin-bottom:5rem;
+}
 
-        .read-more {
-            color: var(--highlight);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            border-bottom: 1px solid transparent;
-            transition: 0.3s;
-        }
+.project-card{
+  display:flex;
+  gap:3rem;
+  align-items:flex-start;
+}
 
-        .read-more:hover {
-            border-bottom: 1px solid var(--highlight);
-        }
+.project-thumb{
+  flex:0 0 220px;
+  height:160px;
+  background-color:var(--soft-gray);
+  border-radius:8px;
+  object-fit:cover;
+  border:1px solid var(--border-color);
+}
 
-        footer {
-            padding: 3rem 0;
-            text-align: center;
-            border-top: 1px solid #eee;
-            font-size: 0.8rem;
-            color: #999;
-        }
+.project-info{flex:1;}
 
-        @media (max-width: 768px) {
-            .project-card { flex-direction: column; gap: 1.5rem; }
-            .project-thumb { width: 100%; height: 200px; flex: none; }
-        }
-    </style>
+.project-info h2{
+  font-family:'Playfair Display',serif;
+  font-size:1.7rem;
+  margin-bottom:.5rem;
+  color:var(--text-main);
+}
+
+.project-meta{
+  font-size:.85rem;
+  color:var(--highlight);
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  margin-bottom:1rem;
+}
+
+.project-summary{margin-bottom:1.5rem;}
+
+.read-more{
+  color:var(--highlight);
+  text-decoration:none;
+  font-weight:600;
+  font-size:.9rem;
+  border-bottom:1px solid transparent;
+}
+.read-more:hover{border-bottom-color:var(--highlight);}
+
+@media (max-width:768px){
+  .project-card{flex-direction:column;gap:1.5rem;}
+  .project-thumb{width:100%;height:200px;flex:none;}
+}
+</style>
 </head>
 <body>
 
