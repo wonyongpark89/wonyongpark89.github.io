@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Wonyong Park</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+:root{
+  --bg-color:#ffffff;
+  --text-main:#2d2d2d;
+  --text-light:#666666;
+  --highlight:#4f46e5;
+  --soft-gray:#f9fafb;
+  --border-color:#e5e7eb;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:'Inter',sans-serif;
+  background-color:var(--bg-color);
+  color:var(--text-main);
+  line-height:1.75;
+  max-width:1200px; /* Increased slightly for grid */
+  margin:0 auto;
+  padding:0 24px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+a{
+  color:var(--highlight);
+  text-decoration:none;
+  transition:all .2s ease;
+}
+
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:2.5rem 0;
+  border-bottom:1px solid var(--border-color);
+}
+
+.logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.5rem;
+  color:var(--text-main);
+  font-weight:700;
+}
+
+nav ul{display:flex;list-style:none;gap:2.5rem;}
+nav ul li a{
+  color:var(--text-light);
+  font-size:.95rem;
+}
+nav ul li a:hover,
+nav ul li a.active{
+  color:var(--highlight);
+  font-weight:600;
+}
+
+header{padding:4rem 0 3rem 0;}
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:2.8rem;
+  line-height:1.15;
+}
+
+footer{
+  padding:4rem 0;
+  text-align:center;
+  border-top:1px solid var(--border-color);
+  font-size:.85rem;
+  color:#999;
+  margin-top: 4rem;
+}
+
+/* --- GRID LAYOUT CHANGES --- */
+
+.project-list {
+  display: grid;
+  /* Auto-fit columns: min 340px wide, expanding to fill space */
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); 
+  gap: 2rem;
+  margin-bottom: 5rem;
+}
+
+.project-card {
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: var(--card-shadow);
+  height: 100%; /* Make sure cards stretch to match row height */
+}
+
+/* Hover Effect */
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: var(--highlight);
+}
+
+.project-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.project-meta {
+  font-size: 0.75rem;
+  color: var(--highlight);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+}
+
+.project-info h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+  color: var(--text-main);
+}
+
+.project-summary {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  flex-grow: 1; /* Pushes the button to the bottom */
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Limit summary lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.read-more {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--highlight);
+  margin-top: auto; /* Anchors link to bottom */
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
+
+/* Mobile Adjustments */
+@media (max-width:900px){
+  body{padding:0 18px;}
+  nav{flex-direction:column;gap:1rem;padding:2rem 0;}
+  nav ul{gap:1.5rem;flex-wrap:wrap;justify-content:center;}
+  h1{font-size:2.2rem;}
+  
+  .project-list {
+    grid-template-columns: 1fr; /* Stack on mobile */
+  }
+}
+
+</style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">WP.</a>
+        <ul>
+            <li><a href="index.html">About</a></li>
+            <li><a href="publications.html">Publications</a></li>
+            <li><a href="projects.html" class="active">Projects</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>Research Projects</h1>
+    </header>
+
+    <main class="project-list" id="projectList">
+        <p style="grid-column: 1/-1; color:#999;">Loading projects...</p>
+    </main>
+
+    <footer>
+        &copy; 2026 Wonyong Park | University of Southampton
+    </footer>
+
+<script>
+(() => {
+  const MAX_PROJECTS_TO_CHECK = 50; 
+  const listEl = document.getElementById('projectList');
+  if (!listEl) return;
+
+  const normaliseSpace = (s) => (s || '').replace(/\s+/g, ' ').trim();
+
+  // Helper to clip text
+  const firstNWords = (text, n) => {
+    const words = normaliseSpace(text).split(' ').filter(Boolean);
+    const clipped = words.slice(0, n).join(' ');
+    return words.length > n ? clipped + '…' : clipped;
+  };
+
+  const extractSidebarValue = (doc, labelText) => {
+    const items = Array.from(doc.querySelectorAll('.project-sidebar .sidebar-item'));
+    for (const item of items) {
+      const label = item.querySelector('.sidebar-label');
+      if (!label) continue;
+      if (normaliseSpace(label.textContent).toLowerCase() === labelText.toLowerCase()) {
+        const clone = item.cloneNode(true);
+        const cloneLabel = clone.querySelector('.sidebar-label');
+        if (cloneLabel) cloneLabel.remove();
+        return normaliseSpace(clone.textContent);
+      }
+    }
+    return '';
+  };
+
+  const extractTitle = (doc) => normaliseSpace(doc.querySelector('header h1')?.textContent || '');
+
+  const extractSummaryText = (doc) => {
+    const h2s = Array.from(doc.querySelectorAll('.project-content h2'));
+    const summaryH2 = h2s.find(h => normaliseSpace(h.textContent).toLowerCase() === 'summary');
+    if (!summaryH2) return '';
+
+    const parts = [];
+    let el = summaryH2.nextElementSibling;
+    while (el && el.tagName.toLowerCase() !== 'h2') {
+      if (el.tagName.toLowerCase() === 'p') parts.push(normaliseSpace(el.textContent));
+      el = el.nextElementSibling;
+    }
+    return normaliseSpace(parts.join(' '));
+  };
+
+  const renderCard = ({ n, title, duration, funder, summary }) => {
+    const article = document.createElement('article');
+    article.className = 'project-card';
+
+    const info = document.createElement('div');
+    info.className = 'project-info';
+
+    // Meta: Funder (Primary) or Duration
+    const meta = document.createElement('div');
+    meta.className = 'project-meta';
+    // Prioritize showing Funder, or duration if funder missing
+    meta.textContent = funder ? funder : (duration || 'Research Project');
+
+    const h2 = document.createElement('h2');
+    h2.textContent = title || `Project ${n}`;
+
+    const p = document.createElement('p');
+    p.className = 'project-summary';
+    p.textContent = summary;
+
+    const a = document.createElement('a');
+    a.className = 'read-more';
+    a.href = `project${n}.html`;
+    a.textContent = 'View Project →';
+
+    info.appendChild(meta);
+    info.appendChild(h2);
+    info.appendChild(p);
+    info.appendChild(a);
+
+    article.appendChild(info);
+    return article;
+  };
+
+  const loadProject = async (n) => {
+    const url = `project${n}.html`;
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`Missing: ${url}`);
+    const htmlText = await res.text();
+    const doc = new DOMParser().parseFromString(htmlText, 'text/html');
+
+    const title = extractTitle(doc);
+    const duration = extractSidebarValue(doc, 'Duration');
+    const funder = extractSidebarValue(doc, 'Funder');
+    // Slightly shorter summary for cards
+    const summary = firstNWords(extractSummaryText(doc), 35); 
+
+    return { n, title, duration, funder, summary };
+  };
+
+  (async () => {
+    const checks = Array.from({ length: MAX_PROJECTS_TO_CHECK }, (_, i) => i + 1)
+      .map(n => loadProject(n).then(v => ({ ok: true, v })).catch(() => ({ ok: false, n })));
+
+    const results = await Promise.all(checks);
+    const found = results.filter(r => r.ok).map(r => r.v);
+
+    found.sort((a, b) => b.n - a.n);
+
+    listEl.innerHTML = '';
+    for (const proj of found) {
+      listEl.appendChild(renderCard(proj));
+    }
+
+    if (found.length === 0) {
+      const p = document.createElement('p');
+      p.textContent = 'No project pages found.';
+      p.style.gridColumn = "1/-1";
+      listEl.appendChild(p);
+    }
+  })();
+})();
+</script>
+
+</body>
+</html>
