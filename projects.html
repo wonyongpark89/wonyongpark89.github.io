@@ -93,7 +93,7 @@ p{
   font-size:1rem;
   font-weight:400;
   color:var(--text-main);
-  margin:0 0 1.2rem 0;
+  margin:0 0 1.5rem 0;
 }
 
 footer{
@@ -197,46 +197,134 @@ h1{font-size:2.5rem;}
         <h1>Research Projects</h1>
     </header>
 
-    <main class="project-list">
-
-        <article class="project-card">
-            <div class="project-info">
-                <div class="project-meta">2024 - 2026 | Funder: University of Southampton</div>
-                <h2>Education and Memorialisation for Disaster Justice</h2>
-                <p class="project-summary">
-                    This project investigates how societies remember past tragedies through education. By comparing the pedagogical responses to the Grenfell Tower, Hillsborough, and Sewol Ferry disasters, we explore how curricula can be designed to foster social justice, collective memory, and community resilience in the wake of unnatural disasters.
-                </p>
-                <a href="project1.html" class="read-more">View Project Details →</a>
-            </div>
-        </article>
-
-        <article class="project-card">
-            <div class="project-info">
-                <div class="project-meta">2023 - 2025 | Funder: ESRC</div>
-                <h2>Making Research Count in Science Education Policy</h2>
-                <p class="project-summary">
-                    An interdisciplinary initiative aimed at bridging the gap between academic research and national science education policy. This project develops frameworks for evidence-based decision-making, ensuring that the latest insights into the nature of science and scientific inquiry directly inform teacher education and school curriculum standards.
-                </p>
-                <a href="project2.html" class="read-more">View Project Details →</a>
-            </div>
-        </article>
-
-        <article class="project-card">
-            <div class="project-info">
-                <div class="project-meta">2025 - 2027 | Funder: Routledge Research</div>
-                <h2>Disaster Education for Social Justice</h2>
-                <p class="project-summary">
-                    Focusing on a STEM-centred approach, this project explores the integration of hazard literacy into the science classroom. We move beyond "technological fixes" to examine how slow learning and critical thinking about systemic risks can empower students to advocate for safer, more equitable futures in their communities.
-                </p>
-                <a href="project3.html" class="read-more">View Project Details →</a>
-            </div>
-        </article>
-
+    <main class="project-list" id="projectList">
+        <!-- Project cards are generated from project#.html files -->
     </main>
 
     <footer>
         &copy; 2026 Wonyong Park | University of Southampton
     </footer>
+
+
+<script>
+(() => {
+  const MAX_PROJECTS_TO_CHECK = 50; // increase if needed
+  const listEl = document.getElementById('projectList');
+  if (!listEl) return;
+
+  const normaliseSpace = (s) => (s || '').replace(/\s+/g, ' ').trim();
+
+  const firstNWords = (text, n) => {
+    const words = normaliseSpace(text).split(' ').filter(Boolean);
+    const clipped = words.slice(0, n).join(' ');
+    return words.length > n ? clipped + '…' : clipped;
+  };
+
+  const extractSidebarValue = (doc, labelText) => {
+    const items = Array.from(doc.querySelectorAll('.project-sidebar .sidebar-item'));
+    for (const item of items) {
+      const label = item.querySelector('.sidebar-label');
+      if (!label) continue;
+      if (normaliseSpace(label.textContent).toLowerCase() === labelText.toLowerCase()) {
+        const clone = item.cloneNode(true);
+        const cloneLabel = clone.querySelector('.sidebar-label');
+        if (cloneLabel) cloneLabel.remove();
+        return normaliseSpace(clone.textContent);
+      }
+    }
+    return '';
+  };
+
+  const extractTitle = (doc) => normaliseSpace(doc.querySelector('header h1')?.textContent || '');
+
+  const extractSummaryText = (doc) => {
+    // Prefer the "Summary" section in the main content
+    const h2s = Array.from(doc.querySelectorAll('.project-content h2'));
+    const summaryH2 = h2s.find(h => normaliseSpace(h.textContent).toLowerCase() === 'summary');
+    if (!summaryH2) return '';
+
+    const parts = [];
+    let el = summaryH2.nextElementSibling;
+    while (el && el.tagName.toLowerCase() !== 'h2') {
+      if (el.tagName.toLowerCase() === 'p') parts.push(normaliseSpace(el.textContent));
+      el = el.nextElementSibling;
+    }
+    return normaliseSpace(parts.join(' '));
+  };
+
+  const renderCard = ({ n, title, duration, funder, summary }) => {
+    const article = document.createElement('article');
+    article.className = 'project-card';
+
+    const info = document.createElement('div');
+    info.className = 'project-info';
+
+    const meta = document.createElement('div');
+    meta.className = 'project-meta';
+    const durationPart = duration ? duration : '';
+    const funderPart = funder ? `Funder: ${funder}` : '';
+    meta.textContent = [durationPart, funderPart].filter(Boolean).join(' | ');
+
+    const h2 = document.createElement('h2');
+    h2.textContent = title || `Project ${n}`;
+
+    const p = document.createElement('p');
+    p.className = 'project-summary';
+    p.textContent = summary;
+
+    const a = document.createElement('a');
+    a.className = 'read-more';
+    a.href = `project${n}.html`;
+    a.textContent = 'View Project Details →';
+
+    info.appendChild(meta);
+    info.appendChild(h2);
+    info.appendChild(p);
+    info.appendChild(a);
+
+    article.appendChild(info);
+    return article;
+  };
+
+  const loadProject = async (n) => {
+    const url = `project${n}.html`;
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`Missing: ${url}`);
+    const htmlText = await res.text();
+    const doc = new DOMParser().parseFromString(htmlText, 'text/html');
+
+    const title = extractTitle(doc);
+    const duration = extractSidebarValue(doc, 'Duration');
+    const funder = extractSidebarValue(doc, 'Funder');
+    const summary = firstNWords(extractSummaryText(doc), 50);
+
+    return { n, title, duration, funder, summary };
+  };
+
+  (async () => {
+    // Probe a range and keep any that exist (works even if numbering has gaps)
+    const checks = Array.from({ length: MAX_PROJECTS_TO_CHECK }, (_, i) => i + 1)
+      .map(n => loadProject(n).then(v => ({ ok: true, v })).catch(() => ({ ok: false, n })));
+
+    const results = await Promise.all(checks);
+    const found = results.filter(r => r.ok).map(r => r.v);
+
+    // Reverse order (highest project number first)
+    found.sort((a, b) => b.n - a.n);
+
+    listEl.innerHTML = '';
+    for (const proj of found) {
+      listEl.appendChild(renderCard(proj));
+    }
+
+    if (found.length === 0) {
+      const p = document.createElement('p');
+      p.textContent = 'No project pages found.';
+      listEl.appendChild(p);
+    }
+  })();
+})();
+</script>
 
 </body>
 </html>
