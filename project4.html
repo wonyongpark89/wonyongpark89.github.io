@@ -323,7 +323,7 @@ footer{
         2024 - 2025</div>
 <div class="sidebar-item">
 <span class="sidebar-label">Funder</span>
-        University of Southampton (Higher Education Innovation Fund, 2024-25)</div>
+        University of Southampton (Higher Education Innovation Fund)</div>
 <div class="sidebar-item">
 <span class="sidebar-label">Partners</span>
         Association for Science Education</div>
@@ -349,13 +349,291 @@ footer{
 <ul><li>Wonyong Park, University of Southampton (Principal Investigator)</li><li>Carys Hughes, University of Southampton (Co-Investigator)</li><li>Chris Downey, University of Southampton (Co-Investigator)</li><li>Elisabetta Calamelli, University of Southampton (Policy Officer)</li><li>Marianne Cutler, Association for Science Education (Co-Investigator)</li></ul><h2>Partners</h2><ul><li>Harry Russell, University of Southampton (Research Assistant)</li><li>Association for Science Education</li></ul>
 <h2>Outputs</h2>
 <ul><li><a href="#">Making Research Count in Science Education Policy</a></li></ul>
+/* --- Image carousel --- */
+.carousel-section{
+  margin: 1.5rem 0 5rem 0;
+}
+
+.carousel{
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--soft-gray);
+}
+.carousel-track{
+  display:flex;
+  transition: transform 420ms ease;
+  will-change: transform;
+}
+.carousel-slide{
+  min-width: 100%;
+  position: relative;
+}
+.carousel-slide img{
+  display:block;
+  width:100%;
+  height: 420px;
+  object-fit: cover;
+}
+@media (max-width:900px){
+  .carousel-slide img{ height: 300px; }
+}
+
+.carousel-btn{
+  position:absolute;
+  top:50%;
+  transform: translateY(-50%);
+  border:1px solid rgba(0,0,0,.08);
+  background: rgba(255,255,255,.92);
+  width:44px;height:44px;
+  border-radius: 999px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+  transition: transform .15s ease, background .2s ease;
+}
+.carousel-btn:hover{ transform: translateY(-50%) scale(1.03); background:#fff; }
+.carousel-btn:active{ transform: translateY(-50%) scale(.98); }
+.carousel-btn:focus-visible{
+  outline:3px solid rgba(79,70,229,.35);
+  outline-offset: 2px;
+}
+.carousel-btn.prev{ left: 12px; }
+.carousel-btn.next{ right: 12px; }
+
+.carousel-meta{
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  gap: 1rem;
+  margin-top: .9rem;
+  flex-wrap: wrap;
+}
+.carousel-caption{
+  font-family:'Source Sans 3',sans-serif;
+  color: var(--text-light);
+  font-size:.95rem;
+  margin:0;
+}
+.carousel-dots{
+  display:flex;
+  gap: .5rem;
+  align-items:center;
+}
+.carousel-dot{
+  width:10px;height:10px;
+  border-radius: 999px;
+  border:1px solid rgba(0,0,0,.12);
+  background: #fff;
+  cursor:pointer;
+  padding:0;
+}
+.carousel-dot[aria-current="true"]{
+  background: var(--highlight);
+  border-color: var(--highlight);
+}
+.carousel-sr-only{
+  position:absolute;
+  width:1px;height:1px;
+  padding:0;margin:-1px;overflow:hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;border:0;
+}
+
+  
+
+
+/* --- Downloads (sidebar) --- */
+.download-list{
+  list-style:none;
+  padding:0;
+  margin: .25rem 0 0 0;
+  display:flex;
+  flex-direction:column;
+  gap:.5rem;
+}
+.download-link{
+  display:flex;
+  align-items:center;
+  gap:.55rem;
+  color: var(--text-main);
+  text-decoration:none;
+  border-bottom:none;
+  font-family:'Source Sans 3',sans-serif;
+  font-size:.95rem;
+  line-height:1.3;
+}
+.download-link:hover{
+  color: var(--highlight);
+}
+.download-icon{
+  display:inline-flex;
+  width:18px;
+  height:18px;
+  color: var(--highlight);
+}
+.download-filename{
+  color: inherit;
+}
+
+</style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">WP.</a>
+    <ul>
+      <li><a href="index.html">About</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="projects.html" class="active">Projects</a></li>
+    </ul>
+  </nav>
+
+  <header>
+    <span class="project-category">Research Project</span>
+    <h1>Making Research Matter: Towards Evidence-Informed Science Education Practice in the UK</h1>
+  </header>
+
+  <main class="project-container">
+    <aside class="project-sidebar">
+      <div class="sidebar-item">
+        <span class="sidebar-label">Duration</span>
+        2025 - 2026
+      </div>
+
+      <div class="sidebar-item">
+        <span class="sidebar-label">Funder</span>
+        Economic and Social Research Council
+      </div>
+
+      <div class="sidebar-item">
+        <span class="sidebar-label">Partners</span>
+        King’s College London <br>
+        Association for Science Education
+      </div>
+
+
+<div class="sidebar-item">
+  <span class="sidebar-label">Download</span>
+  <ul class="download-list" aria-label="Downloads">
+    <li>
+      <a class="download-link" href="#" aria-label="Download placeholder file 1">
+        <span class="download-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v10"></path>
+            <path d="M8 11l4 4 4-4"></path>
+            <path d="M4 21h16"></path>
+          </svg>
+        </span>
+        <span class="download-filename">Project Brief</span>
+      </a>
+    </li>
+    <li>
+      <a class="download-link" href="#" aria-label="Download placeholder file 2">
+        <span class="download-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v10"></path>
+            <path d="M8 11l4 4 4-4"></path>
+            <path d="M4 21h16"></path>
+          </svg>
+        </span>
+        <span class="download-filename">Slides / Summary</span>
+      </a>
+    </li>
+    <li>
+      <a class="download-link" href="#" aria-label="Download placeholder file 3">
+        <span class="download-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v10"></path>
+            <path d="M8 11l4 4 4-4"></path>
+            <path d="M4 21h16"></path>
+          </svg>
+        </span>
+        <span class="download-filename">Resources</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+      <!-- 2) Team removed from sidebar -->
+    </aside>
+
+    <article class="project-content">
+      <h2>Summary</h2>
+      <p>
+        This project aims to strengthen science teachers’ engagement with research evidence and embed evidence-informed practices in UK classrooms through toolkit development and CPD sessions. Building on the research team’s previous work with researchers, learned societies and policy intermediaries, as well as our research on evidence-informed educational practice, the project scales these efforts to a national level.
+      </p>
+      <p>
+        We will design and implement a practical toolkit alongside targeted interventions to support science educators in accessing, interpreting, and applying evidence, drawing on nationally representative data. The project will also bridge the gap between researchers and practitioners by identifying and addressing mismatches between the production and use of research evidence in science education.
+      </p>
+
+      <h2>Objectives</h2>
+      <ul>
+        <li>Increase teachers’ confidence and capacity to access, interpret, and apply research.</li>
+        <li>Identify gaps and misalignments between research production and classroom practice.</li>
+        <li>Promote sustainable collaborations between researchers and practitioners to co-create research-informed teaching resources and strategies.</li>
+        <li>Establish structures for ongoing monitoring and evaluation of research use in science teaching.</li>
+      </ul>
+
+      <h2>Team</h2>
+      <ul>
+        <li>Wonyong Park, University of Southampton (Principal Investigator)</li>
+        <li>Carys Hughes, University of Southampton (Co-Investigator)</li>
+        <li>Chris Brown, University of Southampton (Co-Investigator)</li>
+        <li>Richard Brock, King’s College London (Co-Investigator)</li>
+        <li>Marianne Cutler, Association for Science Education (Co-Investigator)</li>
+        <li>Carole Kenrick, Institute of Physics (Research Officer)</li>
+        <li>Laura Kearney, University of Portsmouth (Research Intern)</li>
+      </ul>
+
+      <h2>Outputs</h2>
+      <ul>
+        <li>Coming soon</li>
+      </ul>
+
 <!-- Image Carousel Starts -->
 
+      <h2>Gallery</h2>
 
-<a class="back-link" href="projects.html">← Back to Projects List</a>
-</article>
-</main>
-<script>
+      <section class="carousel-section" aria-label="Project gallery">
+        <div class="carousel-card">
+          <div class="carousel" id="wpCarousel" tabindex="0" aria-roledescription="carousel" aria-label="Project images">
+            <div class="carousel-track" id="wpCarouselTrack">
+              <!-- Replace these placeholder image URLs with your own -->
+              <figure class="carousel-slide" data-caption="One-day conference in July 2025">
+                <img src="/project4/policyevent1.jpg" alt="One-day conference in July 2025">
+              </figure>
+              <figure class="carousel-slide" data-caption="One-day conference in July 2025">
+                <img src="/project4/policyevent1.jpg" alt="One-day conference in July 2025">
+              </figure>
+            
+            </div>
+
+            <button class="carousel-btn prev" type="button" id="wpCarouselPrev" aria-label="Previous image">
+              <span aria-hidden="true">‹</span>
+            </button>
+            <button class="carousel-btn next" type="button" id="wpCarouselNext" aria-label="Next image">
+              <span aria-hidden="true">›</span>
+            </button>
+
+            <p class="carousel-sr-only" id="wpCarouselHelp">
+              Use the left and right arrow keys to navigate the images.
+            </p>
+          </div>
+
+          <div class="carousel-meta">
+            <p class="carousel-caption" id="wpCarouselCaption">Workshop and co-design sessions (placeholder image).</p>
+            <div class="carousel-dots" id="wpCarouselDots" aria-label="Choose an image"></div>
+          </div>
+        </div>
+      </section>
+
+
+      <a href="projects.html" class="back-link">← Back to Projects List</a>
+    </article>
+  </main>
+
+  <script>
     (function(){
       const root = document.getElementById('wpCarousel');
       const track = document.getElementById('wpCarouselTrack');
@@ -440,8 +718,12 @@ footer{
       update();
     })();
   </script>
-<footer>
-    © 2026 Wonyong Park | University of Southampton
+
+
+
+  <footer>
+    &copy; 2026 Wonyong Park | University of Southampton
   </footer>
+
 </body>
 </html>
