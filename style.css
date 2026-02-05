@@ -1,0 +1,90 @@
+:root {
+    --bg-color: #ffffff;
+    --text-main: #333333;
+    --text-light: #666666;
+    --highlight: #4f46e5; 
+    --soft-gray: #f9fafb;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    padding: 0 10%;
+}
+
+/* --- Navigation --- */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--text-main);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 2rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover, .active {
+    color: var(--highlight);
+    font-weight: 600;
+}
+
+/* --- Layout Elements --- */
+section {
+    padding: 4rem 0;
+}
+
+h1, h2 {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 1.5rem;
+}
+
+.item {
+    margin-bottom: 2.5rem;
+}
+
+.item-meta {
+    color: var(--highlight);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+}
+
+footer {
+    padding: 4rem 0;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    border-top: 1px solid #eee;
+}
