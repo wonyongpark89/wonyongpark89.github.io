@@ -5,7 +5,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publications | Wonyong Park</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #2d2d2d;
+            --text-light: #666666;
+            --highlight: #4f46e5; /* Indigo */
+            --soft-gray: #f4f4f5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding: 0 10%;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 2rem; }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+        nav ul li a:hover, .active { color: var(--highlight); font-weight: 600; }
+
+        /* --- Header --- */
+        header { padding: 4rem 0 2rem 0; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; }
+
+        /* --- Tabs --- */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            padding: 1rem 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid transparent;
+            transition: 0.3s;
+        }
+
+        .tab-btn:hover { color: var(--highlight); }
+        .tab-btn.active { color: var(--highlight); border-bottom: 2px solid var(--highlight); }
+
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Publication Items --- */
+        .item { margin-bottom: 2rem; }
+        .item-meta {
+            color: var(--highlight);
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .pub-text { font-size: 1rem; color: var(--text-main); }
+        .pub-link { color: var(--highlight); text-decoration: none; font-size: 0.9rem; word-break: break-all; }
+        .pub-link:hover { text-decoration: underline; }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid #eee;
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 4rem;
+        }
+    </style>
 </head>
 <body>
 
@@ -18,93 +126,69 @@
         </ul>
     </nav>
 
-    <header style="padding: 4rem 0 2rem 0;">
-        <h1>Publications</h1>
+    <header>
+        <h1>Selected Publications</h1>
     </header>
 
     <div class="tabs">
         <button class="tab-btn active" onclick="openTab(event, 'journals')">Journal Articles</button>
         <button class="tab-btn" onclick="openTab(event, 'books')">Books & Issues</button>
         <button class="tab-btn" onclick="openTab(event, 'chapters')">Book Chapters</button>
-        <button class="tab-btn" onclick="openTab(event, 'opinions')">Opinions & Pieces</button>
-        <button class="tab-btn" onclick="openTab(event, 'reports')">Technical Reports</button>
+        <button class="tab-btn" onclick="openTab(event, 'opinions')">Opinions & Reports</button>
     </div>
 
     <div id="journals" class="tab-content active">
         <div class="item">
             <span class="item-meta">2026</span>
-            <p>Park, W., Erduran, S., & Hillier, J. (2026). Building connections to teach the nature of science: An experienced science teacher’s formative assessment practices in a high school science classroom. <em>Journal of Research in Science Teaching</em>, 63(2), 161–185. <br>
+            <p class="pub-text">Park, W., Erduran, S., & Hillier, J. (2026). Building connections to teach the nature of science. <em>Journal of Research in Science Teaching</em>, 63(2).<br>
             <a href="https://doi.org/10.1002/tea.70029" class="pub-link">https://doi.org/10.1002/tea.70029</a></p>
         </div>
-
         <div class="item">
             <span class="item-meta">2025</span>
-            <p>Millar, V., Park, W., & Dillon, J. (2025). The science curriculum: Issues, tensions and future prospects. <em>International Journal of Science Education</em>, 47(15–16), 1965–1971. <br>
+            <p class="pub-text">Millar, V., Park, W., & Dillon, J. (2025). The science curriculum: Issues, tensions and future prospects. <em>International Journal of Science Education</em>.<br>
             <a href="https://doi.org/10.1080/09500693.2025.2504644" class="pub-link">https://doi.org/10.1080/09500693.2025.2504644</a></p>
-            
-            <p>Townend, I., et al. (including <strong>Park, W.</strong>) (2025). Anticipating futures: Understanding the fundamental importance of narratives through an integrative interdisciplinary approach. <em>Futures</em>, 173, 103649. <br>
-            <a href="https://doi.org/10.1016/j.futures.2025.103649" class="pub-link">https://doi.org/10.1016/j.futures.2025.103649</a></p>
-            
-            <p>Park, W. (2025). STEM education for transformative hazard literacy: from technological fixes to slow learning. <em>Journal of Hazard Literacy</em>, 1(1), e3. <br>
-            <a href="https://doi.org/10.63737/jhl.25.0014" class="pub-link">https://doi.org/10.63737/jhl.25.0014</a></p>
         </div>
-
         <div class="item">
             <span class="item-meta">2024</span>
-            <p>Park, W., Lim, I., & Song, J. (2024). Exploring the intersection of disasters and science education with preservice science teachers through a disaster case study. <em>Cultural Studies of Science Education</em>, 19(4), 593–622. <br>
+            <p class="pub-text">Park, W., Lim, I., & Song, J. (2024). Exploring the intersection of disasters and science education. <em>Cultural Studies of Science Education</em>, 19(4).<br>
             <a href="https://doi.org/10.1007/s11422-024-10225-3" class="pub-link">https://doi.org/10.1007/s11422-024-10225-3</a></p>
         </div>
-        
-        <p style="color: var(--text-light); font-size: 0.9rem;"><em>(Note: All 25 journal articles would be listed here following the same format...)</em></p>
+        <p style="color: #999; font-size: 0.9rem; font-style: italic;">(Add your remaining journal articles here using the same 'item' format)</p>
     </div>
 
     <div id="books" class="tab-content">
-        <h3>Books</h3>
         <div class="item">
-            <span class="item-meta">Under Contract</span>
-            <p>Park, W. <em>Disaster education for social justice: A STEM-centred approach.</em> Routledge.</p>
-            <p>Park, W., Summers, R., & Pleasants, J. (Eds.). <em>Nature of science in science curriculum and teacher education: A global perspective.</em> Springer.</p>
+            <span class="item-meta">Books • Under Contract</span>
+            <p class="pub-text">Park, W. <em>Disaster education for social justice: A STEM-centred approach.</em> Routledge.</p>
+            <p class="pub-text">Park, W., Summers, R., & Pleasants, J. (Eds.). <em>Nature of science in science curriculum: A global perspective.</em> Springer.</p>
         </div>
-
-        <h3>Edited Special Issues</h3>
         <div class="item">
-            <span class="item-meta">2025</span>
-            <p>Millar, V., Park, W., & Dillon, J. (Eds). The science curriculum: Issues, tensions and future prospects. <em>International Journal of Science Education</em>. <br>
-            <a href="https://www.tandfonline.com/toc/tsed20/47/15-16" class="pub-link">Link to issue</a></p>
-            
-            <p>Park, W., Grace, M., et al. (Eds.). Science education in an age of unnatural disasters. <em>Science & Education</em>. <br>
-            <a href="https://link.springer.com/journal/11191/volumes-and-issues/34-3" class="pub-link">Link to issue</a></p>
+            <span class="item-meta">Edited Special Issues</span>
+            <p class="pub-text">Park, W., & Guilfoyle, L. Research-informed policy and practice. <em>Research in Science Education</em>.</p>
+            <p class="pub-text">Park, W., Grace, M., et al. (2025). Science education in an age of unnatural disasters. <em>Science & Education</em>.</p>
         </div>
     </div>
 
     <div id="chapters" class="tab-content">
         <div class="item">
             <span class="item-meta">2025</span>
-            <p>Park, W., Chun, J., & Ji, H. (2025). Why did the Fukushima nuclear accident happen? In <em>Justice-oriented science teaching and learning</em>. Springer. <br>
-            <a href="https://doi.org/10.1007/978-3-031-76297-0_21" class="pub-link">DOI Link</a></p>
+            <p class="pub-text">Park, W., Chun, J., & Ji, H. (2025). Why did the Fukushima nuclear accident happen?. In <em>Justice-oriented science teaching</em>. Springer.<br>
+            <a href="https://doi.org/10.1007/978-3-031-76297-0_21" class="pub-link">https://doi.org/10.1007/978-3-031-76297-0_21</a></p>
         </div>
         <div class="item">
             <span class="item-meta">2024</span>
-            <p>Skilling, K., & Park, W. (2024). STEM in a changing world. In <em>Ways of thinking in STEM-based problem solving</em>. Routledge.</p>
+            <p class="pub-text">Skilling, K., & Park, W. (2024). STEM in a changing world. In <em>Ways of thinking in STEM-based problem solving</em>. Routledge.</p>
         </div>
     </div>
 
     <div id="opinions" class="tab-content">
         <div class="item">
-            <span class="item-meta">2025</span>
-            <p>Park, W., Russell, H., & Fancourt, N. (2025). Never again: Disaster memory and education for social justice after Grenfell. <em>Teaching Citizenship</em>.</p>
+            <span class="item-meta">Opinion Piece • 2025</span>
+            <p class="pub-text">Park, W., Russell, H., & Fancourt, N. Never again: Disaster memory and education after Grenfell. <em>Teaching Citizenship</em>.</p>
         </div>
         <div class="item">
-            <span class="item-meta">2024</span>
-            <p>Park, W., Miani, L., & Levrini, O. (2024). Disasters in the classroom. <em>UNDRR PreventionWeb</em>. <br>
-            <a href="https://www.preventionweb.net/drr-community-voices/disasters-classroom-lessons-talking-students-about-extreme-climate-events" class="pub-link">Read Article</a></p>
-        </div>
-    </div>
-
-    <div id="reports" class="tab-content">
-        <div class="item">
-            <span class="item-meta">2025</span>
-            <p>Park, W., et al. (2025). <em>Making research count in science education policy.</em> University of Southampton & Association for Science Education. <br>
+            <span class="item-meta">Technical Report • 2025</span>
+            <p class="pub-text">Park, W., et al. (2025). <em>Making research count in science education policy.</em> University of Southampton.<br>
             <a href="https://doi.org/10.5258/SOTON/P1232" class="pub-link">https://doi.org/10.5258/SOTON/P1232</a></p>
         </div>
     </div>
@@ -130,6 +214,5 @@
             evt.currentTarget.className += " active";
         }
     </script>
-
 </body>
 </html>
