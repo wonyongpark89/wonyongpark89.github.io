@@ -9,12 +9,8 @@
         
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            height: 100vh; 
-            background: var(--bg); 
-            overflow: hidden; 
+            margin: 0; display: flex; flex-direction: column; height: 100vh; 
+            background: var(--bg); overflow: hidden; 
         }
         
         header { 
@@ -24,7 +20,6 @@
         }
 
         .nav-group { display: flex; gap: 8px; align-items: center; }
-        
         .btn { border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; font-size: 0.85rem; }
         .btn-script { background: #34495e; color: #bdc3c7; }
         .btn-script.active { background: var(--accent); color: white; }
@@ -34,7 +29,7 @@
         #btn-student-mode.active { background: var(--success); }
         #btn-teacher-mode.active { background: var(--teacher-color); }
 
-        main { display: flex; flex: 1; overflow: hidden; padding: 15px; gap: 15px; margin-bottom: 70px; }
+        main { display: flex; flex: 1; overflow: hidden; padding: 15px; gap: 15px; margin-bottom: 80px; }
         .column { display: flex; flex-direction: column; gap: 15px; flex: 1; min-width: 0; }
         .workspace-card { background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: flex; flex-direction: column; overflow: hidden; flex: 1; }
         .card-header { padding: 12px 20px; background: #f1f2f6; border-bottom: 1px solid #ddd; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
@@ -49,20 +44,22 @@
         /* Persistent Bottom Bar */
         #coding-bar {
             position: fixed; bottom: 0; left: 0; width: 100%;
-            background: #2d3436; padding: 12px 20px; box-sizing: border-box;
+            background: #2d3436; padding: 15px 20px; box-sizing: border-box;
             display: flex; gap: 10px; align-items: center; z-index: 100;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.3);
         }
-        #code-input { flex: 1; padding: 12px; border-radius: 6px; border: none; font-size: 1rem; }
-        #apply-btn { background: var(--accent); color: white; padding: 12px 24px; font-size: 1rem; }
+        #code-input { flex: 1; padding: 14px; border-radius: 6px; border: 2px solid #555; background: #fff; font-size: 1rem; }
+        #apply-btn { background: var(--accent); color: white; padding: 14px 24px; font-size: 1rem; border-radius: 6px; }
 
         @media (max-width: 1024px) {
-            main { flex-direction: column; overflow-y: auto; padding-bottom: 80px; }
+            main { flex-direction: column; overflow-y: auto; padding-bottom: 100px; }
             #sidebar { width: 100%; order: 2; }
             .column { flex: none; min-height: 400px; }
         }
 
+        /* HIGHLIGHT STYLES */
         .highlighted { border-radius: 4px; padding: 2px 0; cursor: pointer; }
+        .pending-selection { background-color: rgba(52, 152, 219, 0.3); border-bottom: 2px solid var(--accent); }
         .code-badge { padding: 8px; margin-bottom: 6px; border-radius: 6px; font-size: 0.8rem; border-left: 4px solid rgba(0,0,0,0.3); }
         .hidden { display: none !important; }
         .student-select { width: 100%; margin-top: 5px; padding: 12px; border-radius: 4px; }
@@ -141,7 +138,7 @@
     ];
 
     let currentMode = 'student', isCompare = false, currentScript = 1, myCodes = [], codeColors = {}, paletteIndex = 0, submissions = {};
-    let lastActiveRange = null; // Background selection monitor
+    let lastActiveRange = null; 
 
     function loadScript(num) {
         currentScript = num; myCodes = []; codeColors = {}; paletteIndex = 0;
@@ -171,17 +168,36 @@
         document.getElementById('select-left').classList.toggle('hidden', !isCompare);
     }
 
-    // Monitor selection without triggering prompts
+    // Monitor selection and apply a "visual freeze"
     document.addEventListener('selectionchange', () => {
+        if (currentMode !== 'student') return;
         const sel = window.getSelection();
         if (sel.rangeCount > 0 && sel.toString().trim().length > 2) {
+            // Remove previous pending visual
+            clearPendingHighlights();
+            
             lastActiveRange = sel.getRangeAt(0).cloneRange();
+            
+            // Apply a temporary visual span so it doesn't disappear on click
+            const span = document.createElement('span');
+            span.className = 'pending-selection';
+            try {
+                lastActiveRange.surroundContents(span);
+            } catch(e) { 
+                /* Overlap handled by manual apply logic */ 
+            }
         }
     });
+
+    function clearPendingHighlights() {
+        const pending = document.querySelectorAll('.pending-selection');
+        pending.forEach(p => p.replaceWith(p.innerText));
+    }
 
     function applyManualCode() {
         const input = document.getElementById('code-input');
         const codeName = input.value.trim();
+        const pending = document.querySelector('.pending-selection');
         
         if (!codeName) {
             alert("Please type a code name first.");
@@ -189,8 +205,8 @@
             return;
         }
 
-        if (!lastActiveRange) {
-            alert("Please highlight some text in the transcript first.");
+        if (!pending) {
+            alert("Please highlight text in the transcript first.");
             return;
         }
 
@@ -201,24 +217,21 @@
         }
         const color = codeColors[codeName];
 
-        try {
-            const span = document.createElement('span');
-            span.className = 'highlighted';
-            span.dataset.id = id;
-            span.style.backgroundColor = color;
-            span.dataset.code = codeName;
-            
-            lastActiveRange.surroundContents(span);
-            myCodes.push({ id, code: codeName, text: lastActiveRange.toString(), color });
-            updateCodeList(myCodes);
-            
-            // Cleanup
-            input.value = "";
-            lastActiveRange = null;
-            window.getSelection().removeAllRanges();
-        } catch (e) {
-            alert("Selection error: Avoid overlapping existing highlights.");
-        }
+        const textContent = pending.innerText;
+        
+        // Finalize the highlight
+        pending.className = 'highlighted';
+        pending.style.backgroundColor = color;
+        pending.dataset.id = id;
+        pending.dataset.code = codeName;
+        
+        myCodes.push({ id, code: codeName, text: textContent, color });
+        updateCodeList(myCodes);
+        
+        // Reset UI
+        input.value = "";
+        lastActiveRange = null;
+        window.getSelection().removeAllRanges();
     }
 
     document.getElementById('t1').addEventListener('click', function(e) {
@@ -249,6 +262,7 @@
         a.href = url; a.download = filename; a.click();
     }
 
+    // Teacher Logic remains the same
     document.getElementById('file-input').addEventListener('change', function(e) {
         for (let f of e.target.files) {
             const reader = new FileReader();
