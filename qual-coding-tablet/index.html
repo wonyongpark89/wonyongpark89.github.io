@@ -20,7 +20,7 @@
         }
 
         .nav-group { display: flex; gap: 8px; align-items: center; }
-        .btn { border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; font-size: 0.85rem; }
+        .btn { border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; font-size: 0.85rem; box-sizing: border-box; }
         .btn-script { background: #34495e; color: #bdc3c7; }
         .btn-script.active { background: var(--accent); color: white; }
         
@@ -41,14 +41,13 @@
         #sidebar { width: 320px; display: flex; flex-direction: column; gap: 15px; flex-shrink: 0; }
         .sidebar-panel { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
         
-        /* Persistent Bottom Bar */
         #coding-bar {
             position: fixed; bottom: 0; left: 0; width: 100%;
             background: #2d3436; padding: 15px 20px; box-sizing: border-box;
             display: flex; gap: 10px; align-items: center; z-index: 100;
             box-shadow: 0 -4px 15px rgba(0,0,0,0.3);
         }
-        #code-input { flex: 1; padding: 14px; border-radius: 6px; border: 2px solid #555; background: #fff; font-size: 1rem; }
+        #code-input { flex: 1; padding: 14px; border-radius: 6px; border: 2px solid #555; background: #fff; font-size: 1rem; box-sizing: border-box; }
         #apply-btn { background: var(--accent); color: white; padding: 14px 24px; font-size: 1rem; border-radius: 6px; }
 
         @media (max-width: 1024px) {
@@ -57,9 +56,9 @@
             .column { flex: none; min-height: 400px; }
         }
 
-        /* HIGHLIGHT STYLES */
         .highlighted { border-radius: 4px; padding: 2px 0; cursor: pointer; }
-        .pending-selection { background-color: rgba(52, 152, 219, 0.3); border-bottom: 2px solid var(--accent); }
+        /* Freeze Selection - Dotted Outline */
+        .pending-selection { outline: 2px dotted var(--accent); outline-offset: 2px; background-color: rgba(52, 152, 219, 0.05); }
         .code-badge { padding: 8px; margin-bottom: 6px; border-radius: 6px; font-size: 0.8rem; border-left: 4px solid rgba(0,0,0,0.3); }
         .hidden { display: none !important; }
         .student-select { width: 100%; margin-top: 5px; padding: 12px; border-radius: 4px; }
@@ -106,7 +105,7 @@
             <div id="code-list" style="max-height: 250px; overflow-y: auto; margin: 10px 0;"></div>
             
             <div id="export-section">
-                <input type="text" id="student-name" class="btn" style="width:100%; background:#eee; margin-bottom:10px; text-align:left;" placeholder="Your Full Name...">
+                <input type="text" id="student-name" class="btn" style="width:100%; background:#eee; margin-bottom:10px; text-align:left; box-sizing: border-box;" placeholder="Your Full Name...">
                 <button class="btn" style="width:100%; background:var(--success); color:white;" onclick="exportJSON()">Export JSON</button>
             </div>
         </div>
@@ -168,24 +167,17 @@
         document.getElementById('select-left').classList.toggle('hidden', !isCompare);
     }
 
-    // Monitor selection and apply a "visual freeze"
     document.addEventListener('selectionchange', () => {
         if (currentMode !== 'student') return;
         const sel = window.getSelection();
         if (sel.rangeCount > 0 && sel.toString().trim().length > 2) {
-            // Remove previous pending visual
             clearPendingHighlights();
-            
             lastActiveRange = sel.getRangeAt(0).cloneRange();
-            
-            // Apply a temporary visual span so it doesn't disappear on click
             const span = document.createElement('span');
             span.className = 'pending-selection';
             try {
                 lastActiveRange.surroundContents(span);
-            } catch(e) { 
-                /* Overlap handled by manual apply logic */ 
-            }
+            } catch(e) {}
         }
     });
 
@@ -216,10 +208,8 @@
             paletteIndex++;
         }
         const color = codeColors[codeName];
-
         const textContent = pending.innerText;
         
-        // Finalize the highlight
         pending.className = 'highlighted';
         pending.style.backgroundColor = color;
         pending.dataset.id = id;
@@ -227,8 +217,6 @@
         
         myCodes.push({ id, code: codeName, text: textContent, color });
         updateCodeList(myCodes);
-        
-        // Reset UI
         input.value = "";
         lastActiveRange = null;
         window.getSelection().removeAllRanges();
@@ -262,7 +250,6 @@
         a.href = url; a.download = filename; a.click();
     }
 
-    // Teacher Logic remains the same
     document.getElementById('file-input').addEventListener('change', function(e) {
         for (let f of e.target.files) {
             const reader = new FileReader();
