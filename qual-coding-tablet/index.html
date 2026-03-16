@@ -57,7 +57,7 @@
         }
 
         .highlighted { border-radius: 4px; padding: 2px 0; cursor: pointer; }
-        /* Solid Grey Outline for selection freeze */
+        /* Freeze Selection - Solid Grey Outline */
         .pending-selection { outline: 2px solid #999; outline-offset: 2px; background-color: rgba(0, 0, 0, 0.05); }
         .code-badge { padding: 8px; margin-bottom: 6px; border-radius: 6px; font-size: 0.8rem; border-left: 4px solid rgba(0,0,0,0.3); }
         .hidden { display: none !important; }
@@ -167,8 +167,18 @@
         document.getElementById('select-left').classList.toggle('hidden', !isCompare);
     }
 
-    document.addEventListener('selectionchange', () => {
+    // Capture selection on finger lift to prevent flashing
+    document.getElementById('t1').addEventListener('touchend', () => {
         if (currentMode !== 'student') return;
+        setTimeout(processSelection, 50);
+    });
+
+    document.getElementById('t1').addEventListener('mouseup', () => {
+        if (currentMode !== 'student') return;
+        processSelection();
+    });
+
+    function processSelection() {
         const sel = window.getSelection();
         if (sel.rangeCount > 0 && sel.toString().trim().length > 2) {
             clearPendingHighlights();
@@ -179,7 +189,7 @@
                 lastActiveRange.surroundContents(span);
             } catch(e) {}
         }
-    });
+    }
 
     function clearPendingHighlights() {
         const pending = document.querySelectorAll('.pending-selection');
@@ -212,6 +222,7 @@
         
         pending.className = 'highlighted';
         pending.style.backgroundColor = color;
+        pending.style.outline = 'none'; // Remove grey outline
         pending.dataset.id = id;
         pending.dataset.code = codeName;
         
@@ -222,7 +233,7 @@
         window.getSelection().removeAllRanges();
     }
 
-    // Enter Key Listener
+    // Apply code on Enter key
     document.getElementById('code-input').addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
             applyManualCode();
