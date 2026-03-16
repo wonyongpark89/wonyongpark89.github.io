@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Qualitative Coding Suite</title>
+    <style>
+        :root { --bg: #f8f9fa; --primary: #2c3e50; --accent: #3498db; --success: #27ae60; --teacher-color: #8e44ad; --danger: #e74c3c; }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            height: 100vh; 
+            background: var(--bg); 
+            overflow: hidden; 
+            /* Improved touch responsiveness */
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        header { 
+            background: var(--primary); 
+            color: white; 
+            padding: 10px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            z-index: 10; 
+            border-bottom: 3px solid #ddd; 
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-group { display: flex; gap: 8px; align-items: center; }
+        
+        .btn { border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; font-size: 0.85rem; }
+        .btn-script { background: #34495e; color: #bdc3c7; }
+        .btn-script.active { background: var(--accent); color: white; }
+        
+        .btn-mode { background: #555; color: #fff; opacity: 0.6; }
+        .btn-mode.active { opacity: 1; transform: scale(1.05); }
+        #btn-student-mode.active { background: var(--success); }
+        #btn-teacher-mode.active { background: var(--teacher-color); }
+
+        main { display: flex; flex: 1; overflow: hidden; padding: 15px; gap: 15px; }
+        .column { display: flex; flex-direction: column; gap: 15px; flex: 1; transition: all 0.3s ease; min-width: 0; }
+        .workspace-card { background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: flex; flex-direction: column; overflow: hidden; flex: 1; }
+        .card-header { padding: 12px 20px; background: #f1f2f6; border-bottom: 1px solid #ddd; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        
+        .content-area { padding: 20px; overflow-y: auto; flex: 1; line-height: 1.8; font-size: 1.05rem; position: relative; -webkit-overflow-scrolling: touch; }
+        .p-block { margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px; }
+        .speaker { font-weight: 800; color: #666; font-size: 0.8rem; text-transform: uppercase; display: block; }
+
+        #sidebar { width: 320px; display: flex; flex-direction: column; gap: 15px; flex-shrink: 0; }
+        .sidebar-panel { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        
+        /* Tablet/Mobile Adjustments */
+        @media (max-width: 1024px) {
+            main { flex-direction: column; overflow-y: auto; }
+            #sidebar { width: 100%; order: 2; }
+            .column { flex: none; height: 60vh; }
+            header { padding: 10px; }
+            .btn { padding: 8px 12px; font-size: 0.75rem; }
+        }
+
+        .instruction-box { background: #e8f4fd; border-left: 4px solid var(--accent); padding: 10px; font-size: 0.85rem; color: #2c3e50; margin-bottom: 10px; }
+        .name-label { display: block; font-size: 0.75rem; font-weight: bold; color: #666; margin-bottom: 4px; text-transform: uppercase; }
+        .name-input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; margin-bottom: 10px; font-weight: bold; font-family: inherit; font-size: 1rem; }
+        .name-input:focus { border-color: var(--accent); outline: none; }
+        .name-input.error { border-color: var(--danger); background: #fff5f5; }
+
+        .highlighted { border-radius: 4px; padding: 2px 0; cursor: pointer; transition: filter 0.2s; }
+        .highlighted:hover { filter: brightness(0.9); border: 1px dashed #333; }
+        .code-badge { padding: 8px; margin-bottom: 6px; border-radius: 6px; font-size: 0.8rem; border-left: 4px solid rgba(0,0,0,0.3); }
+
+        .hidden { display: none !important; }
+        .student-select { width: 100%; margin-top: 5px; padding: 8px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="nav-group">
+        <button class="btn btn-script active" id="btn-s1" onclick="loadScript(1)">1. AI in Education</button>
+        <button class="btn btn-script" id="btn-s2" onclick="loadScript(2)">2. English Anxiety</button>
+    </div>
+    
+    <div class="nav-group">
+        <button id="btn-student-mode" class="btn btn-mode active" onclick="setMode('student')">STUDENT</button>
+        <button id="btn-teacher-mode" class="btn btn-mode" onclick="setMode('teacher')">TEACHER</button>
+    </div>
+</header>
+
+<main id="main-layout">
+    <div class="column" id="col-1">
+        <div class="workspace-card">
+            <div class="card-header">
+                <span id="label-1">Transcript</span>
+                <select id="select-left" class="student-select hidden" onchange="applyReview(1)"></select>
+            </div>
+            <div id="t1" class="content-area"></div>
+        </div>
+    </div>
+
+    <div class="column hidden" id="col-2">
+        <div class="workspace-card">
+            <div class="card-header">
+                <span>Comparison View</span>
+                <select id="select-right" class="student-select" onchange="applyReview(2)"></select>
+            </div>
+            <div id="t2" class="content-area"></div>
+        </div>
+    </div>
+
+    <div id="sidebar">
+        <div class="sidebar-panel" id="student-meta">
+            <div class="instruction-box">
+                <strong>Tablet Tips:</strong><br>
+                1. <strong>Select</strong> text to code.<br>
+                2. <strong>Tap</strong> a code to remove it.
+            </div>
+        </div>
+
+        <div class="sidebar-panel hidden" id="teacher-tools">
+            <h4 style="margin:0 0 10px 0">Teacher Comparison</h4>
+            <input type="file" id="file-input" multiple accept=".json">
+            <button class="btn" style="width:100%; margin-top:10px; background:#636e72; color:white;" onclick="toggleCompareMode()">Split Screen View</button>
+        </div>
+
+        <div class="sidebar-panel">
+            <h4 id="codebook-title" style="margin:0">Active Codes</h4>
+            <div id="code-list" style="max-height: 250px; overflow-y: auto; margin: 10px 0;"></div>
+            
+            <div id="export-section">
+                <label class="name-label" id="name-label-tag">Full Name (Required)</label>
+                <input type="text" id="student-name" class="name-input" placeholder="e.g. John Smith">
+                <button id="export-btn" class="btn" style="width:100%; background:var(--success); color:white; padding: 15px;" onclick="exportJSON()">Export JSON</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const scripts = {
+        1: `
+            <div class="p-block"><span class="speaker">Interviewer:</span> How are you actually using AI tools like ChatGPT in your daily study routine?</div>
+            <div class="p-block"><span class="speaker">Student A:</span> It’s become a bit of a co-pilot, honestly. I don’t use it to write my essays—the professors are really strict about that—but I use it to break down complex readings. Like, if I have a 40-page journal article, I’ll ask it to explain the core methodology in simple terms. It saves me hours of staring at jargon.</div>
+            <div class="p-block"><span class="speaker">Student B:</span> I’m a bit more cautious. I feel like if I use it too much, I’m losing my ability to think for myself. I used it last week to generate a coding script for my stats class, and it worked, but I realized I didn't actually understand why the code worked. It felt like "cheating" my own brain out of a learning moment.</div>
+            <div class="p-block"><span class="speaker">Student A:</span> That's fair, but look at the pressure we're under. The workload hasn't decreased, but now we have this tool that can speed up the "grunt work." If I can use AI to organize my bibliography or suggest an outline, why wouldn't I? It's not about being lazy; it's about efficiency. I think the university is lagging behind the reality of how we work now.</div>
+            <div class="p-block"><span class="speaker">Student B:</span> Maybe, but I worry about the equity side too. Some of my friends pay for the "Plus" versions that are much smarter. If your grade depends on how good your "AI assistant" is, that's not really a level playing field, is it?</div>
+        `,
+        2: `
+            <div class="p-block"><span class="speaker">Moderator:</span> Let's talk about the experience of speaking English during the live seminars. How does that feel for you?</div>
+            <div class="p-block"><span class="speaker">Participant 1:</span> For me, it’s the "waiting" that’s the worst. While other students are talking, I’m not really listening to them. I’m just rehearsing my own sentence over and over in my head. I’m terrified I’ll use the wrong tense and everyone will realize I don’t belong in this masters program.</div>
+            <div class="p-block"><span class="speaker">Participant 2:</span> I totally get that. I find that I’m much more "quiet" in English than I am in my native language. Back home, I’m the one always making jokes and leading the debate. Here, I’m just the "silent guy" in the corner. It feels like my personality is being filtered through a very small straw. I just can't be myself.</div>
+            <div class="p-block"><span class="speaker">Participant 3:</span> It’s also the eye contact. When the tutor looks at me, my mind just goes completely blank. It’s like a physical wall goes up. Even if I know the answer, the words get stuck in my throat. I’m so focused on my pronunciation that I lose the actual thread of the academic argument we are having.</div>
+            <div class="p-block"><span class="speaker">Participant 1:</span> Exactly! And then the tutor moves on to the next person, and I feel this huge relief, but also this deep frustration that I stayed silent again.</div>
+        `
+    };
+
+    const colorPalette = [
+        "hsla(200, 80%, 85%, 0.9)", "hsla(140, 75%, 85%, 0.9)", "hsla(340, 80%, 88%, 0.9)",
+        "hsla(45, 90%, 85%, 0.9)", "hsla(280, 70%, 88%, 0.9)", "hsla(25, 85%, 85%, 0.9)",
+        "hsla(180, 60%, 85%, 0.9)", "hsla(10, 80%, 88%, 0.9)", "hsla(60, 80%, 85%, 0.9)",
+        "hsla(220, 70%, 88%, 0.9)"
+    ];
+
+    let currentMode = 'student';
+    let isCompare = false;
+    let currentScript = 1;
+    let myCodes = []; 
+    let codeColors = {}; 
+    let paletteIndex = 0;
+    let submissions = {};
+
+    function loadScript(num) {
+        currentScript = num;
+        myCodes = [];
+        codeColors = {}; 
+        paletteIndex = 0;
+        document.getElementById('btn-s1').classList.toggle('active', num === 1);
+        document.getElementById('btn-s2').classList.toggle('active', num === 2);
+        resetWorkspaces();
+    }
+
+    function resetWorkspaces() {
+        document.getElementById('t1').innerHTML = scripts[currentScript];
+        document.getElementById('t2').innerHTML = scripts[currentScript];
+        document.getElementById('code-list').innerHTML = "";
+    }
+
+    function setMode(mode) {
+        currentMode = mode;
+        document.getElementById('btn-student-mode').classList.toggle('active', mode === 'student');
+        document.getElementById('btn-teacher-mode').classList.toggle('active', mode === 'teacher');
+        document.getElementById('student-meta').classList.toggle('hidden', mode === 'teacher');
+        document.getElementById('teacher-tools').classList.toggle('hidden', mode === 'student');
+        document.getElementById('export-section').classList.toggle('hidden', mode === 'teacher');
+        document.getElementById('codebook-title').innerText = mode === 'student' ? "Active Codes" : "Student Codes";
+
+        if (mode === 'student') {
+            isCompare = false;
+            document.getElementById('col-2').classList.add('hidden');
+            document.getElementById('select-left').classList.add('hidden');
+            resetWorkspaces();
+        }
+    }
+
+    function toggleCompareMode() {
+        isCompare = !isCompare;
+        document.getElementById('col-2').classList.toggle('hidden', !isCompare);
+        document.getElementById('select-left').classList.toggle('hidden', !isCompare);
+        document.getElementById('label-1').classList.toggle('hidden', isCompare);
+    }
+
+    // Handlers for both Mouse and Touch
+    const triggerCoding = (e) => {
+        if (currentMode !== 'student' || (e.target && e.target.classList.contains('highlighted'))) return;
+        
+        // Timeout ensures the native selection menu doesn't block the prompt immediately
+        setTimeout(() => {
+            const sel = window.getSelection();
+            const txt = sel.toString().trim();
+            if (txt.length > 2) {
+                const codeName = prompt("Assign Inductive Code:");
+                if (codeName) {
+                    const id = "c" + Date.now();
+                    if (!codeColors[codeName]) {
+                        codeColors[codeName] = colorPalette[paletteIndex % colorPalette.length];
+                        paletteIndex++;
+                    }
+                    const color = codeColors[codeName];
+                    const range = sel.getRangeAt(0);
+                    const span = document.createElement('span');
+                    span.className = 'highlighted';
+                    span.dataset.id = id;
+                    span.style.backgroundColor = color;
+                    range.surroundContents(span);
+                    myCodes.push({ id, code: codeName, text: txt, color });
+                    updateCodeList(myCodes);
+                }
+                window.getSelection().removeAllRanges();
+            }
+        }, 100);
+    };
+
+    document.getElementById('t1').addEventListener('mouseup', triggerCoding);
+
+    document.getElementById('t1').addEventListener('click', function(e) {
+        if (currentMode !== 'student' || !e.target.classList.contains('highlighted')) return;
+        if (confirm("Remove this code?")) {
+            const id = e.target.dataset.id;
+            myCodes = myCodes.filter(c => c.id !== id);
+            e.target.replaceWith(e.target.innerText);
+            updateCodeList(myCodes);
+        }
+    });
+
+    function updateCodeList(data) {
+        document.getElementById('code-list').innerHTML = data.map(c => `
+            <div class="code-badge" style="background:${c.color}">
+                <strong>${c.code}</strong><br><em>"${c.text.substring(0,30)}..."</em>
+            </div>
+        `).join('') || '<p style="color:#999; font-size:0.8rem;">No codes yet.</p>';
+    }
+
+    function exportJSON() {
+        const nameInput = document.getElementById('student-name');
+        const name = nameInput.value.trim();
+        if (!name) {
+            nameInput.classList.add('error');
+            alert("Please enter your name.");
+            nameInput.focus();
+            return;
+        }
+        nameInput.classList.remove('error');
+        const filename = `coding_S${currentScript}_${name.replace(/\s+/g, '_')}.json`;
+        const blob = new Blob([JSON.stringify(myCodes, null, 2)], {type : 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = filename; a.click();
+    }
+
+    document.getElementById('file-input').addEventListener('change', function(e) {
+        for (let f of e.target.files) {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                submissions[f.name] = JSON.parse(ev.target.result);
+                updateDropdowns();
+            };
+            reader.readAsText(f);
+        }
+    });
+
+    function updateDropdowns() {
+        const opts = `<option value="">Select Student...</option>` + 
+                     Object.keys(submissions).map(n => `<option value="${n}">${n}</option>`).join('');
+        document.getElementById('select-left').innerHTML = opts;
+        document.getElementById('select-right').innerHTML = opts;
+    }
+
+    function applyReview(side) {
+        const file = document.getElementById(side === 1 ? 'select-left' : 'select-right').value;
+        const target = document.getElementById(side === 1 ? 't1' : 't2');
+        target.innerHTML = scripts[currentScript];
+        if (!file) return;
+        const data = submissions[file];
+        if (!isCompare) updateCodeList(data);
+        
+        let html = target.innerHTML;
+        data.forEach(item => {
+            const escaped = item.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${escaped})`, 'g');
+            html = html.replace(regex, `<span class="highlighted" style="background:${item.color}" title="${item.code}">$1</span>`);
+        });
+        target.innerHTML = html;
+    }
+
+    loadScript(1);
+</script>
+</body>
+</html>
