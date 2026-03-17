@@ -6,9 +6,6 @@
     <title>Qualitative Coding Suite</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><path d='M30 30h20l20 20-20 20-20-20V30z' fill='white'/><circle cx='40' cy='40' r='5' fill='%234f46e5'/></svg>">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
     <style>
         :root { 
             --bg: #f9fafb; 
@@ -87,7 +84,7 @@
             padding: 24px; 
             overflow-y: auto; 
             flex: 1; 
-            line-height: 2.8; /* Increased for label clearance */
+            line-height: 3.2; /* Sufficient height for labels */
             font-size: 1.05rem; 
             color: #1e293b;
             -webkit-overflow-scrolling: touch; 
@@ -110,28 +107,29 @@
         #code-input:focus { outline: none; border-color: var(--accent); background: #475569; }
         #apply-btn { background: var(--accent); color: white; padding: 14px 28px; font-size: 0.95rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
 
-        /* --- FIXED HIGHLIGHTS & LABELS --- */
+        /* --- STABLE HIGHLIGHTS & LABELS --- */
         .highlighted { 
             display: inline; 
             padding: 0.2em 0; 
-            border-radius: 3px; 
+            border-radius: 4px; 
             box-decoration-break: clone;
             -webkit-box-decoration-break: clone;
+            position: relative;
         }
 
         .teacher-label { 
-            font-size: 0.65rem; 
-            font-weight: 700; 
+            font-size: 0.6rem; 
+            font-weight: 800; 
             text-transform: uppercase; 
-            padding: 1px 5px; 
-            border-radius: 4px; 
-            margin-left: 4px; 
-            display: inline-block; 
-            line-height: 1.2; 
+            padding: 2px 4px; 
+            border-radius: 3px; 
             color: white; 
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1); 
+            display: inline-block;
+            line-height: 1;
+            margin-left: 4px;
             vertical-align: middle;
-            white-space: nowrap;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            pointer-events: none;
             user-select: none;
         }
 
@@ -144,13 +142,20 @@
         .pw-box { background: white; padding: 32px; border-radius: 16px; text-align: center; width: 90%; max-width: 320px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
         .pw-box input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid var(--border); text-align: center; font-size: 1.1rem; }
 
+        @media print {
+            header, #sidebar, #coding-bar, .btn, .student-select, #student-instructions { display: none !important; }
+            body, main { background: white; height: auto; overflow: visible; display: block; padding: 0; margin: 0; }
+            .content-area { overflow: visible; height: auto; line-height: 3.5; }
+            .highlighted { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .teacher-label { -webkit-print-color-adjust: exact; print-color-adjust: exact; border: 1px solid #999; color: white !important; background-color: #333 !important; }
+        }
+
         @media (max-width: 1024px) {
             body { overflow-y: auto; height: auto; min-height: 100dvh; }
             main { flex-direction: column; overflow: visible; padding: 15px; padding-bottom: 120px; }
             #sidebar { width: 100%; order: 2; }
             .column { height: auto; min-height: 450px; }
             #coding-bar { padding: 12px; gap: 8px; }
-            #apply-btn { padding: 12px 18px; }
         }
 
         .hidden { display: none !important; }
@@ -191,7 +196,7 @@
             <div class="card-header">
                 <span id="label-left">Transcript</span>
                 <div style="display: flex; gap: 8px; align-items: center;">
-                    <button class="btn" id="pdf-btn" onclick="downloadPDF()" style="font-size: 0.7rem; padding: 4px 8px;">Download PDF</button>
+                    <button class="btn" onclick="window.print()" style="font-size: 0.7rem; padding: 4px 8px;">Download PDF</button>
                     <select id="select-left" class="student-select hidden" onchange="applyReview(1)"></select>
                 </div>
             </div>
@@ -352,7 +357,7 @@
         const summaryCont = document.getElementById('summary-content-1');
         const usedCodes = {};
         
-        // Sorting samples by length to prevent partial string matches breaking layout
+        // Sorting longest to shortest prevents partial matches breaking tags
         const sortedData = [...data].sort((a,b) => b.text.length - a.text.length);
 
         sortedData.forEach(item => {
@@ -360,14 +365,11 @@
             const regex = new RegExp(`(${escaped})`, 'g');
             const parts = item.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
             let darkColor = `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)`;
-            
             if(!usedCodes[item.code]) usedCodes[item.code] = { color: darkColor, count: 0 };
             usedCodes[item.code].count++;
-            
             const label = `<span class="teacher-label" style="background:${darkColor}">${item.code}</span>`;
             html = html.replace(regex, `<span class="highlighted" style="background:${item.color}">$1${label}</span>`);
         });
-        
         target.innerHTML = html;
         updateCodeList(data, true);
         document.getElementById('summary-1').classList.remove('hidden');
@@ -395,7 +397,7 @@
         if (currentScript > 2) return; 
         setTimeout(() => {
             const sel = window.getSelection();
-            if (sel.rangeCount > 0 && sel.toString().trim().length > 2) {
+            if (sel.rangeCount > 0 && sel.toString().trim().length > 1) {
                 const range = sel.getRangeAt(0);
                 if (document.getElementById('t1').contains(range.commonAncestorContainer)) {
                     clearPendingHighlights();
@@ -455,6 +457,7 @@
     function removeCode(id) {
         const el = document.querySelector(`[data-id="${id}"]`);
         if (el) {
+            // Find just the text node part to restore
             const textNode = document.createTextNode(el.childNodes[0].textContent);
             el.replaceWith(textNode);
         }
@@ -464,35 +467,6 @@
 
     function updateCodeList(data, isSampleView = false) {
         document.getElementById('code-list').innerHTML = data.map(c => `<div class="code-badge" style="border-left-color:${c.color}">${!isSampleView ? `<span class="remove-code-btn" onclick="removeCode('${c.id}')">×</span>` : ''}<strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span></div>`).join('') || '<p style="color:#94a3b8; font-size:0.75rem;">No codes established yet.</p>';
-    }
-
-    async function downloadPDF() {
-        const { jsPDF } = window.jspdf;
-        const btn = document.getElementById('pdf-btn');
-        const element = document.getElementById('pdf-content');
-        const studentName = document.getElementById('student-name').value.trim() || "Student";
-        
-        btn.innerText = "Generating...";
-        const doc = new jsPDF({ orientation: 'p', unit: 'pt', format: 'a4' });
-
-        const originalInstructions = document.getElementById('student-instructions');
-        const disp = originalInstructions.style.display;
-        originalInstructions.style.display = 'none';
-
-        try {
-            await doc.html(element, {
-                callback: (doc) => {
-                    doc.save(`${studentName}-Coded-Transcript.pdf`);
-                    btn.innerText = "Download PDF";
-                    originalInstructions.style.display = disp;
-                },
-                x: 20, y: 20, width: 550, windowWidth: 1024, autoPaging: 'text'
-            });
-        } catch (e) {
-            btn.innerText = "Download PDF";
-            originalInstructions.style.display = disp;
-            alert("Error generating text-based PDF.");
-        }
     }
 
     function syncFromCloud() {
