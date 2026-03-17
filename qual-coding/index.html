@@ -7,7 +7,6 @@
     <style>
         :root { --bg: #f8f9fa; --primary: #2c3e50; --accent: #3498db; --success: #27ae60; --teacher-color: #8e44ad; --danger: #e74c3c; }
         
-        /* Using dvh (Dynamic Viewport Height) for mobile browser address bars */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             margin: 0; 
@@ -34,60 +33,27 @@
         .column { display: flex; flex-direction: column; gap: 15px; flex: 1; min-width: 0; }
         .workspace-card { background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: flex; flex-direction: column; overflow: hidden; flex: 1; }
         
-        .card-header { 
-            padding: 15px 20px; 
-            background: #f1f2f6; 
-            border-bottom: 1px solid #ddd; 
-            font-weight: bold; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            gap: 20px; 
-        }
+        .card-header { padding: 15px 20px; background: #f1f2f6; border-bottom: 1px solid #ddd; font-weight: bold; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
         
         .content-area { padding: 20px; overflow-y: auto; flex: 1; line-height: 2.4; font-size: 1.1rem; -webkit-overflow-scrolling: touch; }
         .p-block { margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px; }
         .speaker { font-weight: 800; color: #666; font-size: 0.8rem; text-transform: uppercase; display: block; }
 
-        .summary-box { 
-            background: #fff; 
-            border-top: 2px solid #eee; 
-            padding: 12px 20px; 
-            min-height: 90px; 
-            max-height: 140px; 
-            overflow-y: auto; 
-            flex-shrink: 0;
-        }
+        .summary-box { background: #fff; border-top: 2px solid #eee; padding: 12px 20px; min-height: 90px; max-height: 140px; overflow-y: auto; flex-shrink: 0; }
         .summary-title { margin: 0 0 8px 0; color: #666; font-size: 0.75rem; text-transform: uppercase; font-weight: bold; }
 
         #sidebar { width: 320px; display: flex; flex-direction: column; gap: 15px; flex-shrink: 0; overflow-y: auto; }
         .sidebar-panel { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
         
-        #coding-bar {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: #2d3436; padding: 15px 20px; box-sizing: border-box;
-            display: flex; gap: 10px; align-items: center; z-index: 100;
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.3);
-        }
+        #coding-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #2d3436; padding: 15px 20px; box-sizing: border-box; display: flex; gap: 10px; align-items: center; z-index: 100; box-shadow: 0 -4px 15px rgba(0,0,0,0.3); }
         #code-input { flex: 1; padding: 14px; border-radius: 6px; border: 2px solid #555; background: #fff; font-size: 1rem; box-sizing: border-box; }
         #apply-btn { background: var(--accent); color: white; padding: 14px 24px; font-size: 1rem; border-radius: 6px; }
 
-        .teacher-label {
-            font-size: 0.9rem; font-weight: 800; text-transform: uppercase;
-            padding: 4px 12px; border-radius: 6px; margin-left: 8px;
-            display: inline-block; line-height: 1.2; color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            vertical-align: middle;
-        }
+        .teacher-label { font-size: 0.9rem; font-weight: 800; text-transform: uppercase; padding: 4px 12px; border-radius: 6px; margin-left: 8px; display: inline-block; line-height: 1.2; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); vertical-align: middle; }
 
-        #pw-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); display: none; 
-            justify-content: center; align-items: center; z-index: 1000;
-        }
+        #pw-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; }
         .pw-box { background: white; padding: 30px; border-radius: 12px; text-align: center; width: 80%; max-width: 300px; }
 
-        /* MOBILE RESPONSIVE OVERRIDES */
         @media (max-width: 1024px) {
             body { overflow-y: auto; height: auto; min-height: 100dvh; }
             main { flex-direction: column; overflow: visible; padding-bottom: 120px; height: auto; }
@@ -99,7 +65,7 @@
         }
 
         .highlighted { border-radius: 6px; padding: 4px 0; cursor: pointer; }
-        .pending-selection { outline: 2px solid #999; outline-offset: 2px; background-color: rgba(0, 0, 0, 0.05); }
+        .pending-selection { outline: 2px solid var(--accent); outline-offset: 2px; background-color: rgba(52, 152, 219, 0.1); }
         .code-badge { padding: 8px; margin-bottom: 6px; border-radius: 6px; font-size: 0.8rem; border-left: 4px solid rgba(0,0,0,0.3); }
         .hidden { display: none !important; }
         .student-select { flex: 1; max-width: 250px; padding: 10px; border-radius: 4px; border: 1px solid #ddd; }
@@ -121,7 +87,6 @@
         <button class="btn btn-script active" id="btn-s1" onclick="loadScript(1)">1. AI in Education</button>
         <button class="btn btn-script" id="btn-s2" onclick="loadScript(2)">2. English Anxiety</button>
     </div>
-    
     <div class="nav-group">
         <button id="btn-student-mode" class="btn btn-mode active" onclick="setMode('student')">STUDENT</button>
         <button id="btn-teacher-mode" class="btn btn-mode" onclick="setMode('teacher')">TEACHER</button>
@@ -136,7 +101,7 @@
                 <select id="select-left" class="student-select hidden" onchange="applyReview(1)"></select>
             </div>
             <div id="student-instructions" style="padding: 12px 20px; background: #e3f2fd; border-bottom: 1px solid #bbdefb; font-size: 0.9rem; color: #0d47a1;">
-                <strong>Instructions:</strong> Highlight text, type a code below, and press <strong>Enter</strong>.
+                <strong>Instructions:</strong> Highlight text, then type your code in the dark bar below.
             </div>
             <div id="t1" class="content-area"></div>
             <div id="summary-1" class="summary-box hidden">
@@ -164,13 +129,11 @@
         <div class="sidebar-panel" id="codes-panel">
             <h4 id="codebook-title" style="margin:0">Active Codes</h4>
             <div id="code-list" style="max-height: 250px; overflow-y: auto; margin: 10px 0;"></div>
-            
             <div id="export-section">
                 <input type="text" id="student-name" class="btn" style="width:100%; background:#eee; margin-bottom:10px; text-align:left; box-sizing: border-box;" placeholder="Enter Your Full Name...">
                 <button id="submit-btn" class="btn" style="width:100%; background:var(--success); color:white;" onclick="submitToCloud()">Submit to Google Sheet</button>
             </div>
         </div>
-        
         <div class="sidebar-panel hidden" id="teacher-tools">
             <h4 style="margin:0 0 10px 0">Teacher Cloud Review</h4>
             <button class="btn" id="refresh-btn" style="width:100%; background:var(--accent); color:white;" onclick="syncFromCloud()">Refresh Submissions</button>
@@ -186,17 +149,19 @@
 </div>
 
 <script>
-    // --- CONFIGURATION ---
-    const API_URL = "https://script.google.com/macros/s/AKfycbzEo0HjKylsTZ4jpcbBfIP3c_sPODpezIm1js7mH5hd_sWRtEcV4Vqgjb7umirx9wPv/exec";
+    const API_URL = "PASTE_YOUR_GOOGLE_WEB_APP_URL_HERE";
 
     const scripts = {
         1: `<div class="p-block"><span class="speaker">Interviewer:</span> How are you actually using AI tools like ChatGPT in your daily study routine?</div><div class="p-block"><span class="speaker">Student A:</span> It’s become a bit of a co-pilot, honestly. I don’t use it to write my essays—the professors are really strict about that—but I use it to break down complex readings. Like, if I have a 40-page journal article, I’ll ask it to explain the core methodology in simple terms. It saves me hours of staring at jargon.</div><div class="p-block"><span class="speaker">Student B:</span> I’m a bit more cautious. I feel like if I use it too much, I’m losing my ability to think for myself. I used it last week to generate a coding script for my stats class, and it worked, but I realized I didn't actually understand why the code worked. It felt like "cheating" my own brain out of a learning moment.</div><div class="p-block"><span class="speaker">Student A:</span> That's fair, but look at the pressure we're under. The workload hasn't decreased, but now we have this tool that can speed up the "grunt work." If I can use AI to organize my bibliography or suggest an outline, why wouldn't I? It's not about being lazy; it's about efficiency. I think the university is lagging behind the reality of how we work now.</div><div class="p-block"><span class="speaker">Student B:</span> Maybe, but I worry about the equity side too. Some of my friends pay for the "Plus" versions that are much smarter. If your grade depends on how good your "AI assistant" is, that's not really a level playing field, is it?</div>`,
-        2: `<div class="p-block"><span class="speaker">Moderator:</span> Let's talk about the experience of speaking English during the live seminars. How does that feel for you?</div><div class="p-block"><span class="speaker">Participant 1:</span> For me, it’s the "waiting" that’s the worst. While other students are talking, I’m not really listening to them. I’m just rehearsing my own sentence over and over in my head. I’m terrified I'll use the wrong tense and everyone will realize I don’t belong in this masters program.</div><div class="p-block"><span class="speaker">Participant 2:</span> I totally get that. I find that I’m much more "quiet" in English than I am in my native language. Back home, I’m the one always making jokes and leading the debate. Here, I’m just the "silent guy" in the corner. It feels like my personality is being filtered through a very small straw. I just can't be myself.</div><div class="p-block"><span class="speaker">Participant 3:</span> It’s also the eye contact. When the tutor looks at me, my mind just goes completely blank. It’s like a physical wall goes up. Even if I know the answer, the words get stuck in my throat. I’m so focused on my pronunciation that I lose the actual thread of the academic argument we are having.</div><div class="p-block"><span class="speaker">Participant 1:</span> Exactly! And then the tutor moves on to the next person, and I feel this huge relief, but also this deep frustration that I stayed silent again.</div>`
+        2: `<div class="p-block"><span class="speaker">Moderator:</span> Let's talk about the experience of speaking English during the live seminars. How does that feel for you?</div><div class="p-block"><span class="speaker">Participant 1:</span> For me, it’s the "waiting" that’s the worst. While other students are talking, I’m not really listening to them. I’m just rehearsing my own sentence over and over in my head. I’m terrified I'll use the wrong tense and everyone will realize I don’t belong in this masters program.</div><div class="p-block"><span class="speaker">Participant 2:</span> I totally get that. I find that I’m much more "quiet" in English than I am in my native language. Back home, I’m the one always making jokes and leading the debate. Here, I’m just the "silent guy" in the corner. It feels like my personality is being filtered through a very small straw. I just can't be myself.</div><div class="p-block"><span class="speaker">Participant 3:</span> It’s also the eye contact. When the tutor looks at me, my mind just goes completely blank. It’s like a physical wall goes up. Even if I know the answer, the words get stuck in my throat. I’m so focused on my pronunciation that I lose the actual thread of the academic argument we are having.</div><div class="p-block"><span class="speaker">Participant 1:</span> Exactly! And then the tutor moves on to the next person, and I feel this huge relief, but also this frustration that I stayed silent again.</div>`
     };
 
     const colorPalette = ["hsla(200, 80%, 85%, 0.9)", "hsla(140, 75%, 85%, 0.9)", "hsla(340, 80%, 88%, 0.9)", "hsla(45, 90%, 85%, 0.9)", "hsla(280, 70%, 88%, 0.9)", "hsla(25, 85%, 85%, 0.9)", "hsla(180, 60%, 85%, 0.9)", "hsla(10, 80%, 88%, 0.9)", "hsla(60, 80%, 85%, 0.9)", "hsla(220, 70%, 88%, 0.9)"];
 
     let currentMode = 'student', isCompare = false, currentScript = 1, myCodes = [], codeColors = {}, paletteIndex = 0, submissions = {};
+    
+    // PERSISTENCE FIX: To store mobile selection
+    let savedSelectionRange = null;
 
     function setMode(mode) {
         if (mode === 'teacher') {
@@ -217,10 +182,7 @@
         }
     }
 
-    function closePwModal() {
-        document.getElementById('pw-modal').style.display = 'none';
-        document.getElementById('pw-input').value = '';
-    }
+    function closePwModal() { document.getElementById('pw-modal').style.display = 'none'; document.getElementById('pw-input').value = ''; }
 
     function executeSetMode(mode) {
         currentMode = mode;
@@ -229,16 +191,12 @@
         document.getElementById('teacher-tools').classList.toggle('hidden', mode === 'student');
         document.getElementById('coding-bar').classList.toggle('hidden', mode === 'teacher');
         document.getElementById('codes-panel').classList.toggle('hidden', mode === 'teacher');
-        document.getElementById('label-left').innerText = mode === 'teacher' ? "Transcript 1" : "Transcript";
-        
         document.getElementById('student-instructions').classList.toggle('hidden', mode === 'teacher');
         document.getElementById('summary-1').classList.toggle('hidden', mode === 'student');
-        
         if (mode === 'teacher') {
             document.getElementById('select-left').classList.remove('hidden');
         } else {
-            isCompare = false; 
-            document.getElementById('col-2').classList.add('hidden'); 
+            isCompare = false; document.getElementById('col-2').classList.add('hidden'); 
             document.getElementById('select-left').classList.add('hidden');
             document.getElementById('toggle-view-btn').innerText = "Split Screen View";
             resetWorkspaces();
@@ -246,10 +204,7 @@
     }
 
     function loadScript(num) {
-        currentScript = num; 
-        myCodes = []; 
-        codeColors = {}; 
-        paletteIndex = 0;
+        currentScript = num; myCodes = []; codeColors = {}; paletteIndex = 0;
         document.getElementById('btn-s1').classList.toggle('active', num === 1);
         document.getElementById('btn-s2').classList.toggle('active', num === 2);
         resetWorkspaces();
@@ -270,28 +225,45 @@
         document.getElementById('toggle-view-btn').innerText = isCompare ? "Single Transcript View" : "Split Screen View";
     }
 
-    document.getElementById('t1').addEventListener('mouseup', () => { if (currentMode === 'student') processSelection(); });
+    // --- SELECTION LOGIC (MOBILE & DESKTOP) ---
+
+    // Save selection whenever it changes
+    document.addEventListener('selectionchange', () => {
+        if (currentMode !== 'student') return;
+        const sel = window.getSelection();
+        if (sel.rangeCount > 0) {
+            const range = sel.getRangeAt(0);
+            // Only save if it's inside our transcript and has length
+            if (document.getElementById('t1').contains(range.commonAncestorContainer) && sel.toString().trim().length > 1) {
+                savedSelectionRange = range.cloneRange();
+                
+                // Visual feedback: briefly show a "pending" highlight
+                document.querySelectorAll('.pending-selection').forEach(p => p.replaceWith(p.innerText));
+                const span = document.createElement('span');
+                span.className = 'pending-selection';
+                try { 
+                   savedSelectionRange.surroundContents(span); 
+                   // Re-clone range because surroundContents destroys the original one
+                   const newSel = window.getSelection();
+                   if (newSel.rangeCount > 0) savedSelectionRange = newSel.getRangeAt(0).cloneRange();
+                } catch(e) { console.log("Cross-node selection detected."); }
+            }
+        }
+    });
 
     document.getElementById('code-input').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') applyManualCode();
     });
 
-    function processSelection() {
-        const sel = window.getSelection();
-        if (sel.rangeCount > 0 && sel.toString().trim().length > 2) {
-            document.querySelectorAll('.pending-selection').forEach(p => p.replaceWith(p.innerText));
-            const range = sel.getRangeAt(0);
-            const span = document.createElement('span');
-            span.className = 'pending-selection';
-            try { range.surroundContents(span); } catch(e) {}
-        }
-    }
-
     function applyManualCode() {
         const input = document.getElementById('code-input');
         const codeName = input.value.trim();
         const pending = document.querySelector('.pending-selection');
-        if (!codeName || !pending) return;
+        
+        if (!codeName || !pending) {
+            alert("Please select some text first!");
+            return;
+        }
 
         const id = "c" + Date.now();
         if (!codeColors[codeName]) { codeColors[codeName] = colorPalette[paletteIndex % colorPalette.length]; paletteIndex++; }
@@ -305,6 +277,7 @@
         myCodes.push({ id, code: codeName, text: pending.innerText, color });
         updateCodeList(myCodes);
         input.value = "";
+        savedSelectionRange = null; // Reset for next
         window.getSelection().removeAllRanges();
     }
 
@@ -316,95 +289,64 @@
         `).join('') || '<p style="color:#999; font-size:0.8rem;">No codes yet.</p>';
     }
 
-    // --- NEW FETCH API LOGIC ---
+    // --- API SYNC ---
 
     function syncFromCloud() {
         const btn = document.getElementById('refresh-btn');
         btn.innerText = "Fetching...";
-        
-        fetch(API_URL)
-            .then(res => res.json())
-            .then(allRows => {
-                submissions = {};
-                if (!allRows || allRows.length <= 1) { 
-                    btn.innerText = "Refresh Submissions"; 
-                    return; 
-                }
-                allRows.forEach((row, index) => {
-                    if (index === 0) return;
-                    const scriptId = parseInt(String(row[2]).replace(/\D/g, ''));
-                    submissions[`row-${index}`] = { 
-                        data: JSON.parse(row[3]), 
-                        label: `${row[1]} (Script ${scriptId})`,
-                        scriptId: scriptId 
-                    };
-                });
-                updateTeacherDropdowns();
-                btn.innerText = "Refresh Submissions";
-            })
-            .catch(err => {
-                console.error(err);
-                btn.innerText = "Error Fetching";
+        fetch(API_URL).then(res => res.json()).then(allRows => {
+            submissions = {};
+            if (!allRows || allRows.length <= 1) { btn.innerText = "Refresh Submissions"; return; }
+            allRows.forEach((row, index) => {
+                if (index === 0) return;
+                const scriptId = parseInt(String(row[2]).replace(/\D/g, ''));
+                submissions[`row-${index}`] = { data: JSON.parse(row[3]), label: `${row[1]} (Script ${scriptId})`, scriptId: scriptId };
             });
+            updateTeacherDropdowns();
+            btn.innerText = "Refresh Submissions";
+        }).catch(() => { btn.innerText = "Error Fetching"; });
     }
 
     function updateTeacherDropdowns() {
         const keys = Object.keys(submissions);
         const filteredKeys = keys.filter(k => submissions[k].scriptId == currentScript);
         const opts = `<option value="">Select Student...</option>` + filteredKeys.map(k => `<option value="${k}">${submissions[k].label}</option>`).join('');
-        document.getElementById('select-left').innerHTML = filteredKeys.length ? opts : '<option value="">No submissions for this script</option>';
-        document.getElementById('select-right').innerHTML = filteredKeys.length ? opts : '<option value="">No submissions for this script</option>';
+        document.getElementById('select-left').innerHTML = filteredKeys.length ? opts : '<option value="">No submissions</option>';
+        document.getElementById('select-right').innerHTML = filteredKeys.length ? opts : '<option value="">No submissions</option>';
     }
 
     function applyReview(side) {
         const key = document.getElementById(side === 1 ? 'select-left' : 'select-right').value;
         const target = document.getElementById(side === 1 ? 't1' : 't2');
         const summaryCont = document.getElementById(side === 1 ? 'summary-content-1' : 'summary-content-2');
-        
         target.innerHTML = scripts[currentScript];
         summaryCont.innerHTML = "";
         if (!key) return;
-
         const data = submissions[key].data;
         let html = target.innerHTML;
         const usedCodes = {};
-
         data.forEach(item => {
             const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const regex = new RegExp(`(${escaped})`, 'g');
-            
             const parts = item.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
             let darkColor = "rgba(0,0,0,0.8)";
             if(parts) darkColor = `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)`;
-            
             if(!usedCodes[item.code]) usedCodes[item.code] = { color: darkColor, count: 0 };
             usedCodes[item.code].count++;
-
             const label = `<span class="teacher-label" style="background:${darkColor}">${item.code}</span>`;
             html = html.replace(regex, `<span class="highlighted" style="background:${item.color}">$1${label}</span>`);
         });
-
         target.innerHTML = html;
-        summaryCont.innerHTML = Object.keys(usedCodes).map(code => 
-            `<span class="teacher-label" style="background:${usedCodes[code].color}; margin-right:8px; margin-bottom:8px;">${code} (${usedCodes[code].count})</span>`
-        ).join('') || '<em style="font-size:0.8rem; color:#999;">None</em>';
+        summaryCont.innerHTML = Object.keys(usedCodes).map(code => `<span class="teacher-label" style="background:${usedCodes[code].color}; margin-right:8px; margin-bottom:8px;">${code} (${usedCodes[code].count})</span>`).join('') || '<em style="font-size:0.8rem; color:#999;">None</em>';
     }
 
     function clearCloudData() {
         if(!confirm("⚠️ Delete ALL data?")) return;
         const btn = document.getElementById('clear-btn');
         btn.innerText = "Clearing...";
-
-        fetch(API_URL, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'clear' })
-        })
-        .then(() => {
-            alert("Cleared!");
-            btn.innerText = "Clear All Submissions";
-            submissions = {};
-            updateTeacherDropdowns();
-            resetWorkspaces();
+        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'clear' }) }).then(() => {
+            alert("Cleared!"); btn.innerText = "Clear All Submissions";
+            submissions = {}; updateTeacherDropdowns(); resetWorkspaces();
         });
     }
 
@@ -413,23 +355,8 @@
         if (!name || myCodes.length === 0) return;
         const btn = document.getElementById('submit-btn');
         btn.innerText = "Submitting...";
-
-        fetch(API_URL, {
-            method: 'POST',
-            body: JSON.stringify({
-                action: 'record',
-                name: name,
-                scriptId: currentScript,
-                data: JSON.stringify(myCodes)
-            })
-        })
-        .then(() => {
-            btn.innerText = "Submitted!";
-            btn.style.background = "#27ae60";
-        })
-        .catch(err => {
-            btn.innerText = "Error";
-            console.error(err);
+        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name: name, scriptId: currentScript, data: JSON.stringify(myCodes) }) }).then(() => {
+            btn.innerText = "Submitted!"; btn.style.background = "#27ae60";
         });
     }
 
