@@ -152,8 +152,7 @@
                 <span id="label-left">Transcript</span>
                 <select id="select-left" class="student-select hidden" onchange="applyReview(1)"></select>
             </div>
-            <div id="student-instructions" style="padding: 14px 20px; background: #eff6ff; border-bottom: 1px solid #dbeafe; font-size: 0.85rem; color: #1e40af; line-height: 1.5;">
-            </div>
+            <div id="student-instructions" style="padding: 14px 20px; background: #eff6ff; border-bottom: 1px solid #dbeafe; font-size: 0.85rem; color: #1e40af; line-height: 1.5;"></div>
             <div id="t1" class="content-area"></div>
             <div id="summary-1" class="summary-box hidden">
                 <p class="summary-title">Summary Codebook</p>
@@ -188,10 +187,13 @@
         <div class="sidebar-panel hidden" id="teacher-tools">
             <h4>Cloud Management</h4>
             <button class="btn" id="refresh-btn" style="width:100%; background:var(--accent); color:white; border:none" onclick="syncFromCloud()">Sync Submissions</button>
-            <button class="btn" style="width:100%; margin-top:10px;" onclick="window.open('https://docs.google.com/spreadsheets/d/1UJvmEBQoLJjgzziL0bzkcw8vI0HH-wLKgvmqnvMay9k/edit?gid=0#gid=0', '_blank')">View Spreadsheet</button>
-            <button class="btn" style="width:100%; margin-top:10px;" onclick="window.open('https://script.google.com/home/projects/1wzmRrw2nlybvzgUc4dXeQ5-KBJYLARM907_CcK3z8Qdnl1A17GFEhVtt/edit', '_blank')">View Backend Script</button>
             <button class="btn" id="toggle-view-btn" style="width:100%; margin-top:10px; color:#475569" onclick="toggleCompareMode()">Split Screen</button>
             <button class="btn" id="clear-btn" style="width:100%; margin-top:10px; color:var(--danger); border-color:rgba(239, 68, 68, 0.2)" onclick="clearCloudData()">Purge All Data</button>
+        </div>
+        <div class="sidebar-panel hidden" id="teacher-links">
+            <h4>External Resources</h4>
+            <a href="https://docs.google.com/spreadsheets/d/1UJvmEBQoLJjgzziL0bzkcw8vI0HH-wLKgvmqnvMay9k/edit?gid=0#gid=0" target="_blank" class="btn" style="width:100%; display:block; text-align:center; text-decoration:none; margin-bottom:10px; color:#475569">Open Spreadsheet</a>
+            <a href="https://script.google.com/home/projects/1wzmRrw2nlybvzgUc4dXeQ5-KBJYLARM907_CcK3z8Qdnl1A17GFEhVtt/edit" target="_blank" class="btn" style="width:100%; display:block; text-align:center; text-decoration:none; color:#475569">Open Script Editor</a>
         </div>
         <div class="copyright">Southampton Education School 2026</div>
     </div>
@@ -242,6 +244,7 @@
         document.getElementById('btn-student-mode').classList.toggle('active', mode === 'student');
         document.getElementById('btn-teacher-mode').classList.toggle('active', mode === 'teacher');
         document.getElementById('teacher-tools').classList.toggle('hidden', mode === 'student');
+        document.getElementById('teacher-links').classList.toggle('hidden', mode === 'student');
         document.getElementById('coding-bar').classList.toggle('hidden', mode === 'teacher');
         document.getElementById('codes-panel').classList.toggle('hidden', mode === 'teacher');
         document.getElementById('student-instructions').classList.toggle('hidden', mode === 'teacher');
@@ -279,7 +282,6 @@
         document.getElementById('toggle-view-btn').innerText = isCompare ? "Single View" : "Split Screen";
     }
 
-    // --- SMOOTH SELECTION LOGIC ---
     document.getElementById('t1').addEventListener('touchend', handleSelectionEnd);
     document.getElementById('t1').addEventListener('mouseup', handleSelectionEnd);
 
