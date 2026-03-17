@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Qualitative Coding Suite</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%233498db'/><path d='M30 30h20l20 20-20 20-20-20V30z' fill='white'/><circle cx='40' cy='40' r='5' fill='%233498db'/></svg>">
-    
     <style>
         :root { --bg: #f8f9fa; --primary: #2c3e50; --accent: #3498db; --success: #27ae60; --teacher-color: #8e44ad; --danger: #e74c3c; }
         
@@ -103,7 +102,7 @@
                 <select id="select-left" class="student-select hidden" onchange="applyReview(1)"></select>
             </div>
             <div id="student-instructions" style="padding: 12px 20px; background: #e3f2fd; border-bottom: 1px solid #bbdefb; font-size: 0.9rem; color: #0d47a1;">
-                <strong>Instructions:</strong> Highlight text, then type your code in the dark bar below.
+                This transcript explores student experiences with technology and learning. <strong>To Code:</strong> Highlight a segment of text, type your label in the bar at the bottom, and press <strong>Enter</strong>.
             </div>
             <div id="t1" class="content-area"></div>
             <div id="summary-1" class="summary-box hidden">
@@ -133,7 +132,7 @@
             <div id="code-list" style="max-height: 250px; overflow-y: auto; margin: 10px 0;"></div>
             <div id="export-section">
                 <input type="text" id="student-name" class="btn" style="width:100%; background:#eee; margin-bottom:10px; text-align:left; box-sizing: border-box;" placeholder="Enter Your Full Name...">
-                <button id="submit-btn" class="btn" style="width:100%; background:var(--success); color:white;" onclick="submitToCloud()">Submit to Google Sheet</button>
+                <button id="submit-btn" class="btn" style="width:100%; background:var(--success); color:white;" onclick="submitToCloud()">Submit</button>
             </div>
         </div>
         <div class="sidebar-panel hidden" id="teacher-tools">
@@ -152,7 +151,7 @@
 
 <script>
     // --- API CONFIGURATION ---
-    const API_URL = "https://script.google.com/macros/s/AKfycbzEo0HjKylsTZ4jpcbBfIP3c_sPODpezIm1js7mH5hd_sWRtEcV4Vqgjb7umirx9wPv/exec";
+    const API_URL = "PASTE_YOUR_GOOGLE_WEB_APP_URL_HERE";
 
     const scripts = {
         1: `<div class="p-block"><span class="speaker">Interviewer:</span> How are you actually using AI tools like ChatGPT in your daily study routine?</div><div class="p-block"><span class="speaker">Student A:</span> It’s become a bit of a co-pilot, honestly. I don’t use it to write my essays—the professors are really strict about that—but I use it to break down complex readings. Like, if I have a 40-page journal article, I’ll ask it to explain the core methodology in simple terms. It saves me hours of staring at jargon.</div><div class="p-block"><span class="speaker">Student B:</span> I’m a bit more cautious. I feel like if I use it too much, I’m losing my ability to think for myself. I used it last week to generate a coding script for my stats class, and it worked, but I realized I didn't actually understand why the code worked. It felt like "cheating" my own brain out of a learning moment.</div><div class="p-block"><span class="speaker">Student A:</span> That's fair, but look at the pressure we're under. The workload hasn't decreased, but now we have this tool that can speed up the "grunt work." If I can use AI to organize my bibliography or suggest an outline, why wouldn't I? It's not about being lazy; it's about efficiency. I think the university is lagging behind the reality of how we work now.</div><div class="p-block"><span class="speaker">Student B:</span> Maybe, but I worry about the equity side too. Some of my friends pay for the "Plus" versions that are much smarter. If your grade depends on how good your "AI assistant" is, that's not really a level playing field, is it?</div>`,
