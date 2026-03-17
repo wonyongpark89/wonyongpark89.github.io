@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Qualitative Coding Suite</title>
+    <title>Qualitative Coding Workbook</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><path d='M30 30h20l20 20-20 20-20-20V30z' fill='white'/><circle cx='40' cy='40' r='5' fill='%234f46e5'/></svg>">
     
     <style>
@@ -84,7 +84,7 @@
             padding: 24px; 
             overflow-y: auto; 
             flex: 1; 
-            line-height: 3.2; /* Sufficient height for labels */
+            line-height: 3.5; /* Sufficient height for larger labels */
             font-size: 1.05rem; 
             color: #1e293b;
             -webkit-overflow-scrolling: touch; 
@@ -107,7 +107,7 @@
         #code-input:focus { outline: none; border-color: var(--accent); background: #475569; }
         #apply-btn { background: var(--accent); color: white; padding: 14px 28px; font-size: 0.95rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
 
-        /* --- STABLE HIGHLIGHTS & LABELS --- */
+        /* --- HIGHLIGHTS & LABELS --- */
         .highlighted { 
             display: inline; 
             padding: 0.2em 0; 
@@ -118,15 +118,15 @@
         }
 
         .teacher-label { 
-            font-size: 0.6rem; 
+            font-size: 0.75rem; /* Increased size */
             font-weight: 800; 
             text-transform: uppercase; 
-            padding: 2px 4px; 
+            padding: 2px 6px; 
             border-radius: 3px; 
             color: white; 
             display: inline-block;
-            line-height: 1;
-            margin-left: 4px;
+            line-height: 1.2;
+            margin-left: 6px;
             vertical-align: middle;
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
             pointer-events: none;
@@ -145,7 +145,7 @@
         @media print {
             header, #sidebar, #coding-bar, .btn, .student-select, #student-instructions { display: none !important; }
             body, main { background: white; height: auto; overflow: visible; display: block; padding: 0; margin: 0; }
-            .content-area { overflow: visible; height: auto; line-height: 3.5; }
+            .content-area { overflow: visible; height: auto; line-height: 4.0; }
             .highlighted { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .teacher-label { -webkit-print-color-adjust: exact; print-color-adjust: exact; border: 1px solid #999; color: white !important; background-color: #333 !important; }
         }
@@ -356,10 +356,7 @@
         let html = scripts[num];
         const summaryCont = document.getElementById('summary-content-1');
         const usedCodes = {};
-        
-        // Sorting longest to shortest prevents partial matches breaking tags
         const sortedData = [...data].sort((a,b) => b.text.length - a.text.length);
-
         sortedData.forEach(item => {
             const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const regex = new RegExp(`(${escaped})`, 'g');
@@ -432,7 +429,6 @@
         const codeName = input.value.trim();
         const pending = document.querySelector('.pending-selection');
         if (!codeName || !pending) return;
-        
         const id = "c" + Date.now();
         if (!codeColors[codeName]) { 
             codeColors[codeName] = colorPalette[paletteIndex % colorPalette.length]; 
@@ -441,13 +437,11 @@
         const color = codeColors[codeName];
         const parts = color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
         let darkColor = `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)`;
-        
         const originalText = pending.innerText;
         pending.className = 'highlighted';
         pending.style.backgroundColor = color;
         pending.dataset.id = id;
         pending.innerHTML = `${originalText}<span class="teacher-label" style="background:${darkColor}">${codeName}</span>`;
-        
         myCodes.push({ id, code: codeName, text: originalText, color });
         updateCodeList(myCodes);
         input.value = "";
@@ -457,7 +451,6 @@
     function removeCode(id) {
         const el = document.querySelector(`[data-id="${id}"]`);
         if (el) {
-            // Find just the text node part to restore
             const textNode = document.createTextNode(el.childNodes[0].textContent);
             el.replaceWith(textNode);
         }
@@ -503,9 +496,7 @@
         const data = submissions[key].data;
         let html = target.innerHTML;
         const usedCodes = {};
-        
         const sortedData = [...data].sort((a,b) => b.text.length - a.text.length);
-
         sortedData.forEach(item => {
             const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const regex = new RegExp(`(${escaped})`, 'g');
