@@ -149,6 +149,7 @@
 </div>
 
 <script>
+    // --- API CONFIGURATION ---
     const API_URL = "PASTE_YOUR_GOOGLE_WEB_APP_URL_HERE";
 
     const scripts = {
@@ -159,8 +160,6 @@
     const colorPalette = ["hsla(200, 80%, 85%, 0.9)", "hsla(140, 75%, 85%, 0.9)", "hsla(340, 80%, 88%, 0.9)", "hsla(45, 90%, 85%, 0.9)", "hsla(280, 70%, 88%, 0.9)", "hsla(25, 85%, 85%, 0.9)", "hsla(180, 60%, 85%, 0.9)", "hsla(10, 80%, 88%, 0.9)", "hsla(60, 80%, 85%, 0.9)", "hsla(220, 70%, 88%, 0.9)"];
 
     let currentMode = 'student', isCompare = false, currentScript = 1, myCodes = [], codeColors = {}, paletteIndex = 0, submissions = {};
-    
-    // PERSISTENCE FIX: To store mobile selection
     let savedSelectionRange = null;
 
     function setMode(mode) {
@@ -177,9 +176,7 @@
             document.getElementById('pw-modal').style.display = 'none';
             document.getElementById('pw-input').value = '';
             executeSetMode('teacher');
-        } else {
-            alert("Incorrect Password.");
-        }
+        } else { alert("Incorrect Password."); }
     }
 
     function closePwModal() { document.getElementById('pw-modal').style.display = 'none'; document.getElementById('pw-input').value = ''; }
@@ -225,60 +222,60 @@
         document.getElementById('toggle-view-btn').innerText = isCompare ? "Single Transcript View" : "Split Screen View";
     }
 
-    // --- SELECTION LOGIC (MOBILE & DESKTOP) ---
+    // --- SMOOTH SELECTION LOGIC ---
+    document.getElementById('t1').addEventListener('touchend', handleSelectionEnd);
+    document.getElementById('t1').addEventListener('mouseup', handleSelectionEnd);
 
-    // Save selection whenever it changes
-    document.addEventListener('selectionchange', () => {
-        if (currentMode !== 'student') return;
-        const sel = window.getSelection();
-        if (sel.rangeCount > 0) {
-            const range = sel.getRangeAt(0);
-            // Only save if it's inside our transcript and has length
-            if (document.getElementById('t1').contains(range.commonAncestorContainer) && sel.toString().trim().length > 1) {
-                savedSelectionRange = range.cloneRange();
-                
-                // Visual feedback: briefly show a "pending" highlight
-                document.querySelectorAll('.pending-selection').forEach(p => p.replaceWith(p.innerText));
-                const span = document.createElement('span');
-                span.className = 'pending-selection';
-                try { 
-                   savedSelectionRange.surroundContents(span); 
-                   // Re-clone range because surroundContents destroys the original one
-                   const newSel = window.getSelection();
-                   if (newSel.rangeCount > 0) savedSelectionRange = newSel.getRangeAt(0).cloneRange();
-                } catch(e) { console.log("Cross-node selection detected."); }
+    function handleSelectionEnd() {
+        setTimeout(() => {
+            const sel = window.getSelection();
+            if (sel.rangeCount > 0 && sel.toString().trim().length > 2) {
+                const range = sel.getRangeAt(0);
+                if (document.getElementById('t1').contains(range.commonAncestorContainer)) {
+                    clearPendingHighlights();
+                    savedSelectionRange = range.cloneRange();
+                    const span = document.createElement('span');
+                    span.className = 'pending-selection';
+                    try {
+                        range.surroundContents(span);
+                        document.getElementById('code-input').focus();
+                    } catch (e) {
+                        const contents = range.extractContents();
+                        span.appendChild(contents);
+                        range.insertNode(span);
+                    }
+                    sel.removeAllRanges();
+                }
             }
-        }
-    });
+        }, 50);
+    }
 
-    document.getElementById('code-input').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') applyManualCode();
-    });
+    function clearPendingHighlights() {
+        document.querySelectorAll('.pending-selection').forEach(p => {
+            const parent = p.parentNode;
+            while(p.firstChild) parent.insertBefore(p.firstChild, p);
+            parent.removeChild(p);
+        });
+    }
+
+    document.getElementById('code-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') applyManualCode(); });
 
     function applyManualCode() {
         const input = document.getElementById('code-input');
         const codeName = input.value.trim();
         const pending = document.querySelector('.pending-selection');
-        
-        if (!codeName || !pending) {
-            alert("Please select some text first!");
-            return;
-        }
-
+        if (!codeName || !pending) { alert("Please select some text first!"); return; }
         const id = "c" + Date.now();
         if (!codeColors[codeName]) { codeColors[codeName] = colorPalette[paletteIndex % colorPalette.length]; paletteIndex++; }
         const color = codeColors[codeName];
-        
         pending.className = 'highlighted';
         pending.style.backgroundColor = color;
         pending.dataset.id = id;
         pending.dataset.code = codeName;
-        
         myCodes.push({ id, code: codeName, text: pending.innerText, color });
         updateCodeList(myCodes);
         input.value = "";
-        savedSelectionRange = null; // Reset for next
-        window.getSelection().removeAllRanges();
+        input.blur();
     }
 
     function updateCodeList(data) {
@@ -289,8 +286,7 @@
         `).join('') || '<p style="color:#999; font-size:0.8rem;">No codes yet.</p>';
     }
 
-    // --- API SYNC ---
-
+    // --- BACKEND API ---
     function syncFromCloud() {
         const btn = document.getElementById('refresh-btn');
         btn.innerText = "Fetching...";
