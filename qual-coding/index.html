@@ -41,22 +41,24 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
-        .nav-group { display: flex; gap: 10px; align-items: center; }
+        .nav-group { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
         
         .btn { 
             border: 1px solid var(--border); 
-            padding: 8px 16px; 
+            padding: 8px 14px; 
             border-radius: 6px; 
             cursor: pointer; 
             font-weight: 500; 
             transition: all 0.2s; 
-            font-size: 0.85rem; 
+            font-size: 0.8rem; 
             background: white;
             color: #64748b;
+            white-space: nowrap;
         }
         
         .btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
         .btn-script.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2); }
+        .btn-sample { border-style: dashed; }
         
         .btn-mode { font-weight: 700; letter-spacing: 0.05em; }
         #btn-student-mode.active { background: var(--success); color: white; border-color: var(--success); }
@@ -78,7 +80,7 @@
         
         .card-header { padding: 12px 20px; background: #f8fafc; border-bottom: 1px solid var(--border); font-weight: 600; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; }
         
-        .content-area { padding: 24px; overflow-y: auto; flex: 1; line-height: 2; font-size: 1.05rem; color: #1e293b; -webkit-overflow-scrolling: touch; }
+        .content-area { padding: 24px; overflow-y: auto; flex: 1; line-height: 2.2; font-size: 1.05rem; color: #1e293b; -webkit-overflow-scrolling: touch; }
         .p-block { margin-bottom: 24px; border-left: 2px solid #f1f5f9; padding-left: 18px; }
         .speaker { font-weight: 700; color: #94a3b8; font-size: 0.75rem; text-transform: uppercase; display: block; margin-bottom: 4px; }
 
@@ -96,9 +98,9 @@
         #code-input:focus { outline: none; border-color: var(--accent); background: #475569; }
         #apply-btn { background: var(--accent); color: white; padding: 14px 28px; font-size: 0.95rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
 
-        .teacher-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-left: 6px; display: inline-block; line-height: 1.4; color: white; box-shadow: 0 1px 2px rgba(0,0,0,0.1); vertical-align: middle; }
+        .teacher-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; margin-left: 4px; display: inline-block; line-height: 1.4; color: white; box-shadow: 0 1px 2px rgba(0,0,0,0.1); vertical-align: middle; }
 
-        .highlighted { border-radius: 4px; padding: 2px 0; transition: background 0.3s; }
+        .highlighted { border-radius: 4px; padding: 2px 0; }
         .pending-selection { background-color: rgba(79, 70, 229, 0.1); border-bottom: 2px dashed var(--accent); }
         
         .code-badge { padding: 10px; margin-bottom: 8px; border-radius: 8px; font-size: 0.8rem; border: 1px solid rgba(0,0,0,0.05); border-left: 4px solid var(--accent); background: #f8fafc; }
@@ -136,8 +138,11 @@
 
 <header>
     <div class="nav-group">
-        <button class="btn btn-script active" id="btn-s1" onclick="loadScript(1)">1. AI in Education</button>
-        <button class="btn btn-script" id="btn-s2" onclick="loadScript(2)">2. English Anxiety</button>
+        <button class="btn btn-script active" id="btn-s1" onclick="loadScript(1)">1. AI in Ed</button>
+        <button class="btn btn-script" id="btn-s2" onclick="loadScript(2)">2. Language</button>
+        <button class="btn btn-script btn-sample" id="btn-s3" onclick="loadScript(3)">Sample: Versus</button>
+        <button class="btn btn-script btn-sample" id="btn-s4" onclick="loadScript(4)">Sample: Emotion</button>
+        <button class="btn btn-script btn-sample" id="btn-s5" onclick="loadScript(5)">Sample: In Vivo</button>
     </div>
     <div class="nav-group">
         <button id="btn-student-mode" class="btn btn-mode active" onclick="setMode('student')">STUDENT</button>
@@ -209,12 +214,24 @@
 
     const scripts = {
         1: `<div class="p-block"><span class="speaker">Interviewer:</span> How are you actually using AI tools like ChatGPT in your daily study routine?</div><div class="p-block"><span class="speaker">Student A:</span> It’s become a bit of a co-pilot, honestly. I don’t use it to write my essays—the professors are really strict about that—but I use it to break down complex readings. Like, if I have a 40-page journal article, I’ll ask it to explain the core methodology in simple terms. It saves me hours of staring at jargon.</div><div class="p-block"><span class="speaker">Student B:</span> I’m a bit more cautious. I feel like if I use it too much, I’m losing my ability to think for myself. I used it last week to generate a coding script for my stats class, and it worked, but I realized I didn't actually understand why the code worked. It felt like "cheating" my own brain out of a learning moment.</div><div class="p-block"><span class="speaker">Student A:</span> That's fair, but look at the pressure we're under. The workload hasn't decreased, but now we have this tool that can speed up the "grunt work." If I can use AI to organize my bibliography or suggest an outline, why wouldn't I? It's not about being lazy; it's about efficiency. I think the university is lagging behind the reality of how we work now.</div><div class="p-block"><span class="speaker">Student B:</span> Maybe, but I worry about the equity side too. Some of my friends pay for the "Plus" versions that are much smarter. If your grade depends on how good your "AI assistant" is, that's not really a level playing field, is it?</div>`,
-        2: `<div class="p-block"><span class="speaker">Moderator:</span> Let's talk about the experience of speaking English during the live seminars. How does that feel for you?</div><div class="p-block"><span class="speaker">Participant 1:</span> For me, it’s the "waiting" that’s the worst. While other students are talking, I’m not really listening to them. I’m just rehearsing my own sentence over and over in my head. I’m terrified I'll use the wrong tense and everyone will realize I don’t belong in this masters program.</div><div class="p-block"><span class="speaker">Participant 2:</span> I totally get that. I find that I’m much more "quiet" in English than I am in my native language. Back home, I’m the one always making jokes and leading the debate. Here, I’m just the "silent guy" in the corner. It feels like my personality is being filtered through a very small straw. I just can't be myself.</div><div class="p-block"><span class="speaker">Participant 3:</span> It’s also the eye contact. When the tutor looks at me, my mind just goes completely blank. It’s like a physical wall goes up. Even if I know the answer, the words get stuck in my throat. I’m so focused on my pronunciation that I lose the actual thread of the academic argument we are having.</div><div class="p-block"><span class="speaker">Participant 1:</span> Exactly! And then the tutor moves on to the next person, and I feel this huge relief, but also this frustration that I stayed silent again.</div>`
+        2: `<div class="p-block"><span class="speaker">Moderator:</span> Let's talk about the experience of speaking English during the live seminars. How does that feel for you?</div><div class="p-block"><span class="speaker">Participant 1:</span> For me, it’s the "waiting" that’s the worst. While other students are talking, I’m not really listening to them. I’m just rehearsing my own sentence over and over in my head. I’m terrified I'll use the wrong tense and everyone will realize I don’t belong in this masters program.</div><div class="p-block"><span class="speaker">Participant 2:</span> I totally get that. I find that I’m much more "quiet" in English than I am in my native language. Back home, I’m the one always making jokes and leading the debate. Here, I’m just the "silent guy" in the corner. It feels like my personality is being filtered through a very small straw. I just can't be myself.</div><div class="p-block"><span class="speaker">Participant 3:</span> It’s also the eye contact. When the tutor looks at me, my mind just goes completely blank. It’s like a physical wall goes up. Even if I know the answer, the words get stuck in my throat. I’m so focused on my pronunciation that I lose the actual thread of the academic argument we are having.</div><div class="p-block"><span class="speaker">Participant 1:</span> Exactly! And then the tutor moves on to the next person, and I feel this huge relief, but also this frustration that I stayed silent again.</div>`,
+        3: `<div class="p-block"><span class="speaker">Interviewer:</span> What are your thoughts on the new AI-based exam proctoring systems?</div><div class="p-block"><span class="speaker">Student C:</span> I understand the university wants to prevent cheating, but having a camera track my eye movements feels like a complete invasion of my space. I’m in my bedroom, yet I feel like a prisoner. It's a choice between my privacy and my degree.</div><div class="p-block"><span class="speaker">Student D:</span> I see it differently. I've worked hard for my grades, and if someone can just look up answers on their phone, it devalues my degree. I’d rather have the intrusion if it means the results are actually fair. For me, the security of the system is more important than the temporary discomfort of being watched.</div>`,
+        4: `<div class="p-block"><span class="speaker">Interviewer:</span> Can you describe the moment you finished your PhD defense?</div><div class="p-block"><span class="speaker">Candidate:</span> When the door closed for the examiners to deliberate, my heart was literally hammering against my ribs. I felt sick with dread. I kept thinking about that one question on Chapter 4 I fumbled. But when they called me back in and said "Congratulations, Doctor," it wasn't just happiness—it was this massive wave of exhaustion and relief. I just wanted to sit on the floor and cry. I felt so proud, but also completely hollowed out.</div>`,
+        5: `<div class="p-block"><span class="speaker">Moderator:</span> How do you deal with the final weeks of the semester?</div><div class="p-block"><span class="speaker">Student E:</span> Honestly? I’m just "running on fumes" at this point. I spend ten hours a day in the library, but half of that is just "brain fog." You see everyone around you "hitting a wall," but you can't stop. It’s like this "hustle loop" where if you aren't visible in the library by 8 AM, you’ve already failed the day. I’m "clocking in" just to feel like I’m still in the game.</div>`
     };
 
     const scriptInstructions = {
-        1: "This transcript explores student experiences with AI tools in higher education. <strong>To Code:</strong> Highlight a segment of text, type your label below, and press <strong>Enter</strong>.",
-        2: "This transcript explores the psychological impact of language anxiety in academic seminars. <strong>To Code:</strong> Highlight a segment of text, type your label below, and press <strong>Enter</strong>."
+        1: "Explore student experiences with AI tools. <strong>To Code:</strong> Highlight text, type a label below, and press <strong>Enter</strong>.",
+        2: "Explore language anxiety in academic seminars. <strong>To Code:</strong> Highlight text, type a label below, and press <strong>Enter</strong>.",
+        3: "<strong>SAMPLE (Versus Coding):</strong> This technique identifies binary conflicts or tensions (e.g., Security vs. Privacy). Observe how the text is coded below.",
+        4: "<strong>SAMPLE (Emotion Coding):</strong> This technique labels the feelings and intrapersonal experiences of the participant. Observe how the text is coded below.",
+        5: "<strong>SAMPLE (In Vivo Coding):</strong> This technique uses the participant's exact words as the codes. Observe how the text is coded below."
+    };
+
+    const sampleData = {
+        3: [{"id":"v1","code":"Privacy vs. Degree","text":"choice between my privacy and my degree","color":"hsla(340, 80%, 88%, 0.9)"},{"id":"v2","code":"Security vs. Discomfort","text":"security of the system is more important than the temporary discomfort","color":"hsla(200, 80%, 85%, 0.9)"}],
+        4: [{"id":"e1","code":"Dread","text":"sick with dread","color":"hsla(10, 80%, 88%, 0.9)"},{"id":"e2","code":"Relief","text":"massive wave of exhaustion and relief","color":"hsla(140, 75%, 85%, 0.9)"},{"id":"e3","code":"Pride","text":"felt so proud","color":"hsla(45, 90%, 85%, 0.9)"}],
+        5: [{"id":"i1","code":"\"Running on fumes\"","text":"running on fumes","color":"hsla(280, 70%, 88%, 0.9)"},{"id":"i2","code":"\"Brain fog\"","text":"brain fog","color":"hsla(220, 70%, 88%, 0.9)"},{"id":"i3","code":"\"Hitting a wall\"","text":"hitting a wall","color":"hsla(180, 60%, 85%, 0.9)"}]
     };
 
     const colorPalette = ["hsla(200, 80%, 85%, 0.9)", "hsla(140, 75%, 85%, 0.9)", "hsla(340, 80%, 88%, 0.9)", "hsla(45, 90%, 85%, 0.9)", "hsla(280, 70%, 88%, 0.9)", "hsla(25, 85%, 85%, 0.9)", "hsla(180, 60%, 85%, 0.9)", "hsla(10, 80%, 88%, 0.9)", "hsla(60, 80%, 85%, 0.9)", "hsla(220, 70%, 88%, 0.9)"];
@@ -245,8 +262,13 @@
         document.getElementById('btn-teacher-mode').classList.toggle('active', mode === 'teacher');
         document.getElementById('teacher-tools').classList.toggle('hidden', mode === 'student');
         document.getElementById('teacher-links').classList.toggle('hidden', mode === 'student');
-        document.getElementById('coding-bar').classList.toggle('hidden', mode === 'teacher');
+        
+        // Samples logic
+        const isSample = currentScript > 2;
+        document.getElementById('coding-bar').classList.toggle('hidden', mode === 'teacher' || isSample);
         document.getElementById('codes-panel').classList.toggle('hidden', mode === 'teacher');
+        document.getElementById('export-section').classList.toggle('hidden', isSample);
+
         document.getElementById('student-instructions').classList.toggle('hidden', mode === 'teacher');
         document.getElementById('summary-1').classList.toggle('hidden', mode === 'student');
         if (mode === 'teacher') {
@@ -261,11 +283,52 @@
 
     function loadScript(num) {
         currentScript = num; myCodes = []; codeColors = {}; paletteIndex = 0;
-        document.getElementById('btn-s1').classList.toggle('active', num === 1);
-        document.getElementById('btn-s2').classList.toggle('active', num === 2);
+        document.querySelectorAll('.btn-script').forEach((b, i) => b.classList.toggle('active', i+1 === num));
         document.getElementById('student-instructions').innerHTML = scriptInstructions[num];
+        
+        const isSample = num > 2;
+        document.getElementById('coding-bar').classList.toggle('hidden', currentMode === 'teacher' || isSample);
+        document.getElementById('export-section').classList.toggle('hidden', isSample);
+
         resetWorkspaces();
+
+        if (isSample) {
+            renderSample(num);
+        }
+
         if (currentMode === 'teacher') updateTeacherDropdowns();
+    }
+
+    function renderSample(num) {
+        const data = sampleData[num];
+        const target = document.getElementById('t1');
+        let html = scripts[num];
+        const summaryCont = document.getElementById('summary-content-1');
+        const usedCodes = {};
+
+        data.forEach(item => {
+            const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${escaped})`, 'g');
+            const parts = item.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+            let darkColor = "rgba(0,0,0,0.8)";
+            if(parts) darkColor = `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)`;
+            
+            if(!usedCodes[item.code]) usedCodes[item.code] = { color: darkColor, count: 0 };
+            usedCodes[item.code].count++;
+            
+            const label = `<span class="teacher-label" style="background:${darkColor}">${item.code}</span>`;
+            html = html.replace(regex, `<span class="highlighted" style="background:${item.color}">$1${label}</span>`);
+        });
+
+        target.innerHTML = html;
+        document.getElementById('code-list').innerHTML = data.map(c => `
+            <div class="code-badge" style="border-left-color:${c.color}">
+                <strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span>
+            </div>
+        `).join('');
+        
+        document.getElementById('summary-1').classList.remove('hidden');
+        summaryCont.innerHTML = Object.keys(usedCodes).map(code => `<span class="teacher-label" style="background:${usedCodes[code].color}; margin-right:8px; margin-bottom:8px;">${code} (${usedCodes[code].count})</span>`).join('');
     }
 
     function resetWorkspaces() {
@@ -286,6 +349,7 @@
     document.getElementById('t1').addEventListener('mouseup', handleSelectionEnd);
 
     function handleSelectionEnd() {
+        if (currentScript > 2) return; // Disable interactive coding for samples
         setTimeout(() => {
             const sel = window.getSelection();
             if (sel.rangeCount > 0 && sel.toString().trim().length > 2) {
