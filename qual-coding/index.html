@@ -6,6 +6,9 @@
     <title>Qualitative Coding Suite</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><path d='M30 30h20l20 20-20 20-20-20V30z' fill='white'/><circle cx='40' cy='40' r='5' fill='%234f46e5'/></svg>">
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <style>
         :root { 
             --bg: #f9fafb; 
@@ -120,18 +123,6 @@
             #apply-btn { padding: 12px 18px; }
         }
 
-        /* --- PRINT STYLES (TEXT-BASED PDF) --- */
-        @media print {
-            header, #sidebar, #coding-bar, .btn, .student-select, #student-instructions { display: none !important; }
-            body, main { background: white; height: auto; overflow: visible; display: block; padding: 0; margin: 0; }
-            .column { width: 100%; height: auto; display: block; }
-            .workspace-card { border: none; box-shadow: none; display: block; }
-            .content-area { overflow: visible; height: auto; line-height: 2.5; }
-            .highlighted { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .teacher-label { -webkit-print-color-adjust: exact; print-color-adjust: exact; border: 1px solid #ddd; }
-            .summary-box { display: block; page-break-before: always; border: 1px solid #eee; margin-top: 20px; }
-        }
-
         .hidden { display: none !important; }
         .student-select { padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.85rem; background: white; }
     </style>
@@ -166,11 +157,11 @@
 
 <main id="main-layout">
     <div class="column" id="col-1">
-        <div class="workspace-card">
+        <div class="workspace-card" id="pdf-content">
             <div class="card-header">
                 <span id="label-left">Transcript</span>
                 <div style="display: flex; gap: 8px; align-items: center;">
-                    <button class="btn" onclick="window.print()" style="font-size: 0.7rem; padding: 4px 8px;">Download PDF</button>
+                    <button class="btn" id="pdf-btn" onclick="downloadPDF()" style="font-size: 0.7rem; padding: 4px 8px;">Download PDF</button>
                     <select id="select-left" class="student-select hidden" onchange="applyReview(1)"></select>
                 </div>
             </div>
@@ -406,17 +397,14 @@
         const id = "c" + Date.now();
         if (!codeColors[codeName]) { codeColors[codeName] = colorPalette[paletteIndex % colorPalette.length]; paletteIndex++; }
         const color = codeColors[codeName];
-        
         const parts = color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
         let darkColor = `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)`;
         const labelHtml = `<span class="teacher-label" style="background:${darkColor}">${codeName}</span>`;
-        
         const originalContent = pending.innerText;
         pending.className = 'highlighted';
         pending.style.backgroundColor = color;
         pending.dataset.id = id;
         pending.innerHTML = originalContent + labelHtml;
-        
         myCodes.push({ id, code: codeName, text: originalContent, color });
         updateCodeList(myCodes);
         input.value = "";
@@ -434,12 +422,47 @@
     }
 
     function updateCodeList(data, isSampleView = false) {
-        document.getElementById('code-list').innerHTML = data.map(c => `
-            <div class="code-badge" style="border-left-color:${c.color}">
-                ${!isSampleView ? `<span class="remove-code-btn" onclick="removeCode('${c.id}')">×</span>` : ''}
-                <strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span>
-            </div>
-        `).join('') || '<p style="color:#94a3b8; font-size:0.75rem;">No codes established yet.</p>';
+        document.getElementById('code-list').innerHTML = data.map(c => `<div class="code-badge" style="border-left-color:${c.color}">${!isSampleView ? `<span class="remove-code-btn" onclick="removeCode('${c.id}')">×</span>` : ''}<strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span></div>`).join('') || '<p style="color:#94a3b8; font-size:0.75rem;">No codes established yet.</p>';
+    }
+
+    // --- TEXT-RENDERED PDF GENERATION ---
+    async function downloadPDF() {
+        const { jsPDF } = window.jspdf;
+        const btn = document.getElementById('pdf-btn');
+        const element = document.getElementById('pdf-content');
+        const studentName = document.getElementById('student-name').value.trim() || "Student";
+        
+        btn.innerText = "Generating...";
+        
+        const doc = new jsPDF({
+            orientation: 'p',
+            unit: 'pt',
+            format: 'a4'
+        });
+
+        // Hide UI elements from render
+        const instructions = document.getElementById('student-instructions');
+        const originalDisplay = instructions.style.display;
+        instructions.style.display = 'none';
+
+        try {
+            await doc.html(element, {
+                callback: function (doc) {
+                    doc.save(`${studentName}-Coded-Transcript.pdf`);
+                    btn.innerText = "Download PDF";
+                    instructions.style.display = originalDisplay;
+                },
+                x: 20,
+                y: 20,
+                width: 550,
+                windowWidth: 1024,
+                autoPaging: 'text'
+            });
+        } catch (e) {
+            alert("Error generating text-based PDF.");
+            btn.innerText = "Download PDF";
+            instructions.style.display = originalDisplay;
+        }
     }
 
     function syncFromCloud() {
