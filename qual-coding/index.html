@@ -231,7 +231,7 @@
     const sampleData = {
         3: [{"id":"v1","code":"Privacy vs. Integrity","text":"having a camera track my eye movements feels like a complete invasion of my space","color":"hsla(340, 80%, 88%, 0.9)"},{"id":"v2","code":"Privacy vs. Degree","text":"choice between my privacy and my degree","color":"hsla(340, 80%, 88%, 0.9)"},{"id":"v3","code":"Monitoring vs. Trust","text":"creates this inherent atmosphere of distrust from the very start","color":"hsla(10, 80%, 88%, 0.9)"},{"id":"v4","code":"Security vs. Discomfort","text":"security of the system is more important than the temporary discomfort","color":"hsla(200, 80%, 85%, 0.9)"},{"id":"v5","code":"Efficiency vs. Ethics","text":"prioritizing the university's reputation over the student's wellbeing","color":"hsla(280, 70%, 88%, 0.9)"}],
         4: [{"id":"e1","code":"Anticipation","text":"heart was literally hammering against my ribs","color":"hsla(340, 80%, 88%, 0.9)"},{"id":"e2","code":"Self-Doubt","text":"convinced myself I'd failed","color":"hsla(10, 80%, 88%, 0.9)"},{"id":"e3","code":"Impending Doom","text":"feeling this impending doom settling over me","color":"hsla(10, 80%, 88%, 0.9)"},{"id":"e4","code":"Validation","text":"validation was so overwhelming","color":"hsla(45, 90%, 85%, 0.9)"},{"id":"e5","code":"Exhaustion","text":"massive wave of exhaustion and relief","color":"hsla(140, 75%, 85%, 0.9)"},{"id":"e6","code":"Catharsis","text":"pure catharsis","color":"hsla(180, 60%, 85%, 0.9)"}],
-        5: [{"id":"i1","code":"Running on fumes","text":"running on fumes","color":"hsla(280, 70%, 88%, 0.9)"},{"id":"i2","code":"Brain fog","text":"brain fog","color":"hsla(220, 70%, 88%, 0.9)"},{"id":"i3","code":"Hitting a wall","text":"hitting a wall","color":"hsla(180, 60%, 85%, 0.9)"},{"id":"i4","code":"Hustle loop","text":"hustle loop","color":"hsla(45, 90%, 85%, 0.9)"},{"id":"i5","code":"Clocking in","text":"clocking in","color":"hsla(25, 85%, 85%, 0.9)"},{"id":"i6","code":"Burnt out","text":"burnt out","color":"hsla(340, 80%, 88%, 0.9)"},{"id":"i7","code":"Going through the motions","text":"going through the motions","color":"hsla(10, 80%, 88%, 0.9)"}]
+        5: [{"id":"i1","code":"\"Running on fumes\"","text":"running on fumes","color":"hsla(280, 70%, 88%, 0.9)"},{"id":"i2","code":"\"Brain fog\"","text":"brain fog","color":"hsla(220, 70%, 88%, 0.9)"},{"id":"i3","code":"\"Hitting a wall\"","text":"hitting a wall","color":"hsla(180, 60%, 85%, 0.9)"},{"id":"i4","code":"\"Hustle loop\"","text":"hustle loop","color":"hsla(45, 90%, 85%, 0.9)"},{"id":"i5","code":"\"Clocking in\"","text":"clocking in","color":"hsla(25, 85%, 85%, 0.9)"},{"id":"i6","code":"\"Burnt out\"","text":"burnt out","color":"hsla(340, 80%, 88%, 0.9)"},{"id":"i7","code":"\"Going through the motions\"","text":"going through the motions","color":"hsla(10, 80%, 88%, 0.9)"}]
     };
 
     const colorPalette = ["hsla(200, 80%, 85%, 0.9)", "hsla(140, 75%, 85%, 0.9)", "hsla(340, 80%, 88%, 0.9)", "hsla(45, 90%, 85%, 0.9)", "hsla(280, 70%, 88%, 0.9)", "hsla(25, 85%, 85%, 0.9)", "hsla(180, 60%, 85%, 0.9)", "hsla(10, 80%, 88%, 0.9)", "hsla(60, 80%, 85%, 0.9)", "hsla(220, 70%, 88%, 0.9)"];
@@ -246,19 +246,16 @@
         } else { executeSetMode('student'); }
     }
 
-    // --- UPDATED SECURE PASSWORD VERIFICATION ---
     async function checkPassword() {
         const input = document.getElementById('pw-input').value;
         const btn = document.querySelector('.btn-verify-action');
         btn.innerText = "Verifying...";
-        
         try {
             const response = await fetch(API_URL, {
                 method: 'POST',
                 body: JSON.stringify({ action: 'verify', password: input })
             });
             const result = await response.text();
-
             if (result === "true") {
                 document.getElementById('pw-modal').style.display = 'none';
                 document.getElementById('pw-input').value = '';
@@ -282,12 +279,10 @@
         document.getElementById('btn-teacher-mode').classList.toggle('active', mode === 'teacher');
         document.getElementById('teacher-tools').classList.toggle('hidden', mode === 'student');
         document.getElementById('teacher-links').classList.toggle('hidden', mode === 'student');
-        
         const isSample = currentScript > 2;
         document.getElementById('coding-bar').classList.toggle('hidden', mode === 'teacher' || isSample);
         document.getElementById('codes-panel').classList.toggle('hidden', mode === 'teacher');
         document.getElementById('export-section').classList.toggle('hidden', isSample);
-
         document.getElementById('student-instructions').classList.toggle('hidden', mode === 'teacher');
         document.getElementById('summary-1').classList.toggle('hidden', mode === 'student');
         if (mode === 'teacher') {
@@ -304,11 +299,9 @@
         currentScript = num; myCodes = []; codeColors = {}; paletteIndex = 0;
         document.querySelectorAll('.btn-script').forEach((b, i) => b.classList.toggle('active', i+1 === num));
         document.getElementById('student-instructions').innerHTML = scriptInstructions[num];
-        
         const isSample = num > 2;
         document.getElementById('coding-bar').classList.toggle('hidden', currentMode === 'teacher' || isSample);
         document.getElementById('export-section').classList.toggle('hidden', isSample);
-
         resetWorkspaces();
         if (isSample) renderSample(num);
         if (currentMode === 'teacher') updateTeacherDropdowns();
@@ -320,7 +313,6 @@
         let html = scripts[num];
         const summaryCont = document.getElementById('summary-content-1');
         const usedCodes = {};
-
         data.forEach(item => {
             const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const regex = new RegExp(`(${escaped})`, 'g');
@@ -332,7 +324,6 @@
             const label = `<span class="teacher-label" style="background:${darkColor}">${item.code}</span>`;
             html = html.replace(regex, `<span class="highlighted" style="background:${item.color}">$1${label}</span>`);
         });
-
         target.innerHTML = html;
         document.getElementById('code-list').innerHTML = data.map(c => `<div class="code-badge" style="border-left-color:${c.color}"><strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span></div>`).join('');
         document.getElementById('summary-1').classList.remove('hidden');
@@ -398,7 +389,7 @@
         if (!codeName || !pending) { return; }
         const id = "c" + Date.now();
         if (!codeColors[codeName]) { codeColors[codeName] = colorPalette[paletteIndex % colorPalette.length]; paletteIndex++; }
-        const color = colorPalette[paletteIndex % colorPalette.length]; 
+        const color = codeColors[codeName];
         pending.className = 'highlighted';
         pending.style.backgroundColor = color;
         pending.dataset.id = id;
