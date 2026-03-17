@@ -103,7 +103,9 @@
         .highlighted { border-radius: 4px; padding: 2px 0; }
         .pending-selection { background-color: rgba(79, 70, 229, 0.1); border-bottom: 2px dashed var(--accent); }
         
-        .code-badge { padding: 10px; margin-bottom: 8px; border-radius: 8px; font-size: 0.8rem; border: 1px solid rgba(0,0,0,0.05); border-left: 4px solid var(--accent); background: #f8fafc; }
+        .code-badge { padding: 10px; margin-bottom: 8px; border-radius: 8px; font-size: 0.8rem; border: 1px solid rgba(0,0,0,0.05); border-left: 4px solid var(--accent); background: #f8fafc; position: relative; }
+        .remove-code-btn { position: absolute; top: 5px; right: 8px; cursor: pointer; color: #94a3b8; font-weight: bold; font-size: 1rem; }
+        .remove-code-btn:hover { color: var(--danger); }
 
         #pw-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 1000; }
         .pw-box { background: white; padding: 32px; border-radius: 16px; text-align: center; width: 90%; max-width: 320px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
@@ -317,15 +319,14 @@
             const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const regex = new RegExp(`(${escaped})`, 'g');
             const parts = item.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
-            let darkColor = "rgba(0,0,0,0.8)";
-            if(parts) darkColor = `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)`;
+            let darkColor = `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)`;
             if(!usedCodes[item.code]) usedCodes[item.code] = { color: darkColor, count: 0 };
             usedCodes[item.code].count++;
             const label = `<span class="teacher-label" style="background:${darkColor}">${item.code}</span>`;
             html = html.replace(regex, `<span class="highlighted" style="background:${item.color}">$1${label}</span>`);
         });
         target.innerHTML = html;
-        document.getElementById('code-list').innerHTML = data.map(c => `<div class="code-badge" style="border-left-color:${c.color}"><strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span></div>`).join('');
+        updateCodeList(data, true);
         document.getElementById('summary-1').classList.remove('hidden');
         summaryCont.innerHTML = Object.keys(usedCodes).map(code => `<span class="teacher-label" style="background:${usedCodes[code].color}; margin-right:8px; margin-bottom:8px;">${code} (${usedCodes[code].count})</span>`).join('');
     }
@@ -390,18 +391,40 @@
         const id = "c" + Date.now();
         if (!codeColors[codeName]) { codeColors[codeName] = colorPalette[paletteIndex % colorPalette.length]; paletteIndex++; }
         const color = codeColors[codeName];
+        
+        const parts = color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+        let darkColor = `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)`;
+        const labelHtml = `<span class="teacher-label" style="background:${darkColor}">${codeName}</span>`;
+        
+        const originalContent = pending.innerText;
         pending.className = 'highlighted';
         pending.style.backgroundColor = color;
         pending.dataset.id = id;
-        pending.dataset.code = codeName;
-        myCodes.push({ id, code: codeName, text: pending.innerText, color });
+        pending.innerHTML = originalContent + labelHtml;
+        
+        myCodes.push({ id, code: codeName, text: originalContent, color });
         updateCodeList(myCodes);
         input.value = "";
         input.blur();
     }
 
-    function updateCodeList(data) {
-        document.getElementById('code-list').innerHTML = data.map(c => `<div class="code-badge" style="border-left-color:${c.color}"><strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span></div>`).join('') || '<p style="color:#94a3b8; font-size:0.75rem;">No codes established yet.</p>';
+    function removeCode(id) {
+        const el = document.querySelector(`[data-id="${id}"]`);
+        if (el) {
+            const originalText = el.childNodes[0].textContent;
+            el.replaceWith(originalText);
+        }
+        myCodes = myCodes.filter(c => c.id !== id);
+        updateCodeList(myCodes);
+    }
+
+    function updateCodeList(data, isSampleView = false) {
+        document.getElementById('code-list').innerHTML = data.map(c => `
+            <div class="code-badge" style="border-left-color:${c.color}">
+                ${!isSampleView ? `<span class="remove-code-btn" onclick="removeCode('${c.id}')">×</span>` : ''}
+                <strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span>
+            </div>
+        `).join('') || '<p style="color:#94a3b8; font-size:0.75rem;">No codes established yet.</p>';
     }
 
     function syncFromCloud() {
