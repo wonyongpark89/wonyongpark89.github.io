@@ -84,7 +84,7 @@
             padding: 24px; 
             overflow-y: auto; 
             flex: 1; 
-            line-height: 3.2; 
+            line-height: 3.5; 
             font-size: 1.05rem; 
             color: #1e293b;
             -webkit-overflow-scrolling: touch; 
@@ -101,7 +101,6 @@
         .sidebar-panel h4 { font-size: 0.9rem; margin-top: 0; color: #1e293b; margin-bottom: 12px; }
 
         .input-label { display: block; font-size: 0.7rem; color: #64748b; margin-bottom: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; }
-
         .copyright { font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; text-align: center; margin-top: auto; padding-bottom: 10px; letter-spacing: 0.05em; }
 
         #coding-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #1e293b; padding: 16px 30px; box-sizing: border-box; display: flex; gap: 15px; align-items: center; z-index: 100; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); }
@@ -119,7 +118,7 @@
         }
 
         .teacher-label { 
-            font-size: 0.82rem; 
+            font-size: 0.85rem; /* Increased font size */
             font-weight: 800; 
             text-transform: uppercase; 
             padding: 2px 6px; 
@@ -135,17 +134,16 @@
         }
 
         .uncode-inline {
-            margin-left: 4px;
+            margin-left: 5px;
             cursor: pointer;
-            opacity: 0.7;
-            font-size: 1.1rem;
+            opacity: 0.8;
+            font-size: 1.2rem;
             line-height: 0.8;
             font-weight: normal;
         }
-        .uncode-inline:hover { opacity: 1; }
+        .uncode-inline:hover { opacity: 1; color: #fff; }
 
         .pending-selection { background-color: rgba(79, 70, 229, 0.1); border-bottom: 2px dashed var(--accent); display: inline; }
-        
         .code-badge { padding: 10px; margin-bottom: 8px; border-radius: 8px; font-size: 0.8rem; border: 1px solid rgba(0,0,0,0.05); border-left: 4px solid var(--accent); background: #f8fafc; position: relative; }
         .remove-code-btn { position: absolute; top: 5px; right: 8px; cursor: pointer; color: #94a3b8; font-weight: bold; font-size: 1rem; }
 
@@ -156,7 +154,7 @@
         @media print {
             header, #sidebar, #coding-bar, .btn, .student-select, #student-instructions, .uncode-inline { display: none !important; }
             body, main { background: white; height: auto; overflow: visible; display: block; padding: 0; margin: 0; }
-            .content-area { overflow: visible; height: auto; line-height: 3.5; }
+            .content-area { overflow: visible; height: auto; line-height: 4.5; }
             .highlighted { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .teacher-label { -webkit-print-color-adjust: exact; print-color-adjust: exact; border: 1px solid #999; color: white !important; background-color: #333 !important; }
         }
@@ -272,11 +270,11 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbzEo0HjKylsTZ4jpcbBfIP3c_sPODpezIm1js7mH5hd_sWRtEcV4Vqgjb7umirx9wPv/exec";
 
     const scripts = {
-        1: `<div class="p-block"><span class="speaker">Interviewer:</span> How are you actually using AI tools like ChatGPT in your daily study routine?</div><div class="p-block"><span class="speaker">Student A:</span> It’s become a bit of a co-pilot, honestly. I don’t use it to write my essays—the professors are really strict about that—but I use it to break down complex readings. Like, if I have a 40-page journal article, I’ll ask it to explain the core methodology in simple terms. It saves me hours of staring at jargon.</div><div class="p-block"><span class="speaker">Student B:</span> I’m a bit more cautious. I feel like if I use it too much, I’m losing my ability to think for myself. I used it last week to generate a coding script for my stats class, and it worked, but I realized I didn't actually understand why the code worked. It felt like "cheating" my own brain out of a learning moment.</div><div class="p-block"><span class="speaker">Student A:</span> That's fair, but look at the pressure we're under. The workload hasn't decreased, but now we have this tool that can speed up the "grunt work." If I can use AI to organize my bibliography or suggest an outline, why wouldn't I? It's not about being lazy; it's about efficiency. I think the university is lagging behind the reality of how we work now.</div><div class="p-block"><span class="speaker">Student B:</span> Maybe, but I worry about the equity side too. Some of my friends pay for the "Plus" versions that are much smarter. If your grade depends on how good your "AI assistant" is, that's not really a level playing field, is it?</div>`,
-        2: `<div class="p-block"><span class="speaker">Moderator:</span> Let's talk about the experience of speaking English during the live seminars. How does that feel for you?</div><div class="p-block"><span class="speaker">Participant 1:</span> For me, it’s the "waiting" that’s the worst. While other students are talking, I’m not really listening to them. I’m just rehearsing my own sentence over and over in my head. I’m terrified I'll use the wrong tense and everyone will realize I don’t belong in this masters program.</div><div class="p-block"><span class="speaker">Participant 2:</span> I totally get that. I find that I’m much more "quiet" in English than I am in my native language. Back home, I’m the one always making jokes and leading the debate. Here, I’m just the "silent guy" in the corner. It feels like my personality is being filtered through a very small straw. I just can't be myself.</div><div class="p-block"><span class="speaker">Participant 3:</span> It’s also the eye contact. When the tutor looks at me, my mind just goes completely blank. It’s like a physical wall goes up. Even if I know the answer, the words get stuck in my throat. I’m so focused on my pronunciation that I lose the actual thread of the academic argument we are having.</div><div class="p-block"><span class="speaker">Participant 1:</span> Exactly! And then the tutor moves on to the next person, and I feel this huge relief, but also this frustration that I stayed silent again.</div>`,
-        3: `<div class="p-block"><span class="speaker">Interviewer:</span> What are your thoughts on the new AI-based exam proctoring systems?</div><div class="p-block"><span class="speaker">Student C:</span> I understand the university wants to prevent cheating, but having a camera track my eye movements feels like a complete invasion of my space. I’m in my bedroom, yet I feel like a prisoner. It's a choice between my privacy and my degree. I shouldn't have to show a stranger my personal living space just to prove I'm not a fraud. It creates this inherent atmosphere of distrust from the very start.</div><div class="p-block"><span class="speaker">Student D:</span> I see it differently. I've worked hard for my grades, and if someone can just look up answers on their phone, it devalues my degree. I’d rather have the intrusion if it means the results are actually fair. For me, the security of the system is more important than the temporary discomfort of being watched. We are here to be assessed on our merit, and if the system can't guarantee that merit, what's the point of the institution?</div><div class="p-block"><span class="speaker">Student C:</span> But at what cost? We are sacrificing our fundamental right to a private study environment for a metric of 'security' that can still be gamed. It feels like we are prioritizing the university's reputation over the student's wellbeing. There's a human cost to being monitored like a lab rat.</div><div class="p-block"><span class="speaker">Student D:</span> The 'human cost' is losing the integrity of academic achievement. If the university doesn't monitor us, the degree becomes a piece of paper anyone can buy or fake. I choose the institution's standard over my own temporary privacy every single time.</div>`,
-        4: `<div class="p-block"><span class="speaker">Interviewer:</span> Can you describe the moment you finished your PhD defense?</div><div class="p-block"><span class="speaker">Candidate:</span> When the door closed for the examiners to deliberate, my heart was literally hammering against my ribs. I felt sick with dread. I kept replaying every single syllable of my presentation, focusing on that one question on Chapter 4 I fumbled. I convinced myself I'd failed, that four years of my life were about to evaporate. I was standing in the hallway, looking at the floor, feeling this impending doom settling over me.</div><div class="p-block"><span class="speaker">Candidate:</span> Then the door opened. The lead examiner had this very neutral expression, and my stomach just dropped. But when they called me back in and said "Congratulations, Doctor," it wasn't just happiness—it was this massive wave of exhaustion and relief. I just wanted to sit on the floor and cry. The validation was so overwhelming that I couldn't even process it. I felt so proud, but also completely hollowed out, like I'd given everything I had and there was nothing left inside. It was pure catharsis.</div>`,
-        5: `<div class="p-block"><span class="speaker">Moderator:</span> How do you deal with the final weeks of the semester?</div><div class="p-block"><span class="speaker">Student E:</span> Honestly? I am just running on fumes at this point. I spend ten hours a day in the library, but half of that is just brain fog. You see everyone around you hitting a wall, but you can not stop. It is like this hustle loop where if you are not visible in the library by 8 AM, you have already failed the day. I am clocking in just to feel like I am still in the game.</div><div class="p-block"><span class="speaker">Student E:</span> By the time Friday rolls around, I am completely burnt out. I look at my screen and the words do not even make sense anymore. It is the end of the road for my motivation. I am just going through the motions now, waiting for that final submission button so I can finally switch off. It is not about the learning anymore; it is about survival.</div>`
+        1: `<div class="p-block"><span class="speaker">Interviewer:</span> How are you actually using AI tools like ChatGPT in your daily study routine?</div><div class="p-block"><span class="speaker">Student A:</span> It’s become a bit of a co-pilot, honestly. I don’t use it to write my essays—the professors are really strict about that—but I use it to break down complex readings. Like, if I have a 40-page journal article, I’ll ask it to explain the core methodology in simple terms. It saves me hours of staring at jargon.</div><div class="p-block"><span class="speaker">Student A:</span> That's fair, but look at the pressure we're under. The workload hasn't decreased, but now we have this tool that can speed up the "grunt work." If I can use AI to organize my bibliography or suggest an outline, why wouldn't I? It's not about being lazy; it's about efficiency. I think the university is lagging behind the reality of how we work now.</div>`,
+        2: `<div class="p-block"><span class="speaker">Moderator:</span> Let's talk about the experience of speaking English during the live seminars. How does that feel for you?</div><div class="p-block"><span class="speaker">Participant 1:</span> For me, it’s the "waiting" that’s the worst. While other students are talking, I’m not really listening to them. I’m just rehearsing my own sentence over and over in my head. I’m terrified I'll use the wrong tense and everyone will realize I don’t belong in this masters program.</div><div class="p-block"><span class="speaker">Participant 2:</span> I totally get that. I find that I’m much more "quiet" in English than I am in my native language. Back home, I’m the one always making jokes and leading the debate. Here, I’m just the "silent guy" in the corner. It feels like my personality is being filtered through a very small straw. I just can't be myself.</div>`,
+        3: `<div class="p-block"><span class="speaker">Interviewer:</span> What are your thoughts on the new AI-based exam proctoring systems?</div><div class="p-block"><span class="speaker">Student C:</span> I understand the university wants to prevent cheating, but having a camera track my eye movements feels like a complete invasion of my space. I’m in my bedroom, yet I feel like a prisoner. It's a choice between my privacy and my degree. I shouldn't have to show a stranger my personal living space just to prove I'm not a fraud. It creates this inherent atmosphere of distrust from the very start.</div><div class="p-block"><span class="speaker">Student D:</span> I see it differently. I've worked hard for my grades, and if someone can just look up answers on their phone, it devalues my degree. I’d rather have the intrusion if it means the results are actually fair. For me, the security of the system is more important than the temporary discomfort of being watched. We are here to be assessed on our merit, and if the system can't guarantee that merit, what's the point of the institution?</div>`,
+        4: `<div class="p-block"><span class="speaker">Interviewer:</span> Can you describe the moment you finished your PhD defense?</div><div class="p-block"><span class="speaker">Candidate:</span> When the door closed for the examiners to deliberate, my heart was literally hammering against my ribs. I felt sick with dread. I kept replaying every single syllable of my presentation, focusing on that one question on Chapter 4 I fumbled. I convinced myself I'd failed, that four years of my life were about to evaporate. I was standing in the hallway, looking at the floor, feeling this impending doom settling over me.</div>`,
+        5: `<div class="p-block"><span class="speaker">Moderator:</span> How do you deal with the final weeks of the semester?</div><div class="p-block"><span class="speaker">Student E:</span> Honestly? I am just running on fumes at this point. I spend ten hours a day in the library, but half of that is just brain fog. You see everyone around you hitting a wall, but you can not stop. It is like this hustle loop where if you are not visible in the library by 8 AM, you have already failed the day. I am clocking in just to feel like I am still in the game.</div>`
     };
 
     const scriptInstructions = {
@@ -288,14 +286,14 @@
     };
 
     const sampleData = {
-        3: [{"id":"v1","code":"Privacy vs. Integrity","text":"having a camera track my eye movements feels like a complete invasion of my space","color":"hsla(340, 80%, 88%, 0.9)"},{"id":"v2","code":"Privacy vs. Degree","text":"choice between my privacy and my degree","color":"hsla(340, 80%, 88%, 0.9)"},{"id":"v3","code":"Monitoring vs. Trust","text":"creates this inherent atmosphere of distrust from the very start","color":"hsla(10, 80%, 88%, 0.9)"},{"id":"v4","code":"Security vs. Discomfort","text":"security of the system is more important than the temporary discomfort","color":"hsla(200, 80%, 85%, 0.9)"},{"id":"v5","code":"Efficiency vs. Ethics","text":"prioritizing the university's reputation over the student's wellbeing","color":"hsla(280, 70%, 88%, 0.9)"}],
-        4: [{"id":"e1","code":"Anticipation","text":"heart was literally hammering against my ribs","color":"hsla(340, 80%, 88%, 0.9)"},{"id":"e2","code":"Self-Doubt","text":"convinced myself I'd failed","color":"hsla(10, 80%, 88%, 0.9)"},{"id":"e3","code":"Impending Doom","text":"feeling this impending doom settling over me","color":"hsla(10, 80%, 88%, 0.9)"},{"id":"e4","code":"Validation","text":"validation was so overwhelming","color":"hsla(45, 90%, 85%, 0.9)"},{"id":"e5","code":"Exhaustion","text":"massive wave of exhaustion and relief","color":"hsla(140, 75%, 85%, 0.9)"},{"id":"e6","code":"Catharsis","text":"pure catharsis","color":"hsla(180, 60%, 85%, 0.9)"}],
-        5: [{"id":"i1","code":"\"Running on fumes\"","text":"running on fumes","color":"hsla(280, 70%, 88%, 0.9)"},{"id":"i2","code":"\"Brain fog\"","text":"brain fog","color":"hsla(220, 70%, 88%, 0.9)"},{"id":"i3","code":"\"Hitting a wall\"","text":"hitting a wall","color":"hsla(180, 60%, 85%, 0.9)"},{"id":"i4","code":"\"Hustle loop\"","text":"hustle loop","color":"hsla(45, 90%, 85%, 0.9)"},{"id":"i5","code":"\"Clocking in\"","text":"clocking in","color":"hsla(25, 85%, 85%, 0.9)"},{"id":"i6","code":"\"Burnt out\"","text":"burnt out","color":"hsla(340, 80%, 88%, 0.9)"},{"id":"i7","code":"\"Going through the motions\"","text":"going through the motions","color":"hsla(10, 80%, 88%, 0.9)"}]
+        3: [{"id":"v1","code":"Privacy vs. Integrity","text":"having a camera track my eye movements feels like a complete invasion of my space","color":"hsla(340, 80%, 88%, 0.9)"},{"id":"v2","code":"Privacy vs. Degree","text":"choice between my privacy and my degree","color":"hsla(340, 80%, 88%, 0.9)"},{"id":"v3","code":"Monitoring vs. Trust","text":"creates this inherent atmosphere of distrust from the very start","color":"hsla(10, 80%, 88%, 0.9)"},{"id":"v4","code":"Security vs. Discomfort","text":"security of the system is more important than the temporary discomfort","color":"hsla(200, 80%, 85%, 0.9)"}],
+        4: [{"id":"e1","code":"Anticipation","text":"heart was literally hammering against my ribs","color":"hsla(340, 80%, 88%, 0.9)"},{"id":"e2","code":"Self-Doubt","text":"convinced myself I'd failed","color":"hsla(10, 80%, 88%, 0.9)"},{"id":"e3","code":"Impending Doom","text":"feeling this impending doom settling over me","color":"hsla(10, 80%, 88%, 0.9)"}],
+        5: [{"id":"i1","code":"\"Running on fumes\"","text":"running on fumes","color":"hsla(280, 70%, 88%, 0.9)"},{"id":"i2","code":"\"Brain fog\"","text":"brain fog","color":"hsla(220, 70%, 88%, 0.9)"},{"id":"i3","code":"\"Hitting a wall\"","text":"hitting a wall","color":"hsla(180, 60%, 85%, 0.9)"}]
     };
 
     const colorPalette = ["hsla(200, 80%, 85%, 0.9)", "hsla(140, 75%, 85%, 0.9)", "hsla(340, 80%, 88%, 0.9)", "hsla(45, 90%, 85%, 0.9)", "hsla(280, 70%, 88%, 0.9)", "hsla(25, 85%, 85%, 0.9)", "hsla(180, 60%, 85%, 0.9)", "hsla(10, 80%, 88%, 0.9)", "hsla(60, 80%, 85%, 0.9)", "hsla(220, 70%, 88%, 0.9)"];
 
-    let currentMode = 'student', isCompare = false, currentScript = 1, myCodes = [], codeColors = {}, paletteIndex = 0, submissions = {};
+    let currentMode = 'student', currentScript = 1, myCodes = [], codeColors = {}, paletteIndex = 0, submissions = {};
 
     function setMode(mode) {
         if (mode === 'teacher') {
@@ -309,24 +307,15 @@
         const btn = document.querySelector('.btn-verify-action');
         btn.innerText = "Verifying...";
         try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'verify', password: input })
-            });
+            const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'verify', password: input }) });
             const result = await response.text();
             if (result === "true") {
                 document.getElementById('pw-modal').style.display = 'none';
                 document.getElementById('pw-input').value = '';
                 btn.innerText = "Verify";
                 executeSetMode('teacher');
-            } else {
-                alert("Verification failed.");
-                btn.innerText = "Verify";
-            }
-        } catch (e) {
-            alert("Connection error.");
-            btn.innerText = "Verify";
-        }
+            } else { alert("Verification failed."); btn.innerText = "Verify"; }
+        } catch (e) { alert("Connection error."); btn.innerText = "Verify"; }
     }
 
     function closePwModal() { document.getElementById('pw-modal').style.display = 'none'; document.getElementById('pw-input').value = ''; }
@@ -337,29 +326,27 @@
         document.getElementById('btn-teacher-mode').classList.toggle('active', mode === 'teacher');
         document.getElementById('teacher-tools').classList.toggle('hidden', mode === 'student');
         document.getElementById('teacher-links').classList.toggle('hidden', mode === 'student');
+        
         const isSample = currentScript > 2;
         document.getElementById('coding-bar').classList.toggle('hidden', mode === 'teacher' || isSample);
         document.getElementById('codes-panel').classList.toggle('hidden', mode === 'teacher');
         document.getElementById('export-section').classList.toggle('hidden', mode === 'teacher' || isSample);
         document.getElementById('student-instructions').classList.toggle('hidden', mode === 'teacher');
         document.getElementById('summary-1').classList.toggle('hidden', mode === 'student');
-        if (mode === 'teacher') {
-            document.getElementById('select-left').classList.remove('hidden');
-        } else {
-            isCompare = false; document.getElementById('col-2').classList.add('hidden'); 
-            document.getElementById('select-left').classList.add('hidden');
-            document.getElementById('toggle-view-btn').innerText = "Split Screen";
-            loadScript(currentScript); 
-        }
+        
+        if (mode === 'teacher') document.getElementById('select-left').classList.remove('hidden');
+        else loadScript(currentScript); 
     }
 
     function loadScript(num) {
         currentScript = num; myCodes = []; codeColors = {}; paletteIndex = 0;
         document.querySelectorAll('.btn-script').forEach((b, i) => b.classList.toggle('active', i+1 === num));
         document.getElementById('student-instructions').innerHTML = scriptInstructions[num];
+        
         const isSample = num > 2;
         document.getElementById('coding-bar').classList.toggle('hidden', currentMode === 'teacher' || isSample);
         document.getElementById('export-section').classList.toggle('hidden', currentMode === 'teacher' || isSample);
+        
         resetWorkspaces();
         if (isSample) renderSample(num);
         else loadFromLocal(); 
@@ -391,16 +378,8 @@
 
     function resetWorkspaces() {
         document.getElementById('t1').innerHTML = scripts[currentScript];
-        document.getElementById('t2').innerHTML = scripts[currentScript];
         document.getElementById('code-list').innerHTML = "";
         document.getElementById('summary-content-1').innerHTML = "";
-        document.getElementById('summary-content-2').innerHTML = "";
-    }
-
-    function toggleCompareMode() {
-        isCompare = !isCompare;
-        document.getElementById('col-2').classList.toggle('hidden', !isCompare);
-        document.getElementById('toggle-view-btn').innerText = isCompare ? "Single View" : "Split Screen";
     }
 
     document.getElementById('t1').addEventListener('touchend', handleSelectionEnd);
@@ -416,14 +395,8 @@
                     clearPendingHighlights();
                     const span = document.createElement('span');
                     span.className = 'pending-selection';
-                    try {
-                        range.surroundContents(span);
-                        document.getElementById('code-input').focus();
-                    } catch (e) {
-                        const contents = range.extractContents();
-                        span.appendChild(contents);
-                        range.insertNode(span);
-                    }
+                    try { range.surroundContents(span); document.getElementById('code-input').focus(); } 
+                    catch (e) { const contents = range.extractContents(); span.appendChild(contents); range.insertNode(span); }
                     sel.removeAllRanges();
                 }
             }
@@ -454,7 +427,6 @@
         const color = codeColors[codeName];
         const parts = color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
         let darkColor = `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)`;
-        
         const originalText = pending.innerText;
         pending.className = 'highlighted';
         pending.style.backgroundColor = color;
@@ -470,10 +442,7 @@
 
     function removeCode(id) {
         const el = document.querySelector(`[data-id="${id}"]`);
-        if (el) {
-            const textNode = document.createTextNode(el.childNodes[0].textContent);
-            el.replaceWith(textNode);
-        }
+        if (el) { const textNode = document.createTextNode(el.childNodes[0].textContent); el.replaceWith(textNode); }
         myCodes = myCodes.filter(c => c.id !== id);
         updateCodeList(myCodes);
         saveToLocal();
@@ -483,10 +452,7 @@
         document.getElementById('code-list').innerHTML = data.map(c => `<div class="code-badge" style="border-left-color:${c.color}">${!isSampleView ? `<span class="remove-code-btn" onclick="removeCode('${c.id}')">×</span>` : ''}<strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span></div>`).join('') || '<p style="color:#94a3b8; font-size:0.75rem;">No codes established yet.</p>';
     }
 
-    // --- PERSISTENCE LOGIC ---
-    function saveToLocal() {
-        localStorage.setItem(`coded_script_${currentScript}`, JSON.stringify(myCodes));
-    }
+    function saveToLocal() { localStorage.setItem(`coded_script_${currentScript}`, JSON.stringify(myCodes)); }
 
     function loadFromLocal() {
         const saved = localStorage.getItem(`coded_script_${currentScript}`);
@@ -494,9 +460,9 @@
         const data = JSON.parse(saved);
         const target = document.getElementById('t1');
         let html = scripts[currentScript];
-        
         const sortedData = [...data].sort((a,b) => b.text.length - a.text.length);
         sortedData.forEach(item => {
+            if (!codeColors[item.code]) { codeColors[item.code] = item.color; paletteIndex++; }
             const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const regex = new RegExp(`(${escaped})`, 'g');
             const parts = item.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
@@ -515,13 +481,8 @@
         fetch(API_URL).then(res => res.json()).then(allRows => {
             submissions = {};
             if (!allRows || allRows.length <= 1) { btn.innerText = "Sync Submissions"; return; }
-            allRows.forEach((row, index) => {
-                if (index === 0) return;
-                const scriptId = parseInt(String(row[2]).replace(/\D/g, ''));
-                submissions[`row-${index}`] = { data: JSON.parse(row[3]), label: `${row[1]} (Script ${scriptId})`, scriptId: scriptId };
-            });
-            updateTeacherDropdowns();
-            btn.innerText = "Sync Submissions";
+            allRows.forEach((row, index) => { if (index === 0) return; const scriptId = parseInt(String(row[2]).replace(/\D/g, '')); submissions[`row-${index}`] = { data: JSON.parse(row[3]), label: `${row[1]} (Script ${scriptId})`, scriptId: scriptId }; });
+            updateTeacherDropdowns(); btn.innerText = "Sync Submissions";
         }).catch(() => { btn.innerText = "Sync Error"; });
     }
 
@@ -530,19 +491,15 @@
         const filteredKeys = keys.filter(k => submissions[k].scriptId == currentScript);
         const opts = `<option value="">Select Student...</option>` + filteredKeys.map(k => `<option value="${k}">${submissions[k].label}</option>`).join('');
         document.getElementById('select-left').innerHTML = filteredKeys.length ? opts : '<option value="">No data</option>';
-        document.getElementById('select-right').innerHTML = filteredKeys.length ? opts : '<option value="">No data</option>';
     }
 
     function applyReview(side) {
-        const key = document.getElementById(side === 1 ? 'select-left' : 'select-right').value;
-        const target = document.getElementById(side === 1 ? 't1' : 't2');
-        const summaryCont = document.getElementById(side === 1 ? 'summary-content-1' : 'summary-content-2');
+        const key = document.getElementById('select-left').value;
+        const target = document.getElementById('t1');
         target.innerHTML = scripts[currentScript];
-        summaryCont.innerHTML = "";
         if (!key) return;
         const data = submissions[key].data;
         let html = target.innerHTML;
-        const usedCodes = {};
         const sortedData = [...data].sort((a,b) => b.text.length - a.text.length);
         sortedData.forEach(item => {
             const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -550,33 +507,20 @@
             const parts = item.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
             let darkColor = "rgba(0,0,0,0.8)";
             if(parts) darkColor = `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)`;
-            if(!usedCodes[item.code]) usedCodes[item.code] = { color: darkColor, count: 0 };
-            usedCodes[item.code].count++;
             const label = `<span class="teacher-label" style="background:${darkColor}">${item.code}</span>`;
             html = html.replace(regex, `<span class="highlighted" style="background:${item.color}">$1${label}</span>`);
         });
         target.innerHTML = html;
-        summaryCont.innerHTML = Object.keys(usedCodes).map(code => `<span class="teacher-label" style="background:${usedCodes[code].color}; margin-right:8px; margin-bottom:8px;">${code} (${usedCodes[code].count})</span>`).join('') || '<em style="font-size:0.8rem; color:#999;">None</em>';
     }
 
-    function clearCloudData() {
-        if(!confirm("⚠️ Delete ALL stored submissions?")) return;
-        const btn = document.getElementById('clear-btn');
-        btn.innerText = "Purging...";
-        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'clear' }) }).then(() => {
-            alert("Data purged."); btn.innerText = "Purge All Data";
-            submissions = {}; updateTeacherDropdowns(); resetWorkspaces();
-        });
-    }
+    function clearCloudData() { if(!confirm("⚠️ Delete ALL submissions?")) return; fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'clear' }) }).then(() => { alert("Data purged."); syncFromCloud(); }); }
 
     function submitToCloud() {
         const name = document.getElementById('student-name').value.trim();
         if (!name || myCodes.length === 0) { alert("Enter your name and some codes first."); return; }
         const btn = document.getElementById('submit-btn');
         btn.innerText = "Sending...";
-        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name: name, scriptId: currentScript, data: JSON.stringify(myCodes) }) }).then(() => {
-            btn.innerText = "Success!"; btn.style.background = "var(--success)";
-        });
+        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name: name, scriptId: currentScript, data: JSON.stringify(myCodes) }) }).then(() => { btn.innerText = "Success!"; btn.style.background = "var(--success)"; });
     }
     loadScript(1);
 </script>
