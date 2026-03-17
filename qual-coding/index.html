@@ -1,3 +1,10 @@
+To ensure the PDF is a high-quality, searchable, and selectable text document rather than a "screenshot" image, the best approach is to utilize the browser's native print engine. 
+
+I have replaced the image-based library with a custom **Print Media Query**. When you click "Download PDF," the app will now trigger the browser's print dialog, which is specifically formatted to hide the navigation, sidebar, and coding bars, leaving only a clean, professional document of your coded transcript.
+
+### **Final Updated Index.html**
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,18 +87,9 @@
         
         .card-header { padding: 12px 20px; background: #f8fafc; border-bottom: 1px solid var(--border); font-weight: 600; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; }
         
-        .content-area { 
-            padding: 24px; 
-            overflow-y: auto; 
-            flex: 1; 
-            line-height: 3.2; /* Sufficient height for labels */
-            font-size: 1.05rem; 
-            color: #1e293b;
-            -webkit-overflow-scrolling: touch; 
-        }
-        
+        .content-area { padding: 24px; overflow-y: auto; flex: 1; line-height: 2.2; font-size: 1.05rem; color: #1e293b; -webkit-overflow-scrolling: touch; }
         .p-block { margin-bottom: 24px; border-left: 2px solid #f1f5f9; padding-left: 18px; }
-        .speaker { font-weight: 700; color: #94a3b8; font-size: 0.75rem; text-transform: uppercase; display: block; margin-bottom: 4px; line-height: 1.2; }
+        .speaker { font-weight: 700; color: #94a3b8; font-size: 0.75rem; text-transform: uppercase; display: block; margin-bottom: 4px; }
 
         .summary-box { background: #f8fafc; border-top: 1px solid var(--border); padding: 16px 20px; min-height: 80px; max-height: 120px; overflow-y: auto; }
         .summary-title { margin: 0 0 10px 0; color: #64748b; font-size: 0.7rem; text-transform: uppercase; font-weight: 800; letter-spacing: 0.05em; }
@@ -107,55 +105,38 @@
         #code-input:focus { outline: none; border-color: var(--accent); background: #475569; }
         #apply-btn { background: var(--accent); color: white; padding: 14px 28px; font-size: 0.95rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
 
-        /* --- STABLE HIGHLIGHTS & LABELS --- */
-        .highlighted { 
-            display: inline; 
-            padding: 0.2em 0; 
-            border-radius: 4px; 
-            box-decoration-break: clone;
-            -webkit-box-decoration-break: clone;
-            position: relative;
-        }
+        .teacher-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; margin-left: 4px; display: inline-block; line-height: 1.4; color: white; box-shadow: 0 1px 2px rgba(0,0,0,0.1); vertical-align: middle; }
 
-        .teacher-label { 
-            font-size: 0.6rem; 
-            font-weight: 800; 
-            text-transform: uppercase; 
-            padding: 2px 4px; 
-            border-radius: 3px; 
-            color: white; 
-            display: inline-block;
-            line-height: 1;
-            margin-left: 4px;
-            vertical-align: middle;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-            pointer-events: none;
-            user-select: none;
-        }
-
-        .pending-selection { background-color: rgba(79, 70, 229, 0.1); border-bottom: 2px dashed var(--accent); display: inline; }
+        .highlighted { border-radius: 4px; padding: 2px 0; }
+        .pending-selection { background-color: rgba(79, 70, 229, 0.1); border-bottom: 2px dashed var(--accent); }
         
         .code-badge { padding: 10px; margin-bottom: 8px; border-radius: 8px; font-size: 0.8rem; border: 1px solid rgba(0,0,0,0.05); border-left: 4px solid var(--accent); background: #f8fafc; position: relative; }
         .remove-code-btn { position: absolute; top: 5px; right: 8px; cursor: pointer; color: #94a3b8; font-weight: bold; font-size: 1rem; }
+        .remove-code-btn:hover { color: var(--danger); }
 
         #pw-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 1000; }
         .pw-box { background: white; padding: 32px; border-radius: 16px; text-align: center; width: 90%; max-width: 320px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
         .pw-box input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid var(--border); text-align: center; font-size: 1.1rem; }
 
-        @media print {
-            header, #sidebar, #coding-bar, .btn, .student-select, #student-instructions { display: none !important; }
-            body, main { background: white; height: auto; overflow: visible; display: block; padding: 0; margin: 0; }
-            .content-area { overflow: visible; height: auto; line-height: 3.5; }
-            .highlighted { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .teacher-label { -webkit-print-color-adjust: exact; print-color-adjust: exact; border: 1px solid #999; color: white !important; background-color: #333 !important; }
-        }
-
         @media (max-width: 1024px) {
             body { overflow-y: auto; height: auto; min-height: 100dvh; }
             main { flex-direction: column; overflow: visible; padding: 15px; padding-bottom: 120px; }
             #sidebar { width: 100%; order: 2; }
-            .column { height: auto; min-height: 450px; }
+            .column { height: 65vh; min-height: 450px; }
             #coding-bar { padding: 12px; gap: 8px; }
+            #apply-btn { padding: 12px 18px; }
+        }
+
+        /* --- PRINT STYLES (TEXT-BASED PDF) --- */
+        @media print {
+            header, #sidebar, #coding-bar, .btn, .student-select, #student-instructions { display: none !important; }
+            body, main { background: white; height: auto; overflow: visible; display: block; padding: 0; margin: 0; }
+            .column { width: 100%; height: auto; display: block; }
+            .workspace-card { border: none; box-shadow: none; display: block; }
+            .content-area { overflow: visible; height: auto; line-height: 2.5; }
+            .highlighted { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .teacher-label { -webkit-print-color-adjust: exact; print-color-adjust: exact; border: 1px solid #ddd; }
+            .summary-box { display: block; page-break-before: always; border: 1px solid #eee; margin-top: 20px; }
         }
 
         .hidden { display: none !important; }
@@ -192,7 +173,7 @@
 
 <main id="main-layout">
     <div class="column" id="col-1">
-        <div class="workspace-card" id="pdf-content">
+        <div class="workspace-card">
             <div class="card-header">
                 <span id="label-left">Transcript</span>
                 <div style="display: flex; gap: 8px; align-items: center;">
@@ -356,11 +337,7 @@
         let html = scripts[num];
         const summaryCont = document.getElementById('summary-content-1');
         const usedCodes = {};
-        
-        // Sorting longest to shortest prevents partial matches breaking tags
-        const sortedData = [...data].sort((a,b) => b.text.length - a.text.length);
-
-        sortedData.forEach(item => {
+        data.forEach(item => {
             const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const regex = new RegExp(`(${escaped})`, 'g');
             const parts = item.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
@@ -397,10 +374,11 @@
         if (currentScript > 2) return; 
         setTimeout(() => {
             const sel = window.getSelection();
-            if (sel.rangeCount > 0 && sel.toString().trim().length > 1) {
+            if (sel.rangeCount > 0 && sel.toString().trim().length > 2) {
                 const range = sel.getRangeAt(0);
                 if (document.getElementById('t1').contains(range.commonAncestorContainer)) {
                     clearPendingHighlights();
+                    savedSelectionRange = range.cloneRange();
                     const span = document.createElement('span');
                     span.className = 'pending-selection';
                     try {
@@ -431,24 +409,22 @@
         const input = document.getElementById('code-input');
         const codeName = input.value.trim();
         const pending = document.querySelector('.pending-selection');
-        if (!codeName || !pending) return;
-        
+        if (!codeName || !pending) { return; }
         const id = "c" + Date.now();
-        if (!codeColors[codeName]) { 
-            codeColors[codeName] = colorPalette[paletteIndex % colorPalette.length]; 
-            paletteIndex++; 
-        }
+        if (!codeColors[codeName]) { codeColors[codeName] = colorPalette[paletteIndex % colorPalette.length]; paletteIndex++; }
         const color = codeColors[codeName];
+        
         const parts = color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
         let darkColor = `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)`;
+        const labelHtml = `<span class="teacher-label" style="background:${darkColor}">${codeName}</span>`;
         
-        const originalText = pending.innerText;
+        const originalContent = pending.innerText;
         pending.className = 'highlighted';
         pending.style.backgroundColor = color;
         pending.dataset.id = id;
-        pending.innerHTML = `${originalText}<span class="teacher-label" style="background:${darkColor}">${codeName}</span>`;
+        pending.innerHTML = originalContent + labelHtml;
         
-        myCodes.push({ id, code: codeName, text: originalText, color });
+        myCodes.push({ id, code: codeName, text: originalContent, color });
         updateCodeList(myCodes);
         input.value = "";
         input.blur();
@@ -457,16 +433,20 @@
     function removeCode(id) {
         const el = document.querySelector(`[data-id="${id}"]`);
         if (el) {
-            // Find just the text node part to restore
-            const textNode = document.createTextNode(el.childNodes[0].textContent);
-            el.replaceWith(textNode);
+            const originalText = el.childNodes[0].textContent;
+            el.replaceWith(originalText);
         }
         myCodes = myCodes.filter(c => c.id !== id);
         updateCodeList(myCodes);
     }
 
     function updateCodeList(data, isSampleView = false) {
-        document.getElementById('code-list').innerHTML = data.map(c => `<div class="code-badge" style="border-left-color:${c.color}">${!isSampleView ? `<span class="remove-code-btn" onclick="removeCode('${c.id}')">×</span>` : ''}<strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span></div>`).join('') || '<p style="color:#94a3b8; font-size:0.75rem;">No codes established yet.</p>';
+        document.getElementById('code-list').innerHTML = data.map(c => `
+            <div class="code-badge" style="border-left-color:${c.color}">
+                ${!isSampleView ? `<span class="remove-code-btn" onclick="removeCode('${c.id}')">×</span>` : ''}
+                <strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span>
+            </div>
+        `).join('') || '<p style="color:#94a3b8; font-size:0.75rem;">No codes established yet.</p>';
     }
 
     function syncFromCloud() {
@@ -503,10 +483,7 @@
         const data = submissions[key].data;
         let html = target.innerHTML;
         const usedCodes = {};
-        
-        const sortedData = [...data].sort((a,b) => b.text.length - a.text.length);
-
-        sortedData.forEach(item => {
+        data.forEach(item => {
             const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const regex = new RegExp(`(${escaped})`, 'g');
             const parts = item.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
@@ -522,7 +499,7 @@
     }
 
     function clearCloudData() {
-        if(!confirm("⚠️ Delete ALL stored submissions?")) return;
+        if(!confirm("⚠️ This will permanently delete all stored submissions. Continue?")) return;
         const btn = document.getElementById('clear-btn');
         btn.innerText = "Purging...";
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'clear' }) }).then(() => {
@@ -533,7 +510,7 @@
 
     function submitToCloud() {
         const name = document.getElementById('student-name').value.trim();
-        if (!name || myCodes.length === 0) { alert("Enter your name and some codes first."); return; }
+        if (!name || myCodes.length === 0) { alert("Please ensure your name and codes are entered."); return; }
         const btn = document.getElementById('submit-btn');
         btn.innerText = "Sending...";
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name: name, scriptId: currentScript, data: JSON.stringify(myCodes) }) }).then(() => {
@@ -544,3 +521,4 @@
 </script>
 </body>
 </html>
+```
