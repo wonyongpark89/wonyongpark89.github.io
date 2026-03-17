@@ -4,82 +4,186 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Qualitative Coding Suite</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%233498db'/><path d='M30 30h20l20 20-20 20-20-20V30z' fill='white'/><circle cx='40' cy='40' r='5' fill='%233498db'/></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><path d='M30 30h20l20 20-20 20-20-20V30z' fill='white'/><circle cx='40' cy='40' r='5' fill='%234f46e5'/></svg>">
+    
     <style>
-        :root { --bg: #f8f9fa; --primary: #2c3e50; --accent: #3498db; --success: #27ae60; --teacher-color: #8e44ad; --danger: #e74c3c; }
+        :root { 
+            --bg: #f9fafb; 
+            --primary: #1e293b; 
+            --accent: #4f46e5; 
+            --success: #10b981; 
+            --teacher: #7c3aed; 
+            --danger: #ef4444; 
+            --border: #e5e7eb;
+            --radius: 10px;
+        }
         
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
             margin: 0; 
             display: flex; 
             flex-direction: column; 
             height: 100dvh; 
             background: var(--bg); 
+            color: #334155;
             overflow: hidden; 
         }
         
-        header { background: var(--primary); color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 10; border-bottom: 3px solid #ddd; flex-wrap: wrap; gap: 10px; }
+        /* --- HEADER --- */
+        header { 
+            background: white; 
+            color: var(--primary); 
+            padding: 12px 24px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            z-index: 10; 
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
 
-        .nav-group { display: flex; gap: 8px; align-items: center; }
-        .btn { border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; font-size: 0.85rem; box-sizing: border-box; }
-        .btn-script { background: #34495e; color: #bdc3c7; }
-        .btn-script.active { background: var(--accent); color: white; }
+        .nav-group { display: flex; gap: 10px; align-items: center; }
         
-        .btn-mode { background: #555; color: #fff; opacity: 0.6; }
-        .btn-mode.active { opacity: 1; transform: scale(1.05); }
-        #btn-student-mode.active { background: var(--success); }
-        #btn-teacher-mode.active { background: var(--teacher-color); }
-
-        main { display: flex; flex: 1; overflow: hidden; padding: 15px; gap: 15px; margin-bottom: 80px; }
-        .column { display: flex; flex-direction: column; gap: 15px; flex: 1; min-width: 0; }
-        .workspace-card { background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: flex; flex-direction: column; overflow: hidden; flex: 1; }
+        .btn { 
+            border: 1px solid var(--border); 
+            padding: 8px 16px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: 500; 
+            transition: all 0.2s; 
+            font-size: 0.85rem; 
+            background: white;
+            color: #64748b;
+        }
         
-        .card-header { padding: 15px 20px; background: #f1f2f6; border-bottom: 1px solid #ddd; font-weight: bold; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+        .btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
+
+        .btn-script.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2); }
         
-        .content-area { padding: 20px; overflow-y: auto; flex: 1; line-height: 2.4; font-size: 1.1rem; -webkit-overflow-scrolling: touch; }
-        .p-block { margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px; }
-        .speaker { font-weight: 800; color: #666; font-size: 0.8rem; text-transform: uppercase; display: block; }
+        .btn-mode { font-weight: 700; letter-spacing: 0.05em; }
+        .btn-mode.active { transform: translateY(-1px); }
+        #btn-student-mode.active { background: var(--success); color: white; border-color: var(--success); }
+        #btn-teacher-mode.active { background: var(--teacher); color: white; border-color: var(--teacher); }
 
-        .summary-box { background: #fff; border-top: 2px solid #eee; padding: 12px 20px; min-height: 90px; max-height: 140px; overflow-y: auto; flex-shrink: 0; }
-        .summary-title { margin: 0 0 8px 0; color: #666; font-size: 0.75rem; text-transform: uppercase; font-weight: bold; }
-
-        #sidebar { width: 320px; display: flex; flex-direction: column; gap: 15px; flex-shrink: 0; overflow-y: auto; }
-        .sidebar-panel { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        /* --- MAIN LAYOUT --- */
+        main { display: flex; flex: 1; overflow: hidden; padding: 20px; gap: 20px; margin-bottom: 80px; }
+        .column { display: flex; flex-direction: column; gap: 20px; flex: 1; min-width: 0; }
         
-        #coding-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #2d3436; padding: 15px 20px; box-sizing: border-box; display: flex; gap: 10px; align-items: center; z-index: 100; box-shadow: 0 -4px 15px rgba(0,0,0,0.3); }
-        #code-input { flex: 1; padding: 14px; border-radius: 6px; border: 2px solid #555; background: #fff; font-size: 1rem; box-sizing: border-box; }
-        #apply-btn { background: var(--accent); color: white; padding: 14px 24px; font-size: 1rem; border-radius: 6px; }
+        .workspace-card { 
+            background: white; 
+            border-radius: var(--radius); 
+            border: 1px solid var(--border);
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden; 
+            flex: 1; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        
+        .card-header { 
+            padding: 12px 20px; 
+            background: #f8fafc; 
+            border-bottom: 1px solid var(--border); 
+            font-weight: 600; 
+            font-size: 0.9rem;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        
+        .content-area { 
+            padding: 24px; 
+            overflow-y: auto; 
+            flex: 1; 
+            line-height: 2; 
+            font-size: 1.05rem; 
+            color: #1e293b;
+            -webkit-overflow-scrolling: touch; 
+        }
+        
+        .p-block { margin-bottom: 24px; border-left: 2px solid #f1f5f9; padding-left: 18px; }
+        .speaker { font-weight: 700; color: #94a3b8; font-size: 0.75rem; text-transform: uppercase; display: block; margin-bottom: 4px; }
 
-        .teacher-label { font-size: 0.9rem; font-weight: 800; text-transform: uppercase; padding: 4px 12px; border-radius: 6px; margin-left: 8px; display: inline-block; line-height: 1.2; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); vertical-align: middle; }
+        /* --- SUMMARY BOX --- */
+        .summary-box { 
+            background: #f8fafc; 
+            border-top: 1px solid var(--border); 
+            padding: 16px 20px; 
+            min-height: 80px; 
+            max-height: 120px; 
+            overflow-y: auto; 
+        }
+        .summary-title { margin: 0 0 10px 0; color: #64748b; font-size: 0.7rem; text-transform: uppercase; font-weight: 800; letter-spacing: 0.05em; }
 
-        #pw-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .pw-box { background: white; padding: 30px; border-radius: 12px; text-align: center; width: 80%; max-width: 300px; }
+        /* --- SIDEBAR --- */
+        #sidebar { width: 300px; display: flex; flex-direction: column; gap: 20px; flex-shrink: 0; overflow-y: auto; }
+        .sidebar-panel { background: white; padding: 20px; border-radius: var(--radius); border: 1px solid var(--border); }
+        .sidebar-panel h4 { font-size: 0.9rem; margin-top: 0; color: #1e293b; }
+
+        /* --- CODING BAR --- */
+        #coding-bar { 
+            position: fixed; bottom: 0; left: 0; width: 100%; 
+            background: #1e293b; padding: 16px 30px; box-sizing: border-box; 
+            display: flex; gap: 15px; align-items: center; z-index: 100; 
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1); 
+        }
+        
+        #code-input { 
+            flex: 1; padding: 14px 18px; border-radius: 8px; border: 1px solid #334155; 
+            background: #334155; color: white; font-size: 1rem; transition: 0.2s;
+        }
+        #code-input:focus { outline: none; border-color: var(--accent); background: #475569; }
+        #code-input::placeholder { color: #94a3b8; }
+        
+        #apply-btn { background: var(--accent); color: white; padding: 14px 28px; font-size: 0.95rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
+
+        /* --- HIGHLIGHTS & LABELS --- */
+        .teacher-label { 
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase; 
+            padding: 2px 8px; border-radius: 4px; margin-left: 6px; 
+            display: inline-block; line-height: 1.4; color: white; 
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1); 
+            vertical-align: middle; 
+        }
+
+        .highlighted { border-radius: 4px; padding: 2px 0; transition: background 0.3s; }
+        .pending-selection { background-color: rgba(79, 70, 229, 0.1); border-bottom: 2px dashed var(--accent); }
+        
+        .code-badge { 
+            padding: 10px; margin-bottom: 8px; border-radius: 8px; font-size: 0.8rem; 
+            border: 1px solid rgba(0,0,0,0.05); border-left: 4px solid var(--accent);
+            background: #f8fafc;
+        }
+
+        /* --- MODALS --- */
+        #pw-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .pw-box { background: white; padding: 32px; border-radius: 16px; text-align: center; width: 90%; max-width: 320px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .pw-box input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid var(--border); text-align: center; font-size: 1.1rem; }
 
         @media (max-width: 1024px) {
             body { overflow-y: auto; height: auto; min-height: 100dvh; }
-            main { flex-direction: column; overflow: visible; padding-bottom: 120px; height: auto; }
-            #sidebar { width: 100%; order: 2; overflow: visible; }
-            .column { flex: none; width: 100%; height: 70vh; min-height: 500px; }
-            .content-area { font-size: 1rem; line-height: 2.6; }
-            #coding-bar { padding: 10px; gap: 5px; }
-            #apply-btn { padding: 14px 15px; font-size: 0.9rem; }
+            main { flex-direction: column; overflow: visible; padding: 15px; padding-bottom: 120px; }
+            #sidebar { width: 100%; order: 2; }
+            .column { height: 65vh; min-height: 450px; }
+            #coding-bar { padding: 12px; gap: 8px; }
+            #apply-btn { padding: 12px 18px; }
         }
 
-        .highlighted { border-radius: 6px; padding: 4px 0; cursor: pointer; }
-        .pending-selection { outline: 2px solid var(--accent); outline-offset: 2px; background-color: rgba(52, 152, 219, 0.1); }
-        .code-badge { padding: 8px; margin-bottom: 6px; border-radius: 6px; font-size: 0.8rem; border-left: 4px solid rgba(0,0,0,0.3); }
         .hidden { display: none !important; }
-        .student-select { flex: 1; max-width: 250px; padding: 10px; border-radius: 4px; border: 1px solid #ddd; }
+        .student-select { padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.85rem; background: white; }
     </style>
 </head>
 <body>
 
 <div id="pw-modal">
     <div class="pw-box">
-        <h3>Teacher Access</h3>
-        <input type="password" id="pw-input" placeholder="Enter Password" style="padding:10px; margin-bottom:10px; width:200px;"><br>
-        <button class="btn" style="background:var(--teacher-color); color:white;" onclick="checkPassword()">Verify</button>
-        <button class="btn" onclick="closePwModal()">Cancel</button>
+        <h3 style="margin-top:0">Teacher Access</h3>
+        <p style="font-size:0.85rem; color:#64748b">Please enter your 4-digit security code.</p>
+        <input type="password" id="pw-input" placeholder="••••">
+        <div style="display:flex; gap:10px">
+            <button class="btn" style="flex:1; background:var(--teacher); color:white; border:none" onclick="checkPassword()">Verify</button>
+            <button class="btn" style="flex:1" onclick="closePwModal()">Cancel</button>
+        </div>
     </div>
 </div>
 
@@ -101,12 +205,12 @@
                 <span id="label-left">Transcript</span>
                 <select id="select-left" class="student-select hidden" onchange="applyReview(1)"></select>
             </div>
-            <div id="student-instructions" style="padding: 12px 20px; background: #e3f2fd; border-bottom: 1px solid #bbdefb; font-size: 0.9rem; color: #0d47a1;">
-                This transcript explores student experiences with technology and learning. <strong>To Code:</strong> Highlight a segment of text, type your label in the bar at the bottom, and press <strong>Enter</strong>.
+            <div id="student-instructions" style="padding: 14px 20px; background: #eff6ff; border-bottom: 1px solid #dbeafe; font-size: 0.85rem; color: #1e40af; line-height: 1.5;">
+                Explore student experiences with technology and learning. <br><strong>To Code:</strong> Highlight text, type a label below, and press <strong>Enter</strong>.
             </div>
             <div id="t1" class="content-area"></div>
             <div id="summary-1" class="summary-box hidden">
-                <p class="summary-title">Codes used in this transcript:</p>
+                <p class="summary-title">Summary Codebook</p>
                 <div id="summary-content-1" style="display: flex; flex-wrap: wrap;"></div>
             </div>
         </div>
@@ -115,12 +219,12 @@
     <div class="column hidden" id="col-2">
         <div class="workspace-card">
             <div class="card-header">
-                <span id="label-right">Transcript 2</span>
+                <span id="label-right">Comparison Transcript</span>
                 <select id="select-right" class="student-select" onchange="applyReview(2)"></select>
             </div>
             <div id="t2" class="content-area"></div>
             <div id="summary-2" class="summary-box">
-                <p class="summary-title">Codes used in this transcript:</p>
+                <p class="summary-title">Summary Codebook</p>
                 <div id="summary-content-2" style="display: flex; flex-wrap: wrap;"></div>
             </div>
         </div>
@@ -128,29 +232,28 @@
 
     <div id="sidebar">
         <div class="sidebar-panel" id="codes-panel">
-            <h4 id="codebook-title" style="margin:0">Active Codes</h4>
-            <div id="code-list" style="max-height: 250px; overflow-y: auto; margin: 10px 0;"></div>
+            <h4>My Codebook</h4>
+            <div id="code-list" style="max-height: 300px; overflow-y: auto; margin: 10px 0;"></div>
             <div id="export-section">
-                <input type="text" id="student-name" class="btn" style="width:100%; background:#eee; margin-bottom:10px; text-align:left; box-sizing: border-box;" placeholder="Enter Your Full Name...">
-                <button id="submit-btn" class="btn" style="width:100%; background:var(--success); color:white;" onclick="submitToCloud()">Submit</button>
+                <input type="text" id="student-name" class="btn" style="width:100%; background:#f8fafc; margin-bottom:12px; text-align:left; box-sizing: border-box;" placeholder="Full Name">
+                <button id="submit-btn" class="btn" style="width:100%; background:var(--success); color:white; border:none" onclick="submitToCloud()">Submit Session</button>
             </div>
         </div>
         <div class="sidebar-panel hidden" id="teacher-tools">
-            <h4 style="margin:0 0 10px 0">Teacher Cloud Review</h4>
-            <button class="btn" id="refresh-btn" style="width:100%; background:var(--accent); color:white;" onclick="syncFromCloud()">Refresh Submissions</button>
-            <button class="btn" id="toggle-view-btn" style="width:100%; margin-top:10px; background:#636e72; color:white;" onclick="toggleCompareMode()">Split Screen View</button>
-            <button class="btn" id="clear-btn" style="width:100%; margin-top:10px; background:var(--danger); color:white;" onclick="clearCloudData()">Clear All Submissions</button>
+            <h4>Cloud Management</h4>
+            <button class="btn" id="refresh-btn" style="width:100%; background:var(--accent); color:white; border:none" onclick="syncFromCloud()">Sync Submissions</button>
+            <button class="btn" id="toggle-view-btn" style="width:100%; margin-top:10px; color:#475569" onclick="toggleCompareMode()">Split Screen</button>
+            <button class="btn" id="clear-btn" style="width:100%; margin-top:10px; color:var(--danger); border-color:rgba(239, 68, 68, 0.2)" onclick="clearCloudData()">Purge All Data</button>
         </div>
     </div>
 </main>
 
 <div id="coding-bar">
-    <input type="text" id="code-input" placeholder="Type code name here...">
-    <button id="apply-btn" class="btn" onclick="applyManualCode()">Apply Code</button>
+    <input type="text" id="code-input" placeholder="Enter code label here...">
+    <button id="apply-btn" onclick="applyManualCode()">Apply Code</button>
 </div>
 
 <script>
-    // --- API CONFIGURATION ---
     const API_URL = "https://script.google.com/macros/s/AKfycbzEo0HjKylsTZ4jpcbBfIP3c_sPODpezIm1js7mH5hd_sWRtEcV4Vqgjb7umirx9wPv/exec";
 
     const scripts = {
@@ -167,9 +270,7 @@
         if (mode === 'teacher') {
             document.getElementById('pw-modal').style.display = 'flex';
             document.getElementById('pw-input').focus();
-        } else {
-            executeSetMode('student');
-        }
+        } else { executeSetMode('student'); }
     }
 
     function checkPassword() {
@@ -177,7 +278,7 @@
             document.getElementById('pw-modal').style.display = 'none';
             document.getElementById('pw-input').value = '';
             executeSetMode('teacher');
-        } else { alert("Incorrect Password."); }
+        } else { alert("Verification failed."); }
     }
 
     function closePwModal() { document.getElementById('pw-modal').style.display = 'none'; document.getElementById('pw-input').value = ''; }
@@ -196,7 +297,7 @@
         } else {
             isCompare = false; document.getElementById('col-2').classList.add('hidden'); 
             document.getElementById('select-left').classList.add('hidden');
-            document.getElementById('toggle-view-btn').innerText = "Split Screen View";
+            document.getElementById('toggle-view-btn').innerText = "Split Screen";
             resetWorkspaces();
         }
     }
@@ -220,7 +321,7 @@
     function toggleCompareMode() {
         isCompare = !isCompare;
         document.getElementById('col-2').classList.toggle('hidden', !isCompare);
-        document.getElementById('toggle-view-btn').innerText = isCompare ? "Single Transcript View" : "Split Screen View";
+        document.getElementById('toggle-view-btn').innerText = isCompare ? "Single View" : "Split Screen";
     }
 
     // --- SMOOTH SELECTION LOGIC ---
@@ -265,7 +366,7 @@
         const input = document.getElementById('code-input');
         const codeName = input.value.trim();
         const pending = document.querySelector('.pending-selection');
-        if (!codeName || !pending) { alert("Please select some text first!"); return; }
+        if (!codeName || !pending) { return; }
         const id = "c" + Date.now();
         if (!codeColors[codeName]) { codeColors[codeName] = colorPalette[paletteIndex % colorPalette.length]; paletteIndex++; }
         const color = codeColors[codeName];
@@ -281,35 +382,35 @@
 
     function updateCodeList(data) {
         document.getElementById('code-list').innerHTML = data.map(c => `
-            <div class="code-badge" style="background:${c.color}">
-                <strong>${c.code}</strong><br><em>"${c.text.substring(0,30)}..."</em>
+            <div class="code-badge" style="border-left-color:${c.color}">
+                <strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span>
             </div>
-        `).join('') || '<p style="color:#999; font-size:0.8rem;">No codes yet.</p>';
+        `).join('') || '<p style="color:#94a3b8; font-size:0.75rem;">No codes established yet.</p>';
     }
 
     // --- BACKEND API ---
     function syncFromCloud() {
         const btn = document.getElementById('refresh-btn');
-        btn.innerText = "Fetching...";
+        btn.innerText = "Syncing...";
         fetch(API_URL).then(res => res.json()).then(allRows => {
             submissions = {};
-            if (!allRows || allRows.length <= 1) { btn.innerText = "Refresh Submissions"; return; }
+            if (!allRows || allRows.length <= 1) { btn.innerText = "Sync Submissions"; return; }
             allRows.forEach((row, index) => {
                 if (index === 0) return;
                 const scriptId = parseInt(String(row[2]).replace(/\D/g, ''));
                 submissions[`row-${index}`] = { data: JSON.parse(row[3]), label: `${row[1]} (Script ${scriptId})`, scriptId: scriptId };
             });
             updateTeacherDropdowns();
-            btn.innerText = "Refresh Submissions";
-        }).catch(() => { btn.innerText = "Error Fetching"; });
+            btn.innerText = "Sync Submissions";
+        }).catch(() => { btn.innerText = "Sync Error"; });
     }
 
     function updateTeacherDropdowns() {
         const keys = Object.keys(submissions);
         const filteredKeys = keys.filter(k => submissions[k].scriptId == currentScript);
         const opts = `<option value="">Select Student...</option>` + filteredKeys.map(k => `<option value="${k}">${submissions[k].label}</option>`).join('');
-        document.getElementById('select-left').innerHTML = filteredKeys.length ? opts : '<option value="">No submissions</option>';
-        document.getElementById('select-right').innerHTML = filteredKeys.length ? opts : '<option value="">No submissions</option>';
+        document.getElementById('select-left').innerHTML = filteredKeys.length ? opts : '<option value="">No data</option>';
+        document.getElementById('select-right').innerHTML = filteredKeys.length ? opts : '<option value="">No data</option>';
     }
 
     function applyReview(side) {
@@ -338,25 +439,24 @@
     }
 
     function clearCloudData() {
-        if(!confirm("⚠️ Delete ALL data?")) return;
+        if(!confirm("⚠️ This will permanently delete all stored submissions. Continue?")) return;
         const btn = document.getElementById('clear-btn');
-        btn.innerText = "Clearing...";
+        btn.innerText = "Purging...";
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'clear' }) }).then(() => {
-            alert("Cleared!"); btn.innerText = "Clear All Submissions";
+            alert("Data purged."); btn.innerText = "Purge All Data";
             submissions = {}; updateTeacherDropdowns(); resetWorkspaces();
         });
     }
 
     function submitToCloud() {
         const name = document.getElementById('student-name').value.trim();
-        if (!name || myCodes.length === 0) return;
+        if (!name || myCodes.length === 0) { alert("Please ensure your name and codes are entered."); return; }
         const btn = document.getElementById('submit-btn');
-        btn.innerText = "Submitting...";
+        btn.innerText = "Sending...";
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name: name, scriptId: currentScript, data: JSON.stringify(myCodes) }) }).then(() => {
-            btn.innerText = "Submitted!"; btn.style.background = "#27ae60";
+            btn.innerText = "Success!"; btn.style.background = "var(--success)";
         });
     }
-
     loadScript(1);
 </script>
 </body>
