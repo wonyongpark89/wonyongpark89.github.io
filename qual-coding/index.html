@@ -84,7 +84,7 @@
             padding: 24px; 
             overflow-y: auto; 
             flex: 1; 
-            line-height: 3.5; /* Sufficient height for larger labels */
+            line-height: 3.2; 
             font-size: 1.05rem; 
             color: #1e293b;
             -webkit-overflow-scrolling: touch; 
@@ -98,7 +98,9 @@
 
         #sidebar { width: 300px; display: flex; flex-direction: column; gap: 20px; flex-shrink: 0; overflow-y: auto; }
         .sidebar-panel { background: white; padding: 20px; border-radius: var(--radius); border: 1px solid var(--border); }
-        .sidebar-panel h4 { font-size: 0.9rem; margin-top: 0; color: #1e293b; }
+        .sidebar-panel h4 { font-size: 0.9rem; margin-top: 0; color: #1e293b; margin-bottom: 12px; }
+
+        .input-label { display: block; font-size: 0.7rem; color: #64748b; margin-bottom: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; }
 
         .copyright { font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; text-align: center; margin-top: auto; padding-bottom: 10px; letter-spacing: 0.05em; }
 
@@ -107,7 +109,6 @@
         #code-input:focus { outline: none; border-color: var(--accent); background: #475569; }
         #apply-btn { background: var(--accent); color: white; padding: 14px 28px; font-size: 0.95rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
 
-        /* --- HIGHLIGHTS & LABELS --- */
         .highlighted { 
             display: inline; 
             padding: 0.2em 0; 
@@ -118,14 +119,14 @@
         }
 
         .teacher-label { 
-            font-size: 0.75rem; /* Increased size */
+            font-size: 0.82rem; /* Increased font size */
             font-weight: 800; 
             text-transform: uppercase; 
             padding: 2px 6px; 
             border-radius: 3px; 
             color: white; 
             display: inline-block;
-            line-height: 1.2;
+            line-height: 1.1;
             margin-left: 6px;
             vertical-align: middle;
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
@@ -145,7 +146,7 @@
         @media print {
             header, #sidebar, #coding-bar, .btn, .student-select, #student-instructions { display: none !important; }
             body, main { background: white; height: auto; overflow: visible; display: block; padding: 0; margin: 0; }
-            .content-area { overflow: visible; height: auto; line-height: 4.0; }
+            .content-area { overflow: visible; height: auto; line-height: 3.5; }
             .highlighted { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .teacher-label { -webkit-print-color-adjust: exact; print-color-adjust: exact; border: 1px solid #999; color: white !important; background-color: #333 !important; }
         }
@@ -227,17 +228,22 @@
         <div class="sidebar-panel" id="codes-panel">
             <h4>My Codebook</h4>
             <div id="code-list" style="max-height: 300px; overflow-y: auto; margin: 10px 0;"></div>
-            <div id="export-section">
-                <input type="text" id="student-name" class="btn" style="width:100%; background:#f8fafc; margin-bottom:12px; text-align:left; box-sizing: border-box;" placeholder="Full Name">
-                <button id="submit-btn" class="btn" style="width:100%; background:var(--success); color:white; border:none" onclick="submitToCloud()">Submit</button>
-            </div>
         </div>
+
+        <div class="sidebar-panel" id="export-section">
+            <h4>Submission</h4>
+            <label for="student-name" class="input-label">Full Name</label>
+            <input type="text" id="student-name" class="btn" style="width:100%; background:#f8fafc; margin-bottom:12px; text-align:left; box-sizing: border-box;" placeholder="Enter your name...">
+            <button id="submit-btn" class="btn" style="width:100%; background:var(--success); color:white; border:none" onclick="submitToCloud()">Submit Session</button>
+        </div>
+
         <div class="sidebar-panel hidden" id="teacher-tools">
             <h4>Cloud Management</h4>
             <button class="btn" id="refresh-btn" style="width:100%; background:var(--accent); color:white; border:none" onclick="syncFromCloud()">Sync Submissions</button>
             <button class="btn" id="toggle-view-btn" style="width:100%; margin-top:10px; color:#475569" onclick="toggleCompareMode()">Split Screen</button>
             <button class="btn" id="clear-btn" style="width:100%; margin-top:10px; color:var(--danger); border-color:rgba(239, 68, 68, 0.2)" onclick="clearCloudData()">Purge All Data</button>
         </div>
+
         <div class="sidebar-panel hidden" id="teacher-links">
             <h4>External Resources</h4>
             <a href="https://docs.google.com/spreadsheets/d/1UJvmEBQoLJjgzziL0bzkcw8vI0HH-wLKgvmqnvMay9k/edit?gid=0#gid=0" target="_blank" class="btn" style="width:100%; display:block; text-align:center; text-decoration:none; margin-bottom:10px; color:#475569">Open Spreadsheet</a>
@@ -325,7 +331,7 @@
         const isSample = currentScript > 2;
         document.getElementById('coding-bar').classList.toggle('hidden', mode === 'teacher' || isSample);
         document.getElementById('codes-panel').classList.toggle('hidden', mode === 'teacher');
-        document.getElementById('export-section').classList.toggle('hidden', isSample);
+        document.getElementById('export-section').classList.toggle('hidden', mode === 'teacher' || isSample);
         document.getElementById('student-instructions').classList.toggle('hidden', mode === 'teacher');
         document.getElementById('summary-1').classList.toggle('hidden', mode === 'student');
         if (mode === 'teacher') {
@@ -344,7 +350,7 @@
         document.getElementById('student-instructions').innerHTML = scriptInstructions[num];
         const isSample = num > 2;
         document.getElementById('coding-bar').classList.toggle('hidden', currentMode === 'teacher' || isSample);
-        document.getElementById('export-section').classList.toggle('hidden', isSample);
+        document.getElementById('export-section').classList.toggle('hidden', currentMode === 'teacher' || isSample);
         resetWorkspaces();
         if (isSample) renderSample(num);
         if (currentMode === 'teacher') updateTeacherDropdowns();
@@ -429,6 +435,7 @@
         const codeName = input.value.trim();
         const pending = document.querySelector('.pending-selection');
         if (!codeName || !pending) return;
+        
         const id = "c" + Date.now();
         if (!codeColors[codeName]) { 
             codeColors[codeName] = colorPalette[paletteIndex % colorPalette.length]; 
