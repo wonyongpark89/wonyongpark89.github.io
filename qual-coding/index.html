@@ -84,7 +84,7 @@
             padding: 24px; 
             overflow-y: auto; 
             flex: 1; 
-            line-height: 3.2; 
+            line-height: 3.2; /* Sufficient height for labels */
             font-size: 1.05rem; 
             color: #1e293b;
             -webkit-overflow-scrolling: touch; 
@@ -107,6 +107,7 @@
         #code-input:focus { outline: none; border-color: var(--accent); background: #475569; }
         #apply-btn { background: var(--accent); color: white; padding: 14px 28px; font-size: 0.95rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
 
+        /* --- STABLE HIGHLIGHTS & LABELS --- */
         .highlighted { 
             display: inline; 
             padding: 0.2em 0; 
@@ -126,7 +127,7 @@
             display: inline-block;
             line-height: 1;
             margin-left: 4px;
-            vertical-align: middle; /* FIXED ALIGNMENT */
+            vertical-align: middle;
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
             pointer-events: none;
             user-select: none;
@@ -255,9 +256,9 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbzEo0HjKylsTZ4jpcbBfIP3c_sPODpezIm1js7mH5hd_sWRtEcV4Vqgjb7umirx9wPv/exec";
 
     const scripts = {
-        1: `<div class="p-block"><span class="speaker">Interviewer:</span> How are you actually using AI tools like ChatGPT in your daily study routine?</div><div class="p-block"><span class="speaker">Student A:</span> It’s become a bit of a co-pilot, honestly. I don’t use it to write my essays—the professors are really strict about that—but I use it to break down complex readings. Like, if I have a 40-page journal article, I’ll ask it to explain the core methodology in simple terms. It saves me hours of staring at jargon.</div><div class="p-block"><span class="speaker">Student A:</span> That's fair, but look at the pressure we're under. The workload hasn't decreased, but now we have this tool that can speed up the "grunt work." If I can use AI to organize my bibliography or suggest an outline, why wouldn't I? It's not about being lazy; it's about efficiency. I think the university is lagging behind the reality of how we work now.</div>`,
-        2: `<div class="p-block"><span class="speaker">Moderator:</span> Let's talk about the experience of speaking English during the live seminars. How does that feel for you?</div><div class="p-block"><span class="speaker">Participant 1:</span> For me, it’s the "waiting" that’s the worst. While other students are talking, I’m not really listening to them. I’m just rehearsing my own sentence over and over in my head. I’m terrified I'll use the wrong tense and everyone will realize I don’t belong in this masters program.</div><div class="p-block"><span class="speaker">Participant 2:</span> I totally get that. I find that I’m much more "quiet" in English than I am in my native language. Back home, I’m the one always making jokes and leading the debate. Here, I’m just the "silent guy" in the corner. It feels like my personality is being filtered through a very small straw. I just can't be myself.</div>`,
-        3: `<div class="p-block"><span class="speaker">Interviewer:</span> What are your thoughts on the new AI-based exam proctoring systems?</div><div class="p-block"><span class="speaker">Student C:</span> I understand the university wants to prevent cheating, but having a camera track my eye movements feels like a complete invasion of my space. I’m in my bedroom, yet I feel like a prisoner. It's a choice between my privacy and my degree. I shouldn't have to show a stranger my personal living space just to prove I'm not a fraud. It creates this inherent atmosphere of distrust from the very start.</div><div class="p-block"><span class="speaker">Student D:</span> I see it differently. I've worked hard for my grades, and if someone can just look up answers on their phone, it devalues my degree. I’d rather have the intrusion if it means the results are actually fair. For me, the security of the system is more important than the temporary discomfort of being watched. We are here to be assessed on our merit, and if the system can't guarantee that merit, what's the point of the institution?</div>`,
+        1: `<div class="p-block"><span class="speaker">Interviewer:</span> How are you actually using AI tools like ChatGPT in your daily study routine?</div><div class="p-block"><span class="speaker">Student A:</span> It’s become a bit of a co-pilot, honestly. I don’t use it to write my essays—the professors are really strict about that—but I use it to break down complex readings. Like, if I have a 40-page journal article, I’ll ask it to explain the core methodology in simple terms. It saves me hours of staring at jargon.</div><div class="p-block"><span class="speaker">Student B:</span> I’m a bit more cautious. I feel like if I use it too much, I’m losing my ability to think for myself. I used it last week to generate a coding script for my stats class, and it worked, but I realized I didn't actually understand why the code worked. It felt like "cheating" my own brain out of a learning moment.</div><div class="p-block"><span class="speaker">Student A:</span> That's fair, but look at the pressure we're under. The workload hasn't decreased, but now we have this tool that can speed up the "grunt work." If I can use AI to organize my bibliography or suggest an outline, why wouldn't I? It's not about being lazy; it's about efficiency. I think the university is lagging behind the reality of how we work now.</div><div class="p-block"><span class="speaker">Student B:</span> Maybe, but I worry about the equity side too. Some of my friends pay for the "Plus" versions that are much smarter. If your grade depends on how good your "AI assistant" is, that's not really a level playing field, is it?</div>`,
+        2: `<div class="p-block"><span class="speaker">Moderator:</span> Let's talk about the experience of speaking English during the live seminars. How does that feel for you?</div><div class="p-block"><span class="speaker">Participant 1:</span> For me, it’s the "waiting" that’s the worst. While other students are talking, I’m not really listening to them. I’m just rehearsing my own sentence over and over in my head. I’m terrified I'll use the wrong tense and everyone will realize I don’t belong in this masters program.</div><div class="p-block"><span class="speaker">Participant 2:</span> I totally get that. I find that I’m much more "quiet" in English than I am in my native language. Back home, I’m the one always making jokes and leading the debate. Here, I’m just the "silent guy" in the corner. It feels like my personality is being filtered through a very small straw. I just can't be myself.</div><div class="p-block"><span class="speaker">Participant 3:</span> It’s also the eye contact. When the tutor looks at me, my mind just goes completely blank. It’s like a physical wall goes up. Even if I know the answer, the words get stuck in my throat. I’m so focused on my pronunciation that I lose the actual thread of the academic argument we are having.</div><div class="p-block"><span class="speaker">Participant 1:</span> Exactly! And then the tutor moves on to the next person, and I feel this huge relief, but also this frustration that I stayed silent again.</div>`,
+        3: `<div class="p-block"><span class="speaker">Interviewer:</span> What are your thoughts on the new AI-based exam proctoring systems?</div><div class="p-block"><span class="speaker">Student C:</span> I understand the university wants to prevent cheating, but having a camera track my eye movements feels like a complete invasion of my space. I’m in my bedroom, yet I feel like a prisoner. It's a choice between my privacy and my degree. I shouldn't have to show a stranger my personal living space just to prove I'm not a fraud. It creates this inherent atmosphere of distrust from the very start.</div><div class="p-block"><span class="speaker">Student D:</span> I see it differently. I've worked hard for my grades, and if someone can just look up answers on their phone, it devalues my degree. I’d rather have the intrusion if it means the results are actually fair. For me, the security of the system is more important than the temporary discomfort of being watched. We are here to be assessed on our merit, and if the system can't guarantee that merit, what's the point of the institution?</div><div class="p-block"><span class="speaker">Student C:</span> But at what cost? We are sacrificing our fundamental right to a private study environment for a metric of 'security' that can still be gamed. It feels like we are prioritizing the university's reputation over the student's wellbeing. There's a human cost to being monitored like a lab rat.</div><div class="p-block"><span class="speaker">Student D:</span> The 'human cost' is losing the integrity of academic achievement. If the university doesn't monitor us, the degree becomes a piece of paper anyone can buy or fake. I choose the institution's standard over my own temporary privacy every single time.</div>`,
         4: `<div class="p-block"><span class="speaker">Interviewer:</span> Can you describe the moment you finished your PhD defense?</div><div class="p-block"><span class="speaker">Candidate:</span> When the door closed for the examiners to deliberate, my heart was literally hammering against my ribs. I felt sick with dread. I kept replaying every single syllable of my presentation, focusing on that one question on Chapter 4 I fumbled. I convinced myself I'd failed, that four years of my life were about to evaporate. I was standing in the hallway, looking at the floor, feeling this impending doom settling over me.</div><div class="p-block"><span class="speaker">Candidate:</span> Then the door opened. The lead examiner had this very neutral expression, and my stomach just dropped. But when they called me back in and said "Congratulations, Doctor," it wasn't just happiness—it was this massive wave of exhaustion and relief. I just wanted to sit on the floor and cry. The validation was so overwhelming that I couldn't even process it. I felt so proud, but also completely hollowed out, like I'd given everything I had and there was nothing left inside. It was pure catharsis.</div>`,
         5: `<div class="p-block"><span class="speaker">Moderator:</span> How do you deal with the final weeks of the semester?</div><div class="p-block"><span class="speaker">Student E:</span> Honestly? I am just running on fumes at this point. I spend ten hours a day in the library, but half of that is just brain fog. You see everyone around you hitting a wall, but you can not stop. It is like this hustle loop where if you are not visible in the library by 8 AM, you have already failed the day. I am clocking in just to feel like I am still in the game.</div><div class="p-block"><span class="speaker">Student E:</span> By the time Friday rolls around, I am completely burnt out. I look at my screen and the words do not even make sense anymore. It is the end of the road for my motivation. I am just going through the motions now, waiting for that final submission button so I can finally switch off. It is not about the learning anymore; it is about survival.</div>`
     };
@@ -355,6 +356,8 @@
         let html = scripts[num];
         const summaryCont = document.getElementById('summary-content-1');
         const usedCodes = {};
+        
+        // Sorting longest to shortest prevents partial matches breaking tags
         const sortedData = [...data].sort((a,b) => b.text.length - a.text.length);
 
         sortedData.forEach(item => {
@@ -454,6 +457,7 @@
     function removeCode(id) {
         const el = document.querySelector(`[data-id="${id}"]`);
         if (el) {
+            // Find just the text node part to restore
             const textNode = document.createTextNode(el.childNodes[0].textContent);
             el.replaceWith(textNode);
         }
@@ -499,6 +503,7 @@
         const data = submissions[key].data;
         let html = target.innerHTML;
         const usedCodes = {};
+        
         const sortedData = [...data].sort((a,b) => b.text.length - a.text.length);
 
         sortedData.forEach(item => {
