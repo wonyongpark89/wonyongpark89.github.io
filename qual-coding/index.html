@@ -119,20 +119,30 @@
         }
 
         .teacher-label { 
-            font-size: 0.82rem; /* Increased font size */
+            font-size: 0.82rem; 
             font-weight: 800; 
             text-transform: uppercase; 
             padding: 2px 6px; 
             border-radius: 3px; 
             color: white; 
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
             line-height: 1.1;
             margin-left: 6px;
             vertical-align: middle;
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-            pointer-events: none;
             user-select: none;
         }
+
+        .uncode-inline {
+            margin-left: 4px;
+            cursor: pointer;
+            opacity: 0.7;
+            font-size: 1.1rem;
+            line-height: 0.8;
+            font-weight: normal;
+        }
+        .uncode-inline:hover { opacity: 1; }
 
         .pending-selection { background-color: rgba(79, 70, 229, 0.1); border-bottom: 2px dashed var(--accent); display: inline; }
         
@@ -144,7 +154,7 @@
         .pw-box input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid var(--border); text-align: center; font-size: 1.1rem; }
 
         @media print {
-            header, #sidebar, #coding-bar, .btn, .student-select, #student-instructions { display: none !important; }
+            header, #sidebar, #coding-bar, .btn, .student-select, #student-instructions, .uncode-inline { display: none !important; }
             body, main { background: white; height: auto; overflow: visible; display: block; padding: 0; margin: 0; }
             .content-area { overflow: visible; height: auto; line-height: 3.5; }
             .highlighted { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -274,7 +284,7 @@
         2: "Explore the psychological impact of language anxiety in academic seminars. <strong>To Code:</strong> Highlight a segment of text, type your label below, and press <strong>Enter</strong>.",
         3: "<strong>SAMPLE (Versus Coding):</strong> Identifies binary conflicts or tensions (e.g., Security vs. Privacy). Observe how the text is coded below.",
         4: "<strong>SAMPLE (Emotion Coding):</strong> Labels the feelings and intrapersonal experiences of the participant. Observe how the text is coded below.",
-        5: "<strong>SAMPLE (In Vivo Coding):</strong> Uses the participant's exact words as the codes. Observe how the text is coded below."
+        5: "<strong>SAMPLE (In Vivo Coding):</strong> Direct participant quotes are used as the codes. Observe how the labels are formatted below."
     };
 
     const sampleData = {
@@ -286,7 +296,6 @@
     const colorPalette = ["hsla(200, 80%, 85%, 0.9)", "hsla(140, 75%, 85%, 0.9)", "hsla(340, 80%, 88%, 0.9)", "hsla(45, 90%, 85%, 0.9)", "hsla(280, 70%, 88%, 0.9)", "hsla(25, 85%, 85%, 0.9)", "hsla(180, 60%, 85%, 0.9)", "hsla(10, 80%, 88%, 0.9)", "hsla(60, 80%, 85%, 0.9)", "hsla(220, 70%, 88%, 0.9)"];
 
     let currentMode = 'student', isCompare = false, currentScript = 1, myCodes = [], codeColors = {}, paletteIndex = 0, submissions = {};
-    let savedSelectionRange = null;
 
     function setMode(mode) {
         if (mode === 'teacher') {
@@ -340,7 +349,7 @@
             isCompare = false; document.getElementById('col-2').classList.add('hidden'); 
             document.getElementById('select-left').classList.add('hidden');
             document.getElementById('toggle-view-btn').innerText = "Split Screen";
-            resetWorkspaces();
+            loadScript(currentScript); 
         }
     }
 
@@ -353,6 +362,7 @@
         document.getElementById('export-section').classList.toggle('hidden', currentMode === 'teacher' || isSample);
         resetWorkspaces();
         if (isSample) renderSample(num);
+        else loadFromLocal(); 
         if (currentMode === 'teacher') updateTeacherDropdowns();
     }
 
@@ -397,7 +407,7 @@
     document.getElementById('t1').addEventListener('mouseup', handleSelectionEnd);
 
     function handleSelectionEnd() {
-        if (currentScript > 2) return; 
+        if (currentScript > 2 || currentMode === 'teacher') return; 
         setTimeout(() => {
             const sel = window.getSelection();
             if (sel.rangeCount > 0 && sel.toString().trim().length > 1) {
@@ -444,13 +454,16 @@
         const color = codeColors[codeName];
         const parts = color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
         let darkColor = `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)`;
+        
         const originalText = pending.innerText;
         pending.className = 'highlighted';
         pending.style.backgroundColor = color;
         pending.dataset.id = id;
-        pending.innerHTML = `${originalText}<span class="teacher-label" style="background:${darkColor}">${codeName}</span>`;
+        pending.innerHTML = `${originalText}<span class="teacher-label" style="background:${darkColor}">${codeName}<span class="uncode-inline" onclick="event.stopPropagation(); removeCode('${id}')">×</span></span>`;
+        
         myCodes.push({ id, code: codeName, text: originalText, color });
         updateCodeList(myCodes);
+        saveToLocal();
         input.value = "";
         input.blur();
     }
@@ -463,10 +476,37 @@
         }
         myCodes = myCodes.filter(c => c.id !== id);
         updateCodeList(myCodes);
+        saveToLocal();
     }
 
     function updateCodeList(data, isSampleView = false) {
         document.getElementById('code-list').innerHTML = data.map(c => `<div class="code-badge" style="border-left-color:${c.color}">${!isSampleView ? `<span class="remove-code-btn" onclick="removeCode('${c.id}')">×</span>` : ''}<strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span></div>`).join('') || '<p style="color:#94a3b8; font-size:0.75rem;">No codes established yet.</p>';
+    }
+
+    // --- PERSISTENCE LOGIC ---
+    function saveToLocal() {
+        localStorage.setItem(`coded_script_${currentScript}`, JSON.stringify(myCodes));
+    }
+
+    function loadFromLocal() {
+        const saved = localStorage.getItem(`coded_script_${currentScript}`);
+        if (!saved) return;
+        const data = JSON.parse(saved);
+        const target = document.getElementById('t1');
+        let html = scripts[currentScript];
+        
+        const sortedData = [...data].sort((a,b) => b.text.length - a.text.length);
+        sortedData.forEach(item => {
+            const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${escaped})`, 'g');
+            const parts = item.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+            let darkColor = `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)`;
+            const label = `<span class="teacher-label" style="background:${darkColor}">${item.code}<span class="uncode-inline" onclick="event.stopPropagation(); removeCode('${item.id}')">×</span></span>`;
+            html = html.replace(regex, `<span class="highlighted" style="background:${item.color}" data-id="${item.id}">$1${label}</span>`);
+            myCodes.push(item);
+        });
+        target.innerHTML = html;
+        updateCodeList(myCodes);
     }
 
     function syncFromCloud() {
