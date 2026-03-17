@@ -6,6 +6,8 @@
     <title>Qualitative Coding Suite</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><path d='M30 30h20l20 20-20 20-20-20V30z' fill='white'/><circle cx='40' cy='40' r='5' fill='%234f46e5'/></svg>">
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <style>
         :root { 
             --bg: #f9fafb; 
@@ -154,10 +156,13 @@
 
 <main id="main-layout">
     <div class="column" id="col-1">
-        <div class="workspace-card">
+        <div class="workspace-card" id="pdf-target">
             <div class="card-header">
                 <span id="label-left">Transcript</span>
-                <select id="select-left" class="student-select hidden" onchange="applyReview(1)"></select>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <button class="btn" onclick="downloadPDF()" style="font-size: 0.7rem; padding: 4px 8px;">Download PDF</button>
+                    <select id="select-left" class="student-select hidden" onchange="applyReview(1)"></select>
+                </div>
             </div>
             <div id="student-instructions" style="padding: 14px 20px; background: #eff6ff; border-bottom: 1px solid #dbeafe; font-size: 0.85rem; color: #1e40af; line-height: 1.5;"></div>
             <div id="t1" class="content-area"></div>
@@ -391,17 +396,14 @@
         const id = "c" + Date.now();
         if (!codeColors[codeName]) { codeColors[codeName] = colorPalette[paletteIndex % colorPalette.length]; paletteIndex++; }
         const color = codeColors[codeName];
-        
         const parts = color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
         let darkColor = `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)`;
         const labelHtml = `<span class="teacher-label" style="background:${darkColor}">${codeName}</span>`;
-        
         const originalContent = pending.innerText;
         pending.className = 'highlighted';
         pending.style.backgroundColor = color;
         pending.dataset.id = id;
         pending.innerHTML = originalContent + labelHtml;
-        
         myCodes.push({ id, code: codeName, text: originalContent, color });
         updateCodeList(myCodes);
         input.value = "";
@@ -419,12 +421,21 @@
     }
 
     function updateCodeList(data, isSampleView = false) {
-        document.getElementById('code-list').innerHTML = data.map(c => `
-            <div class="code-badge" style="border-left-color:${c.color}">
-                ${!isSampleView ? `<span class="remove-code-btn" onclick="removeCode('${c.id}')">×</span>` : ''}
-                <strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span>
-            </div>
-        `).join('') || '<p style="color:#94a3b8; font-size:0.75rem;">No codes established yet.</p>';
+        document.getElementById('code-list').innerHTML = data.map(c => `<div class="code-badge" style="border-left-color:${c.color}">${!isSampleView ? `<span class="remove-code-btn" onclick="removeCode('${c.id}')">×</span>` : ''}<strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span></div>`).join('') || '<p style="color:#94a3b8; font-size:0.75rem;">No codes established yet.</p>';
+    }
+
+    // --- PDF GENERATION LOGIC ---
+    function downloadPDF() {
+        const element = document.getElementById('pdf-target');
+        const studentName = document.getElementById('student-name').value.trim() || "Student";
+        const opt = {
+            margin: 1,
+            filename: `${studentName}-Script${currentScript}-Coded.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        html2pdf().from(element).set(opt).save();
     }
 
     function syncFromCloud() {
