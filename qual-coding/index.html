@@ -199,7 +199,7 @@
             <div class="card-header">
                 <span id="label-left">Transcript</span>
                 <div style="display: flex; gap: 8px; align-items: center;">
-                    <button class="btn" id="pdf-btn" onclick="window.print()" style="font-size: 0.7rem; padding: 4px 8px;">Download PDF</button>
+                    <button class="btn" onclick="window.print()" style="font-size: 0.7rem; padding: 4px 8px;">Download PDF</button>
                     <select id="select-left" class="student-select hidden" onchange="applyReview(1)"></select>
                 </div>
             </div>
@@ -230,6 +230,7 @@
         <div class="sidebar-panel" id="codes-panel">
             <h4>My Codebook</h4>
             <div id="code-list" style="max-height: 300px; overflow-y: auto; margin: 10px 0;"></div>
+            <button class="btn" style="width:100%; margin-top:5px; color:var(--danger); border-color:rgba(239, 68, 68, 0.2)" onclick="clearLocalCodes()">Clear Codes</button>
         </div>
 
         <div class="sidebar-panel" id="export-section">
@@ -276,7 +277,7 @@
         2: "Explore the psychological impact of language anxiety. <strong>To Code:</strong> Highlight a segment of text, type your label below, and press <strong>Enter</strong>.",
         3: "<strong>SAMPLE (Versus Coding):</strong> Identifies conflicts. Observe how the text is coded below.",
         4: "<strong>SAMPLE (Emotion Coding):</strong> Labels intrapersonal feelings. Observe how the text is coded below.",
-        5: "<strong>SAMPLE (In Vivo Coding):</strong> Direct quotes are used as codes. Observe the labels below."
+        5: "<strong>SAMPLE (In Vivo Coding):</strong> Direct participant quotes are used as the codes. Observe how the labels are formatted below."
     };
 
     const sampleData = {
@@ -320,7 +321,6 @@
         document.getElementById('btn-teacher-mode').classList.toggle('active', mode === 'teacher');
         document.getElementById('teacher-tools').classList.toggle('hidden', mode === 'student');
         document.getElementById('teacher-links').classList.toggle('hidden', mode === 'student');
-        document.getElementById('pdf-btn').classList.toggle('hidden', mode === 'teacher');
         
         const isSample = currentScript > 2;
         document.getElementById('coding-bar').classList.toggle('hidden', mode === 'teacher' || isSample);
@@ -429,10 +429,14 @@
         if (!codeName || !pending) return;
         
         const id = "c" + Date.now();
-        if (!codeColors[codeName]) { codeColors[codeName] = colorPalette[paletteIndex % colorPalette.length]; paletteIndex++; }
+        if (!codeColors[codeName]) { 
+            codeColors[codeName] = colorPalette[paletteIndex % colorPalette.length]; 
+            paletteIndex++; 
+        }
         const color = codeColors[codeName];
         const parts = color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
         let darkColor = `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)`;
+        
         const originalText = pending.innerText;
         pending.className = 'highlighted';
         pending.style.backgroundColor = color;
@@ -454,6 +458,12 @@
         saveToLocal();
     }
 
+    function clearLocalCodes() {
+        if(!confirm("⚠️ This will permanently clear your coding progress for this script. Continue?")) return;
+        localStorage.removeItem(`coded_script_${currentScript}`);
+        loadScript(currentScript);
+    }
+
     function updateCodeList(data, isSampleView = false) {
         document.getElementById('code-list').innerHTML = data.map(c => `<div class="code-badge" style="border-left-color:${c.color}">${!isSampleView ? `<span class="remove-code-btn" onclick="removeCode('${c.id}')">×</span>` : ''}<strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span></div>`).join('') || '<p style="color:#94a3b8; font-size:0.75rem;">No codes established yet.</p>';
     }
@@ -466,6 +476,7 @@
         const data = JSON.parse(saved);
         const target = document.getElementById('t1');
         let html = scripts[currentScript];
+        
         const sortedData = [...data].sort((a,b) => b.text.length - a.text.length);
         sortedData.forEach(item => {
             if (!codeColors[item.code]) { codeColors[item.code] = item.color; paletteIndex++; }
@@ -501,8 +512,10 @@
     }
 
     function applyReview(side) {
-        const key = document.getElementById(side === 1 ? 'select-left' : 'select-right').value;
-        const target = document.getElementById(side === 1 ? 't1' : 't2');
+        const dropdown = side === 1 ? 'select-left' : 'select-right';
+        const targetDiv = side === 1 ? 't1' : 't2';
+        const key = document.getElementById(dropdown).value;
+        const target = document.getElementById(targetDiv);
         target.innerHTML = scripts[currentScript];
         if (!key) return;
         const data = submissions[key].data;
