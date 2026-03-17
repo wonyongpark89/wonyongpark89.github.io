@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Qualitative Coding Workbook</title>
+    <title>Qualitative Coding Suite</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><path d='M30 30h20l20 20-20 20-20-20V30z' fill='white'/><circle cx='40' cy='40' r='5' fill='%234f46e5'/></svg>">
     
     <style>
@@ -130,7 +130,7 @@
         <p style="font-size:0.85rem; color:#64748b">Please enter your 4-digit security code.</p>
         <input type="password" id="pw-input" placeholder="••••">
         <div style="display:flex; gap:10px">
-            <button class="btn" style="flex:1; background:var(--teacher); color:white; border:none" onclick="checkPassword()">Verify</button>
+            <button class="btn btn-verify-action" style="flex:1; background:var(--teacher); color:white; border:none" onclick="checkPassword()">Verify</button>
             <button class="btn" style="flex:1" onclick="closePwModal()">Cancel</button>
         </div>
     </div>
@@ -246,12 +246,32 @@
         } else { executeSetMode('student'); }
     }
 
-    function checkPassword() {
-        if (document.getElementById('pw-input').value === '1124') {
-            document.getElementById('pw-modal').style.display = 'none';
-            document.getElementById('pw-input').value = '';
-            executeSetMode('teacher');
-        } else { alert("Verification failed."); }
+    // --- UPDATED SECURE PASSWORD VERIFICATION ---
+    async function checkPassword() {
+        const input = document.getElementById('pw-input').value;
+        const btn = document.querySelector('.btn-verify-action');
+        btn.innerText = "Verifying...";
+        
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'verify', password: input })
+            });
+            const result = await response.text();
+
+            if (result === "true") {
+                document.getElementById('pw-modal').style.display = 'none';
+                document.getElementById('pw-input').value = '';
+                btn.innerText = "Verify";
+                executeSetMode('teacher');
+            } else {
+                alert("Verification failed.");
+                btn.innerText = "Verify";
+            }
+        } catch (e) {
+            alert("Connection error.");
+            btn.innerText = "Verify";
+        }
     }
 
     function closePwModal() { document.getElementById('pw-modal').style.display = 'none'; document.getElementById('pw-input').value = ''; }
@@ -378,7 +398,7 @@
         if (!codeName || !pending) { return; }
         const id = "c" + Date.now();
         if (!codeColors[codeName]) { codeColors[codeName] = colorPalette[paletteIndex % colorPalette.length]; paletteIndex++; }
-        const color = codeColors[codeName];
+        const color = colorPalette[paletteIndex % colorPalette.length]; 
         pending.className = 'highlighted';
         pending.style.backgroundColor = color;
         pending.dataset.id = id;
