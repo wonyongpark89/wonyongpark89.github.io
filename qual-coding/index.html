@@ -163,6 +163,250 @@
 
         .hidden { display: none !important; }
         .student-select { padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.85rem; background: white; width: 100%; max-width: 200px; }
+
+        /* ── Stage 2 & 3 & 4 ── */
+        #stage2-btn {
+            position: fixed; bottom: 80px; right: 20px;
+            background: var(--accent); color: white;
+            border: none; border-radius: 8px;
+            padding: 10px 18px; font-size: 0.85rem; font-weight: 600;
+            cursor: pointer; z-index: 200;
+            box-shadow: 0 4px 12px rgba(79,70,229,0.35);
+            display: none;
+        }
+        #stage2-btn:hover { background: #4338ca; }
+
+        #stage-overlay {
+            position: fixed; inset: 0;
+            background: #f1f5f9;
+            z-index: 300;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #stage-overlay.open { display: flex; }
+
+        .stage-header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 12px 20px;
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+        }
+        .stage-header h2 { margin: 0; font-size: 0.95rem; color: var(--primary); flex: 1; min-width: 120px; }
+        .stage-back {
+            padding: 7px 14px; border-radius: 6px; border: 1px solid var(--border);
+            background: white; font-size: 0.8rem; cursor: pointer; color: #64748b;
+            white-space: nowrap;
+        }
+        .stage-nav-btn {
+            padding: 7px 13px; border-radius: 6px; border: 1px solid var(--border);
+            background: white; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+            color: #64748b; white-space: nowrap;
+        }
+        .stage-nav-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+        .stage-nav-btn:disabled { opacity: 0.35; cursor: default; }
+
+        .stage-instructions {
+            background: #eff6ff; border-bottom: 1px solid #dbeafe;
+            padding: 10px 20px; font-size: 0.82rem; color: #1e40af; line-height: 1.5;
+        }
+
+        .stage-body {
+            flex: 1; overflow-y: auto; padding: 20px;
+            display: flex; flex-direction: column; gap: 16px;
+        }
+
+        /* Stage panels */
+        .stage-panel { display: none; flex-direction: column; gap: 16px; }
+        .stage-panel.active { display: flex; }
+
+        /* Code pool */
+        #code-pool-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 16px; }
+        #code-pool-wrap h3 { margin: 0 0 10px; font-size: 0.8rem; text-transform: uppercase; color: #64748b; letter-spacing: 0.05em; }
+        #code-pool { display: flex; flex-wrap: wrap; gap: 8px; min-height: 40px; }
+        .pool-card {
+            padding: 7px 12px; border-radius: 6px;
+            font-size: 0.8rem; font-weight: 600;
+            cursor: grab; user-select: none;
+            border: 1px solid rgba(0,0,0,0.08);
+            touch-action: none;
+            transition: transform 0.15s, box-shadow 0.15s;
+            position: relative;
+        }
+        .pool-card:active { cursor: grabbing; }
+        .pool-card.dragging { opacity: 0.4; }
+
+        /* Tooltip showing coded text on hover */
+        .pool-card::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%; transform: translateX(-50%);
+            background: #1e293b; color: white;
+            font-size: 0.72rem; font-weight: 400;
+            padding: 5px 9px; border-radius: 5px;
+            white-space: normal; width: 220px;
+            line-height: 1.4; text-align: left;
+            pointer-events: none; opacity: 0;
+            transition: opacity 0.15s;
+            z-index: 999;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .pool-card:hover::after { opacity: 1; }
+
+        /* Return-to-pool × button on cards inside clusters */
+        .pool-card .return-btn {
+            display: inline-block;
+            margin-left: 5px; cursor: pointer;
+            opacity: 0.55; font-weight: bold; font-size: 0.9rem;
+            line-height: 1; vertical-align: middle;
+        }
+        .pool-card .return-btn:hover { opacity: 1; }
+
+        /* Clusters */
+        #clusters-wrap { display: flex; flex-direction: column; gap: 14px; }
+        .cluster-card {
+            background: white; border-radius: var(--radius);
+            border: 1px solid var(--border); padding: 16px;
+        }
+        .cluster-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+        .cluster-name-input {
+            flex: 1; min-width: 140px;
+            padding: 8px 12px; border-radius: 6px;
+            border: 1px solid var(--border); font-size: 0.85rem;
+            font-weight: 600; color: var(--primary);
+        }
+        .cluster-name-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(79,70,229,0.15); }
+        .cluster-drop-zone {
+            min-height: 48px; border-radius: 6px;
+            border: 2px dashed #e2e8f0;
+            display: flex; flex-wrap: wrap; gap: 8px;
+            padding: 8px; transition: border-color 0.2s, background 0.2s;
+        }
+        .cluster-drop-zone.drag-over { border-color: var(--accent); background: #eef2ff; }
+
+        .cluster-category-wrap { margin-top: 12px; border-top: 1px solid #f1f5f9; padding-top: 12px; }
+        .cat-label { font-size: 0.7rem; text-transform: uppercase; color: #94a3b8; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 6px; }
+        .cluster-category-input {
+            width: 100%; box-sizing: border-box;
+            padding: 8px 12px; border-radius: 6px;
+            border: 1px solid var(--border); font-size: 0.85rem;
+            color: #4338ca; font-style: italic;
+        }
+        .cluster-category-input:focus { outline: none; border-color: #7c3aed; box-shadow: 0 0 0 2px rgba(124,58,237,0.15); }
+        .cluster-category-input::placeholder { color: #c4b5fd; }
+
+        .remove-cluster-btn {
+            padding: 5px 10px; font-size: 0.75rem; border-radius: 6px;
+            border: 1px solid rgba(239,68,68,0.2); color: var(--danger);
+            background: white; cursor: pointer;
+        }
+
+        #add-cluster-btn {
+            padding: 10px; border-radius: 8px;
+            border: 2px dashed #cbd5e1; background: white;
+            color: #64748b; font-size: 0.85rem; cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        #add-cluster-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* Stage 3 — testing with draggable code cards */
+        .s3-cluster-card {
+            background: white; border-radius: var(--radius);
+            border: 1px solid var(--border); padding: 16px;
+        }
+        .s3-top { margin-bottom: 8px; }
+        .s3-name-input {
+            width: 100%; box-sizing: border-box;
+            padding: 8px 12px; border-radius: 6px;
+            border: 1px solid var(--border); font-size: 0.9rem;
+            font-weight: 700; color: var(--primary);
+        }
+        .s3-name-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(79,70,229,0.15); }
+        .s3-category-label { font-size: 0.75rem; color: #7c3aed; font-style: italic; margin: 0 0 10px; }
+        .s3-prompt { font-size: 0.78rem; color: #64748b; margin: 0 0 8px; font-style: italic; }
+        .s3-drop-zone {
+            min-height: 56px; border-radius: 6px;
+            border: 2px dashed #e2e8f0;
+            display: flex; flex-direction: column; gap: 6px;
+            padding: 8px; transition: border-color 0.2s, background 0.2s;
+        }
+        .s3-drop-zone.drag-over { border-color: var(--accent); background: #eef2ff; }
+        .s3-code-card {
+            display: flex; align-items: flex-start; gap: 8px;
+            padding: 8px 10px; border-radius: 6px;
+            background: #f8fafc; border: 1px solid #e2e8f0;
+            border-left: 3px solid #94a3b8;
+            cursor: grab; font-size: 0.8rem;
+        }
+        .s3-code-card:active { cursor: grabbing; }
+        .s3-code-card.dragging { opacity: 0.4; }
+        .s3-code-label {
+            flex-shrink: 0; padding: 2px 7px; border-radius: 4px;
+            font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.02em; white-space: nowrap;
+        }
+        .s3-extract-text { color: #475569; line-height: 1.5; font-style: italic; }
+
+        /* Stage 4 — analytic claim */
+        .s4-section {
+            background: white; border-radius: var(--radius);
+            border: 1px solid var(--border); padding: 18px;
+        }
+        .s4-section h3 { margin: 0 0 4px; font-size: 0.9rem; color: var(--primary); }
+        .s4-section .s4-sub { font-size: 0.78rem; color: #64748b; margin: 0 0 14px; line-height: 1.5; }
+        .s4-categories-list { display: flex; flex-direction: column; gap: 12px; }
+        .s4-cat-block {
+            border-radius: 6px; border: 1px solid #e2e8f0; overflow: hidden;
+        }
+        .s4-cat-header {
+            display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+            padding: 9px 14px; background: #f8fafc; border-bottom: 1px solid #e2e8f0;
+        }
+        .s4-cat-name {
+            font-weight: 700; font-size: 0.88rem; color: var(--primary);
+        }
+        .s4-cat-phrase {
+            font-size: 0.75rem; color: #7c3aed; font-style: italic;
+        }
+        .s4-cat-extracts { padding: 8px 14px; display: flex; flex-direction: column; gap: 5px; }
+        .s4-extract-row {
+            display: flex; align-items: flex-start; gap: 8px;
+            font-size: 0.78rem; color: #475569; line-height: 1.5;
+        }
+        .s4-extract-code {
+            flex-shrink: 0; padding: 1px 6px; border-radius: 3px;
+            font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em;
+            margin-top: 2px;
+        }
+
+        /* Scaffolded writing */
+        .s4-scaffold-box {
+            background: #eff6ff; border-left: 3px solid var(--accent);
+            border-radius: 6px; padding: 11px 14px; margin-bottom: 10px;
+        }
+        .s4-scaffold-box p { margin: 0; font-size: 0.8rem; color: #1e40af; line-height: 1.6; }
+        .s4-field-label {
+            font-size: 0.7rem; text-transform: uppercase; font-weight: 700;
+            letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 5px;
+        }
+        .s4-textarea {
+            width: 100%; box-sizing: border-box;
+            padding: 10px 13px; border-radius: 6px;
+            border: 1px solid var(--border); font-size: 0.85rem;
+            resize: vertical; min-height: 80px; line-height: 1.6;
+            font-family: inherit;
+        }
+        .s4-textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(79,70,229,0.1); }
+        .s4-divider { border: none; border-top: 1px solid var(--border); margin: 6px 0 18px; }
+
+        @media (max-width: 600px) {
+            .stage-header { padding: 10px 14px; gap: 8px; }
+            .stage-body { padding: 14px; }
+            #stage2-btn { bottom: 90px; right: 14px; font-size: 0.8rem; padding: 9px 14px; }
+            .stage-nav-btn { font-size: 0.72rem; padding: 6px 10px; }
+        }
     </style>
 </head>
 <body>
@@ -259,6 +503,84 @@
 <div id="coding-bar">
     <input type="text" id="code-input" placeholder="Enter code label here...">
     <button id="apply-btn" onclick="applyManualCode()">Apply Code</button>
+</div>
+
+<button id="stage2-btn" onclick="openStageOverlay()">✦ Move to Stage 2 →</button>
+
+<!-- Stage 2–4 Overlay (Script 2 only) -->
+<div id="stage-overlay">
+    <div class="stage-header">
+        <button class="stage-back" onclick="closeStageOverlay()">← Back to Coding</button>
+        <h2 id="stage-overlay-title">Script 2 — Stage 2</h2>
+        <button class="stage-nav-btn active" id="snav-2" onclick="switchStage(2)">2: Find Patterns</button>
+        <button class="stage-nav-btn" id="snav-3" onclick="switchStage(3)">3: Test Your Categories</button>
+        <button class="stage-nav-btn" id="snav-4" onclick="switchStage(4)">4: Build a Claim</button>
+    </div>
+    <div id="stage-instructions-bar" class="stage-instructions"></div>
+    <div class="stage-body">
+
+        <!-- ── STAGE 2 panel ── -->
+        <div class="stage-panel active" id="panel-2">
+            <div id="code-pool-wrap">
+                <h3>Your Codes — hover to see the coded text · drag into a category below</h3>
+                <div id="code-pool"></div>
+            </div>
+            <div id="clusters-wrap"></div>
+            <button id="add-cluster-btn" onclick="addCluster()">+ Add Category</button>
+        </div>
+
+        <!-- ── STAGE 3 panel ── -->
+        <div class="stage-panel" id="panel-3">
+            <div id="s3-clusters-container"></div>
+        </div>
+
+        <!-- ── STAGE 4 panel ── -->
+        <div class="stage-panel" id="panel-4">
+
+            <div class="s4-section">
+                <h3>Your finalised categories</h3>
+                <p class="s4-sub">This is what you built in Stages 2 and 3. Read each category and its extracts carefully before you write anything — let the data speak first.</p>
+                <div id="s4-categories-display" class="s4-categories-list"></div>
+            </div>
+
+            <div class="s4-section">
+                <h3>Step 1 — What is the overall pattern?</h3>
+                <p class="s4-sub">Look across all your categories. What do they add up to? Don't list them — try to say in one sentence what is <em>happening</em> for these speakers as an experience or process.</p>
+                <div class="s4-scaffold-box">
+                    <p>Ask yourself: if I had to explain this data to someone who hadn't read it, what would I say is going on? Not what codes I found — but what the data is <em>about</em>.</p>
+                </div>
+                <div class="s4-field-label">Your overall pattern (one sentence):</div>
+                <textarea class="s4-textarea" id="s4-pattern" placeholder="e.g. These speakers experience English seminar participation as a constant negotiation between wanting to contribute and fearing exposure…"></textarea>
+            </div>
+
+            <div class="s4-section">
+                <h3>Step 2 — Turn the pattern into a claim</h3>
+                <p class="s4-sub">A pattern describes. A claim argues. Push your sentence further — what does this pattern tell us about something bigger?</p>
+                <div class="s4-scaffold-box">
+                    <p>Try starting with: <em>"This data suggests that…"</em> or <em>"What appears to be happening is not simply X, but rather…"</em></p>
+                    <p style="margin-top:6px;">A claim should be falsifiable — someone could disagree with it using different data.</p>
+                </div>
+                <div class="s4-field-label">Your analytic claim:</div>
+                <textarea class="s4-textarea" id="s4-claim" placeholder="e.g. Language anxiety in this context functions not only as a communication barrier but as a mechanism of identity suppression — participants do not simply struggle to speak, they struggle to be recognised as who they are…"></textarea>
+            </div>
+
+            <div class="s4-section">
+                <h3>Step 3 — Support it with evidence</h3>
+                <p class="s4-sub">Pick one or two specific extracts from your categories that give the strongest support for your claim. Quote them and explain what they show.</p>
+                <div class="s4-scaffold-box">
+                    <p>Don't just quote — explain what the quote <em>demonstrates</em>. Try: <em>"This is evident in [quote], which shows that…"</em></p>
+                </div>
+                <div class="s4-field-label">Evidence from the data:</div>
+                <textarea class="s4-textarea" id="s4-evidence" placeholder="e.g. Participant 2's description of becoming 'a much less confident version of myself' in English suggests the issue is not fluency alone but a constrained sense of self…" style="min-height:100px;"></textarea>
+                <hr class="s4-divider">
+                <p class="s4-sub" style="margin-bottom:6px;">Is there anything in your categories that <em>complicates</em> or adds nuance to your claim? Good analysis acknowledges what doesn't fit neatly.</p>
+                <div class="s4-field-label">What complicates or qualifies it:</div>
+                <textarea class="s4-textarea" id="s4-nuance" placeholder="e.g. However, Participant 1's mention of relief when someone else speaks suggests the silencing is partly strategic — a calculation about risk, not only a symptom of anxiety…" style="min-height:80px;"></textarea>
+            </div>
+
+        </div>
+
+    </div>
 </div>
 
 <script>
@@ -543,6 +865,453 @@
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name: name, scriptId: currentScript, data: JSON.stringify(myCodes) }) }).then(() => { btn.innerText = "Success!"; btn.style.background = "var(--success)"; });
     }
     loadScript(1);
+
+    // ── Stage 2–4 Logic (Script 2 only) ─────────────────────────────────────
+
+    let clusterCounter = 0;
+    let currentStage = 2;
+
+    const stageInstructions = {
+        2: "Look across all your codes — stop thinking line by line. <strong>What recurs? What seems to describe the same thing?</strong> Drag codes into categories, name each one, then complete the prompt below.",
+        3: "Now test each category against the actual data. <strong>Do all the coded extracts really fit? Is anything out of place? Is the category too broad or too narrow?</strong> Rename categories and move codes between them if needed.",
+        4: "This is where coding becomes analysis. <strong>Read your finalised categories, then work through the steps below</strong> — from noticing a pattern, to making a claim, to grounding it in evidence from the data."
+    };
+
+    const stageTitles = {
+        2: "Stage 2: Find Patterns",
+        3: "Stage 3: Test Your Categories",
+        4: "Stage 4: Build a Claim"
+    };
+
+    function updateStage2Btn() {
+        const btn = document.getElementById('stage2-btn');
+        if (!btn) return;
+        const show = currentScript === 2 && currentMode === 'student' && myCodes.length > 0;
+        btn.style.display = show ? 'block' : 'none';
+    }
+
+    const _origUpdateCodeList = updateCodeList;
+    updateCodeList = function(data, isSampleView) {
+        _origUpdateCodeList(data, isSampleView);
+        updateStage2Btn();
+    };
+    const _origLoadScript = loadScript;
+    loadScript = function(num) {
+        _origLoadScript(num);
+        updateStage2Btn();
+        if (document.getElementById('stage-overlay').classList.contains('open')) {
+            closeStageOverlay();
+        }
+    };
+    const _origExecuteSetMode = executeSetMode;
+    executeSetMode = function(mode) {
+        _origExecuteSetMode(mode);
+        updateStage2Btn();
+    };
+
+    function openStageOverlay() {
+        rebuildCodePool();
+        switchStage(2);
+        document.getElementById('stage-overlay').classList.add('open');
+    }
+
+    function closeStageOverlay() {
+        document.getElementById('stage-overlay').classList.remove('open');
+    }
+
+    function switchStage(n) {
+        currentStage = n;
+        // Nav buttons
+        [2, 3, 4].forEach(i => {
+            document.getElementById('snav-' + i).classList.toggle('active', i === n);
+        });
+        // Panels
+        document.querySelectorAll('.stage-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('panel-' + n).classList.add('active');
+        // Title and instructions
+        document.getElementById('stage-overlay-title').textContent = 'Script 2 — ' + stageTitles[n];
+        document.getElementById('stage-instructions-bar').innerHTML = stageInstructions[n];
+        // Build stage-specific content
+        if (n === 3) buildStage3();
+        if (n === 4) buildStage4();
+        // Scroll to top
+        document.querySelector('.stage-body').scrollTop = 0;
+    }
+
+    // ── Stage 2 ──────────────────────────────────────────────────────────────
+
+    function rebuildCodePool() {
+        const placedCodes = new Set();
+        document.querySelectorAll('.cluster-drop-zone .pool-card').forEach(c => placedCodes.add(c.dataset.code));
+
+        const pool = document.getElementById('code-pool');
+        pool.innerHTML = '';
+
+        const codeMap = {};
+        myCodes.forEach(c => {
+            if (!codeMap[c.code]) codeMap[c.code] = { ...c, texts: [] };
+            codeMap[c.code].texts.push(c.text);
+        });
+
+        Object.values(codeMap).forEach(c => {
+            if (placedCodes.has(c.code)) return;
+            pool.appendChild(createPoolCard(c));
+        });
+    }
+
+    function createPoolCard(codeObj) {
+        const card = document.createElement('div');
+        card.className = 'pool-card';
+        card.dataset.code = codeObj.code;
+        card.dataset.color = codeObj.color;
+
+        const allTexts = codeObj.texts || [codeObj.text];
+        card.dataset.tooltip = allTexts.map(t => '"' + t.trim() + '"').join(' / ');
+
+        const parts = codeObj.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+        if (parts) {
+            card.style.background = codeObj.color;
+            card.style.color = `hsla(${parts[1]}, ${parts[2]}%, 20%, 1)`;
+        }
+
+        card.appendChild(document.createTextNode(codeObj.code));
+        card.draggable = true;
+        card.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', codeObj.code); card.classList.add('dragging'); });
+        card.addEventListener('dragend', () => card.classList.remove('dragging'));
+        addTouchDrag(card);
+        return card;
+    }
+
+    function addCluster() {
+        clusterCounter++;
+        const id = 'cluster-' + clusterCounter;
+        const card = document.createElement('div');
+        card.className = 'cluster-card';
+        card.id = id;
+        card.innerHTML = `
+            <div class="cluster-top">
+                <input class="cluster-name-input" type="text" placeholder="Name this category…" />
+                <button class="remove-cluster-btn" onclick="removeCluster('${id}')">Remove</button>
+            </div>
+            <div class="cluster-drop-zone" data-cluster="${id}">
+                <span class="drop-placeholder" style="color:#cbd5e1;font-size:0.78rem;align-self:center;pointer-events:none;">Drop codes here</span>
+            </div>
+            <div class="cluster-category-wrap">
+                <div class="cat-label">What holds these codes together?</div>
+                <input class="cluster-category-input" type="text" placeholder="Describe the shared idea in one phrase…" />
+            </div>`;
+        setupDropZone(card.querySelector('.cluster-drop-zone'));
+        document.getElementById('clusters-wrap').appendChild(card);
+    }
+
+    function removeCluster(id) {
+        const card = document.getElementById(id);
+        if (!card) return;
+        const pool = document.getElementById('code-pool');
+        card.querySelectorAll('.pool-card').forEach(c => {
+            const btn = c.querySelector('.return-btn');
+            if (btn) btn.remove();
+            pool.appendChild(c);
+        });
+        card.remove();
+    }
+
+    function setupDropZone(zone) {
+        zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+        zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); dropCardIntoZone(zone, e.dataTransfer.getData('text/plain')); });
+    }
+
+    function dropCardIntoZone(zone, code) {
+        const existing = document.querySelector(`.pool-card[data-code="${CSS.escape(code)}"]`);
+        if (!existing) return;
+        const oldBtn = existing.querySelector('.return-btn');
+        if (oldBtn) oldBtn.remove();
+        const placeholder = zone.querySelector('.drop-placeholder');
+        if (placeholder) placeholder.style.display = 'none';
+        zone.appendChild(existing);
+        const btn = document.createElement('span');
+        btn.className = 'return-btn';
+        btn.textContent = '×';
+        btn.title = 'Return to pool';
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            btn.remove();
+            document.getElementById('code-pool').appendChild(existing);
+            if (!zone.querySelector('.pool-card')) {
+                const ph = zone.querySelector('.drop-placeholder');
+                if (ph) ph.style.display = '';
+            }
+        });
+        existing.appendChild(btn);
+    }
+
+    // ── Stage 3 ──────────────────────────────────────────────────────────────
+
+    function buildStage3() {
+        const container = document.getElementById('s3-clusters-container');
+        container.innerHTML = '';
+
+        const clusters = document.querySelectorAll('.cluster-card');
+        if (!clusters.length) {
+            container.innerHTML = '<p style="color:#94a3b8;font-size:0.85rem;text-align:center;padding:20px;">No categories yet — go back to Stage 2 and build some first.</p>';
+            return;
+        }
+
+        clusters.forEach(cl => {
+            const name = cl.querySelector('.cluster-name-input').value.trim() || '(unnamed category)';
+            const categoryPhrase = cl.querySelector('.cluster-category-input').value.trim();
+
+            // Build code cards with their extracts for this category
+            const codesInCluster = [...cl.querySelectorAll('.pool-card')].map(c => c.dataset.code);
+
+            const div = document.createElement('div');
+            div.className = 's3-cluster-card';
+            div.dataset.clusterId = cl.id;
+
+            // Editable category name
+            const topHtml = `
+                <div class="s3-top">
+                    <input class="s3-name-input" type="text" value="${name}" placeholder="Category name…" />
+                </div>
+                ${categoryPhrase ? `<p class="s3-category-label">"${categoryPhrase}"</p>` : ''}
+                <p class="s3-prompt">Read the extracts below. Does every code really fit here? Move any that don't belong to a different category by dragging them.</p>
+                <div class="s3-drop-zone" data-s3-cluster="${cl.id}"></div>`;
+
+            div.innerHTML = topHtml;
+
+            // Populate the drop zone with live draggable code+extract cards
+            const dropZone = div.querySelector('.s3-drop-zone');
+            codesInCluster.forEach(codeName => {
+                const entries = myCodes.filter(m => m.code === codeName);
+                entries.forEach(e => {
+                    dropZone.appendChild(createS3CodeCard(e, cl.id));
+                });
+            });
+
+            setupS3DropZone(dropZone);
+            container.appendChild(div);
+
+            // Sync name back to Stage 2 cluster on input
+            div.querySelector('.s3-name-input').addEventListener('input', ev => {
+                const s2input = cl.querySelector('.cluster-name-input');
+                if (s2input) s2input.value = ev.target.value;
+            });
+        });
+    }
+
+    function createS3CodeCard(entry, homeClusterId) {
+        const card = document.createElement('div');
+        card.className = 's3-code-card';
+        card.dataset.code = entry.code;
+        card.dataset.entryId = entry.id;
+        card.dataset.homeCluster = homeClusterId;
+        card.draggable = true;
+
+        const parts = entry.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+        const darkColor = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
+        card.style.borderLeftColor = darkColor;
+
+        card.innerHTML = `<span class="s3-code-label" style="background:${entry.color};color:${darkColor}">${entry.code}</span><span class="s3-extract-text">"${entry.text.trim()}"</span>`;
+
+        card.addEventListener('dragstart', e => {
+            e.dataTransfer.setData('s3code', entry.code);
+            e.dataTransfer.setData('s3entryId', entry.id);
+            card.classList.add('dragging');
+        });
+        card.addEventListener('dragend', () => card.classList.remove('dragging'));
+        addS3TouchDrag(card);
+        return card;
+    }
+
+    function setupS3DropZone(zone) {
+        zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+        zone.addEventListener('drop', e => {
+            e.preventDefault();
+            zone.classList.remove('drag-over');
+            const entryId = e.dataTransfer.getData('s3entryId');
+            moveS3CardToZone(zone, entryId);
+        });
+    }
+
+    function moveS3CardToZone(targetZone, entryId) {
+        const card = document.querySelector(`#s3-clusters-container .s3-code-card[data-entry-id="${entryId}"]`);
+        if (!card || card.closest('.s3-drop-zone') === targetZone) return;
+        targetZone.appendChild(card);
+        syncS3MoveToStage2(card, targetZone);
+    }
+
+    function syncS3MoveToStage2(s3Card, targetZone) {
+        const targetS3ClusterId = targetZone.closest('.s3-cluster-card').dataset.clusterId;
+        const code = s3Card.dataset.code;
+        // Find the pool-card in Stage 2 with this code
+        const poolCard = document.querySelector(`#clusters-wrap .pool-card[data-code="${CSS.escape(code)}"]`);
+        if (!poolCard) return;
+        const targetS2Zone = document.querySelector(`#${targetS3ClusterId} .cluster-drop-zone`);
+        if (!targetS2Zone) return;
+        // Move pool-card: strip old return btn, add to new zone, re-add return btn
+        const oldBtn = poolCard.querySelector('.return-btn');
+        if (oldBtn) oldBtn.remove();
+        const oldZone = poolCard.closest('.cluster-drop-zone');
+        targetS2Zone.appendChild(poolCard);
+        // Show placeholder on old zone if now empty
+        if (oldZone && !oldZone.querySelector('.pool-card')) {
+            const ph = oldZone.querySelector('.drop-placeholder');
+            if (ph) ph.style.display = '';
+        }
+        // Hide placeholder on new zone
+        const newPh = targetS2Zone.querySelector('.drop-placeholder');
+        if (newPh) newPh.style.display = 'none';
+        // Re-add return btn pointing back to pool
+        const btn = document.createElement('span');
+        btn.className = 'return-btn';
+        btn.textContent = '×';
+        btn.title = 'Return to pool';
+        btn.addEventListener('click', ev => {
+            ev.stopPropagation();
+            btn.remove();
+            document.getElementById('code-pool').appendChild(poolCard);
+            if (!targetS2Zone.querySelector('.pool-card')) {
+                const ph2 = targetS2Zone.querySelector('.drop-placeholder');
+                if (ph2) ph2.style.display = '';
+            }
+        });
+        poolCard.appendChild(btn);
+    }
+
+    function addS3TouchDrag(card) {
+        let clone = null;
+        card.addEventListener('touchstart', e => {
+            const touch = e.touches[0];
+            clone = document.createElement('div');
+            clone.className = 's3-code-card';
+            clone.innerHTML = card.innerHTML;
+            clone.style.cssText = `position:fixed;opacity:0.85;pointer-events:none;z-index:9999;width:${card.offsetWidth}px;`;
+            document.body.appendChild(clone);
+            card.classList.add('dragging');
+        }, { passive: true });
+        card.addEventListener('touchmove', e => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            if (clone) { clone.style.left = (touch.clientX - card.offsetWidth / 2) + 'px'; clone.style.top = (touch.clientY - 20) + 'px'; }
+            document.querySelectorAll('.s3-drop-zone').forEach(z => {
+                const r = z.getBoundingClientRect();
+                z.classList.toggle('drag-over', touch.clientX >= r.left && touch.clientX <= r.right && touch.clientY >= r.top && touch.clientY <= r.bottom);
+            });
+        }, { passive: false });
+        card.addEventListener('touchend', e => {
+            card.classList.remove('dragging');
+            if (clone) { clone.remove(); clone = null; }
+            const touch = e.changedTouches[0];
+            document.querySelectorAll('.s3-drop-zone').forEach(z => {
+                z.classList.remove('drag-over');
+                const r = z.getBoundingClientRect();
+                if (touch.clientX >= r.left && touch.clientX <= r.right && touch.clientY >= r.top && touch.clientY <= r.bottom) {
+                    moveS3CardToZone(z, card.dataset.entryId);
+                }
+            });
+        });
+    }
+
+    // ── Stage 4 ──────────────────────────────────────────────────────────────
+
+    function buildStage4() {
+        const display = document.getElementById('s4-categories-display');
+        display.innerHTML = '';
+
+        const s2Clusters = document.querySelectorAll('.cluster-card');
+        if (!s2Clusters.length) {
+            display.innerHTML = '<p style="color:#94a3b8;font-size:0.82rem;">No categories yet — complete Stages 2 and 3 first.</p>';
+            return;
+        }
+
+        s2Clusters.forEach(cl => {
+            // Get final name: prefer Stage 3 revised input, then Stage 2 phrase, then Stage 2 name
+            const s3Card = document.querySelector(`#s3-clusters-container [data-cluster-id="${cl.id}"]`);
+            let catName = s3Card ? s3Card.querySelector('.s3-name-input').value.trim() : '';
+            if (!catName) catName = cl.querySelector('.cluster-category-input').value.trim();
+            if (!catName) catName = cl.querySelector('.cluster-name-input').value.trim();
+            if (!catName) catName = '(unnamed)';
+
+            const phrase = cl.querySelector('.cluster-category-input').value.trim();
+
+            // Collect all codes in this category and their extracts
+            // Prefer Stage 3 order (codes may have been moved)
+            let extractRows = '';
+            if (s3Card) {
+                s3Card.querySelectorAll('.s3-code-card').forEach(sc => {
+                    const entry = myCodes.find(m => m.id === sc.dataset.entryId);
+                    if (!entry) return;
+                    const parts = entry.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+                    const darkColor = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
+                    extractRows += `<div class="s4-extract-row">
+                        <span class="s4-extract-code" style="background:${entry.color};color:${darkColor}">${entry.code}</span>
+                        <span>"${entry.text.trim()}"</span>
+                    </div>`;
+                });
+            } else {
+                // Fall back to Stage 2 pool cards
+                cl.querySelectorAll('.pool-card').forEach(pc => {
+                    const codeName = pc.dataset.code;
+                    myCodes.filter(m => m.code === codeName).forEach(entry => {
+                        const parts = entry.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+                        const darkColor = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
+                        extractRows += `<div class="s4-extract-row">
+                            <span class="s4-extract-code" style="background:${entry.color};color:${darkColor}">${codeName}</span>
+                            <span>"${entry.text.trim()}"</span>
+                        </div>`;
+                    });
+                });
+            }
+
+            const block = document.createElement('div');
+            block.className = 's4-cat-block';
+            block.innerHTML = `
+                <div class="s4-cat-header">
+                    <span class="s4-cat-name">${catName}</span>
+                    ${phrase && phrase !== catName ? `<span class="s4-cat-phrase">${phrase}</span>` : ''}
+                </div>
+                <div class="s4-cat-extracts">${extractRows || '<span style="color:#cbd5e1;font-size:0.78rem;">No extracts in this category.</span>'}</div>`;
+            display.appendChild(block);
+        });
+    }
+
+    // ── Touch drag ───────────────────────────────────────────────────────────
+
+    function addTouchDrag(card) {
+        let clone = null;
+        card.addEventListener('touchstart', e => {
+            const touch = e.touches[0];
+            clone = card.cloneNode(false);
+            clone.textContent = card.dataset.code;
+            clone.style.cssText = `position:fixed;opacity:0.85;pointer-events:none;z-index:9999;width:${card.offsetWidth}px;padding:7px 12px;border-radius:6px;font-size:0.8rem;font-weight:600;background:${card.style.background};color:${card.style.color};`;
+            document.body.appendChild(clone);
+            card.classList.add('dragging');
+        }, { passive: true });
+
+        card.addEventListener('touchmove', e => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            if (clone) { clone.style.left = (touch.clientX - card.offsetWidth / 2) + 'px'; clone.style.top = (touch.clientY - 20) + 'px'; }
+            document.querySelectorAll('.cluster-drop-zone').forEach(z => {
+                const r = z.getBoundingClientRect();
+                z.classList.toggle('drag-over', touch.clientX >= r.left && touch.clientX <= r.right && touch.clientY >= r.top && touch.clientY <= r.bottom);
+            });
+        }, { passive: false });
+
+        card.addEventListener('touchend', e => {
+            card.classList.remove('dragging');
+            if (clone) { clone.remove(); clone = null; }
+            const touch = e.changedTouches[0];
+            document.querySelectorAll('.cluster-drop-zone').forEach(z => {
+                z.classList.remove('drag-over');
+                const r = z.getBoundingClientRect();
+                if (touch.clientX >= r.left && touch.clientX <= r.right && touch.clientY >= r.top && touch.clientY <= r.bottom) dropCardIntoZone(z, card.dataset.code);
+            });
+        });
+    }
+
 </script>
 </body>
 </html>
