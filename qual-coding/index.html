@@ -1042,6 +1042,8 @@
         const clusters = document.querySelectorAll('.cluster-card');
         if (!clusters.length) { container.innerHTML = '<p style="color:#94a3b8;font-size:0.85rem;padding:20px 0;">No categories yet — go to Stage 2 and build some first.</p>'; return; }
         clusters.forEach(cl => {
+            const codesInCluster = [...cl.querySelectorAll('.pool-card')].map(c => c.dataset.code);
+            if (!codesInCluster.length) return; // skip empty categories
             const name = cl.querySelector('.cluster-name-input').value.trim() || '(unnamed)';
             const phrase = cl.querySelector('.cluster-category-input').value.trim();
             const div = document.createElement('div'); div.className = 's3-cluster-card'; div.dataset.clusterId = cl.id;
@@ -1109,6 +1111,7 @@
         const s2Clusters = document.querySelectorAll('.cluster-card');
         if (!s2Clusters.length) { display.innerHTML = '<p style="color:#94a3b8;font-size:0.82rem;">No categories yet — complete Stages 2 and 3 first.</p>'; return; }
         s2Clusters.forEach(cl => {
+            if (!cl.querySelectorAll('.pool-card').length) return; // skip empty categories
             const s3Card = document.querySelector(`#s3-clusters-container [data-cluster-id="${cl.id}"]`);
             let catName = s3Card ? s3Card.querySelector('.s3-name-input').value.trim() : '';
             if (!catName) catName = cl.querySelector('.cluster-category-input').value.trim();
@@ -1137,11 +1140,12 @@
     function gatherAnalysisData() {
         const categories = [];
         document.querySelectorAll('.cluster-card').forEach(cl => {
+            const codes = [...cl.querySelectorAll('.pool-card')].map(c => c.dataset.code);
+            if (!codes.length) return; // skip empty categories
             const s3Card = document.querySelector(`#s3-clusters-container [data-cluster-id="${cl.id}"]`);
             let catName = s3Card ? s3Card.querySelector('.s3-name-input').value.trim() : '';
             if (!catName) catName = cl.querySelector('.cluster-category-input').value.trim();
             if (!catName) catName = cl.querySelector('.cluster-name-input').value.trim();
-            const codes = [...cl.querySelectorAll('.pool-card')].map(c => c.dataset.code);
             categories.push({ name: catName, connectedBy: cl.querySelector('.cluster-category-input').value.trim(), codes });
         });
         return {
