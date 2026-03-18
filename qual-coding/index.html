@@ -585,6 +585,7 @@
     const colorPalette = ["hsla(200, 80%, 85%, 0.9)", "hsla(140, 75%, 85%, 0.9)", "hsla(340, 80%, 88%, 0.9)", "hsla(45, 90%, 85%, 0.9)", "hsla(280, 70%, 88%, 0.9)", "hsla(25, 85%, 85%, 0.9)", "hsla(180, 60%, 85%, 0.9)", "hsla(10, 80%, 88%, 0.9)", "hsla(60, 80%, 85%, 0.9)", "hsla(220, 70%, 88%, 0.9)"];
 
     let currentMode = 'student', isCompare = false, currentScript = 1, myCodes = [], codeColors = {}, paletteIndex = 0, submissions = {};
+    let currentStage = 1;
 
     function setMode(mode) {
         if (mode === 'teacher') {
@@ -619,7 +620,10 @@
         document.getElementById('teacher-links').classList.toggle('hidden', mode === 'student');
         
         const isSample = currentScript > 2;
-        document.getElementById('coding-bar').classList.toggle('hidden', mode === 'teacher' || isSample);
+        const isS2Student = currentScript === 2 && mode === 'student';
+        // coding-bar: hidden for teacher, samples, or s2 stages 2-4
+        const hideCodingBar = mode === 'teacher' || isSample || (isS2Student && currentStage !== 1);
+        document.getElementById('coding-bar').classList.toggle('hidden', hideCodingBar);
         document.getElementById('codes-panel').classList.toggle('hidden', mode === 'teacher');
         document.getElementById('export-section').classList.toggle('hidden', mode === 'teacher' || isSample);
         document.getElementById('student-instructions').classList.toggle('hidden', mode === 'teacher');
@@ -691,7 +695,7 @@
     document.getElementById('t1').addEventListener('mouseup', handleSelectionEnd);
 
     function handleSelectionEnd() {
-        if (currentScript > 2 || currentMode === 'teacher') return; 
+        if (currentScript > 2 || currentMode === 'teacher' || currentStage !== 1) return; 
         setTimeout(() => {
             const sel = window.getSelection();
             if (sel.rangeCount > 0 && sel.toString().trim().length > 1) {
@@ -824,14 +828,41 @@
         const target = document.getElementById(targetDiv);
         target.innerHTML = scripts[currentScript];
         if (!key) return;
-        const data = submissions[key].data;
-        if (!Array.isArray(data)) return;
+        const raw = submissions[key].data;
+        const data = Array.isArray(raw) ? raw : (raw && raw.codes ? raw.codes : []);
         let html = target.innerHTML;
-        const sortedData = [...data].sort((a,b) => b.text.length - a.text.length);
+        [...data].sort((a,b) => b.text.length - a.text.length).forEach(item => {
+            const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${escaped})`, 'g');
+            const parts = item.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+            const dc = parts ? `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)` : 'rgba(0,0,0,0.8)';
+            html = html.replace(regex, `<span class="highlighted" style="background:${item.color}">$1<span class="teacher-label" style="background:${dc}">${item.code}</span></span>`);
+        });
+        target.innerHTML = html;
+    }
+
+    function clearCloudData() {
+        if(!confirm("⚠️ Delete ALL submissions?")) return;
+        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'clear' }) }).then(() => { alert("Data purged."); syncFromCloud(); });
+    }
+
+    function submitCoding() {
+        const name = document.getElementById('student-name').value.trim();
+        if (!name || myCodes.length === 0) { alert('Enter your name and add some codes first.'); return; }
+        const btn = document.getElementById('submit-btn');
+        const status = document.getElementById('submit-coding-status');
+        btn.innerText = 'Sending…';
+        const payload = { type: 'coding', codes: myCodes };
+        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(payload) }) })
+            .then(() => { btn.innerText = 'Submitted ✓'; btn.style.background = '#94a3b8'; status.textContent = 'Coding saved.'; })
+            .catch(() => { btn.innerText = 'Submit Coding'; status.textContent = 'Error — try again.'; });
+    }
+
+    loadScript(1);
+
     // ── Stage system (Script 2 student mode) ─────────────────────────────────
 
     let clusterCounter = 0;
-    let currentStage = 1;
     let s3Submitted = false; // track if Stage 3 has been submitted this session
 
     // Show/hide stage tabs and workspace depending on script + mode
