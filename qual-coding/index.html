@@ -452,6 +452,12 @@
         </div>
     </div>
 
+<!-- Analysis compare view (teacher mode) -->
+<div id="analysis-workspace" style="display:none; flex:1; overflow:hidden; padding:20px; gap:20px;">
+    <div class="analysis-pane" id="analysis-pane-1" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; min-width:0;"></div>
+    <div class="analysis-pane hidden" id="analysis-pane-2" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; min-width:0; border-left:1px solid var(--border); padding-left:20px;"></div>
+</div>
+
     <div id="sidebar">
         <div class="sidebar-panel" id="codes-panel">
             <h4>My Codebook</h4>
@@ -562,12 +568,6 @@
 <div id="coding-bar">
     <input type="text" id="code-input" placeholder="Enter code label here...">
     <button id="apply-btn" onclick="applyManualCode()">Apply Code</button>
-</div>
-
-<!-- Analysis compare view (teacher mode) -->
-<div id="analysis-workspace" style="display:none; flex:1; overflow:hidden; padding:20px; gap:20px;">
-    <div class="analysis-pane" id="analysis-pane-1" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; min-width:0;"></div>
-    <div class="analysis-pane hidden" id="analysis-pane-2" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; min-width:0; border-left:1px solid var(--border); padding-left:20px;"></div>
 </div>
 
 <!-- JS tooltip for pool cards -->
@@ -810,8 +810,8 @@
     }
 
     function applyReview(side) {
-        // Restore main transcript view, hide analysis workspace
-        document.getElementById('main-layout').style.display = '';
+        // Restore transcript col, hide analysis workspace
+        document.getElementById('col-1').classList.remove('hidden');
         document.getElementById('analysis-workspace').style.display = 'none';
         const dropdown = side === 1 ? 'select-left' : 'select-right';
         const targetDiv = side === 1 ? 't1' : 't2';
@@ -920,7 +920,7 @@
         document.getElementById('analysis-pane-2').innerHTML = '';
         document.getElementById('analysis-pane-2').classList.add('hidden');
         document.getElementById('analysis-workspace').style.display = 'none';
-        document.getElementById('main-layout').style.display = '';
+        document.getElementById('col-1').classList.remove('hidden');
         [1,2,3,4].forEach(i => {
             const t = document.getElementById('stab-' + i);
             if (t) t.classList.toggle('active', i === 1);
@@ -936,11 +936,12 @@
         updateStageUI();
         document.getElementById('teacher-analysis').classList.toggle('hidden', mode === 'student');
         if (mode === 'teacher') {
-            document.getElementById('main-layout').style.display = '';
             document.getElementById('stage-workspace').classList.remove('visible');
             document.getElementById('analysis-workspace').style.display = 'none';
+            document.getElementById('col-1').classList.remove('hidden');
         } else {
             document.getElementById('analysis-workspace').style.display = 'none';
+            document.getElementById('col-1').classList.remove('hidden');
         }
     };
 
@@ -1201,8 +1202,9 @@
         const key = document.getElementById(selId).value;
         const pane = document.getElementById(paneId);
 
-        // Show analysis workspace, hide main
-        document.getElementById('main-layout').style.display = 'none';
+        // Show analysis workspace in place of transcript cols; sidebar stays
+        document.getElementById('col-1').classList.add('hidden');
+        document.getElementById('col-2').classList.add('hidden');
         document.getElementById('analysis-workspace').style.display = 'flex';
 
         pane.innerHTML = '';
