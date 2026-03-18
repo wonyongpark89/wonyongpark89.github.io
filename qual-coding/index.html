@@ -164,107 +164,57 @@
         .hidden { display: none !important; }
         .student-select { padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.85rem; background: white; width: 100%; max-width: 200px; }
 
-        /* ── Stage 2 & 3 & 4 ── */
-        #stage2-btn {
-            position: fixed; bottom: 80px; right: 20px;
-            background: var(--accent); color: white;
-            border: none; border-radius: 8px;
-            padding: 10px 18px; font-size: 0.85rem; font-weight: 600;
-            cursor: pointer; z-index: 200;
-            box-shadow: 0 4px 12px rgba(79,70,229,0.35);
+        /* ── Stage tabs (Script 2 student mode only) ── */
+        #stage-tabs {
             display: none;
-        }
-        #stage2-btn:hover { background: #4338ca; }
-
-        /* Stage panel — replaces sidebar on Script 2 student mode */
-        #stage-panel {
-            width: 420px; flex-shrink: 0;
-            display: none; flex-direction: column;
-            background: white; border-radius: var(--radius);
-            border: 1px solid var(--border);
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-        }
-        #stage-panel.open { display: flex; }
-
-        .stage-header {
-            background: #f8fafc;
+            background: white;
             border-bottom: 1px solid var(--border);
-            padding: 10px 14px;
-            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+            padding: 0 24px;
+            gap: 0;
+            overflow-x: auto;
             flex-shrink: 0;
         }
-        .stage-header h2 { margin: 0; font-size: 0.82rem; color: #64748b; font-weight: 600; flex: 1; min-width: 80px; }
-        .stage-back {
-            padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border);
-            background: white; font-size: 0.75rem; cursor: pointer; color: #64748b;
-            white-space: nowrap; flex-shrink: 0;
+        #stage-tabs.visible { display: flex; }
+        .stage-tab {
+            padding: 10px 18px;
+            font-size: 0.8rem; font-weight: 600;
+            color: #64748b; cursor: pointer;
+            border: none; background: none;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            transition: color 0.15s, border-color 0.15s;
         }
-        .stage-nav-btn {
-            padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border);
-            background: white; font-size: 0.72rem; font-weight: 600; cursor: pointer;
-            color: #64748b; white-space: nowrap;
+        .stage-tab:hover { color: var(--accent); }
+        .stage-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+        .stage-tab .tab-num {
+            display: inline-block; width: 18px; height: 18px; line-height: 18px;
+            border-radius: 50%; background: #e2e8f0; color: #64748b;
+            font-size: 0.68rem; font-weight: 700; text-align: center;
+            margin-right: 6px; transition: background 0.15s, color 0.15s;
         }
-        .stage-nav-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+        .stage-tab.active .tab-num { background: var(--accent); color: white; }
+
+        /* ── Stage workspace (Stages 2-4 full view) ── */
+        #stage-workspace {
+            display: none;
+            flex: 1; overflow: hidden;
+            padding: 20px; gap: 20px;
+        }
+        #stage-workspace.visible { display: flex; }
 
         .stage-instructions {
-            background: #eff6ff; border-bottom: 1px solid #dbeafe;
-            padding: 8px 14px; font-size: 0.78rem; color: #1e40af; line-height: 1.5;
+            background: #eff6ff; border: 1px solid #dbeafe;
+            border-radius: var(--radius);
+            padding: 10px 16px; font-size: 0.82rem; color: #1e40af; line-height: 1.5;
             flex-shrink: 0;
         }
 
-        .stage-body {
-            flex: 1; overflow-y: auto; padding: 14px;
-            display: flex; flex-direction: column; gap: 12px;
+        /* Stage 2 layout: left = code pool + clusters, right = transcript reference */
+        #stage-workspace .sw-main {
+            flex: 1; display: flex; flex-direction: column; gap: 14px;
+            overflow-y: auto; min-width: 0;
             -webkit-overflow-scrolling: touch;
         }
-
-        /* Stage panels */
-        .stage-panel-content { display: none; flex-direction: column; gap: 12px; }
-        .stage-panel-content.active { display: flex; }
-
-        /* Submit bar at bottom of stage panel */
-        .stage-submit-bar {
-            border-top: 1px solid var(--border);
-            padding: 10px 14px;
-            background: #f8fafc;
-            flex-shrink: 0;
-            display: flex; gap: 8px; align-items: center;
-        }
-        .stage-submit-bar span { font-size: 0.72rem; color: #94a3b8; flex: 1; }
-        .stage-submit-btn {
-            padding: 8px 16px; border-radius: 6px; border: none;
-            background: var(--success); color: white;
-            font-size: 0.8rem; font-weight: 600; cursor: pointer;
-            white-space: nowrap;
-        }
-        .stage-submit-btn:hover { background: #059669; }
-        .stage-submit-btn.sent { background: #94a3b8; cursor: default; }
-
-        @media (max-width: 1100px) {
-            #stage-panel { width: 360px; }
-        }
-        @media (max-width: 900px) {
-            #stage-panel { width: 100%; }
-            main.stage-open { flex-direction: column; }
-            main.stage-open #col-1 { min-height: 300px; flex: 0 0 300px; }
-        }
-
-        /* Code pool */
-        #code-pool-wrap { background: #f8fafc; border-radius: var(--radius); border: 1px solid var(--border); padding: 12px; }
-        #code-pool-wrap h3 { margin: 0 0 8px; font-size: 0.72rem; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.05em; }
-        #code-pool { display: flex; flex-wrap: wrap; gap: 8px; min-height: 40px; }
-        .pool-card {
-            padding: 7px 12px; border-radius: 6px;
-            font-size: 0.8rem; font-weight: 600;
-            cursor: grab; user-select: none;
-            border: 1px solid rgba(0,0,0,0.08);
-            touch-action: none;
-            transition: transform 0.15s, box-shadow 0.15s;
-            position: relative;
-        }
-        .pool-card:active { cursor: grabbing; }
-        .pool-card.dragging { opacity: 0.4; }
 
         /* JS-driven tooltip (safe positioning) */
         #pool-tooltip {
@@ -280,54 +230,60 @@
             display: none;
         }
 
-        /* Return-to-pool × button on cards inside clusters */
+        /* Code pool */
+        #code-pool-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; flex-shrink: 0; }
+        #code-pool-wrap h3 { margin: 0 0 10px; font-size: 0.72rem; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.05em; }
+        #code-pool { display: flex; flex-wrap: wrap; gap: 8px; min-height: 36px; }
+        .pool-card {
+            padding: 6px 12px; border-radius: 6px;
+            font-size: 0.8rem; font-weight: 600;
+            cursor: grab; user-select: none;
+            border: 1px solid rgba(0,0,0,0.08);
+            touch-action: none;
+            position: relative;
+        }
+        .pool-card:active { cursor: grabbing; }
+        .pool-card.dragging { opacity: 0.4; }
         .pool-card .return-btn {
-            display: inline-block;
-            margin-left: 5px; cursor: pointer;
+            display: inline-block; margin-left: 5px; cursor: pointer;
             opacity: 0.55; font-weight: bold; font-size: 0.9rem;
             line-height: 1; vertical-align: middle;
         }
         .pool-card .return-btn:hover { opacity: 1; }
 
         /* Clusters */
-        #clusters-wrap { display: flex; flex-direction: column; gap: 14px; }
-        .cluster-card {
-            background: white; border-radius: var(--radius);
-            border: 1px solid var(--border); padding: 16px;
-        }
+        #clusters-wrap { display: flex; flex-direction: column; gap: 12px; }
+        .cluster-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; }
         .cluster-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
         .cluster-name-input {
             flex: 1; min-width: 140px;
-            padding: 8px 12px; border-radius: 6px;
+            padding: 7px 12px; border-radius: 6px;
             border: 1px solid var(--border); font-size: 0.85rem;
             font-weight: 600; color: var(--primary);
         }
         .cluster-name-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(79,70,229,0.15); }
         .cluster-drop-zone {
-            min-height: 48px; border-radius: 6px;
+            min-height: 44px; border-radius: 6px;
             border: 2px dashed #e2e8f0;
             display: flex; flex-wrap: wrap; gap: 8px;
             padding: 8px; transition: border-color 0.2s, background 0.2s;
         }
         .cluster-drop-zone.drag-over { border-color: var(--accent); background: #eef2ff; }
-
-        .cluster-category-wrap { margin-top: 12px; border-top: 1px solid #f1f5f9; padding-top: 12px; }
+        .cluster-category-wrap { margin-top: 10px; border-top: 1px solid #f1f5f9; padding-top: 10px; }
         .cat-label { font-size: 0.7rem; text-transform: uppercase; color: #94a3b8; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 6px; }
         .cluster-category-input {
             width: 100%; box-sizing: border-box;
-            padding: 8px 12px; border-radius: 6px;
+            padding: 7px 12px; border-radius: 6px;
             border: 1px solid var(--border); font-size: 0.85rem;
             color: #4338ca; font-style: italic;
         }
         .cluster-category-input:focus { outline: none; border-color: #7c3aed; box-shadow: 0 0 0 2px rgba(124,58,237,0.15); }
         .cluster-category-input::placeholder { color: #c4b5fd; }
-
         .remove-cluster-btn {
-            padding: 5px 10px; font-size: 0.75rem; border-radius: 6px;
+            padding: 4px 10px; font-size: 0.75rem; border-radius: 6px;
             border: 1px solid rgba(239,68,68,0.2); color: var(--danger);
             background: white; cursor: pointer;
         }
-
         #add-cluster-btn {
             padding: 10px; border-radius: 8px;
             border: 2px dashed #cbd5e1; background: white;
@@ -336,11 +292,8 @@
         }
         #add-cluster-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-        /* Stage 3 — testing with draggable code cards */
-        .s3-cluster-card {
-            background: white; border-radius: var(--radius);
-            border: 1px solid var(--border); padding: 16px;
-        }
+        /* Stage 3 */
+        .s3-cluster-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 16px; }
         .s3-top { margin-bottom: 8px; }
         .s3-name-input {
             width: 100%; box-sizing: border-box;
@@ -374,87 +327,53 @@
         }
         .s3-extract-text { color: #475569; line-height: 1.5; font-style: italic; }
 
-        /* Stage 4 — analytic claim */
-        .s4-section {
-            background: white; border-radius: var(--radius);
-            border: 1px solid var(--border); padding: 18px;
+        /* Stage 3 submit bar */
+        #s3-submit-bar {
+            background: white; border-radius: var(--radius); border: 1px solid var(--border);
+            padding: 14px 16px; display: flex; align-items: center; gap: 10px; flex-shrink: 0;
         }
+        #s3-submit-bar span { font-size: 0.78rem; color: #64748b; flex: 1; }
+        .s3-submit-btn {
+            padding: 9px 20px; border-radius: 6px; border: none;
+            background: var(--success); color: white;
+            font-size: 0.82rem; font-weight: 600; cursor: pointer; white-space: nowrap;
+        }
+        .s3-submit-btn:hover { background: #059669; }
+        .s3-submit-btn.sent { background: #94a3b8; cursor: default; }
+
+        /* Stage 4 */
+        .s4-section { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 18px; }
         .s4-section h3 { margin: 0 0 4px; font-size: 0.9rem; color: var(--primary); }
         .s4-section .s4-sub { font-size: 0.78rem; color: #64748b; margin: 0 0 14px; line-height: 1.5; }
         .s4-categories-list { display: flex; flex-direction: column; gap: 12px; }
-        .s4-cat-block {
-            border-radius: 6px; border: 1px solid #e2e8f0; overflow: hidden;
-        }
-        .s4-cat-header {
-            display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
-            padding: 9px 14px; background: #f8fafc; border-bottom: 1px solid #e2e8f0;
-        }
-        .s4-cat-name {
-            font-weight: 700; font-size: 0.88rem; color: var(--primary);
-        }
-        .s4-cat-phrase {
-            font-size: 0.75rem; color: #7c3aed; font-style: italic;
-        }
+        .s4-cat-block { border-radius: 6px; border: 1px solid #e2e8f0; overflow: hidden; }
+        .s4-cat-header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; padding: 9px 14px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+        .s4-cat-name { font-weight: 700; font-size: 0.88rem; color: var(--primary); }
+        .s4-cat-phrase { font-size: 0.75rem; color: #7c3aed; font-style: italic; }
         .s4-cat-extracts { padding: 8px 14px; display: flex; flex-direction: column; gap: 5px; }
-        .s4-extract-row {
-            display: flex; align-items: flex-start; gap: 8px;
-            font-size: 0.78rem; color: #475569; line-height: 1.5;
-        }
-        .s4-extract-code {
-            flex-shrink: 0; padding: 1px 6px; border-radius: 3px;
-            font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em;
-            margin-top: 2px;
-        }
-
-        /* Scaffolded writing */
-        .s4-scaffold-box {
-            background: #eff6ff; border-left: 3px solid var(--accent);
-            border-radius: 6px; padding: 11px 14px; margin-bottom: 10px;
-        }
+        .s4-extract-row { display: flex; align-items: flex-start; gap: 8px; font-size: 0.78rem; color: #475569; line-height: 1.5; }
+        .s4-extract-code { flex-shrink: 0; padding: 1px 6px; border-radius: 3px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; margin-top: 2px; }
+        .s4-scaffold-box { background: #eff6ff; border-left: 3px solid var(--accent); border-radius: 6px; padding: 11px 14px; margin-bottom: 10px; }
         .s4-scaffold-box p { margin: 0; font-size: 0.8rem; color: #1e40af; line-height: 1.6; }
-        .s4-field-label {
-            font-size: 0.7rem; text-transform: uppercase; font-weight: 700;
-            letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 5px;
-        }
-        .s4-textarea {
-            width: 100%; box-sizing: border-box;
-            padding: 10px 13px; border-radius: 6px;
-            border: 1px solid var(--border); font-size: 0.85rem;
-            resize: vertical; min-height: 80px; line-height: 1.6;
-            font-family: inherit;
-        }
+        .s4-field-label { font-size: 0.7rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 5px; }
+        .s4-textarea { width: 100%; box-sizing: border-box; padding: 10px 13px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.85rem; resize: vertical; min-height: 80px; line-height: 1.6; font-family: inherit; }
         .s4-textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(79,70,229,0.1); }
         .s4-divider { border: none; border-top: 1px solid var(--border); margin: 6px 0 18px; }
 
-        @media (max-width: 600px) {
-            .stage-header { padding: 8px 10px; gap: 6px; }
-            .stage-body { padding: 10px; }
-            #stage2-btn { bottom: 90px; right: 14px; font-size: 0.8rem; padding: 9px 14px; }
-            .stage-nav-btn { font-size: 0.68rem; padding: 5px 8px; }
-        }
-
         /* Teacher analysis review */
         #teacher-analysis { display: none; }
-        .analysis-review-card {
-            background: white; border-radius: var(--radius);
-            border: 1px solid var(--border); margin-top: 12px; overflow: hidden;
-        }
-        .analysis-review-header {
-            padding: 10px 14px; background: #f8fafc;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.8rem; font-weight: 600; color: var(--primary);
-        }
+        .analysis-review-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); margin-top: 12px; overflow: hidden; }
+        .analysis-review-header { padding: 10px 14px; background: #f8fafc; border-bottom: 1px solid var(--border); font-size: 0.8rem; font-weight: 600; color: var(--primary); }
         .analysis-review-body { padding: 12px 14px; font-size: 0.8rem; color: #475569; }
         .analysis-section { margin-bottom: 12px; }
         .analysis-section:last-child { margin-bottom: 0; }
-        .analysis-section-label {
-            font-size: 0.68rem; text-transform: uppercase; font-weight: 700;
-            letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 4px;
-        }
-        .analysis-cat-chip {
-            display: inline-block; padding: 2px 8px; border-radius: 12px;
-            background: #eef2ff; color: #4338ca; font-size: 0.72rem;
-            font-weight: 600; border: 1px solid #c7d2fe; margin: 2px 3px 2px 0;
+        .analysis-section-label { font-size: 0.68rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 4px; }
+        .analysis-cat-chip { display: inline-block; padding: 2px 8px; border-radius: 12px; background: #eef2ff; color: #4338ca; font-size: 0.72rem; font-weight: 600; border: 1px solid #c7d2fe; margin: 2px 3px 2px 0; }
+
+        @media (max-width: 768px) {
+            #stage-tabs { padding: 0 12px; }
+            .stage-tab { padding: 10px 12px; font-size: 0.75rem; }
+            #stage-workspace { padding: 12px; gap: 12px; }
         }
     </style>
 </head>
@@ -486,6 +405,15 @@
     </div>
 </header>
 
+<!-- Stage tab bar — only shown for Script 2 in student mode -->
+<div id="stage-tabs">
+    <button class="stage-tab active" id="stab-1" onclick="switchStage(1)"><span class="tab-num">1</span>Coding</button>
+    <button class="stage-tab" id="stab-2" onclick="switchStage(2)"><span class="tab-num">2</span>Find Patterns</button>
+    <button class="stage-tab" id="stab-3" onclick="switchStage(3)"><span class="tab-num">3</span>Test Categories</button>
+    <button class="stage-tab" id="stab-4" onclick="switchStage(4)"><span class="tab-num">4</span>Build a Claim</button>
+</div>
+
+<!-- Stage 1: Coding workspace (always shown for other scripts; shown for Script 2 Stage 1) -->
 <main id="main-layout">
     <div class="column" id="col-1">
         <div class="workspace-card" id="pdf-content">
@@ -502,85 +430,6 @@
                 <p class="summary-title">Summary Codebook</p>
                 <div id="summary-content-1" style="display: flex; flex-wrap: wrap;"></div>
             </div>
-        </div>
-    </div>
-
-    <!-- Integrated stage panel (Script 2 student mode) -->
-    <div id="stage-panel">
-        <div class="stage-header">
-            <button class="stage-back" onclick="closeStagePanel()">← Stage 1</button>
-            <h2 id="stage-panel-title">Pattern Analysis</h2>
-            <button class="stage-nav-btn active" id="snav-2" onclick="switchStage(2)">2</button>
-            <button class="stage-nav-btn" id="snav-3" onclick="switchStage(3)">3</button>
-            <button class="stage-nav-btn" id="snav-4" onclick="switchStage(4)">4</button>
-        </div>
-        <div id="stage-instructions-bar" class="stage-instructions"></div>
-        <div class="stage-body">
-
-            <!-- Stage 2 -->
-            <div class="stage-panel-content active" id="panel-2">
-                <div id="code-pool-wrap">
-                    <h3>Your codes — hover to see extract · drag into a category</h3>
-                    <div id="code-pool"></div>
-                </div>
-                <div id="clusters-wrap"></div>
-                <button id="add-cluster-btn" onclick="addCluster()">+ Add Category</button>
-            </div>
-
-            <!-- Stage 3 -->
-            <div class="stage-panel-content" id="panel-3">
-                <div id="s3-clusters-container"></div>
-            </div>
-
-            <!-- Stage 4 -->
-            <div class="stage-panel-content" id="panel-4">
-
-                <div class="s4-section">
-                    <h3>Your finalised categories</h3>
-                    <p class="s4-sub">Read each category and its extracts before writing — let the data speak first.</p>
-                    <div id="s4-categories-display" class="s4-categories-list"></div>
-                </div>
-
-                <div class="s4-section">
-                    <h3>Step 1 — What is the overall pattern?</h3>
-                    <p class="s4-sub">What do all your categories add up to? Write one sentence about what is <em>happening</em> for these speakers — not a list of codes, but a process or experience.</p>
-                    <div class="s4-scaffold-box">
-                        <p>If you had to explain this data to someone who hadn't read it, what would you say is going on?</p>
-                    </div>
-                    <div class="s4-field-label">Overall pattern (one sentence):</div>
-                    <textarea class="s4-textarea" id="s4-pattern" placeholder="e.g. These speakers experience English seminar participation as a constant negotiation between wanting to contribute and fearing exposure…"></textarea>
-                </div>
-
-                <div class="s4-section">
-                    <h3>Step 2 — Turn the pattern into a claim</h3>
-                    <p class="s4-sub">A pattern describes. A claim argues. Push further — what does this pattern tell us about something bigger?</p>
-                    <div class="s4-scaffold-box">
-                        <p>Try: <em>"This data suggests that…"</em> or <em>"What appears to be happening is not simply X, but rather…"</em></p>
-                        <p style="margin-top:5px;">A claim should be falsifiable — someone could disagree with it using different data.</p>
-                    </div>
-                    <div class="s4-field-label">Your analytic claim:</div>
-                    <textarea class="s4-textarea" id="s4-claim" placeholder="e.g. Language anxiety here functions not only as a communication barrier but as a mechanism of identity suppression…"></textarea>
-                </div>
-
-                <div class="s4-section">
-                    <h3>Step 3 — Support it with evidence</h3>
-                    <p class="s4-sub">Quote one or two specific extracts and explain what they show.</p>
-                    <div class="s4-scaffold-box">
-                        <p>Try: <em>"This is evident in [quote], which shows that…"</em></p>
-                    </div>
-                    <div class="s4-field-label">Evidence from the data:</div>
-                    <textarea class="s4-textarea" id="s4-evidence" placeholder="e.g. Participant 2's description of becoming 'a much less confident version of myself'…" style="min-height:80px;"></textarea>
-                    <hr class="s4-divider">
-                    <p class="s4-sub" style="margin-bottom:4px;">What complicates or qualifies your claim?</p>
-                    <div class="s4-field-label">Nuance:</div>
-                    <textarea class="s4-textarea" id="s4-nuance" placeholder="e.g. Participant 1's mention of relief suggests the silencing is also strategic…" style="min-height:64px;"></textarea>
-                </div>
-
-            </div>
-        </div>
-        <div class="stage-submit-bar">
-            <span id="stage-submit-status"></span>
-            <button class="stage-submit-btn" id="stage-submit-btn" onclick="submitStageAnalysis()">Submit Analysis</button>
         </div>
     </div>
 
@@ -609,7 +458,8 @@
             <h4>Submission</h4>
             <label for="student-name" class="input-label">Full Name</label>
             <input type="text" id="student-name" class="btn" style="width:100%; background:#f8fafc; margin-bottom:12px; text-align:left; box-sizing: border-box;" placeholder="Enter your name...">
-            <button id="submit-btn" class="btn" style="width:100%; background:var(--success); color:white; border:none" onclick="submitToCloud()">Submit Coding</button>
+            <button id="submit-btn" class="btn" style="width:100%; background:var(--success); color:white; border:none" onclick="submitCoding()">Submit Coding</button>
+            <p id="submit-coding-status" style="font-size:0.72rem;color:#94a3b8;margin:6px 0 0;text-align:center;"></p>
         </div>
 
         <div class="sidebar-panel hidden" id="teacher-tools">
@@ -636,12 +486,73 @@
     </div>
 </main>
 
+<!-- Stage workspace: Stages 2–4 (Script 2 student mode, replaces main) -->
+<div id="stage-workspace">
+    <!-- Stage 2 -->
+    <div class="sw-main" id="sw-panel-2">
+        <div class="stage-instructions" id="sw-instr-2">Look across all your codes — stop thinking line by line. <strong>What recurs?</strong> Drag codes into categories, name each one, then describe what holds them together.</div>
+        <div id="code-pool-wrap">
+            <h3>Your codes — hover to see the coded extract · drag into a category below</h3>
+            <div id="code-pool"></div>
+        </div>
+        <div id="clusters-wrap"></div>
+        <button id="add-cluster-btn" onclick="addCluster()">+ Add Category</button>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="sw-main hidden" id="sw-panel-3">
+        <div class="stage-instructions">Test each category against the actual data. <strong>Do all the extracts really fit? Is anything out of place?</strong> Rename categories and move codes between them if needed, then submit.</div>
+        <div id="s3-clusters-container"></div>
+        <div id="s3-submit-bar">
+            <span>Submit your finalised categories when you're ready. This also saves your Stage 4 claim writing.</span>
+            <button class="s3-submit-btn" id="s3-submit-btn" onclick="submitAnalysis()">Submit</button>
+        </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="sw-main hidden" id="sw-panel-4">
+        <div class="stage-instructions">This is where coding becomes analysis. <strong>Read your finalised categories, then work through the steps</strong> — from noticing a pattern, to making a claim, to grounding it in evidence.</div>
+        <div class="s4-section">
+            <h3>Your finalised categories</h3>
+            <p class="s4-sub">Read each category and its extracts carefully before writing anything.</p>
+            <div id="s4-categories-display" class="s4-categories-list"></div>
+        </div>
+        <div class="s4-section">
+            <h3>Step 1 — What is the overall pattern?</h3>
+            <p class="s4-sub">What do all your categories add up to? Write one sentence about what is <em>happening</em> for these speakers — not a list of codes, but a process or experience.</p>
+            <div class="s4-scaffold-box"><p>If you had to explain this data to someone who hadn't read it, what would you say is going on?</p></div>
+            <div class="s4-field-label">Overall pattern (one sentence):</div>
+            <textarea class="s4-textarea" id="s4-pattern" placeholder="e.g. These speakers experience English seminar participation as a constant negotiation between wanting to contribute and fearing exposure…"></textarea>
+        </div>
+        <div class="s4-section">
+            <h3>Step 2 — Turn the pattern into a claim</h3>
+            <p class="s4-sub">A pattern describes. A claim argues. Push further — what does this pattern tell us about something bigger?</p>
+            <div class="s4-scaffold-box">
+                <p>Try: <em>"This data suggests that…"</em> or <em>"What appears to be happening is not simply X, but rather…"</em></p>
+                <p style="margin-top:5px;">A claim should be falsifiable — someone could disagree with it using different data.</p>
+            </div>
+            <div class="s4-field-label">Your analytic claim:</div>
+            <textarea class="s4-textarea" id="s4-claim" placeholder="e.g. Language anxiety here functions not only as a communication barrier but as a mechanism of identity suppression…"></textarea>
+        </div>
+        <div class="s4-section">
+            <h3>Step 3 — Support it with evidence</h3>
+            <p class="s4-sub">Quote one or two specific extracts and explain what they show.</p>
+            <div class="s4-scaffold-box"><p>Try: <em>"This is evident in [quote], which shows that…"</em></p></div>
+            <div class="s4-field-label">Evidence from the data:</div>
+            <textarea class="s4-textarea" id="s4-evidence" placeholder="e.g. Participant 2's description of becoming 'a much less confident version of myself'…" style="min-height:80px;"></textarea>
+            <hr class="s4-divider">
+            <p class="s4-sub" style="margin-bottom:4px;">What complicates or qualifies your claim?</p>
+            <div class="s4-field-label">Nuance:</div>
+            <textarea class="s4-textarea" id="s4-nuance" placeholder="e.g. Participant 1's mention of relief suggests the silencing is also strategic…" style="min-height:64px;"></textarea>
+        </div>
+        <div style="height:40px;flex-shrink:0;"></div>
+    </div>
+</div>
+
 <div id="coding-bar">
     <input type="text" id="code-input" placeholder="Enter code label here...">
     <button id="apply-btn" onclick="applyManualCode()">Apply Code</button>
 </div>
-
-<button id="stage2-btn" onclick="openStagePanel()">✦ Move to Stage 2 →</button>
 
 <!-- JS tooltip for pool cards -->
 <div id="pool-tooltip"></div>
@@ -917,25 +828,100 @@
         if (!Array.isArray(data)) return;
         let html = target.innerHTML;
         const sortedData = [...data].sort((a,b) => b.text.length - a.text.length);
-    // ── Stage 2–4 Logic (Script 2 only) ─────────────────────────────────────
+    // ── Stage system (Script 2 student mode) ─────────────────────────────────
 
     let clusterCounter = 0;
-    let currentStage = 2;
+    let currentStage = 1;
+    let s3Submitted = false; // track if Stage 3 has been submitted this session
 
-    const stageInstructions = {
-        2: "Look across all your codes — stop thinking line by line. <strong>What recurs?</strong> Drag codes into categories, name each one, then describe what holds them together.",
-        3: "Test each category against the actual data. <strong>Do all the extracts really fit? Is anything out of place?</strong> Rename categories and move codes between them if needed.",
-        4: "This is where coding becomes analysis. <strong>Read your finalised categories, then work through the steps</strong> — from noticing a pattern, to making a claim, to grounding it in evidence."
+    // Show/hide stage tabs and workspace depending on script + mode
+    function updateStageUI() {
+        const isS2Student = (currentScript === 2 && currentMode === 'student');
+        document.getElementById('stage-tabs').classList.toggle('visible', isS2Student);
+        if (!isS2Student) {
+            // Ensure main is shown and workspace hidden
+            document.getElementById('main-layout').style.display = '';
+            document.getElementById('stage-workspace').classList.remove('visible');
+            document.getElementById('coding-bar').classList.remove('hidden');
+        }
+    }
+
+    // Central stage switcher — called by tab clicks and internally
+    function switchStage(n, force) {
+        // Warn if leaving Stage 3 with unsaved work
+        if (!force && currentStage === 3 && n !== 3 && !s3Submitted && hasS3Content()) {
+            if (!confirm('You have unsaved work in Stage 3. If you leave now your categories won\'t be submitted. Continue anyway?')) return;
+        }
+
+        currentStage = n;
+
+        // Update tab active states
+        [1,2,3,4].forEach(i => {
+            const t = document.getElementById('stab-' + i);
+            if (t) t.classList.toggle('active', i === n);
+        });
+
+        if (n === 1) {
+            // Stage 1: show main layout, hide workspace
+            document.getElementById('main-layout').style.display = '';
+            document.getElementById('stage-workspace').classList.remove('visible');
+            document.getElementById('coding-bar').classList.remove('hidden');
+        } else {
+            // Stages 2–4: hide main, show workspace
+            document.getElementById('main-layout').style.display = 'none';
+            document.getElementById('stage-workspace').classList.add('visible');
+            document.getElementById('coding-bar').classList.add('hidden');
+            // Show correct panel
+            ['sw-panel-2','sw-panel-3','sw-panel-4'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById('sw-panel-' + n).classList.remove('hidden');
+            // Build content
+            if (n === 2) rebuildCodePool();
+            if (n === 3) buildStage3();
+            if (n === 4) buildStage4();
+        }
+    }
+
+    function hasS3Content() {
+        return document.querySelectorAll('#s3-clusters-container .s3-cluster-card').length > 0;
+    }
+
+    // Hook loadScript to reset stages and show/hide tabs
+    const _origLoadScript = loadScript;
+    loadScript = function(num) {
+        _origLoadScript(num);
+        currentStage = 1;
+        s3Submitted = false;
+        // Reset tab active state
+        [1,2,3,4].forEach(i => {
+            const t = document.getElementById('stab-' + i);
+            if (t) t.classList.toggle('active', i === 1);
+        });
+        // Always show stage 1 view
+        document.getElementById('main-layout').style.display = '';
+        document.getElementById('stage-workspace').classList.remove('visible');
+        document.getElementById('coding-bar').classList.remove('hidden');
+        updateStageUI();
     };
 
-    const stageTitles = { 2: "Stage 2: Find Patterns", 3: "Stage 3: Test Categories", 4: "Stage 4: Build a Claim" };
+    const _origExecuteSetMode = executeSetMode;
+    executeSetMode = function(mode) {
+        _origExecuteSetMode(mode);
+        updateStageUI();
+        document.getElementById('teacher-analysis').classList.toggle('hidden', mode === 'student');
+        // If teacher mode, go back to stage 1 view
+        if (mode === 'teacher') {
+            document.getElementById('main-layout').style.display = '';
+            document.getElementById('stage-workspace').classList.remove('visible');
+        }
+    };
 
     // ── Tooltip ───────────────────────────────────────────────────────────────
     const tooltip = document.getElementById('pool-tooltip');
     function showTooltip(card, e) {
         const text = card.dataset.tooltip; if (!text) return;
-        tooltip.textContent = text; tooltip.style.display = 'block';
-        positionTooltip(e);
+        tooltip.textContent = text; tooltip.style.display = 'block'; positionTooltip(e);
     }
     function positionTooltip(e) {
         const pad = 10, tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
@@ -946,50 +932,17 @@
     }
     function hideTooltip() { tooltip.style.display = 'none'; }
 
-    // ── Visibility hooks ─────────────────────────────────────────────────────
-    function updateStage2Btn() {
-        const btn = document.getElementById('stage2-btn'); if (!btn) return;
-        btn.style.display = (currentScript === 2 && currentMode === 'student' && myCodes.length > 0) ? 'block' : 'none';
-    }
-
-    const _origUpdateCodeList = updateCodeList;
-    updateCodeList = function(data, isSampleView) { _origUpdateCodeList(data, isSampleView); updateStage2Btn(); };
-    const _origLoadScript = loadScript;
-    loadScript = function(num) { _origLoadScript(num); updateStage2Btn(); if (document.getElementById('stage-panel').classList.contains('open')) closeStagePanel(); };
-    const _origExecuteSetMode = executeSetMode;
-    executeSetMode = function(mode) {
-        _origExecuteSetMode(mode); updateStage2Btn();
-        document.getElementById('teacher-analysis').classList.toggle('hidden', mode === 'student');
-    };
-
-    // ── Open / close ─────────────────────────────────────────────────────────
-    function openStagePanel() {
-        rebuildCodePool(); switchStage(2);
-        document.getElementById('stage-panel').classList.add('open');
-        document.getElementById('sidebar').classList.add('hidden');
-        document.getElementById('stage2-btn').style.display = 'none';
-        document.getElementById('main-layout').classList.add('stage-open');
-    }
-    function closeStagePanel() {
-        document.getElementById('stage-panel').classList.remove('open');
-        document.getElementById('sidebar').classList.remove('hidden');
-        document.getElementById('main-layout').classList.remove('stage-open');
-        updateStage2Btn();
-    }
-
-    function switchStage(n) {
-        currentStage = n;
-        [2,3,4].forEach(i => document.getElementById('snav-'+i).classList.toggle('active', i===n));
-        document.querySelectorAll('.stage-panel-content').forEach(p => p.classList.remove('active'));
-        document.getElementById('panel-'+n).classList.add('active');
-        document.getElementById('stage-panel-title').textContent = stageTitles[n];
-        document.getElementById('stage-instructions-bar').innerHTML = stageInstructions[n];
-        if (n===3) buildStage3();
-        if (n===4) buildStage4();
-        document.querySelector('.stage-body').scrollTop = 0;
-        const sb = document.getElementById('stage-submit-btn');
-        sb.classList.remove('sent'); sb.textContent = 'Submit Analysis';
-        document.getElementById('stage-submit-status').textContent = '';
+    // ── Stage 1 submit ────────────────────────────────────────────────────────
+    function submitCoding() {
+        const name = document.getElementById('student-name').value.trim();
+        if (!name || myCodes.length === 0) { alert('Enter your name and add some codes first.'); return; }
+        const btn = document.getElementById('submit-btn');
+        const status = document.getElementById('submit-coding-status');
+        btn.innerText = 'Sending…';
+        const payload = { type: 'coding', codes: myCodes };
+        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(payload) }) })
+            .then(() => { btn.innerText = 'Submitted ✓'; btn.style.background = '#94a3b8'; status.textContent = 'Coding saved.'; })
+            .catch(() => { btn.innerText = 'Submit Coding'; status.textContent = 'Error — try again.'; });
     }
 
     // ── Stage 2 ──────────────────────────────────────────────────────────────
@@ -1032,7 +985,7 @@
     function removeCluster(id) {
         const card = document.getElementById(id); if (!card) return;
         const pool = document.getElementById('code-pool');
-        card.querySelectorAll('.pool-card').forEach(c => { const b=c.querySelector('.return-btn'); if(b) b.remove(); pool.appendChild(c); });
+        card.querySelectorAll('.pool-card').forEach(c => { const b = c.querySelector('.return-btn'); if (b) b.remove(); pool.appendChild(c); });
         card.remove();
     }
 
@@ -1047,8 +1000,8 @@
         const oldBtn = existing.querySelector('.return-btn'); if (oldBtn) oldBtn.remove();
         const ph = zone.querySelector('.drop-placeholder'); if (ph) ph.style.display = 'none';
         zone.appendChild(existing);
-        const btn = document.createElement('span'); btn.className='return-btn'; btn.textContent='×'; btn.title='Return to pool';
-        btn.addEventListener('click', e => { e.stopPropagation(); btn.remove(); document.getElementById('code-pool').appendChild(existing); if (!zone.querySelector('.pool-card')) { const p2=zone.querySelector('.drop-placeholder'); if(p2) p2.style.display=''; } });
+        const btn = document.createElement('span'); btn.className = 'return-btn'; btn.textContent = '×'; btn.title = 'Return to pool';
+        btn.addEventListener('click', e => { e.stopPropagation(); btn.remove(); document.getElementById('code-pool').appendChild(existing); if (!zone.querySelector('.pool-card')) { const p2 = zone.querySelector('.drop-placeholder'); if (p2) p2.style.display = ''; } });
         existing.appendChild(btn);
     }
 
@@ -1056,18 +1009,22 @@
     function buildStage3() {
         const container = document.getElementById('s3-clusters-container'); container.innerHTML = '';
         const clusters = document.querySelectorAll('.cluster-card');
-        if (!clusters.length) { container.innerHTML = '<p style="color:#94a3b8;font-size:0.85rem;text-align:center;padding:20px;">No categories yet — go back to Stage 2 and build some first.</p>'; return; }
+        if (!clusters.length) { container.innerHTML = '<p style="color:#94a3b8;font-size:0.85rem;padding:20px 0;">No categories yet — go to Stage 2 and build some first.</p>'; return; }
         clusters.forEach(cl => {
             const name = cl.querySelector('.cluster-name-input').value.trim() || '(unnamed)';
             const phrase = cl.querySelector('.cluster-category-input').value.trim();
             const div = document.createElement('div'); div.className = 's3-cluster-card'; div.dataset.clusterId = cl.id;
             div.innerHTML = `<div class="s3-top"><input class="s3-name-input" type="text" value="${name}" placeholder="Category name…" /></div>${phrase ? `<p class="s3-category-label">"${phrase}"</p>` : ''}<p class="s3-prompt">Read the extracts below. Does every code really fit here? Drag any that don't belong to a different category.</p><div class="s3-drop-zone" data-s3-cluster="${cl.id}"></div>`;
             const dropZone = div.querySelector('.s3-drop-zone');
-            [...cl.querySelectorAll('.pool-card')].forEach(pc => myCodes.filter(m => m.code===pc.dataset.code).forEach(e => dropZone.appendChild(createS3CodeCard(e, cl.id))));
+            [...cl.querySelectorAll('.pool-card')].forEach(pc => myCodes.filter(m => m.code === pc.dataset.code).forEach(e => dropZone.appendChild(createS3CodeCard(e, cl.id))));
             setupS3DropZone(dropZone);
             container.appendChild(div);
-            div.querySelector('.s3-name-input').addEventListener('input', ev => { const i=cl.querySelector('.cluster-name-input'); if(i) i.value=ev.target.value; });
+            div.querySelector('.s3-name-input').addEventListener('input', ev => { const i = cl.querySelector('.cluster-name-input'); if (i) i.value = ev.target.value; });
         });
+        // Reset submit button
+        const btn = document.getElementById('s3-submit-btn');
+        if (s3Submitted) { btn.textContent = 'Submitted ✓'; btn.classList.add('sent'); }
+        else { btn.textContent = 'Submit'; btn.classList.remove('sent'); }
     }
 
     function createS3CodeCard(entry, homeClusterId) {
@@ -1101,18 +1058,18 @@
         const oldBtn = poolCard.querySelector('.return-btn'); if (oldBtn) oldBtn.remove();
         const oldZone = poolCard.closest('.cluster-drop-zone');
         targetS2Zone.appendChild(poolCard);
-        if (oldZone && !oldZone.querySelector('.pool-card')) { const ph=oldZone.querySelector('.drop-placeholder'); if(ph) ph.style.display=''; }
-        const newPh = targetS2Zone.querySelector('.drop-placeholder'); if (newPh) newPh.style.display='none';
-        const btn = document.createElement('span'); btn.className='return-btn'; btn.textContent='×'; btn.title='Return to pool';
-        btn.addEventListener('click', ev => { ev.stopPropagation(); btn.remove(); document.getElementById('code-pool').appendChild(poolCard); if(!targetS2Zone.querySelector('.pool-card')){const p2=targetS2Zone.querySelector('.drop-placeholder');if(p2)p2.style.display='';} });
+        if (oldZone && !oldZone.querySelector('.pool-card')) { const ph = oldZone.querySelector('.drop-placeholder'); if (ph) ph.style.display = ''; }
+        const newPh = targetS2Zone.querySelector('.drop-placeholder'); if (newPh) newPh.style.display = 'none';
+        const btn = document.createElement('span'); btn.className = 'return-btn'; btn.textContent = '×'; btn.title = 'Return to pool';
+        btn.addEventListener('click', ev => { ev.stopPropagation(); btn.remove(); document.getElementById('code-pool').appendChild(poolCard); if (!targetS2Zone.querySelector('.pool-card')) { const p2 = targetS2Zone.querySelector('.drop-placeholder'); if (p2) p2.style.display = ''; } });
         poolCard.appendChild(btn);
     }
 
     function addS3TouchDrag(card) {
         let clone = null;
-        card.addEventListener('touchstart', e => { clone = document.createElement('div'); clone.className='s3-code-card'; clone.innerHTML=card.innerHTML; clone.style.cssText=`position:fixed;opacity:0.85;pointer-events:none;z-index:9999;width:${card.offsetWidth}px;`; document.body.appendChild(clone); card.classList.add('dragging'); }, { passive: true });
-        card.addEventListener('touchmove', e => { e.preventDefault(); const t=e.touches[0]; if(clone){clone.style.left=(t.clientX-card.offsetWidth/2)+'px';clone.style.top=(t.clientY-20)+'px';} document.querySelectorAll('.s3-drop-zone').forEach(z=>{const r=z.getBoundingClientRect();z.classList.toggle('drag-over',t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom);}); }, { passive: false });
-        card.addEventListener('touchend', e => { card.classList.remove('dragging'); if(clone){clone.remove();clone=null;} const t=e.changedTouches[0]; document.querySelectorAll('.s3-drop-zone').forEach(z=>{z.classList.remove('drag-over');const r=z.getBoundingClientRect();if(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom)moveS3CardToZone(z,card.dataset.entryId);}); });
+        card.addEventListener('touchstart', e => { clone = document.createElement('div'); clone.className = 's3-code-card'; clone.innerHTML = card.innerHTML; clone.style.cssText = `position:fixed;opacity:0.85;pointer-events:none;z-index:9999;width:${card.offsetWidth}px;`; document.body.appendChild(clone); card.classList.add('dragging'); }, { passive: true });
+        card.addEventListener('touchmove', e => { e.preventDefault(); const t = e.touches[0]; if (clone) { clone.style.left = (t.clientX - card.offsetWidth/2) + 'px'; clone.style.top = (t.clientY - 20) + 'px'; } document.querySelectorAll('.s3-drop-zone').forEach(z => { const r = z.getBoundingClientRect(); z.classList.toggle('drag-over', t.clientX >= r.left && t.clientX <= r.right && t.clientY >= r.top && t.clientY <= r.bottom); }); }, { passive: false });
+        card.addEventListener('touchend', e => { card.classList.remove('dragging'); if (clone) { clone.remove(); clone = null; } const t = e.changedTouches[0]; document.querySelectorAll('.s3-drop-zone').forEach(z => { z.classList.remove('drag-over'); const r = z.getBoundingClientRect(); if (t.clientX >= r.left && t.clientX <= r.right && t.clientY >= r.top && t.clientY <= r.bottom) moveS3CardToZone(z, card.dataset.entryId); }); });
     }
 
     // ── Stage 4 ──────────────────────────────────────────────────────────────
@@ -1131,21 +1088,21 @@
             (s3Card ? [...s3Card.querySelectorAll('.s3-code-card')] : []).forEach(sc => {
                 const entry = myCodes.find(m => m.id === sc.dataset.entryId); if (!entry) return;
                 const parts = entry.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
-                const darkColor = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
-                extractRows += `<div class="s4-extract-row"><span class="s4-extract-code" style="background:${entry.color};color:${darkColor}">${entry.code}</span><span>"${entry.text.trim()}"</span></div>`;
+                const dc = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
+                extractRows += `<div class="s4-extract-row"><span class="s4-extract-code" style="background:${entry.color};color:${dc}">${entry.code}</span><span>"${entry.text.trim()}"</span></div>`;
             });
-            if (!extractRows) cl.querySelectorAll('.pool-card').forEach(pc => myCodes.filter(m=>m.code===pc.dataset.code).forEach(entry => {
+            if (!extractRows) cl.querySelectorAll('.pool-card').forEach(pc => myCodes.filter(m => m.code === pc.dataset.code).forEach(entry => {
                 const parts = entry.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
-                const darkColor = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
-                extractRows += `<div class="s4-extract-row"><span class="s4-extract-code" style="background:${entry.color};color:${darkColor}">${pc.dataset.code}</span><span>"${entry.text.trim()}"</span></div>`;
+                const dc = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
+                extractRows += `<div class="s4-extract-row"><span class="s4-extract-code" style="background:${entry.color};color:${dc}">${pc.dataset.code}</span><span>"${entry.text.trim()}"</span></div>`;
             }));
-            const block = document.createElement('div'); block.className='s4-cat-block';
-            block.innerHTML = `<div class="s4-cat-header"><span class="s4-cat-name">${catName}</span>${phrase&&phrase!==catName?`<span class="s4-cat-phrase">${phrase}</span>`:''}</div><div class="s4-cat-extracts">${extractRows||'<span style="color:#cbd5e1;font-size:0.78rem;">No extracts here.</span>'}</div>`;
+            const block = document.createElement('div'); block.className = 's4-cat-block';
+            block.innerHTML = `<div class="s4-cat-header"><span class="s4-cat-name">${catName}</span>${phrase && phrase !== catName ? `<span class="s4-cat-phrase">${phrase}</span>` : ''}</div><div class="s4-cat-extracts">${extractRows || '<span style="color:#cbd5e1;font-size:0.78rem;">No extracts here.</span>'}</div>`;
             display.appendChild(block);
         });
     }
 
-    // ── Analysis submission ───────────────────────────────────────────────────
+    // ── Submissions ───────────────────────────────────────────────────────────
     function gatherAnalysisData() {
         const categories = [];
         document.querySelectorAll('.cluster-card').forEach(cl => {
@@ -1153,404 +1110,96 @@
             let catName = s3Card ? s3Card.querySelector('.s3-name-input').value.trim() : '';
             if (!catName) catName = cl.querySelector('.cluster-category-input').value.trim();
             if (!catName) catName = cl.querySelector('.cluster-name-input').value.trim();
-            categories.push({ name: catName, connectedBy: cl.querySelector('.cluster-category-input').value.trim(), codes: [...cl.querySelectorAll('.pool-card')].map(c=>c.dataset.code) });
+            const codes = [...cl.querySelectorAll('.pool-card')].map(c => c.dataset.code);
+            categories.push({ name: catName, connectedBy: cl.querySelector('.cluster-category-input').value.trim(), codes });
         });
-        return { type: 'analysis', categories, pattern: document.getElementById('s4-pattern')?.value.trim()||'', claim: document.getElementById('s4-claim')?.value.trim()||'', evidence: document.getElementById('s4-evidence')?.value.trim()||'', nuance: document.getElementById('s4-nuance')?.value.trim()||'' };
+        return {
+            type: 'analysis', categories,
+            pattern:  document.getElementById('s4-pattern')?.value.trim()  || '',
+            claim:    document.getElementById('s4-claim')?.value.trim()    || '',
+            evidence: document.getElementById('s4-evidence')?.value.trim() || '',
+            nuance:   document.getElementById('s4-nuance')?.value.trim()   || ''
+        };
     }
 
-    function submitStageAnalysis() {
+    function submitAnalysis() {
         const name = document.getElementById('student-name').value.trim();
-        if (!name) { alert("Enter your name in the sidebar first."); return; }
-        const btn = document.getElementById('stage-submit-btn'), status = document.getElementById('stage-submit-status');
-        btn.textContent = 'Sending…'; btn.classList.add('sent');
+        if (!name) { alert('Enter your name in the sidebar first — switch to Stage 1 to find it.'); return; }
+        if (!document.querySelectorAll('.cluster-card').length) { alert('No categories to submit — complete Stage 2 first.'); return; }
+        const btn = document.getElementById('s3-submit-btn');
+        btn.textContent = 'Sending…';
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(gatherAnalysisData()) }) })
-            .then(() => { btn.textContent = 'Submitted ✓'; status.textContent = 'Analysis saved.'; })
-            .catch(() => { btn.classList.remove('sent'); btn.textContent = 'Submit Analysis'; status.textContent = 'Error — try again.'; });
+            .then(() => { btn.textContent = 'Submitted ✓'; btn.classList.add('sent'); s3Submitted = true; })
+            .catch(() => { btn.textContent = 'Submit'; btn.classList.remove('sent'); alert('Submission failed — please try again.'); });
     }
 
-    // ── Touch drag (Stage 2) ──────────────────────────────────────────────────
-    function addTouchDrag(card) {
-        let clone = null;
-        card.addEventListener('touchstart', e => { clone=card.cloneNode(false); clone.textContent=card.dataset.code; clone.style.cssText=`position:fixed;opacity:0.85;pointer-events:none;z-index:9999;width:${card.offsetWidth}px;padding:7px 12px;border-radius:6px;font-size:0.8rem;font-weight:600;background:${card.style.background};color:${card.style.color};`; document.body.appendChild(clone); card.classList.add('dragging'); }, { passive: true });
-        card.addEventListener('touchmove', e => { e.preventDefault(); const t=e.touches[0]; if(clone){clone.style.left=(t.clientX-card.offsetWidth/2)+'px';clone.style.top=(t.clientY-20)+'px';} document.querySelectorAll('.cluster-drop-zone').forEach(z=>{const r=z.getBoundingClientRect();z.classList.toggle('drag-over',t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom);}); }, { passive: false });
-        card.addEventListener('touchend', e => { card.classList.remove('dragging'); if(clone){clone.remove();clone=null;} const t=e.changedTouches[0]; document.querySelectorAll('.cluster-drop-zone').forEach(z=>{z.classList.remove('drag-over');const r=z.getBoundingClientRect();if(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom)dropCardIntoZone(z,card.dataset.code);}); });
+    // ── Cloud sync (overrides original, parses type) ─────────────────────────
+    function syncFromCloud() {
+        const btn = document.getElementById('refresh-btn'); btn.innerText = 'Syncing...';
+        fetch(API_URL).then(res => res.json()).then(allRows => {
+            submissions = {};
+            if (!allRows || allRows.length <= 1) { btn.innerText = 'Sync Submissions'; return; }
+            allRows.forEach((row, index) => {
+                if (index === 0) return;
+                const scriptId = parseInt(String(row[2]).replace(/\D/g, ''));
+                let parsed, dataType = 'codes';
+                try { parsed = JSON.parse(row[3]); if (parsed && parsed.type === 'analysis') dataType = 'analysis'; else if (parsed && parsed.type === 'coding') dataType = 'codes'; } catch(e) { parsed = row[3]; }
+                submissions[`row-${index}`] = { data: parsed, label: `${row[1]} (Script ${scriptId})`, scriptId, dataType };
+            });
+            updateTeacherDropdowns(); btn.innerText = 'Sync Submissions';
+        }).catch(() => { btn.innerText = 'Sync Error'; });
     }
 
-        sortedData.forEach(item => {
+    function updateTeacherDropdowns() {
+        const keys = Object.keys(submissions);
+        const filtered = keys.filter(k => submissions[k].scriptId == currentScript);
+        const codesKeys = filtered.filter(k => submissions[k].dataType === 'codes');
+        const analysisKeys = filtered.filter(k => submissions[k].dataType === 'analysis');
+        const makeOpts = (ks, label) => ks.length ? `<option value="">Select Student…</option>` + ks.map(k => `<option value="${k}">${submissions[k].label}</option>`).join('') : `<option value="">No ${label} submissions</option>`;
+        document.getElementById('select-left').innerHTML = makeOpts(codesKeys, 'coding');
+        document.getElementById('select-right').innerHTML = makeOpts(codesKeys, 'coding');
+        const sa = document.getElementById('select-analysis'); if (sa) sa.innerHTML = makeOpts(analysisKeys, 'analysis');
+    }
+
+    function applyAnalysisReview() {
+        const key = document.getElementById('select-analysis').value;
+        const output = document.getElementById('analysis-review-output'); output.innerHTML = '';
+        if (!key || !submissions[key]) return;
+        const d = submissions[key].data;
+        if (!d || d.type !== 'analysis') { output.innerHTML = '<p style="color:#94a3b8;font-size:0.8rem;">Not an analysis submission.</p>'; return; }
+        let html = `<div class="analysis-review-card"><div class="analysis-review-header">Categories (${d.categories.length})</div><div class="analysis-review-body">`;
+        d.categories.forEach(c => { html += `<div class="analysis-section"><div class="analysis-section-label">${c.name}</div>${c.connectedBy ? `<div style="font-style:italic;color:#7c3aed;font-size:0.75rem;margin-bottom:4px;">"${c.connectedBy}"</div>` : ''}${c.codes.map(code => `<span class="analysis-cat-chip">${code}</span>`).join('')}</div>`; });
+        html += '</div></div>';
+        [['Overall Pattern', d.pattern], ['Analytic Claim', d.claim], ['Evidence', d.evidence], ['Nuance', d.nuance]].forEach(([label, val]) => { if (!val) return; html += `<div class="analysis-review-card" style="margin-top:8px;"><div class="analysis-review-header">${label}</div><div class="analysis-review-body" style="white-space:pre-wrap;">${val}</div></div>`; });
+        output.innerHTML = html;
+    }
+
+    // applyReview — handles coding submissions (array format)
+    function applyReview(side) {
+        const key = document.getElementById(side === 1 ? 'select-left' : 'select-right').value;
+        const target = document.getElementById(side === 1 ? 't1' : 't2');
+        target.innerHTML = scripts[currentScript]; if (!key) return;
+        const d = submissions[key].data;
+        const data = Array.isArray(d) ? d : (d && d.codes ? d.codes : []);
+        let html = target.innerHTML;
+        [...data].sort((a,b) => b.text.length - a.text.length).forEach(item => {
             const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const regex = new RegExp(`(${escaped})`, 'g');
             const parts = item.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
-            let darkColor = "rgba(0,0,0,0.8)";
-            if(parts) darkColor = `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)`;
-            const label = `<span class="teacher-label" style="background:${darkColor}">${item.code}</span>`;
-            html = html.replace(regex, `<span class="highlighted" style="background:${item.color}">$1${label}</span>`);
+            const dc = parts ? `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)` : 'rgba(0,0,0,0.8)';
+            html = html.replace(regex, `<span class="highlighted" style="background:${item.color}">$1<span class="teacher-label" style="background:${dc}">${item.code}</span></span>`);
         });
         target.innerHTML = html;
     }
 
-    function clearCloudData() { if(!confirm("⚠️ Delete ALL submissions?")) return; fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'clear' }) }).then(() => { alert("Data purged."); syncFromCloud(); }); }
-
-    function submitToCloud() {
-        const name = document.getElementById('student-name').value.trim();
-        if (!name || myCodes.length === 0) { alert("Enter your name and some codes first."); return; }
-        const btn = document.getElementById('submit-btn');
-        btn.innerText = "Sending...";
-        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name: name, scriptId: currentScript, data: JSON.stringify(myCodes) }) }).then(() => { btn.innerText = "Success!"; btn.style.background = "var(--success)"; });
-    }
-    loadScript(1);
-
-    function createPoolCard(codeObj) {
-        const card = document.createElement('div');
-        card.className = 'pool-card';
-        card.dataset.code = codeObj.code;
-        card.dataset.color = codeObj.color;
-
-        const allTexts = codeObj.texts || [codeObj.text];
-        card.dataset.tooltip = allTexts.map(t => '"' + t.trim() + '"').join(' / ');
-
-        const parts = codeObj.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
-        if (parts) {
-            card.style.background = codeObj.color;
-            card.style.color = `hsla(${parts[1]}, ${parts[2]}%, 20%, 1)`;
-        }
-
-        card.appendChild(document.createTextNode(codeObj.code));
-        card.draggable = true;
-        card.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', codeObj.code); card.classList.add('dragging'); });
-        card.addEventListener('dragend', () => card.classList.remove('dragging'));
-        addTouchDrag(card);
-        return card;
-    }
-
-    function addCluster() {
-        clusterCounter++;
-        const id = 'cluster-' + clusterCounter;
-        const card = document.createElement('div');
-        card.className = 'cluster-card';
-        card.id = id;
-        card.innerHTML = `
-            <div class="cluster-top">
-                <input class="cluster-name-input" type="text" placeholder="Name this category…" />
-                <button class="remove-cluster-btn" onclick="removeCluster('${id}')">Remove</button>
-            </div>
-            <div class="cluster-drop-zone" data-cluster="${id}">
-                <span class="drop-placeholder" style="color:#cbd5e1;font-size:0.78rem;align-self:center;pointer-events:none;">Drop codes here</span>
-            </div>
-            <div class="cluster-category-wrap">
-                <div class="cat-label">What holds these codes together?</div>
-                <input class="cluster-category-input" type="text" placeholder="Describe the shared idea in one phrase…" />
-            </div>`;
-        setupDropZone(card.querySelector('.cluster-drop-zone'));
-        document.getElementById('clusters-wrap').appendChild(card);
-    }
-
-    function removeCluster(id) {
-        const card = document.getElementById(id);
-        if (!card) return;
-        const pool = document.getElementById('code-pool');
-        card.querySelectorAll('.pool-card').forEach(c => {
-            const btn = c.querySelector('.return-btn');
-            if (btn) btn.remove();
-            pool.appendChild(c);
-        });
-        card.remove();
-    }
-
-    function setupDropZone(zone) {
-        zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
-        zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
-        zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); dropCardIntoZone(zone, e.dataTransfer.getData('text/plain')); });
-    }
-
-    function dropCardIntoZone(zone, code) {
-        const existing = document.querySelector(`.pool-card[data-code="${CSS.escape(code)}"]`);
-        if (!existing) return;
-        const oldBtn = existing.querySelector('.return-btn');
-        if (oldBtn) oldBtn.remove();
-        const placeholder = zone.querySelector('.drop-placeholder');
-        if (placeholder) placeholder.style.display = 'none';
-        zone.appendChild(existing);
-        const btn = document.createElement('span');
-        btn.className = 'return-btn';
-        btn.textContent = '×';
-        btn.title = 'Return to pool';
-        btn.addEventListener('click', e => {
-            e.stopPropagation();
-            btn.remove();
-            document.getElementById('code-pool').appendChild(existing);
-            if (!zone.querySelector('.pool-card')) {
-                const ph = zone.querySelector('.drop-placeholder');
-                if (ph) ph.style.display = '';
-            }
-        });
-        existing.appendChild(btn);
-    }
-
-    // ── Stage 3 ──────────────────────────────────────────────────────────────
-
-    function buildStage3() {
-        const container = document.getElementById('s3-clusters-container');
-        container.innerHTML = '';
-
-        const clusters = document.querySelectorAll('.cluster-card');
-        if (!clusters.length) {
-            container.innerHTML = '<p style="color:#94a3b8;font-size:0.85rem;text-align:center;padding:20px;">No categories yet — go back to Stage 2 and build some first.</p>';
-            return;
-        }
-
-        clusters.forEach(cl => {
-            const name = cl.querySelector('.cluster-name-input').value.trim() || '(unnamed category)';
-            const categoryPhrase = cl.querySelector('.cluster-category-input').value.trim();
-
-            // Build code cards with their extracts for this category
-            const codesInCluster = [...cl.querySelectorAll('.pool-card')].map(c => c.dataset.code);
-
-            const div = document.createElement('div');
-            div.className = 's3-cluster-card';
-            div.dataset.clusterId = cl.id;
-
-            // Editable category name
-            const topHtml = `
-                <div class="s3-top">
-                    <input class="s3-name-input" type="text" value="${name}" placeholder="Category name…" />
-                </div>
-                ${categoryPhrase ? `<p class="s3-category-label">"${categoryPhrase}"</p>` : ''}
-                <p class="s3-prompt">Read the extracts below. Does every code really fit here? Move any that don't belong to a different category by dragging them.</p>
-                <div class="s3-drop-zone" data-s3-cluster="${cl.id}"></div>`;
-
-            div.innerHTML = topHtml;
-
-            // Populate the drop zone with live draggable code+extract cards
-            const dropZone = div.querySelector('.s3-drop-zone');
-            codesInCluster.forEach(codeName => {
-                const entries = myCodes.filter(m => m.code === codeName);
-                entries.forEach(e => {
-                    dropZone.appendChild(createS3CodeCard(e, cl.id));
-                });
-            });
-
-            setupS3DropZone(dropZone);
-            container.appendChild(div);
-
-            // Sync name back to Stage 2 cluster on input
-            div.querySelector('.s3-name-input').addEventListener('input', ev => {
-                const s2input = cl.querySelector('.cluster-name-input');
-                if (s2input) s2input.value = ev.target.value;
-            });
-        });
-    }
-
-    function createS3CodeCard(entry, homeClusterId) {
-        const card = document.createElement('div');
-        card.className = 's3-code-card';
-        card.dataset.code = entry.code;
-        card.dataset.entryId = entry.id;
-        card.dataset.homeCluster = homeClusterId;
-        card.draggable = true;
-
-        const parts = entry.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
-        const darkColor = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
-        card.style.borderLeftColor = darkColor;
-
-        card.innerHTML = `<span class="s3-code-label" style="background:${entry.color};color:${darkColor}">${entry.code}</span><span class="s3-extract-text">"${entry.text.trim()}"</span>`;
-
-        card.addEventListener('dragstart', e => {
-            e.dataTransfer.setData('s3code', entry.code);
-            e.dataTransfer.setData('s3entryId', entry.id);
-            card.classList.add('dragging');
-        });
-        card.addEventListener('dragend', () => card.classList.remove('dragging'));
-        addS3TouchDrag(card);
-        return card;
-    }
-
-    function setupS3DropZone(zone) {
-        zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
-        zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
-        zone.addEventListener('drop', e => {
-            e.preventDefault();
-            zone.classList.remove('drag-over');
-            const entryId = e.dataTransfer.getData('s3entryId');
-            moveS3CardToZone(zone, entryId);
-        });
-    }
-
-    function moveS3CardToZone(targetZone, entryId) {
-        const card = document.querySelector(`#s3-clusters-container .s3-code-card[data-entry-id="${entryId}"]`);
-        if (!card || card.closest('.s3-drop-zone') === targetZone) return;
-        targetZone.appendChild(card);
-        syncS3MoveToStage2(card, targetZone);
-    }
-
-    function syncS3MoveToStage2(s3Card, targetZone) {
-        const targetS3ClusterId = targetZone.closest('.s3-cluster-card').dataset.clusterId;
-        const code = s3Card.dataset.code;
-        // Find the pool-card in Stage 2 with this code
-        const poolCard = document.querySelector(`#clusters-wrap .pool-card[data-code="${CSS.escape(code)}"]`);
-        if (!poolCard) return;
-        const targetS2Zone = document.querySelector(`#${targetS3ClusterId} .cluster-drop-zone`);
-        if (!targetS2Zone) return;
-        // Move pool-card: strip old return btn, add to new zone, re-add return btn
-        const oldBtn = poolCard.querySelector('.return-btn');
-        if (oldBtn) oldBtn.remove();
-        const oldZone = poolCard.closest('.cluster-drop-zone');
-        targetS2Zone.appendChild(poolCard);
-        // Show placeholder on old zone if now empty
-        if (oldZone && !oldZone.querySelector('.pool-card')) {
-            const ph = oldZone.querySelector('.drop-placeholder');
-            if (ph) ph.style.display = '';
-        }
-        // Hide placeholder on new zone
-        const newPh = targetS2Zone.querySelector('.drop-placeholder');
-        if (newPh) newPh.style.display = 'none';
-        // Re-add return btn pointing back to pool
-        const btn = document.createElement('span');
-        btn.className = 'return-btn';
-        btn.textContent = '×';
-        btn.title = 'Return to pool';
-        btn.addEventListener('click', ev => {
-            ev.stopPropagation();
-            btn.remove();
-            document.getElementById('code-pool').appendChild(poolCard);
-            if (!targetS2Zone.querySelector('.pool-card')) {
-                const ph2 = targetS2Zone.querySelector('.drop-placeholder');
-                if (ph2) ph2.style.display = '';
-            }
-        });
-        poolCard.appendChild(btn);
-    }
-
-    function addS3TouchDrag(card) {
-        let clone = null;
-        card.addEventListener('touchstart', e => {
-            const touch = e.touches[0];
-            clone = document.createElement('div');
-            clone.className = 's3-code-card';
-            clone.innerHTML = card.innerHTML;
-            clone.style.cssText = `position:fixed;opacity:0.85;pointer-events:none;z-index:9999;width:${card.offsetWidth}px;`;
-            document.body.appendChild(clone);
-            card.classList.add('dragging');
-        }, { passive: true });
-        card.addEventListener('touchmove', e => {
-            e.preventDefault();
-            const touch = e.touches[0];
-            if (clone) { clone.style.left = (touch.clientX - card.offsetWidth / 2) + 'px'; clone.style.top = (touch.clientY - 20) + 'px'; }
-            document.querySelectorAll('.s3-drop-zone').forEach(z => {
-                const r = z.getBoundingClientRect();
-                z.classList.toggle('drag-over', touch.clientX >= r.left && touch.clientX <= r.right && touch.clientY >= r.top && touch.clientY <= r.bottom);
-            });
-        }, { passive: false });
-        card.addEventListener('touchend', e => {
-            card.classList.remove('dragging');
-            if (clone) { clone.remove(); clone = null; }
-            const touch = e.changedTouches[0];
-            document.querySelectorAll('.s3-drop-zone').forEach(z => {
-                z.classList.remove('drag-over');
-                const r = z.getBoundingClientRect();
-                if (touch.clientX >= r.left && touch.clientX <= r.right && touch.clientY >= r.top && touch.clientY <= r.bottom) {
-                    moveS3CardToZone(z, card.dataset.entryId);
-                }
-            });
-        });
-    }
-
-    // ── Stage 4 ──────────────────────────────────────────────────────────────
-
-    function buildStage4() {
-        const display = document.getElementById('s4-categories-display');
-        display.innerHTML = '';
-
-        const s2Clusters = document.querySelectorAll('.cluster-card');
-        if (!s2Clusters.length) {
-            display.innerHTML = '<p style="color:#94a3b8;font-size:0.82rem;">No categories yet — complete Stages 2 and 3 first.</p>';
-            return;
-        }
-
-        s2Clusters.forEach(cl => {
-            // Get final name: prefer Stage 3 revised input, then Stage 2 phrase, then Stage 2 name
-            const s3Card = document.querySelector(`#s3-clusters-container [data-cluster-id="${cl.id}"]`);
-            let catName = s3Card ? s3Card.querySelector('.s3-name-input').value.trim() : '';
-            if (!catName) catName = cl.querySelector('.cluster-category-input').value.trim();
-            if (!catName) catName = cl.querySelector('.cluster-name-input').value.trim();
-            if (!catName) catName = '(unnamed)';
-
-            const phrase = cl.querySelector('.cluster-category-input').value.trim();
-
-            // Collect all codes in this category and their extracts
-            // Prefer Stage 3 order (codes may have been moved)
-            let extractRows = '';
-            if (s3Card) {
-                s3Card.querySelectorAll('.s3-code-card').forEach(sc => {
-                    const entry = myCodes.find(m => m.id === sc.dataset.entryId);
-                    if (!entry) return;
-                    const parts = entry.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
-                    const darkColor = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
-                    extractRows += `<div class="s4-extract-row">
-                        <span class="s4-extract-code" style="background:${entry.color};color:${darkColor}">${entry.code}</span>
-                        <span>"${entry.text.trim()}"</span>
-                    </div>`;
-                });
-            } else {
-                // Fall back to Stage 2 pool cards
-                cl.querySelectorAll('.pool-card').forEach(pc => {
-                    const codeName = pc.dataset.code;
-                    myCodes.filter(m => m.code === codeName).forEach(entry => {
-                        const parts = entry.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
-                        const darkColor = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
-                        extractRows += `<div class="s4-extract-row">
-                            <span class="s4-extract-code" style="background:${entry.color};color:${darkColor}">${codeName}</span>
-                            <span>"${entry.text.trim()}"</span>
-                        </div>`;
-                    });
-                });
-            }
-
-            const block = document.createElement('div');
-            block.className = 's4-cat-block';
-            block.innerHTML = `
-                <div class="s4-cat-header">
-                    <span class="s4-cat-name">${catName}</span>
-                    ${phrase && phrase !== catName ? `<span class="s4-cat-phrase">${phrase}</span>` : ''}
-                </div>
-                <div class="s4-cat-extracts">${extractRows || '<span style="color:#cbd5e1;font-size:0.78rem;">No extracts in this category.</span>'}</div>`;
-            display.appendChild(block);
-        });
-    }
-
-    // ── Touch drag ───────────────────────────────────────────────────────────
-
+    // ── Touch drag (Stage 2 pool cards) ──────────────────────────────────────
     function addTouchDrag(card) {
         let clone = null;
-        card.addEventListener('touchstart', e => {
-            const touch = e.touches[0];
-            clone = card.cloneNode(false);
-            clone.textContent = card.dataset.code;
-            clone.style.cssText = `position:fixed;opacity:0.85;pointer-events:none;z-index:9999;width:${card.offsetWidth}px;padding:7px 12px;border-radius:6px;font-size:0.8rem;font-weight:600;background:${card.style.background};color:${card.style.color};`;
-            document.body.appendChild(clone);
-            card.classList.add('dragging');
-        }, { passive: true });
-
-        card.addEventListener('touchmove', e => {
-            e.preventDefault();
-            const touch = e.touches[0];
-            if (clone) { clone.style.left = (touch.clientX - card.offsetWidth / 2) + 'px'; clone.style.top = (touch.clientY - 20) + 'px'; }
-            document.querySelectorAll('.cluster-drop-zone').forEach(z => {
-                const r = z.getBoundingClientRect();
-                z.classList.toggle('drag-over', touch.clientX >= r.left && touch.clientX <= r.right && touch.clientY >= r.top && touch.clientY <= r.bottom);
-            });
-        }, { passive: false });
-
-        card.addEventListener('touchend', e => {
-            card.classList.remove('dragging');
-            if (clone) { clone.remove(); clone = null; }
-            const touch = e.changedTouches[0];
-            document.querySelectorAll('.cluster-drop-zone').forEach(z => {
-                z.classList.remove('drag-over');
-                const r = z.getBoundingClientRect();
-                if (touch.clientX >= r.left && touch.clientX <= r.right && touch.clientY >= r.top && touch.clientY <= r.bottom) dropCardIntoZone(z, card.dataset.code);
-            });
-        });
+        card.addEventListener('touchstart', e => { clone = card.cloneNode(false); clone.textContent = card.dataset.code; clone.style.cssText = `position:fixed;opacity:0.85;pointer-events:none;z-index:9999;width:${card.offsetWidth}px;padding:6px 12px;border-radius:6px;font-size:0.8rem;font-weight:600;background:${card.style.background};color:${card.style.color};`; document.body.appendChild(clone); card.classList.add('dragging'); }, { passive: true });
+        card.addEventListener('touchmove', e => { e.preventDefault(); const t = e.touches[0]; if (clone) { clone.style.left = (t.clientX - card.offsetWidth/2) + 'px'; clone.style.top = (t.clientY - 20) + 'px'; } document.querySelectorAll('.cluster-drop-zone').forEach(z => { const r = z.getBoundingClientRect(); z.classList.toggle('drag-over', t.clientX >= r.left && t.clientX <= r.right && t.clientY >= r.top && t.clientY <= r.bottom); }); }, { passive: false });
+        card.addEventListener('touchend', e => { card.classList.remove('dragging'); if (clone) { clone.remove(); clone = null; } const t = e.changedTouches[0]; document.querySelectorAll('.cluster-drop-zone').forEach(z => { z.classList.remove('drag-over'); const r = z.getBoundingClientRect(); if (t.clientX >= r.left && t.clientX <= r.right && t.clientY >= r.top && t.clientY <= r.bottom) dropCardIntoZone(z, card.dataset.code); }); });
     }
+
 
 </script>
 </body>
