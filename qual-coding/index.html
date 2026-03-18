@@ -361,7 +361,13 @@
         .s4-divider { border: none; border-top: 1px solid var(--border); margin: 6px 0 18px; }
 
         /* Teacher analysis review */
-        #teacher-analysis { display: block; }
+        #teacher-review { display: block; }
+        .pane-stage-btn {
+            flex: 1; padding: 5px 8px; border-radius: 6px;
+            border: 1px solid var(--border); background: white;
+            font-size: 0.75rem; font-weight: 600; cursor: pointer; color: #64748b;
+        }
+        .pane-stage-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
         #analysis-workspace { background: var(--bg); }
         .analysis-pane-name {
             font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
@@ -476,21 +482,31 @@
         <div class="sidebar-panel hidden" id="teacher-tools">
             <h4>Cloud Management</h4>
             <button class="btn" id="refresh-btn" style="width:100%; background:var(--accent); color:white; border:none" onclick="syncFromCloud()">Sync Submissions</button>
-            <button class="btn" id="toggle-view-btn" style="width:100%; margin-top:10px; color:#475569" onclick="toggleCompareMode()">Split Screen</button>
             <button class="btn" id="clear-btn" style="width:100%; margin-top:10px; color:var(--danger); border-color:rgba(239, 68, 68, 0.2)" onclick="clearCloudData()">Purge All Data</button>
         </div>
 
-        <div class="sidebar-panel hidden" id="teacher-analysis">
-            <h4>Analysis Submissions</h4>
-            <label class="input-label">Left panel</label>
-            <select id="select-analysis-left" class="student-select" style="max-width:100%; margin-bottom:10px;" onchange="applyAnalysisReview(1)">
+        <div class="sidebar-panel hidden" id="teacher-review">
+            <h4>Review Submissions</h4>
+
+            <label class="input-label" style="margin-top:4px;">Left panel</label>
+            <select id="sel-student-left" class="student-select" style="max-width:100%; margin-bottom:6px;" onchange="renderPane(1)">
                 <option value="">Select Student…</option>
             </select>
+            <div style="display:flex; gap:6px; margin-bottom:14px;">
+                <button class="pane-stage-btn active" id="pane-stage-left-1" onclick="setPaneStage(1,1)">Stage 1</button>
+                <button class="pane-stage-btn" id="pane-stage-left-3" onclick="setPaneStage(1,3)">Stage 3</button>
+            </div>
+
             <label class="input-label">Right panel</label>
-            <select id="select-analysis-right" class="student-select" style="max-width:100%; margin-bottom:10px;" onchange="applyAnalysisReview(2)">
+            <select id="sel-student-right" class="student-select" style="max-width:100%; margin-bottom:6px;" onchange="renderPane(2)">
                 <option value="">Select Student…</option>
             </select>
-            <button class="btn" id="toggle-analysis-btn" style="width:100%; color:#475569" onclick="toggleAnalysisCompare()">Show Both</button>
+            <div style="display:flex; gap:6px; margin-bottom:14px;">
+                <button class="pane-stage-btn active" id="pane-stage-right-1" onclick="setPaneStage(2,1)">Stage 1</button>
+                <button class="pane-stage-btn" id="pane-stage-right-3" onclick="setPaneStage(2,3)">Stage 3</button>
+            </div>
+
+            <button class="btn" id="toggle-compare-btn" style="width:100%; color:#475569" onclick="toggleComparePane()">Show Both</button>
         </div>
 
         <div class="sidebar-panel hidden" id="teacher-links">
@@ -602,7 +618,8 @@
 
     let currentMode = 'student', isCompare = false, currentScript = 1, myCodes = [], codeColors = {}, paletteIndex = 0, submissions = {};
     let currentStage = 1;
-    let analysisCompareOpen = false;
+    let comparePaneOpen = false;
+    let paneStage = { 1: 1, 2: 1 };
 
     function setMode(mode) {
         if (mode === 'teacher') {
@@ -915,10 +932,11 @@
         _origLoadScript(num);
         currentStage = 1;
         s3Submitted = false;
-        analysisCompareOpen = false;
+        comparePaneOpen = false;
         document.getElementById('analysis-pane-1').innerHTML = '';
         document.getElementById('analysis-pane-2').innerHTML = '';
         document.getElementById('analysis-pane-2').classList.add('hidden');
+        if (document.getElementById('toggle-compare-btn')) document.getElementById('toggle-compare-btn').innerText = 'Show Both';
         document.getElementById('analysis-workspace').style.display = 'none';
         document.getElementById('col-1').classList.remove('hidden');
         [1,2,3,4].forEach(i => {
@@ -934,7 +952,7 @@
     executeSetMode = function(mode) {
         _origExecuteSetMode(mode);
         updateStageUI();
-        document.getElementById('teacher-analysis').classList.toggle('hidden', mode === 'student');
+        document.getElementById('teacher-review').classList.toggle('hidden', mode === 'student');
         if (mode === 'teacher') {
             document.getElementById('stage-workspace').classList.remove('visible');
             document.getElementById('analysis-workspace').style.display = 'none';
@@ -1182,48 +1200,78 @@
         }).catch(() => { btn.innerText = 'Sync Error'; });
     }
 
+    // ── Unified teacher review ────────────────────────────────────────────────
+
     function updateTeacherDropdowns() {
-        const keys = Object.keys(submissions);
-        const filtered = keys.filter(k => submissions[k].scriptId == currentScript);
-        const codesKeys = filtered.filter(k => submissions[k].dataType === 'codes');
-        const analysisKeys = filtered.filter(k => submissions[k].dataType === 'analysis');
-        const makeOpts = (ks, label) => ks.length ? `<option value="">Select Student…</option>` + ks.map(k => `<option value="${k}">${submissions[k].label}</option>`).join('') : `<option value="">No ${label} submissions</option>`;
-        document.getElementById('select-left').innerHTML = makeOpts(codesKeys, 'coding');
-        document.getElementById('select-right').innerHTML = makeOpts(codesKeys, 'coding');
-        const sal = document.getElementById('select-analysis-left');
-        const sar = document.getElementById('select-analysis-right');
-        if (sal) sal.innerHTML = makeOpts(analysisKeys, 'analysis');
-        if (sar) sar.innerHTML = makeOpts(analysisKeys, 'analysis');
+        // Build combined student list by name, regardless of submission type
+        const keys = Object.keys(submissions).filter(k => submissions[k].scriptId == currentScript);
+        const names = [...new Set(keys.map(k => submissions[k].label.split(' (Script')[0]))];
+        const opts = `<option value="">Select Student…</option>` + names.map(n => `<option value="${n}">${n}</option>`).join('');
+        ['sel-student-left','sel-student-right','select-left','select-right'].forEach(id => {
+            const el = document.getElementById(id); if (el) el.innerHTML = opts;
+        });
     }
 
-    function applyAnalysisReview(side) {
-        const selId = side === 1 ? 'select-analysis-left' : 'select-analysis-right';
-        const paneId = side === 1 ? 'analysis-pane-1' : 'analysis-pane-2';
-        const key = document.getElementById(selId).value;
-        const pane = document.getElementById(paneId);
+    function getKeyForStudent(name, stage) {
+        const type = stage === 1 ? 'codes' : 'analysis';
+        const keys = Object.keys(submissions).filter(k =>
+            submissions[k].scriptId == currentScript &&
+            submissions[k].dataType === type &&
+            submissions[k].label.startsWith(name + ' (Script')
+        );
+        return keys[keys.length - 1] || null; // latest submission
+    }
 
-        // Show analysis workspace in place of transcript cols; sidebar stays
+    function setPaneStage(pane, stage) {
+        paneStage[pane] = stage;
+        const side = pane === 1 ? 'left' : 'right';
+        document.getElementById(`pane-stage-${side}-1`).classList.toggle('active', stage === 1);
+        document.getElementById(`pane-stage-${side}-3`).classList.toggle('active', stage === 3);
+        renderPane(pane);
+    }
+
+    function renderPane(pane) {
+        const side = pane === 1 ? 'left' : 'right';
+        const name = document.getElementById(`sel-student-${side}`).value;
+        const paneEl = document.getElementById(`analysis-pane-${pane}`);
+        const stage = paneStage[pane];
+
         document.getElementById('col-1').classList.add('hidden');
         document.getElementById('col-2').classList.add('hidden');
         document.getElementById('analysis-workspace').style.display = 'flex';
 
-        pane.innerHTML = '';
-        if (!key || !submissions[key]) return;
-        const d = submissions[key].data;
-        const studentLabel = submissions[key].label;
+        paneEl.innerHTML = '';
+        if (!name) return;
 
-        if (!d || d.type !== 'analysis') {
-            pane.innerHTML = '<p style="color:#94a3b8;font-size:0.8rem;">Not an analysis submission.</p>';
+        const key = getKeyForStudent(name, stage);
+        if (!key) {
+            paneEl.innerHTML = `<p style="color:#94a3b8;font-size:0.82rem;padding:10px 0;">No Stage ${stage} submission found for ${name}.</p>`;
             return;
         }
 
-        renderAnalysisPane(pane, studentLabel, d);
+        const d = submissions[key].data;
+        if (stage === 1) renderCodingPane(paneEl, name, d);
+        else renderAnalysisPane(paneEl, name, d);
     }
 
-    function renderAnalysisPane(pane, label, d) {
-        let html = `<div class="analysis-pane-name">${label}</div>`;
+    function renderCodingPane(paneEl, label, d) {
+        const codes = Array.isArray(d) ? d : (d && d.codes ? d.codes : []);
+        let html = scripts[currentScript];
+        [...codes].sort((a,b) => b.text.length - a.text.length).forEach(item => {
+            const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const parts = item.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+            const dc = parts ? `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)` : 'rgba(0,0,0,0.8)';
+            html = html.replace(new RegExp(`(${escaped})`, 'g'), `<span class="highlighted" style="background:${item.color}">$1<span class="teacher-label" style="background:${dc}">${item.code}</span></span>`);
+        });
+        paneEl.innerHTML = `<div class="analysis-pane-name">${label} — Stage 1: Coding</div><div style="background:white;border-radius:var(--radius);border:1px solid var(--border);padding:20px;line-height:3;font-size:0.95rem;color:#1e293b;">${html}</div>`;
+    }
 
-        // Categories block
+    function renderAnalysisPane(paneEl, label, d) {
+        if (!d || d.type !== 'analysis') {
+            paneEl.innerHTML = '<p style="color:#94a3b8;font-size:0.82rem;padding:10px 0;">No Stage 3 submission found.</p>';
+            return;
+        }
+        let html = `<div class="analysis-pane-name">${label} — Stage 3: Analysis</div>`;
         html += `<div class="analysis-review-card"><div class="analysis-review-header">Categories (${d.categories.length})</div><div class="analysis-review-body">`;
         d.categories.forEach(c => {
             html += `<div class="analysis-section"><div class="analysis-section-label">${c.name}</div>`;
@@ -1231,39 +1279,22 @@
             html += c.codes.map(code => `<span class="analysis-cat-chip">${code}</span>`).join('') + '</div>';
         });
         html += '</div></div>';
-
-        // Written fields
         [['Overall Pattern', d.pattern], ['Analytic Claim', d.claim], ['Evidence', d.evidence], ['Nuance', d.nuance]].forEach(([lbl, val]) => {
             if (!val) return;
-            html += `<div class="analysis-review-card"><div class="analysis-review-header">${lbl}</div><div class="analysis-review-body" style="white-space:pre-wrap; line-height:1.6;">${val}</div></div>`;
+            html += `<div class="analysis-review-card"><div class="analysis-review-header">${lbl}</div><div class="analysis-review-body" style="white-space:pre-wrap;line-height:1.6;">${val}</div></div>`;
         });
-
-        pane.innerHTML = html;
+        paneEl.innerHTML = html;
     }
 
-    function toggleAnalysisCompare() {
-        analysisCompareOpen = !analysisCompareOpen;
-        document.getElementById('analysis-pane-2').classList.toggle('hidden', !analysisCompareOpen);
-        document.getElementById('toggle-analysis-btn').innerText = analysisCompareOpen ? 'Single View' : 'Show Both';
+    function toggleComparePane() {
+        comparePaneOpen = !comparePaneOpen;
+        document.getElementById('analysis-pane-2').classList.toggle('hidden', !comparePaneOpen);
+        document.getElementById('toggle-compare-btn').innerText = comparePaneOpen ? 'Single View' : 'Show Both';
+        if (comparePaneOpen) renderPane(2);
     }
 
-    // applyReview — handles coding submissions (array format)
-    function applyReview(side) {
-        const key = document.getElementById(side === 1 ? 'select-left' : 'select-right').value;
-        const target = document.getElementById(side === 1 ? 't1' : 't2');
-        target.innerHTML = scripts[currentScript]; if (!key) return;
-        const d = submissions[key].data;
-        const data = Array.isArray(d) ? d : (d && d.codes ? d.codes : []);
-        let html = target.innerHTML;
-        [...data].sort((a,b) => b.text.length - a.text.length).forEach(item => {
-            const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            const regex = new RegExp(`(${escaped})`, 'g');
-            const parts = item.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
-            const dc = parts ? `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)` : 'rgba(0,0,0,0.8)';
-            html = html.replace(regex, `<span class="highlighted" style="background:${item.color}">$1<span class="teacher-label" style="background:${dc}">${item.code}</span></span>`);
-        });
-        target.innerHTML = html;
-    }
+    // Legacy — kept for any old onchange="applyReview()" calls still in DOM
+    function applyReview(side) { renderPane(side); }
 
     // ── Touch drag (Stage 2 pool cards) ──────────────────────────────────────
     function addTouchDrag(card) {
