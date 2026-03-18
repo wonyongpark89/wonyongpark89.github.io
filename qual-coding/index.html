@@ -362,7 +362,12 @@
 
         /* Teacher analysis review */
         #teacher-analysis { display: none; }
-        .analysis-review-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); margin-top: 12px; overflow: hidden; }
+        #analysis-workspace { background: var(--bg); }
+        .analysis-pane-name {
+            font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 8px;
+        }
+        .analysis-review-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; margin-bottom: 0; }
         .analysis-review-header { padding: 10px 14px; background: #f8fafc; border-bottom: 1px solid var(--border); font-size: 0.8rem; font-weight: 600; color: var(--primary); }
         .analysis-review-body { padding: 12px 14px; font-size: 0.8rem; color: #475569; }
         .analysis-section { margin-bottom: 12px; }
@@ -471,10 +476,15 @@
 
         <div class="sidebar-panel hidden" id="teacher-analysis">
             <h4>Analysis Submissions</h4>
-            <select id="select-analysis" class="student-select" style="max-width:100%; margin-bottom:10px;" onchange="applyAnalysisReview()">
+            <label class="input-label">Left panel</label>
+            <select id="select-analysis-left" class="student-select" style="max-width:100%; margin-bottom:10px;" onchange="applyAnalysisReview(1)">
                 <option value="">Select Student…</option>
             </select>
-            <div id="analysis-review-output"></div>
+            <label class="input-label">Right panel</label>
+            <select id="select-analysis-right" class="student-select" style="max-width:100%; margin-bottom:10px;" onchange="applyAnalysisReview(2)">
+                <option value="">Select Student…</option>
+            </select>
+            <button class="btn" id="toggle-analysis-btn" style="width:100%; color:#475569" onclick="toggleAnalysisCompare()">Show Both</button>
         </div>
 
         <div class="sidebar-panel hidden" id="teacher-links">
@@ -554,6 +564,12 @@
     <button id="apply-btn" onclick="applyManualCode()">Apply Code</button>
 </div>
 
+<!-- Analysis compare view (teacher mode) -->
+<div id="analysis-workspace" style="display:none; flex:1; overflow:hidden; padding:20px; gap:20px;">
+    <div class="analysis-pane" id="analysis-pane-1" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; min-width:0;"></div>
+    <div class="analysis-pane hidden" id="analysis-pane-2" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; min-width:0; border-left:1px solid var(--border); padding-left:20px;"></div>
+</div>
+
 <!-- JS tooltip for pool cards -->
 <div id="pool-tooltip"></div>
 
@@ -586,6 +602,7 @@
 
     let currentMode = 'student', isCompare = false, currentScript = 1, myCodes = [], codeColors = {}, paletteIndex = 0, submissions = {};
     let currentStage = 1;
+    let analysisCompareOpen = false;
 
     function setMode(mode) {
         if (mode === 'teacher') {
@@ -792,35 +809,6 @@
         updateCodeList(myCodes);
     }
 
-    function syncFromCloud() {
-        const btn = document.getElementById('refresh-btn');
-        btn.innerText = "Syncing...";
-        fetch(API_URL).then(res => res.json()).then(allRows => {
-            submissions = {};
-            if (!allRows || allRows.length <= 1) { btn.innerText = "Sync Submissions"; return; }
-            allRows.forEach((row, index) => {
-                if (index === 0) return;
-                const scriptId = parseInt(String(row[2]).replace(/\D/g, ''));
-                let parsed, dataType = 'codes';
-                try { parsed = JSON.parse(row[3]); if (parsed && parsed.type === 'analysis') dataType = 'analysis'; } catch(e) { parsed = row[3]; }
-                submissions[`row-${index}`] = { data: parsed, label: `${row[1]} (Script ${scriptId})`, scriptId, dataType };
-            });
-            updateTeacherDropdowns(); btn.innerText = "Sync Submissions";
-        }).catch(() => { btn.innerText = "Sync Error"; });
-    }
-
-    function updateTeacherDropdowns() {
-        const keys = Object.keys(submissions);
-        const filteredKeys = keys.filter(k => submissions[k].scriptId == currentScript);
-        const codesKeys = filteredKeys.filter(k => submissions[k].dataType === 'codes');
-        const analysisKeys = filteredKeys.filter(k => submissions[k].dataType === 'analysis');
-        const makeOpts = (ks, label) => ks.length ? `<option value="">Select Student…</option>` + ks.map(k => `<option value="${k}">${submissions[k].label}</option>`).join('') : `<option value="">No ${label} submissions</option>`;
-        document.getElementById('select-left').innerHTML = makeOpts(codesKeys, 'coding');
-        document.getElementById('select-right').innerHTML = makeOpts(codesKeys, 'coding');
-        const sa = document.getElementById('select-analysis');
-        if (sa) sa.innerHTML = makeOpts(analysisKeys, 'analysis');
-    }
-
     function applyReview(side) {
         const dropdown = side === 1 ? 'select-left' : 'select-right';
         const targetDiv = side === 1 ? 't1' : 't2';
@@ -924,13 +912,16 @@
         _origLoadScript(num);
         currentStage = 1;
         s3Submitted = false;
-        // Reset tab active state
+        analysisCompareOpen = false;
+        document.getElementById('analysis-pane-1').innerHTML = '';
+        document.getElementById('analysis-pane-2').innerHTML = '';
+        document.getElementById('analysis-pane-2').classList.add('hidden');
+        document.getElementById('analysis-workspace').style.display = 'none';
+        document.getElementById('main-layout').style.display = '';
         [1,2,3,4].forEach(i => {
             const t = document.getElementById('stab-' + i);
             if (t) t.classList.toggle('active', i === 1);
         });
-        // Always show stage 1 view
-        document.getElementById('main-layout').style.display = '';
         document.getElementById('stage-workspace').classList.remove('visible');
         document.getElementById('coding-bar').classList.remove('hidden');
         updateStageUI();
@@ -941,10 +932,12 @@
         _origExecuteSetMode(mode);
         updateStageUI();
         document.getElementById('teacher-analysis').classList.toggle('hidden', mode === 'student');
-        // If teacher mode, go back to stage 1 view
         if (mode === 'teacher') {
             document.getElementById('main-layout').style.display = '';
             document.getElementById('stage-workspace').classList.remove('visible');
+            document.getElementById('analysis-workspace').style.display = 'none';
+        } else {
+            document.getElementById('analysis-workspace').style.display = 'none';
         }
     };
 
@@ -1193,20 +1186,60 @@
         const makeOpts = (ks, label) => ks.length ? `<option value="">Select Student…</option>` + ks.map(k => `<option value="${k}">${submissions[k].label}</option>`).join('') : `<option value="">No ${label} submissions</option>`;
         document.getElementById('select-left').innerHTML = makeOpts(codesKeys, 'coding');
         document.getElementById('select-right').innerHTML = makeOpts(codesKeys, 'coding');
-        const sa = document.getElementById('select-analysis'); if (sa) sa.innerHTML = makeOpts(analysisKeys, 'analysis');
+        const sal = document.getElementById('select-analysis-left');
+        const sar = document.getElementById('select-analysis-right');
+        if (sal) sal.innerHTML = makeOpts(analysisKeys, 'analysis');
+        if (sar) sar.innerHTML = makeOpts(analysisKeys, 'analysis');
     }
 
-    function applyAnalysisReview() {
-        const key = document.getElementById('select-analysis').value;
-        const output = document.getElementById('analysis-review-output'); output.innerHTML = '';
+    function applyAnalysisReview(side) {
+        const selId = side === 1 ? 'select-analysis-left' : 'select-analysis-right';
+        const paneId = side === 1 ? 'analysis-pane-1' : 'analysis-pane-2';
+        const key = document.getElementById(selId).value;
+        const pane = document.getElementById(paneId);
+
+        // Show analysis workspace, hide main
+        document.getElementById('main-layout').style.display = 'none';
+        document.getElementById('analysis-workspace').style.display = 'flex';
+
+        pane.innerHTML = '';
         if (!key || !submissions[key]) return;
         const d = submissions[key].data;
-        if (!d || d.type !== 'analysis') { output.innerHTML = '<p style="color:#94a3b8;font-size:0.8rem;">Not an analysis submission.</p>'; return; }
-        let html = `<div class="analysis-review-card"><div class="analysis-review-header">Categories (${d.categories.length})</div><div class="analysis-review-body">`;
-        d.categories.forEach(c => { html += `<div class="analysis-section"><div class="analysis-section-label">${c.name}</div>${c.connectedBy ? `<div style="font-style:italic;color:#7c3aed;font-size:0.75rem;margin-bottom:4px;">"${c.connectedBy}"</div>` : ''}${c.codes.map(code => `<span class="analysis-cat-chip">${code}</span>`).join('')}</div>`; });
+        const studentLabel = submissions[key].label;
+
+        if (!d || d.type !== 'analysis') {
+            pane.innerHTML = '<p style="color:#94a3b8;font-size:0.8rem;">Not an analysis submission.</p>';
+            return;
+        }
+
+        renderAnalysisPane(pane, studentLabel, d);
+    }
+
+    function renderAnalysisPane(pane, label, d) {
+        let html = `<div class="analysis-pane-name">${label}</div>`;
+
+        // Categories block
+        html += `<div class="analysis-review-card"><div class="analysis-review-header">Categories (${d.categories.length})</div><div class="analysis-review-body">`;
+        d.categories.forEach(c => {
+            html += `<div class="analysis-section"><div class="analysis-section-label">${c.name}</div>`;
+            if (c.connectedBy) html += `<div style="font-style:italic;color:#7c3aed;font-size:0.75rem;margin-bottom:4px;">"${c.connectedBy}"</div>`;
+            html += c.codes.map(code => `<span class="analysis-cat-chip">${code}</span>`).join('') + '</div>';
+        });
         html += '</div></div>';
-        [['Overall Pattern', d.pattern], ['Analytic Claim', d.claim], ['Evidence', d.evidence], ['Nuance', d.nuance]].forEach(([label, val]) => { if (!val) return; html += `<div class="analysis-review-card" style="margin-top:8px;"><div class="analysis-review-header">${label}</div><div class="analysis-review-body" style="white-space:pre-wrap;">${val}</div></div>`; });
-        output.innerHTML = html;
+
+        // Written fields
+        [['Overall Pattern', d.pattern], ['Analytic Claim', d.claim], ['Evidence', d.evidence], ['Nuance', d.nuance]].forEach(([lbl, val]) => {
+            if (!val) return;
+            html += `<div class="analysis-review-card"><div class="analysis-review-header">${lbl}</div><div class="analysis-review-body" style="white-space:pre-wrap; line-height:1.6;">${val}</div></div>`;
+        });
+
+        pane.innerHTML = html;
+    }
+
+    function toggleAnalysisCompare() {
+        analysisCompareOpen = !analysisCompareOpen;
+        document.getElementById('analysis-pane-2').classList.toggle('hidden', !analysisCompareOpen);
+        document.getElementById('toggle-analysis-btn').innerText = analysisCompareOpen ? 'Single View' : 'Show Both';
     }
 
     // applyReview — handles coding submissions (array format)
