@@ -361,7 +361,7 @@
         .s4-divider { border: none; border-top: 1px solid var(--border); margin: 6px 0 18px; }
 
         /* Teacher analysis review */
-        #teacher-analysis { display: none; }
+        #teacher-analysis { display: block; }
         #analysis-workspace { background: var(--bg); }
         .analysis-pane-name {
             font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
@@ -810,6 +810,9 @@
     }
 
     function applyReview(side) {
+        // Restore main transcript view, hide analysis workspace
+        document.getElementById('main-layout').style.display = '';
+        document.getElementById('analysis-workspace').style.display = 'none';
         const dropdown = side === 1 ? 'select-left' : 'select-right';
         const targetDiv = side === 1 ? 't1' : 't2';
         const key = document.getElementById(dropdown).value;
