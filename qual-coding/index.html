@@ -176,54 +176,83 @@
         }
         #stage2-btn:hover { background: #4338ca; }
 
-        #stage-overlay {
-            position: fixed; inset: 0;
-            background: #f1f5f9;
-            z-index: 300;
-            display: none;
-            flex-direction: column;
+        /* Stage panel — replaces sidebar on Script 2 student mode */
+        #stage-panel {
+            width: 420px; flex-shrink: 0;
+            display: none; flex-direction: column;
+            background: white; border-radius: var(--radius);
+            border: 1px solid var(--border);
             overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
         }
-
-        #stage-overlay.open { display: flex; }
+        #stage-panel.open { display: flex; }
 
         .stage-header {
-            background: white;
+            background: #f8fafc;
             border-bottom: 1px solid var(--border);
-            padding: 12px 20px;
-            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+            padding: 10px 14px;
+            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+            flex-shrink: 0;
         }
-        .stage-header h2 { margin: 0; font-size: 0.95rem; color: var(--primary); flex: 1; min-width: 120px; }
+        .stage-header h2 { margin: 0; font-size: 0.82rem; color: #64748b; font-weight: 600; flex: 1; min-width: 80px; }
         .stage-back {
-            padding: 7px 14px; border-radius: 6px; border: 1px solid var(--border);
-            background: white; font-size: 0.8rem; cursor: pointer; color: #64748b;
-            white-space: nowrap;
+            padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border);
+            background: white; font-size: 0.75rem; cursor: pointer; color: #64748b;
+            white-space: nowrap; flex-shrink: 0;
         }
         .stage-nav-btn {
-            padding: 7px 13px; border-radius: 6px; border: 1px solid var(--border);
-            background: white; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+            padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border);
+            background: white; font-size: 0.72rem; font-weight: 600; cursor: pointer;
             color: #64748b; white-space: nowrap;
         }
         .stage-nav-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-        .stage-nav-btn:disabled { opacity: 0.35; cursor: default; }
 
         .stage-instructions {
             background: #eff6ff; border-bottom: 1px solid #dbeafe;
-            padding: 10px 20px; font-size: 0.82rem; color: #1e40af; line-height: 1.5;
+            padding: 8px 14px; font-size: 0.78rem; color: #1e40af; line-height: 1.5;
+            flex-shrink: 0;
         }
 
         .stage-body {
-            flex: 1; overflow-y: auto; padding: 20px;
-            display: flex; flex-direction: column; gap: 16px;
+            flex: 1; overflow-y: auto; padding: 14px;
+            display: flex; flex-direction: column; gap: 12px;
+            -webkit-overflow-scrolling: touch;
         }
 
         /* Stage panels */
-        .stage-panel { display: none; flex-direction: column; gap: 16px; }
-        .stage-panel.active { display: flex; }
+        .stage-panel-content { display: none; flex-direction: column; gap: 12px; }
+        .stage-panel-content.active { display: flex; }
+
+        /* Submit bar at bottom of stage panel */
+        .stage-submit-bar {
+            border-top: 1px solid var(--border);
+            padding: 10px 14px;
+            background: #f8fafc;
+            flex-shrink: 0;
+            display: flex; gap: 8px; align-items: center;
+        }
+        .stage-submit-bar span { font-size: 0.72rem; color: #94a3b8; flex: 1; }
+        .stage-submit-btn {
+            padding: 8px 16px; border-radius: 6px; border: none;
+            background: var(--success); color: white;
+            font-size: 0.8rem; font-weight: 600; cursor: pointer;
+            white-space: nowrap;
+        }
+        .stage-submit-btn:hover { background: #059669; }
+        .stage-submit-btn.sent { background: #94a3b8; cursor: default; }
+
+        @media (max-width: 1100px) {
+            #stage-panel { width: 360px; }
+        }
+        @media (max-width: 900px) {
+            #stage-panel { width: 100%; }
+            main.stage-open { flex-direction: column; }
+            main.stage-open #col-1 { min-height: 300px; flex: 0 0 300px; }
+        }
 
         /* Code pool */
-        #code-pool-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 16px; }
-        #code-pool-wrap h3 { margin: 0 0 10px; font-size: 0.8rem; text-transform: uppercase; color: #64748b; letter-spacing: 0.05em; }
+        #code-pool-wrap { background: #f8fafc; border-radius: var(--radius); border: 1px solid var(--border); padding: 12px; }
+        #code-pool-wrap h3 { margin: 0 0 8px; font-size: 0.72rem; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.05em; }
         #code-pool { display: flex; flex-wrap: wrap; gap: 8px; min-height: 40px; }
         .pool-card {
             padding: 7px 12px; border-radius: 6px;
@@ -237,23 +266,19 @@
         .pool-card:active { cursor: grabbing; }
         .pool-card.dragging { opacity: 0.4; }
 
-        /* Tooltip showing coded text on hover */
-        .pool-card::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: calc(100% + 6px);
-            left: 50%; transform: translateX(-50%);
+        /* JS-driven tooltip (safe positioning) */
+        #pool-tooltip {
+            position: fixed;
             background: #1e293b; color: white;
             font-size: 0.72rem; font-weight: 400;
-            padding: 5px 9px; border-radius: 5px;
-            white-space: normal; width: 220px;
+            padding: 6px 10px; border-radius: 5px;
+            white-space: normal; max-width: 240px;
             line-height: 1.4; text-align: left;
-            pointer-events: none; opacity: 0;
-            transition: opacity 0.15s;
-            z-index: 999;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            display: none;
         }
-        .pool-card:hover::after { opacity: 1; }
 
         /* Return-to-pool × button on cards inside clusters */
         .pool-card .return-btn {
@@ -402,10 +427,34 @@
         .s4-divider { border: none; border-top: 1px solid var(--border); margin: 6px 0 18px; }
 
         @media (max-width: 600px) {
-            .stage-header { padding: 10px 14px; gap: 8px; }
-            .stage-body { padding: 14px; }
+            .stage-header { padding: 8px 10px; gap: 6px; }
+            .stage-body { padding: 10px; }
             #stage2-btn { bottom: 90px; right: 14px; font-size: 0.8rem; padding: 9px 14px; }
-            .stage-nav-btn { font-size: 0.72rem; padding: 6px 10px; }
+            .stage-nav-btn { font-size: 0.68rem; padding: 5px 8px; }
+        }
+
+        /* Teacher analysis review */
+        #teacher-analysis { display: none; }
+        .analysis-review-card {
+            background: white; border-radius: var(--radius);
+            border: 1px solid var(--border); margin-top: 12px; overflow: hidden;
+        }
+        .analysis-review-header {
+            padding: 10px 14px; background: #f8fafc;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.8rem; font-weight: 600; color: var(--primary);
+        }
+        .analysis-review-body { padding: 12px 14px; font-size: 0.8rem; color: #475569; }
+        .analysis-section { margin-bottom: 12px; }
+        .analysis-section:last-child { margin-bottom: 0; }
+        .analysis-section-label {
+            font-size: 0.68rem; text-transform: uppercase; font-weight: 700;
+            letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 4px;
+        }
+        .analysis-cat-chip {
+            display: inline-block; padding: 2px 8px; border-radius: 12px;
+            background: #eef2ff; color: #4338ca; font-size: 0.72rem;
+            font-weight: 600; border: 1px solid #c7d2fe; margin: 2px 3px 2px 0;
         }
     </style>
 </head>
@@ -456,6 +505,85 @@
         </div>
     </div>
 
+    <!-- Integrated stage panel (Script 2 student mode) -->
+    <div id="stage-panel">
+        <div class="stage-header">
+            <button class="stage-back" onclick="closeStagePanel()">← Stage 1</button>
+            <h2 id="stage-panel-title">Pattern Analysis</h2>
+            <button class="stage-nav-btn active" id="snav-2" onclick="switchStage(2)">2</button>
+            <button class="stage-nav-btn" id="snav-3" onclick="switchStage(3)">3</button>
+            <button class="stage-nav-btn" id="snav-4" onclick="switchStage(4)">4</button>
+        </div>
+        <div id="stage-instructions-bar" class="stage-instructions"></div>
+        <div class="stage-body">
+
+            <!-- Stage 2 -->
+            <div class="stage-panel-content active" id="panel-2">
+                <div id="code-pool-wrap">
+                    <h3>Your codes — hover to see extract · drag into a category</h3>
+                    <div id="code-pool"></div>
+                </div>
+                <div id="clusters-wrap"></div>
+                <button id="add-cluster-btn" onclick="addCluster()">+ Add Category</button>
+            </div>
+
+            <!-- Stage 3 -->
+            <div class="stage-panel-content" id="panel-3">
+                <div id="s3-clusters-container"></div>
+            </div>
+
+            <!-- Stage 4 -->
+            <div class="stage-panel-content" id="panel-4">
+
+                <div class="s4-section">
+                    <h3>Your finalised categories</h3>
+                    <p class="s4-sub">Read each category and its extracts before writing — let the data speak first.</p>
+                    <div id="s4-categories-display" class="s4-categories-list"></div>
+                </div>
+
+                <div class="s4-section">
+                    <h3>Step 1 — What is the overall pattern?</h3>
+                    <p class="s4-sub">What do all your categories add up to? Write one sentence about what is <em>happening</em> for these speakers — not a list of codes, but a process or experience.</p>
+                    <div class="s4-scaffold-box">
+                        <p>If you had to explain this data to someone who hadn't read it, what would you say is going on?</p>
+                    </div>
+                    <div class="s4-field-label">Overall pattern (one sentence):</div>
+                    <textarea class="s4-textarea" id="s4-pattern" placeholder="e.g. These speakers experience English seminar participation as a constant negotiation between wanting to contribute and fearing exposure…"></textarea>
+                </div>
+
+                <div class="s4-section">
+                    <h3>Step 2 — Turn the pattern into a claim</h3>
+                    <p class="s4-sub">A pattern describes. A claim argues. Push further — what does this pattern tell us about something bigger?</p>
+                    <div class="s4-scaffold-box">
+                        <p>Try: <em>"This data suggests that…"</em> or <em>"What appears to be happening is not simply X, but rather…"</em></p>
+                        <p style="margin-top:5px;">A claim should be falsifiable — someone could disagree with it using different data.</p>
+                    </div>
+                    <div class="s4-field-label">Your analytic claim:</div>
+                    <textarea class="s4-textarea" id="s4-claim" placeholder="e.g. Language anxiety here functions not only as a communication barrier but as a mechanism of identity suppression…"></textarea>
+                </div>
+
+                <div class="s4-section">
+                    <h3>Step 3 — Support it with evidence</h3>
+                    <p class="s4-sub">Quote one or two specific extracts and explain what they show.</p>
+                    <div class="s4-scaffold-box">
+                        <p>Try: <em>"This is evident in [quote], which shows that…"</em></p>
+                    </div>
+                    <div class="s4-field-label">Evidence from the data:</div>
+                    <textarea class="s4-textarea" id="s4-evidence" placeholder="e.g. Participant 2's description of becoming 'a much less confident version of myself'…" style="min-height:80px;"></textarea>
+                    <hr class="s4-divider">
+                    <p class="s4-sub" style="margin-bottom:4px;">What complicates or qualifies your claim?</p>
+                    <div class="s4-field-label">Nuance:</div>
+                    <textarea class="s4-textarea" id="s4-nuance" placeholder="e.g. Participant 1's mention of relief suggests the silencing is also strategic…" style="min-height:64px;"></textarea>
+                </div>
+
+            </div>
+        </div>
+        <div class="stage-submit-bar">
+            <span id="stage-submit-status"></span>
+            <button class="stage-submit-btn" id="stage-submit-btn" onclick="submitStageAnalysis()">Submit Analysis</button>
+        </div>
+    </div>
+
     <div class="column hidden" id="col-2">
         <div class="workspace-card">
             <div class="card-header">
@@ -481,7 +609,7 @@
             <h4>Submission</h4>
             <label for="student-name" class="input-label">Full Name</label>
             <input type="text" id="student-name" class="btn" style="width:100%; background:#f8fafc; margin-bottom:12px; text-align:left; box-sizing: border-box;" placeholder="Enter your name...">
-            <button id="submit-btn" class="btn" style="width:100%; background:var(--success); color:white; border:none" onclick="submitToCloud()">Submit Session</button>
+            <button id="submit-btn" class="btn" style="width:100%; background:var(--success); color:white; border:none" onclick="submitToCloud()">Submit Coding</button>
         </div>
 
         <div class="sidebar-panel hidden" id="teacher-tools">
@@ -489,6 +617,14 @@
             <button class="btn" id="refresh-btn" style="width:100%; background:var(--accent); color:white; border:none" onclick="syncFromCloud()">Sync Submissions</button>
             <button class="btn" id="toggle-view-btn" style="width:100%; margin-top:10px; color:#475569" onclick="toggleCompareMode()">Split Screen</button>
             <button class="btn" id="clear-btn" style="width:100%; margin-top:10px; color:var(--danger); border-color:rgba(239, 68, 68, 0.2)" onclick="clearCloudData()">Purge All Data</button>
+        </div>
+
+        <div class="sidebar-panel hidden" id="teacher-analysis">
+            <h4>Analysis Submissions</h4>
+            <select id="select-analysis" class="student-select" style="max-width:100%; margin-bottom:10px;" onchange="applyAnalysisReview()">
+                <option value="">Select Student…</option>
+            </select>
+            <div id="analysis-review-output"></div>
         </div>
 
         <div class="sidebar-panel hidden" id="teacher-links">
@@ -505,83 +641,10 @@
     <button id="apply-btn" onclick="applyManualCode()">Apply Code</button>
 </div>
 
-<button id="stage2-btn" onclick="openStageOverlay()">✦ Move to Stage 2 →</button>
+<button id="stage2-btn" onclick="openStagePanel()">✦ Move to Stage 2 →</button>
 
-<!-- Stage 2–4 Overlay (Script 2 only) -->
-<div id="stage-overlay">
-    <div class="stage-header">
-        <button class="stage-back" onclick="closeStageOverlay()">← Back to Coding</button>
-        <h2 id="stage-overlay-title">Script 2 — Stage 2</h2>
-        <button class="stage-nav-btn active" id="snav-2" onclick="switchStage(2)">2: Find Patterns</button>
-        <button class="stage-nav-btn" id="snav-3" onclick="switchStage(3)">3: Test Your Categories</button>
-        <button class="stage-nav-btn" id="snav-4" onclick="switchStage(4)">4: Build a Claim</button>
-    </div>
-    <div id="stage-instructions-bar" class="stage-instructions"></div>
-    <div class="stage-body">
-
-        <!-- ── STAGE 2 panel ── -->
-        <div class="stage-panel active" id="panel-2">
-            <div id="code-pool-wrap">
-                <h3>Your Codes — hover to see the coded text · drag into a category below</h3>
-                <div id="code-pool"></div>
-            </div>
-            <div id="clusters-wrap"></div>
-            <button id="add-cluster-btn" onclick="addCluster()">+ Add Category</button>
-        </div>
-
-        <!-- ── STAGE 3 panel ── -->
-        <div class="stage-panel" id="panel-3">
-            <div id="s3-clusters-container"></div>
-        </div>
-
-        <!-- ── STAGE 4 panel ── -->
-        <div class="stage-panel" id="panel-4">
-
-            <div class="s4-section">
-                <h3>Your finalised categories</h3>
-                <p class="s4-sub">This is what you built in Stages 2 and 3. Read each category and its extracts carefully before you write anything — let the data speak first.</p>
-                <div id="s4-categories-display" class="s4-categories-list"></div>
-            </div>
-
-            <div class="s4-section">
-                <h3>Step 1 — What is the overall pattern?</h3>
-                <p class="s4-sub">Look across all your categories. What do they add up to? Don't list them — try to say in one sentence what is <em>happening</em> for these speakers as an experience or process.</p>
-                <div class="s4-scaffold-box">
-                    <p>Ask yourself: if I had to explain this data to someone who hadn't read it, what would I say is going on? Not what codes I found — but what the data is <em>about</em>.</p>
-                </div>
-                <div class="s4-field-label">Your overall pattern (one sentence):</div>
-                <textarea class="s4-textarea" id="s4-pattern" placeholder="e.g. These speakers experience English seminar participation as a constant negotiation between wanting to contribute and fearing exposure…"></textarea>
-            </div>
-
-            <div class="s4-section">
-                <h3>Step 2 — Turn the pattern into a claim</h3>
-                <p class="s4-sub">A pattern describes. A claim argues. Push your sentence further — what does this pattern tell us about something bigger?</p>
-                <div class="s4-scaffold-box">
-                    <p>Try starting with: <em>"This data suggests that…"</em> or <em>"What appears to be happening is not simply X, but rather…"</em></p>
-                    <p style="margin-top:6px;">A claim should be falsifiable — someone could disagree with it using different data.</p>
-                </div>
-                <div class="s4-field-label">Your analytic claim:</div>
-                <textarea class="s4-textarea" id="s4-claim" placeholder="e.g. Language anxiety in this context functions not only as a communication barrier but as a mechanism of identity suppression — participants do not simply struggle to speak, they struggle to be recognised as who they are…"></textarea>
-            </div>
-
-            <div class="s4-section">
-                <h3>Step 3 — Support it with evidence</h3>
-                <p class="s4-sub">Pick one or two specific extracts from your categories that give the strongest support for your claim. Quote them and explain what they show.</p>
-                <div class="s4-scaffold-box">
-                    <p>Don't just quote — explain what the quote <em>demonstrates</em>. Try: <em>"This is evident in [quote], which shows that…"</em></p>
-                </div>
-                <div class="s4-field-label">Evidence from the data:</div>
-                <textarea class="s4-textarea" id="s4-evidence" placeholder="e.g. Participant 2's description of becoming 'a much less confident version of myself' in English suggests the issue is not fluency alone but a constrained sense of self…" style="min-height:100px;"></textarea>
-                <hr class="s4-divider">
-                <p class="s4-sub" style="margin-bottom:6px;">Is there anything in your categories that <em>complicates</em> or adds nuance to your claim? Good analysis acknowledges what doesn't fit neatly.</p>
-                <div class="s4-field-label">What complicates or qualifies it:</div>
-                <textarea class="s4-textarea" id="s4-nuance" placeholder="e.g. However, Participant 1's mention of relief when someone else speaks suggests the silencing is partly strategic — a calculation about risk, not only a symptom of anxiety…" style="min-height:80px;"></textarea>
-            </div>
-
-        </div>
-
-    </div>
-</div>
+<!-- JS tooltip for pool cards -->
+<div id="pool-tooltip"></div>
 
 <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbzEo0HjKylsTZ4jpcbBfIP3c_sPODpezIm1js7mH5hd_sWRtEcV4Vqgjb7umirx9wPv/exec";
@@ -820,7 +883,13 @@
         fetch(API_URL).then(res => res.json()).then(allRows => {
             submissions = {};
             if (!allRows || allRows.length <= 1) { btn.innerText = "Sync Submissions"; return; }
-            allRows.forEach((row, index) => { if (index === 0) return; const scriptId = parseInt(String(row[2]).replace(/\D/g, '')); submissions[`row-${index}`] = { data: JSON.parse(row[3]), label: `${row[1]} (Script ${scriptId})`, scriptId: scriptId }; });
+            allRows.forEach((row, index) => {
+                if (index === 0) return;
+                const scriptId = parseInt(String(row[2]).replace(/\D/g, ''));
+                let parsed, dataType = 'codes';
+                try { parsed = JSON.parse(row[3]); if (parsed && parsed.type === 'analysis') dataType = 'analysis'; } catch(e) { parsed = row[3]; }
+                submissions[`row-${index}`] = { data: parsed, label: `${row[1]} (Script ${scriptId})`, scriptId, dataType };
+            });
             updateTeacherDropdowns(); btn.innerText = "Sync Submissions";
         }).catch(() => { btn.innerText = "Sync Error"; });
     }
@@ -828,9 +897,13 @@
     function updateTeacherDropdowns() {
         const keys = Object.keys(submissions);
         const filteredKeys = keys.filter(k => submissions[k].scriptId == currentScript);
-        const opts = `<option value="">Select Student...</option>` + filteredKeys.map(k => `<option value="${k}">${submissions[k].label}</option>`).join('');
-        document.getElementById('select-left').innerHTML = filteredKeys.length ? opts : '<option value="">No data</option>';
-        document.getElementById('select-right').innerHTML = filteredKeys.length ? opts : '<option value="">No data</option>';
+        const codesKeys = filteredKeys.filter(k => submissions[k].dataType === 'codes');
+        const analysisKeys = filteredKeys.filter(k => submissions[k].dataType === 'analysis');
+        const makeOpts = (ks, label) => ks.length ? `<option value="">Select Student…</option>` + ks.map(k => `<option value="${k}">${submissions[k].label}</option>`).join('') : `<option value="">No ${label} submissions</option>`;
+        document.getElementById('select-left').innerHTML = makeOpts(codesKeys, 'coding');
+        document.getElementById('select-right').innerHTML = makeOpts(codesKeys, 'coding');
+        const sa = document.getElementById('select-analysis');
+        if (sa) sa.innerHTML = makeOpts(analysisKeys, 'analysis');
     }
 
     function applyReview(side) {
@@ -841,8 +914,268 @@
         target.innerHTML = scripts[currentScript];
         if (!key) return;
         const data = submissions[key].data;
+        if (!Array.isArray(data)) return;
         let html = target.innerHTML;
         const sortedData = [...data].sort((a,b) => b.text.length - a.text.length);
+    // ── Stage 2–4 Logic (Script 2 only) ─────────────────────────────────────
+
+    let clusterCounter = 0;
+    let currentStage = 2;
+
+    const stageInstructions = {
+        2: "Look across all your codes — stop thinking line by line. <strong>What recurs?</strong> Drag codes into categories, name each one, then describe what holds them together.",
+        3: "Test each category against the actual data. <strong>Do all the extracts really fit? Is anything out of place?</strong> Rename categories and move codes between them if needed.",
+        4: "This is where coding becomes analysis. <strong>Read your finalised categories, then work through the steps</strong> — from noticing a pattern, to making a claim, to grounding it in evidence."
+    };
+
+    const stageTitles = { 2: "Stage 2: Find Patterns", 3: "Stage 3: Test Categories", 4: "Stage 4: Build a Claim" };
+
+    // ── Tooltip ───────────────────────────────────────────────────────────────
+    const tooltip = document.getElementById('pool-tooltip');
+    function showTooltip(card, e) {
+        const text = card.dataset.tooltip; if (!text) return;
+        tooltip.textContent = text; tooltip.style.display = 'block';
+        positionTooltip(e);
+    }
+    function positionTooltip(e) {
+        const pad = 10, tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+        let x = e.clientX + 14, y = e.clientY - th - 10;
+        if (x + tw > window.innerWidth - pad) x = e.clientX - tw - 14;
+        if (y < pad) y = e.clientY + 22;
+        tooltip.style.left = x + 'px'; tooltip.style.top = y + 'px';
+    }
+    function hideTooltip() { tooltip.style.display = 'none'; }
+
+    // ── Visibility hooks ─────────────────────────────────────────────────────
+    function updateStage2Btn() {
+        const btn = document.getElementById('stage2-btn'); if (!btn) return;
+        btn.style.display = (currentScript === 2 && currentMode === 'student' && myCodes.length > 0) ? 'block' : 'none';
+    }
+
+    const _origUpdateCodeList = updateCodeList;
+    updateCodeList = function(data, isSampleView) { _origUpdateCodeList(data, isSampleView); updateStage2Btn(); };
+    const _origLoadScript = loadScript;
+    loadScript = function(num) { _origLoadScript(num); updateStage2Btn(); if (document.getElementById('stage-panel').classList.contains('open')) closeStagePanel(); };
+    const _origExecuteSetMode = executeSetMode;
+    executeSetMode = function(mode) {
+        _origExecuteSetMode(mode); updateStage2Btn();
+        document.getElementById('teacher-analysis').classList.toggle('hidden', mode === 'student');
+    };
+
+    // ── Open / close ─────────────────────────────────────────────────────────
+    function openStagePanel() {
+        rebuildCodePool(); switchStage(2);
+        document.getElementById('stage-panel').classList.add('open');
+        document.getElementById('sidebar').classList.add('hidden');
+        document.getElementById('stage2-btn').style.display = 'none';
+        document.getElementById('main-layout').classList.add('stage-open');
+    }
+    function closeStagePanel() {
+        document.getElementById('stage-panel').classList.remove('open');
+        document.getElementById('sidebar').classList.remove('hidden');
+        document.getElementById('main-layout').classList.remove('stage-open');
+        updateStage2Btn();
+    }
+
+    function switchStage(n) {
+        currentStage = n;
+        [2,3,4].forEach(i => document.getElementById('snav-'+i).classList.toggle('active', i===n));
+        document.querySelectorAll('.stage-panel-content').forEach(p => p.classList.remove('active'));
+        document.getElementById('panel-'+n).classList.add('active');
+        document.getElementById('stage-panel-title').textContent = stageTitles[n];
+        document.getElementById('stage-instructions-bar').innerHTML = stageInstructions[n];
+        if (n===3) buildStage3();
+        if (n===4) buildStage4();
+        document.querySelector('.stage-body').scrollTop = 0;
+        const sb = document.getElementById('stage-submit-btn');
+        sb.classList.remove('sent'); sb.textContent = 'Submit Analysis';
+        document.getElementById('stage-submit-status').textContent = '';
+    }
+
+    // ── Stage 2 ──────────────────────────────────────────────────────────────
+    function rebuildCodePool() {
+        const placedCodes = new Set();
+        document.querySelectorAll('.cluster-drop-zone .pool-card').forEach(c => placedCodes.add(c.dataset.code));
+        const pool = document.getElementById('code-pool'); pool.innerHTML = '';
+        const codeMap = {};
+        myCodes.forEach(c => { if (!codeMap[c.code]) codeMap[c.code] = {...c, texts:[]}; codeMap[c.code].texts.push(c.text); });
+        Object.values(codeMap).forEach(c => { if (placedCodes.has(c.code)) return; pool.appendChild(createPoolCard(c)); });
+    }
+
+    function createPoolCard(codeObj) {
+        const card = document.createElement('div');
+        card.className = 'pool-card'; card.dataset.code = codeObj.code; card.dataset.color = codeObj.color;
+        const allTexts = codeObj.texts || [codeObj.text];
+        card.dataset.tooltip = allTexts.map(t => '"' + t.trim() + '"').join(' / ');
+        const parts = codeObj.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+        if (parts) { card.style.background = codeObj.color; card.style.color = `hsla(${parts[1]}, ${parts[2]}%, 20%, 1)`; }
+        card.appendChild(document.createTextNode(codeObj.code));
+        card.draggable = true;
+        card.addEventListener('mouseenter', e => showTooltip(card, e));
+        card.addEventListener('mousemove', positionTooltip);
+        card.addEventListener('mouseleave', hideTooltip);
+        card.addEventListener('dragstart', e => { hideTooltip(); e.dataTransfer.setData('text/plain', codeObj.code); card.classList.add('dragging'); });
+        card.addEventListener('dragend', () => card.classList.remove('dragging'));
+        addTouchDrag(card);
+        return card;
+    }
+
+    function addCluster() {
+        clusterCounter++;
+        const id = 'cluster-' + clusterCounter;
+        const card = document.createElement('div'); card.className = 'cluster-card'; card.id = id;
+        card.innerHTML = `<div class="cluster-top"><input class="cluster-name-input" type="text" placeholder="Name this category…" /><button class="remove-cluster-btn" onclick="removeCluster('${id}')">Remove</button></div><div class="cluster-drop-zone" data-cluster="${id}"><span class="drop-placeholder" style="color:#cbd5e1;font-size:0.78rem;align-self:center;pointer-events:none;">Drop codes here</span></div><div class="cluster-category-wrap"><div class="cat-label">What holds these codes together?</div><input class="cluster-category-input" type="text" placeholder="Describe the shared idea in one phrase…" /></div>`;
+        setupDropZone(card.querySelector('.cluster-drop-zone'));
+        document.getElementById('clusters-wrap').appendChild(card);
+    }
+
+    function removeCluster(id) {
+        const card = document.getElementById(id); if (!card) return;
+        const pool = document.getElementById('code-pool');
+        card.querySelectorAll('.pool-card').forEach(c => { const b=c.querySelector('.return-btn'); if(b) b.remove(); pool.appendChild(c); });
+        card.remove();
+    }
+
+    function setupDropZone(zone) {
+        zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+        zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); dropCardIntoZone(zone, e.dataTransfer.getData('text/plain')); });
+    }
+
+    function dropCardIntoZone(zone, code) {
+        const existing = document.querySelector(`.pool-card[data-code="${CSS.escape(code)}"]`); if (!existing) return;
+        const oldBtn = existing.querySelector('.return-btn'); if (oldBtn) oldBtn.remove();
+        const ph = zone.querySelector('.drop-placeholder'); if (ph) ph.style.display = 'none';
+        zone.appendChild(existing);
+        const btn = document.createElement('span'); btn.className='return-btn'; btn.textContent='×'; btn.title='Return to pool';
+        btn.addEventListener('click', e => { e.stopPropagation(); btn.remove(); document.getElementById('code-pool').appendChild(existing); if (!zone.querySelector('.pool-card')) { const p2=zone.querySelector('.drop-placeholder'); if(p2) p2.style.display=''; } });
+        existing.appendChild(btn);
+    }
+
+    // ── Stage 3 ──────────────────────────────────────────────────────────────
+    function buildStage3() {
+        const container = document.getElementById('s3-clusters-container'); container.innerHTML = '';
+        const clusters = document.querySelectorAll('.cluster-card');
+        if (!clusters.length) { container.innerHTML = '<p style="color:#94a3b8;font-size:0.85rem;text-align:center;padding:20px;">No categories yet — go back to Stage 2 and build some first.</p>'; return; }
+        clusters.forEach(cl => {
+            const name = cl.querySelector('.cluster-name-input').value.trim() || '(unnamed)';
+            const phrase = cl.querySelector('.cluster-category-input').value.trim();
+            const div = document.createElement('div'); div.className = 's3-cluster-card'; div.dataset.clusterId = cl.id;
+            div.innerHTML = `<div class="s3-top"><input class="s3-name-input" type="text" value="${name}" placeholder="Category name…" /></div>${phrase ? `<p class="s3-category-label">"${phrase}"</p>` : ''}<p class="s3-prompt">Read the extracts below. Does every code really fit here? Drag any that don't belong to a different category.</p><div class="s3-drop-zone" data-s3-cluster="${cl.id}"></div>`;
+            const dropZone = div.querySelector('.s3-drop-zone');
+            [...cl.querySelectorAll('.pool-card')].forEach(pc => myCodes.filter(m => m.code===pc.dataset.code).forEach(e => dropZone.appendChild(createS3CodeCard(e, cl.id))));
+            setupS3DropZone(dropZone);
+            container.appendChild(div);
+            div.querySelector('.s3-name-input').addEventListener('input', ev => { const i=cl.querySelector('.cluster-name-input'); if(i) i.value=ev.target.value; });
+        });
+    }
+
+    function createS3CodeCard(entry, homeClusterId) {
+        const card = document.createElement('div'); card.className = 's3-code-card';
+        card.dataset.code = entry.code; card.dataset.entryId = entry.id; card.dataset.homeCluster = homeClusterId; card.draggable = true;
+        const parts = entry.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+        const darkColor = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
+        card.style.borderLeftColor = darkColor;
+        card.innerHTML = `<span class="s3-code-label" style="background:${entry.color};color:${darkColor}">${entry.code}</span><span class="s3-extract-text">"${entry.text.trim()}"</span>`;
+        card.addEventListener('dragstart', e => { e.dataTransfer.setData('s3entryId', entry.id); card.classList.add('dragging'); });
+        card.addEventListener('dragend', () => card.classList.remove('dragging'));
+        addS3TouchDrag(card); return card;
+    }
+
+    function setupS3DropZone(zone) {
+        zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+        zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); moveS3CardToZone(zone, e.dataTransfer.getData('s3entryId')); });
+    }
+
+    function moveS3CardToZone(targetZone, entryId) {
+        const card = document.querySelector(`#s3-clusters-container .s3-code-card[data-entry-id="${entryId}"]`);
+        if (!card || card.closest('.s3-drop-zone') === targetZone) return;
+        targetZone.appendChild(card); syncS3MoveToStage2(card, targetZone);
+    }
+
+    function syncS3MoveToStage2(s3Card, targetZone) {
+        const targetS3ClusterId = targetZone.closest('.s3-cluster-card').dataset.clusterId;
+        const poolCard = document.querySelector(`#clusters-wrap .pool-card[data-code="${CSS.escape(s3Card.dataset.code)}"]`); if (!poolCard) return;
+        const targetS2Zone = document.querySelector(`#${targetS3ClusterId} .cluster-drop-zone`); if (!targetS2Zone) return;
+        const oldBtn = poolCard.querySelector('.return-btn'); if (oldBtn) oldBtn.remove();
+        const oldZone = poolCard.closest('.cluster-drop-zone');
+        targetS2Zone.appendChild(poolCard);
+        if (oldZone && !oldZone.querySelector('.pool-card')) { const ph=oldZone.querySelector('.drop-placeholder'); if(ph) ph.style.display=''; }
+        const newPh = targetS2Zone.querySelector('.drop-placeholder'); if (newPh) newPh.style.display='none';
+        const btn = document.createElement('span'); btn.className='return-btn'; btn.textContent='×'; btn.title='Return to pool';
+        btn.addEventListener('click', ev => { ev.stopPropagation(); btn.remove(); document.getElementById('code-pool').appendChild(poolCard); if(!targetS2Zone.querySelector('.pool-card')){const p2=targetS2Zone.querySelector('.drop-placeholder');if(p2)p2.style.display='';} });
+        poolCard.appendChild(btn);
+    }
+
+    function addS3TouchDrag(card) {
+        let clone = null;
+        card.addEventListener('touchstart', e => { clone = document.createElement('div'); clone.className='s3-code-card'; clone.innerHTML=card.innerHTML; clone.style.cssText=`position:fixed;opacity:0.85;pointer-events:none;z-index:9999;width:${card.offsetWidth}px;`; document.body.appendChild(clone); card.classList.add('dragging'); }, { passive: true });
+        card.addEventListener('touchmove', e => { e.preventDefault(); const t=e.touches[0]; if(clone){clone.style.left=(t.clientX-card.offsetWidth/2)+'px';clone.style.top=(t.clientY-20)+'px';} document.querySelectorAll('.s3-drop-zone').forEach(z=>{const r=z.getBoundingClientRect();z.classList.toggle('drag-over',t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom);}); }, { passive: false });
+        card.addEventListener('touchend', e => { card.classList.remove('dragging'); if(clone){clone.remove();clone=null;} const t=e.changedTouches[0]; document.querySelectorAll('.s3-drop-zone').forEach(z=>{z.classList.remove('drag-over');const r=z.getBoundingClientRect();if(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom)moveS3CardToZone(z,card.dataset.entryId);}); });
+    }
+
+    // ── Stage 4 ──────────────────────────────────────────────────────────────
+    function buildStage4() {
+        const display = document.getElementById('s4-categories-display'); display.innerHTML = '';
+        const s2Clusters = document.querySelectorAll('.cluster-card');
+        if (!s2Clusters.length) { display.innerHTML = '<p style="color:#94a3b8;font-size:0.82rem;">No categories yet — complete Stages 2 and 3 first.</p>'; return; }
+        s2Clusters.forEach(cl => {
+            const s3Card = document.querySelector(`#s3-clusters-container [data-cluster-id="${cl.id}"]`);
+            let catName = s3Card ? s3Card.querySelector('.s3-name-input').value.trim() : '';
+            if (!catName) catName = cl.querySelector('.cluster-category-input').value.trim();
+            if (!catName) catName = cl.querySelector('.cluster-name-input').value.trim();
+            if (!catName) catName = '(unnamed)';
+            const phrase = cl.querySelector('.cluster-category-input').value.trim();
+            let extractRows = '';
+            (s3Card ? [...s3Card.querySelectorAll('.s3-code-card')] : []).forEach(sc => {
+                const entry = myCodes.find(m => m.id === sc.dataset.entryId); if (!entry) return;
+                const parts = entry.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+                const darkColor = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
+                extractRows += `<div class="s4-extract-row"><span class="s4-extract-code" style="background:${entry.color};color:${darkColor}">${entry.code}</span><span>"${entry.text.trim()}"</span></div>`;
+            });
+            if (!extractRows) cl.querySelectorAll('.pool-card').forEach(pc => myCodes.filter(m=>m.code===pc.dataset.code).forEach(entry => {
+                const parts = entry.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+                const darkColor = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
+                extractRows += `<div class="s4-extract-row"><span class="s4-extract-code" style="background:${entry.color};color:${darkColor}">${pc.dataset.code}</span><span>"${entry.text.trim()}"</span></div>`;
+            }));
+            const block = document.createElement('div'); block.className='s4-cat-block';
+            block.innerHTML = `<div class="s4-cat-header"><span class="s4-cat-name">${catName}</span>${phrase&&phrase!==catName?`<span class="s4-cat-phrase">${phrase}</span>`:''}</div><div class="s4-cat-extracts">${extractRows||'<span style="color:#cbd5e1;font-size:0.78rem;">No extracts here.</span>'}</div>`;
+            display.appendChild(block);
+        });
+    }
+
+    // ── Analysis submission ───────────────────────────────────────────────────
+    function gatherAnalysisData() {
+        const categories = [];
+        document.querySelectorAll('.cluster-card').forEach(cl => {
+            const s3Card = document.querySelector(`#s3-clusters-container [data-cluster-id="${cl.id}"]`);
+            let catName = s3Card ? s3Card.querySelector('.s3-name-input').value.trim() : '';
+            if (!catName) catName = cl.querySelector('.cluster-category-input').value.trim();
+            if (!catName) catName = cl.querySelector('.cluster-name-input').value.trim();
+            categories.push({ name: catName, connectedBy: cl.querySelector('.cluster-category-input').value.trim(), codes: [...cl.querySelectorAll('.pool-card')].map(c=>c.dataset.code) });
+        });
+        return { type: 'analysis', categories, pattern: document.getElementById('s4-pattern')?.value.trim()||'', claim: document.getElementById('s4-claim')?.value.trim()||'', evidence: document.getElementById('s4-evidence')?.value.trim()||'', nuance: document.getElementById('s4-nuance')?.value.trim()||'' };
+    }
+
+    function submitStageAnalysis() {
+        const name = document.getElementById('student-name').value.trim();
+        if (!name) { alert("Enter your name in the sidebar first."); return; }
+        const btn = document.getElementById('stage-submit-btn'), status = document.getElementById('stage-submit-status');
+        btn.textContent = 'Sending…'; btn.classList.add('sent');
+        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(gatherAnalysisData()) }) })
+            .then(() => { btn.textContent = 'Submitted ✓'; status.textContent = 'Analysis saved.'; })
+            .catch(() => { btn.classList.remove('sent'); btn.textContent = 'Submit Analysis'; status.textContent = 'Error — try again.'; });
+    }
+
+    // ── Touch drag (Stage 2) ──────────────────────────────────────────────────
+    function addTouchDrag(card) {
+        let clone = null;
+        card.addEventListener('touchstart', e => { clone=card.cloneNode(false); clone.textContent=card.dataset.code; clone.style.cssText=`position:fixed;opacity:0.85;pointer-events:none;z-index:9999;width:${card.offsetWidth}px;padding:7px 12px;border-radius:6px;font-size:0.8rem;font-weight:600;background:${card.style.background};color:${card.style.color};`; document.body.appendChild(clone); card.classList.add('dragging'); }, { passive: true });
+        card.addEventListener('touchmove', e => { e.preventDefault(); const t=e.touches[0]; if(clone){clone.style.left=(t.clientX-card.offsetWidth/2)+'px';clone.style.top=(t.clientY-20)+'px';} document.querySelectorAll('.cluster-drop-zone').forEach(z=>{const r=z.getBoundingClientRect();z.classList.toggle('drag-over',t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom);}); }, { passive: false });
+        card.addEventListener('touchend', e => { card.classList.remove('dragging'); if(clone){clone.remove();clone=null;} const t=e.changedTouches[0]; document.querySelectorAll('.cluster-drop-zone').forEach(z=>{z.classList.remove('drag-over');const r=z.getBoundingClientRect();if(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom)dropCardIntoZone(z,card.dataset.code);}); });
+    }
+
         sortedData.forEach(item => {
             const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const regex = new RegExp(`(${escaped})`, 'g');
@@ -865,99 +1198,6 @@
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name: name, scriptId: currentScript, data: JSON.stringify(myCodes) }) }).then(() => { btn.innerText = "Success!"; btn.style.background = "var(--success)"; });
     }
     loadScript(1);
-
-    // ── Stage 2–4 Logic (Script 2 only) ─────────────────────────────────────
-
-    let clusterCounter = 0;
-    let currentStage = 2;
-
-    const stageInstructions = {
-        2: "Look across all your codes — stop thinking line by line. <strong>What recurs? What seems to describe the same thing?</strong> Drag codes into categories, name each one, then complete the prompt below.",
-        3: "Now test each category against the actual data. <strong>Do all the coded extracts really fit? Is anything out of place? Is the category too broad or too narrow?</strong> Rename categories and move codes between them if needed.",
-        4: "This is where coding becomes analysis. <strong>Read your finalised categories, then work through the steps below</strong> — from noticing a pattern, to making a claim, to grounding it in evidence from the data."
-    };
-
-    const stageTitles = {
-        2: "Stage 2: Find Patterns",
-        3: "Stage 3: Test Your Categories",
-        4: "Stage 4: Build a Claim"
-    };
-
-    function updateStage2Btn() {
-        const btn = document.getElementById('stage2-btn');
-        if (!btn) return;
-        const show = currentScript === 2 && currentMode === 'student' && myCodes.length > 0;
-        btn.style.display = show ? 'block' : 'none';
-    }
-
-    const _origUpdateCodeList = updateCodeList;
-    updateCodeList = function(data, isSampleView) {
-        _origUpdateCodeList(data, isSampleView);
-        updateStage2Btn();
-    };
-    const _origLoadScript = loadScript;
-    loadScript = function(num) {
-        _origLoadScript(num);
-        updateStage2Btn();
-        if (document.getElementById('stage-overlay').classList.contains('open')) {
-            closeStageOverlay();
-        }
-    };
-    const _origExecuteSetMode = executeSetMode;
-    executeSetMode = function(mode) {
-        _origExecuteSetMode(mode);
-        updateStage2Btn();
-    };
-
-    function openStageOverlay() {
-        rebuildCodePool();
-        switchStage(2);
-        document.getElementById('stage-overlay').classList.add('open');
-    }
-
-    function closeStageOverlay() {
-        document.getElementById('stage-overlay').classList.remove('open');
-    }
-
-    function switchStage(n) {
-        currentStage = n;
-        // Nav buttons
-        [2, 3, 4].forEach(i => {
-            document.getElementById('snav-' + i).classList.toggle('active', i === n);
-        });
-        // Panels
-        document.querySelectorAll('.stage-panel').forEach(p => p.classList.remove('active'));
-        document.getElementById('panel-' + n).classList.add('active');
-        // Title and instructions
-        document.getElementById('stage-overlay-title').textContent = 'Script 2 — ' + stageTitles[n];
-        document.getElementById('stage-instructions-bar').innerHTML = stageInstructions[n];
-        // Build stage-specific content
-        if (n === 3) buildStage3();
-        if (n === 4) buildStage4();
-        // Scroll to top
-        document.querySelector('.stage-body').scrollTop = 0;
-    }
-
-    // ── Stage 2 ──────────────────────────────────────────────────────────────
-
-    function rebuildCodePool() {
-        const placedCodes = new Set();
-        document.querySelectorAll('.cluster-drop-zone .pool-card').forEach(c => placedCodes.add(c.dataset.code));
-
-        const pool = document.getElementById('code-pool');
-        pool.innerHTML = '';
-
-        const codeMap = {};
-        myCodes.forEach(c => {
-            if (!codeMap[c.code]) codeMap[c.code] = { ...c, texts: [] };
-            codeMap[c.code].texts.push(c.text);
-        });
-
-        Object.values(codeMap).forEach(c => {
-            if (placedCodes.has(c.code)) return;
-            pool.appendChild(createPoolCard(c));
-        });
-    }
 
     function createPoolCard(codeObj) {
         const card = document.createElement('div');
