@@ -910,12 +910,8 @@
     }
 
     // Central stage switcher — called by tab clicks and internally
-    function switchStage(n, force) {
+    function switchStage(n) {
         if (n < 1 || n > 4) return;
-        // Warn if leaving Stage 3 with unsaved work
-        if (!force && currentStage === 3 && n !== 3 && !s3Submitted && hasS3Content()) {
-            if (!confirm('You have unsaved work in Stage 3. If you leave now your categories won\'t be submitted. Continue anyway?')) return;
-        }
 
         currentStage = n;
 
@@ -1001,10 +997,6 @@ ${section('Nuance', nuance)}
         const w = window.open('', '_blank');
         w.document.write(html);
         w.document.close();
-    }
-
-    function hasS3Content() {
-        return document.querySelectorAll('#s3-clusters-container .s3-cluster-card').length > 0;
     }
 
     // ── Stage 2-4 persistence ─────────────────────────────────────────────────
