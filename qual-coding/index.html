@@ -1178,17 +1178,26 @@ ${section('Nuance', nuance)}
         if (document.getElementById('toggle-compare-btn')) document.getElementById('toggle-compare-btn').innerText = 'Show Both';
         document.getElementById('analysis-workspace').style.display = 'none';
         document.getElementById('col-1').classList.remove('hidden');
+        // Always restore main-layout (may have been hidden by switchStage)
+        document.getElementById('main-layout').style.display = '';
+        document.getElementById('stage-workspace').classList.remove('visible');
+        document.getElementById('coding-bar').classList.remove('hidden');
         [1,2,3,4].forEach(i => {
             const t = document.getElementById('stab-' + i);
             if (t) t.classList.toggle('active', i === 1);
         });
-        document.getElementById('stage-workspace').classList.remove('visible');
-        document.getElementById('coding-bar').classList.remove('hidden');
+        const prevBtn = document.getElementById('stage-prev-btn');
+        const nextBtn = document.getElementById('stage-next-btn');
+        if (prevBtn) prevBtn.disabled = true;
+        if (nextBtn) nextBtn.disabled = false;
         updateStageUI();
         // Restore stage 2-4 state
         if (num <= 2 && currentMode === 'student') loadAnalysis();
         if (num > 2  && currentMode === 'student') renderSampleAnalysis(num);
     };
+
+    // Run updateStageUI after initial page load (hook wasn't active for loadScript(1))
+    updateStageUI();
 
     const _origExecuteSetMode = executeSetMode;
     executeSetMode = function(mode) {
