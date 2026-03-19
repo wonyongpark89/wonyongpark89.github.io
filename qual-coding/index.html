@@ -438,7 +438,7 @@
     <div class="pw-box">
         <h3 style="margin-top:0">Teacher Access</h3>
         <p style="font-size:0.85rem; color:#64748b">Please enter your 4-digit security code.</p>
-        <input type="password" id="pw-input" placeholder="••••">
+        <input type="password" id="pw-input" placeholder="••••" onkeydown="if(event.key==='Enter') checkPassword()">
         <div style="display:flex; gap:10px">
             <button class="btn btn-verify-action" style="flex:1; background:var(--teacher); color:white; border:none" onclick="checkPassword()">Verify</button>
             <button class="btn" style="flex:1" onclick="closePwModal()">Cancel</button>
@@ -888,7 +888,7 @@
                     const span = document.createElement('span');
                     span.className = 'pending-selection';
                     try { range.surroundContents(span); document.getElementById('code-input').focus(); } 
-                    catch (e) { const contents = range.extractContents(); span.appendChild(contents); range.insertNode(span); }
+                    catch (e) { const contents = range.extractContents(); span.appendChild(contents); range.insertNode(span); document.getElementById('code-input').focus(); }
                     sel.removeAllRanges();
                 }
             }
