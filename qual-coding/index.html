@@ -194,6 +194,8 @@
             margin-right: 6px; transition: background 0.15s, color 0.15s;
         }
         .stage-tab.active .tab-num { background: var(--accent); color: white; }
+        .stage-tab.tab-locked { opacity: 0.4; cursor: not-allowed; }
+        .stage-tab.tab-locked:hover { color: #64748b; }
         #stage-tab-nav {
             margin-left: auto; display: flex; align-items: center; gap: 6px; padding: 6px 0;
         }
@@ -405,7 +407,32 @@
 </head>
 <body>
 
-<div id="pw-modal">
+<!-- Landing page -->
+<div id="landing-modal" style="position:fixed;inset:0;background:white;z-index:2000;display:flex;align-items:center;justify-content:center;padding:24px;">
+    <div style="max-width:480px;width:100%;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;">
+            <div style="width:40px;height:40px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 5h8l6 6-6 6-8-8V5z" fill="white"/><circle cx="8" cy="8" r="2" fill="#4f46e5"/></svg>
+            </div>
+            <div>
+                <h1 style="margin:0;font-size:1.2rem;font-weight:800;color:var(--primary);">Qualitative Coding Workbook</h1>
+                <p style="margin:2px 0 0;font-size:0.78rem;color:#94a3b8;">Southampton Education School</p>
+            </div>
+        </div>
+        <p style="font-size:0.92rem;color:#475569;line-height:1.7;margin-bottom:24px;">
+            This workbook guides you through qualitative data analysis in four stages — from coding a transcript, to grouping patterns, to testing categories, to building an analytic claim. Work through each stage in order. Your progress is saved automatically.
+        </p>
+        <label style="display:block;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#94a3b8;margin-bottom:6px;">Your full name</label>
+        <input type="text" id="landing-name" placeholder="Enter your name to begin…"
+            style="width:100%;box-sizing:border-box;padding:12px 16px;border-radius:8px;border:1px solid var(--border);font-size:1rem;margin-bottom:16px;font-family:inherit;"
+            onkeydown="if(event.key==='Enter') beginSession()">
+        <button onclick="beginSession()"
+            style="width:100%;padding:13px;background:var(--accent);color:white;border:none;border-radius:8px;font-size:0.95rem;font-weight:600;cursor:pointer;">
+            Begin →
+        </button>
+        <p id="landing-error" style="color:var(--danger);font-size:0.78rem;margin:8px 0 0;text-align:center;display:none;">Please enter your name to continue.</p>
+    </div>
+</div>
     <div class="pw-box">
         <h3 style="margin-top:0">Teacher Access</h3>
         <p style="font-size:0.85rem; color:#64748b">Please enter your 4-digit security code.</p>
@@ -964,24 +991,29 @@
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'clear' }) }).then(() => { alert("Data purged."); syncFromCloud(); });
     }
 
-    function submitCoding() {
-        const name = document.getElementById('student-name').value.trim();
-        if (!name || myCodes.length === 0) { alert('Enter your name and add some codes first.'); return; }
-        const btn = document.getElementById('submit-btn');
-        const status = document.getElementById('submit-coding-status');
-        btn.innerText = 'Sending…';
-        const payload = { type: 'coding', codes: myCodes };
-        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(payload) }) })
-            .then(() => { btn.innerText = 'Submitted ✓'; btn.style.background = '#94a3b8'; status.textContent = 'Coding saved.'; })
-            .catch(() => { btn.innerText = 'Submit Coding'; status.textContent = 'Error — try again.'; });
-    }
-
     loadScript(1);
 
-    // ── Stage system (Script 2 student mode) ─────────────────────────────────
+    // ── Landing page ──────────────────────────────────────────────────────────
+    function beginSession() {
+        const name = document.getElementById('landing-name').value.trim();
+        if (!name) {
+            document.getElementById('landing-error').style.display = 'block';
+            document.getElementById('landing-name').focus();
+            return;
+        }
+        // Pre-fill the student name field in the sidebar
+        document.getElementById('student-name').value = name;
+        document.getElementById('landing-modal').style.display = 'none';
+    }
+
+    // Focus name input on load
+    document.getElementById('landing-name').focus();
+
+    // ── Stage system ──────────────────────────────────────────────────────────
 
     let clusterCounter = 0;
-    let s3Submitted = false; // track if Stage 3 has been submitted this session
+    let s1Submitted = false;
+    let s3Submitted = false;
 
     // Show/hide stage tabs and workspace depending on script + mode
     function updateStageUI() {
@@ -995,9 +1027,59 @@
         }
     }
 
+    // ── Tab gate logic ────────────────────────────────────────────────────────
+    function updateTabGates() {
+        const isSample = currentScript > 2;
+        [2, 3, 4].forEach(n => {
+            const tab = document.getElementById('stab-' + n);
+            if (!tab) return;
+            const locked = !isSample && (n >= 2 && !s1Submitted || n >= 4 && !s3Submitted);
+            tab.classList.toggle('tab-locked', locked);
+            tab.title = locked
+                ? (n < 4 ? 'Submit your Stage 1 coding first' : 'Submit your Stage 3 categories first')
+                : '';
+        });
+        const nextBtn = document.getElementById('stage-next-btn');
+        if (nextBtn) {
+            const nextStage = currentStage + 1;
+            const locked = !isSample && (nextStage >= 2 && !s1Submitted || nextStage >= 4 && !s3Submitted);
+            nextBtn.disabled = currentStage >= 4 || locked;
+            nextBtn.title = locked
+                ? (nextStage < 4 ? 'Submit Stage 1 first' : 'Submit Stage 3 first')
+                : '';
+        }
+    }
+
+    function showGateMessage(msg) {
+        let el = document.getElementById('gate-msg');
+        if (!el) {
+            el = document.createElement('div');
+            el.id = 'gate-msg';
+            el.style.cssText = 'position:fixed;top:60px;left:50%;transform:translateX(-50%);background:#1e293b;color:white;padding:10px 20px;border-radius:8px;font-size:0.82rem;font-weight:500;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);pointer-events:none;';
+            document.body.appendChild(el);
+        }
+        el.textContent = msg;
+        el.style.opacity = '1';
+        clearTimeout(el._t);
+        el._t = setTimeout(() => { el.style.opacity = '0'; }, 2400);
+    }
+
     // Central stage switcher — called by tab clicks and internally
     function switchStage(n) {
         if (n < 1 || n > 4) return;
+
+        // Gate check for live scripts
+        const isSample = currentScript > 2;
+        if (!isSample) {
+            if (n >= 2 && !s1Submitted) {
+                showGateMessage('Submit your Stage 1 coding before moving on.');
+                return;
+            }
+            if (n >= 4 && !s3Submitted) {
+                showGateMessage('Submit your Stage 3 categories before building a claim.');
+                return;
+            }
+        }
 
         currentStage = n;
 
@@ -1026,9 +1108,8 @@
 
         // Update prev/next buttons
         const prevBtn = document.getElementById('stage-prev-btn');
-        const nextBtn = document.getElementById('stage-next-btn');
         if (prevBtn) prevBtn.disabled = (n <= 1);
-        if (nextBtn) nextBtn.disabled = (n >= 4);
+        updateTabGates();
     }
 
     function openStage4Export() {
@@ -1161,6 +1242,7 @@ ${section('Nuance', nuance)}
     loadScript = function(num) {
         _origLoadScript(num);
         currentStage = 1;
+        s1Submitted = false;
         s3Submitted = false;
         comparePaneOpen = false;
         // Clear stage 2-4 UI
@@ -1191,7 +1273,7 @@ ${section('Nuance', nuance)}
         if (prevBtn) prevBtn.disabled = true;
         if (nextBtn) nextBtn.disabled = false;
         updateStageUI();
-        // Restore stage 2-4 state
+        updateTabGates();
         if (num <= 2 && currentMode === 'student') loadAnalysis();
         if (num > 2  && currentMode === 'student') renderSampleAnalysis(num);
     };
@@ -1238,7 +1320,12 @@ ${section('Nuance', nuance)}
         btn.innerText = 'Sending…';
         const payload = { type: 'coding', codes: myCodes };
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(payload) }) })
-            .then(() => { btn.innerText = 'Submitted ✓'; btn.style.background = '#94a3b8'; status.textContent = 'Coding saved.'; })
+            .then(() => {
+                btn.innerText = 'Submitted ✓'; btn.style.background = '#94a3b8';
+                status.textContent = 'Coding saved.';
+                s1Submitted = true;
+                updateTabGates();
+            })
             .catch(() => { btn.innerText = 'Submit Coding'; status.textContent = 'Error — try again.'; });
     }
 
@@ -1481,7 +1568,7 @@ ${section('Nuance', nuance)}
         const btn = document.getElementById('s3-submit-btn');
         btn.textContent = 'Sending…';
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(gatherAnalysisData()) }) })
-            .then(() => { btn.textContent = 'Submitted ✓'; btn.classList.add('sent'); s3Submitted = true; })
+            .then(() => { btn.textContent = 'Submitted ✓'; btn.classList.add('sent'); s3Submitted = true; updateTabGates(); })
             .catch(() => { btn.textContent = 'Submit'; btn.classList.remove('sent'); alert('Submission failed — please try again.'); });
     }
 
