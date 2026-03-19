@@ -818,6 +818,7 @@
     function clearLocalCodes() {
         if(!confirm("⚠️ This will permanently clear your coding progress for this script. Continue?")) return;
         localStorage.removeItem(`coded_script_${currentScript}`);
+        localStorage.removeItem(ANALYSIS_KEY);
         loadScript(currentScript);
     }
 
@@ -1006,6 +1007,82 @@ ${section('Nuance', nuance)}
         return document.querySelectorAll('#s3-clusters-container .s3-cluster-card').length > 0;
     }
 
+    // ── Stage 2-4 persistence ─────────────────────────────────────────────────
+
+    const ANALYSIS_KEY = 'analysis_script_2';
+
+    function saveAnalysis() {
+        if (currentScript !== 2 || currentMode === 'teacher') return;
+        const categories = [];
+        document.querySelectorAll('.cluster-card').forEach(cl => {
+            categories.push({
+                id: cl.id,
+                name: cl.querySelector('.cluster-name-input').value,
+                connectedBy: cl.querySelector('.cluster-category-input').value,
+                codeIds: [...cl.querySelectorAll('.pool-card')].map(c => c.dataset.code)
+            });
+        });
+        const data = {
+            categories,
+            s4: {
+                pattern:  document.getElementById('s4-pattern')?.value  || '',
+                claim:    document.getElementById('s4-claim')?.value    || '',
+                evidence: document.getElementById('s4-evidence')?.value || '',
+                nuance:   document.getElementById('s4-nuance')?.value   || ''
+            }
+        };
+        localStorage.setItem(ANALYSIS_KEY, JSON.stringify(data));
+    }
+
+    function loadAnalysis() {
+        const saved = localStorage.getItem(ANALYSIS_KEY);
+        if (!saved) return;
+        let data;
+        try { data = JSON.parse(saved); } catch(e) { return; }
+        if (!data || !data.categories) return;
+
+        // Rebuild code pool first so all cards exist
+        rebuildCodePool();
+
+        data.categories.forEach(cat => {
+            // Create a cluster card
+            clusterCounter++;
+            const id = 'cluster-' + clusterCounter;
+            const card = document.createElement('div');
+            card.className = 'cluster-card'; card.id = id;
+            card.innerHTML = `<div class="cluster-top"><input class="cluster-name-input" type="text" placeholder="Name this category…" /><button class="remove-cluster-btn" onclick="removeCluster('${id}')">Remove</button></div><div class="cluster-drop-zone" data-cluster="${id}"><span class="drop-placeholder" style="color:#cbd5e1;font-size:0.78rem;align-self:center;pointer-events:none;">Drop codes here</span></div><div class="cluster-category-wrap"><div class="cat-label">What holds these codes together?</div><input class="cluster-category-input" type="text" placeholder="Describe the shared idea in one phrase…" /></div>`;
+            card.querySelector('.cluster-name-input').value = cat.name || '';
+            card.querySelector('.cluster-category-input').value = cat.connectedBy || '';
+            setupDropZone(card.querySelector('.cluster-drop-zone'));
+            document.getElementById('clusters-wrap').appendChild(card);
+
+            // Drop the saved codes into this cluster
+            const zone = card.querySelector('.cluster-drop-zone');
+            cat.codeIds.forEach(code => {
+                const poolCard = document.querySelector(`#code-pool .pool-card[data-code="${CSS.escape(code)}"]`);
+                if (poolCard) dropCardIntoZone(zone, code);
+            });
+
+            // Wire up save-on-change
+            card.querySelector('.cluster-name-input').addEventListener('input', saveAnalysis);
+            card.querySelector('.cluster-category-input').addEventListener('input', saveAnalysis);
+        });
+
+        // Restore S4 fields
+        if (data.s4) {
+            const p = document.getElementById('s4-pattern');   if (p) p.value = data.s4.pattern  || '';
+            const c = document.getElementById('s4-claim');     if (c) c.value = data.s4.claim    || '';
+            const e = document.getElementById('s4-evidence');  if (e) e.value = data.s4.evidence || '';
+            const n = document.getElementById('s4-nuance');    if (n) n.value = data.s4.nuance   || '';
+        }
+    }
+
+    // Wire saveAnalysis into S4 textareas on input
+    ['s4-pattern','s4-claim','s4-evidence','s4-nuance'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', saveAnalysis);
+    });
+
     // Hook loadScript to reset stages and show/hide tabs
     const _origLoadScript = loadScript;
     loadScript = function(num) {
@@ -1013,6 +1090,11 @@ ${section('Nuance', nuance)}
         currentStage = 1;
         s3Submitted = false;
         comparePaneOpen = false;
+        // Clear stage 2-4 UI
+        document.getElementById('clusters-wrap').innerHTML = '';
+        document.getElementById('code-pool').innerHTML = '';
+        document.getElementById('s3-clusters-container').innerHTML = '';
+        ['s4-pattern','s4-claim','s4-evidence','s4-nuance'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
         document.getElementById('analysis-pane-1').innerHTML = '';
         document.getElementById('analysis-pane-2').innerHTML = '';
         document.getElementById('analysis-pane-2').classList.add('hidden');
@@ -1026,6 +1108,8 @@ ${section('Nuance', nuance)}
         document.getElementById('stage-workspace').classList.remove('visible');
         document.getElementById('coding-bar').classList.remove('hidden');
         updateStageUI();
+        // Restore stage 2-4 state for script 2
+        if (num === 2 && currentMode === 'student') loadAnalysis();
     };
 
     const _origExecuteSetMode = executeSetMode;
@@ -1106,6 +1190,9 @@ ${section('Nuance', nuance)}
         card.innerHTML = `<div class="cluster-top"><input class="cluster-name-input" type="text" placeholder="Name this category…" /><button class="remove-cluster-btn" onclick="removeCluster('${id}')">Remove</button></div><div class="cluster-drop-zone" data-cluster="${id}"><span class="drop-placeholder" style="color:#cbd5e1;font-size:0.78rem;align-self:center;pointer-events:none;">Drop codes here</span></div><div class="cluster-category-wrap"><div class="cat-label">What holds these codes together?</div><input class="cluster-category-input" type="text" placeholder="Describe the shared idea in one phrase…" /></div>`;
         setupDropZone(card.querySelector('.cluster-drop-zone'));
         document.getElementById('clusters-wrap').appendChild(card);
+        card.querySelector('.cluster-name-input').addEventListener('input', saveAnalysis);
+        card.querySelector('.cluster-category-input').addEventListener('input', saveAnalysis);
+        saveAnalysis();
     }
 
     function removeCluster(id) {
@@ -1113,6 +1200,7 @@ ${section('Nuance', nuance)}
         const pool = document.getElementById('code-pool');
         card.querySelectorAll('.pool-card').forEach(c => { const b = c.querySelector('.return-btn'); if (b) b.remove(); pool.appendChild(c); });
         card.remove();
+        saveAnalysis();
     }
 
     function setupDropZone(zone) {
@@ -1127,8 +1215,9 @@ ${section('Nuance', nuance)}
         const ph = zone.querySelector('.drop-placeholder'); if (ph) ph.style.display = 'none';
         zone.appendChild(existing);
         const btn = document.createElement('span'); btn.className = 'return-btn'; btn.textContent = '×'; btn.title = 'Return to pool';
-        btn.addEventListener('click', e => { e.stopPropagation(); btn.remove(); document.getElementById('code-pool').appendChild(existing); if (!zone.querySelector('.pool-card')) { const p2 = zone.querySelector('.drop-placeholder'); if (p2) p2.style.display = ''; } });
+        btn.addEventListener('click', e => { e.stopPropagation(); btn.remove(); document.getElementById('code-pool').appendChild(existing); if (!zone.querySelector('.pool-card')) { const p2 = zone.querySelector('.drop-placeholder'); if (p2) p2.style.display = ''; } saveAnalysis(); });
         existing.appendChild(btn);
+        saveAnalysis();
     }
 
     // ── Stage 3 ──────────────────────────────────────────────────────────────
