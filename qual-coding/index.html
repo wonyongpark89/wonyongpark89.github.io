@@ -173,6 +173,7 @@
             gap: 0;
             overflow-x: auto;
             flex-shrink: 0;
+            align-items: center;
         }
         #stage-tabs.visible { display: flex; }
         .stage-tab {
@@ -193,12 +194,26 @@
             margin-right: 6px; transition: background 0.15s, color 0.15s;
         }
         .stage-tab.active .tab-num { background: var(--accent); color: white; }
+        #stage-tab-nav {
+            margin-left: auto; display: flex; align-items: center; gap: 6px; padding: 6px 0;
+        }
+        .stage-nav-prev, .stage-nav-next {
+            padding: 5px 14px; border-radius: 6px; border: 1px solid var(--border);
+            background: white; font-size: 0.78rem; font-weight: 600;
+            cursor: pointer; color: #64748b; transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .stage-nav-prev:hover { background: #f1f5f9; }
+        .stage-nav-prev:disabled, .stage-nav-next:disabled { opacity: 0.3; cursor: default; background: white; }
+        .stage-nav-next { background: var(--accent); color: white; border-color: var(--accent); }
+        .stage-nav-next:hover { background: #4338ca; border-color: #4338ca; }
+        .stage-nav-next:disabled { background: #e2e8f0; color: #94a3b8; border-color: #e2e8f0; }
 
         /* ── Stage workspace (Stages 2-4 full view) ── */
         #stage-workspace {
             display: none;
             flex: 1; overflow: hidden;
-            padding: 20px 20px 64px; gap: 20px;
+            padding: 20px; gap: 20px;
         }
         #stage-workspace.visible { display: flex; }
 
@@ -386,28 +401,6 @@
             .stage-tab { padding: 10px 12px; font-size: 0.75rem; }
             #stage-workspace { padding: 12px; gap: 12px; }
         }
-
-        /* Stage prev/next nav bar */
-        #stage-nav-bar {
-            display: none;
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: white; border-top: 1px solid var(--border);
-            padding: 10px 24px; box-sizing: border-box;
-            justify-content: space-between; align-items: center;
-            z-index: 100; box-shadow: 0 -2px 8px rgba(0,0,0,0.06);
-        }
-        #stage-nav-bar.visible { display: flex; }
-        .stage-nav-prev, .stage-nav-next {
-            padding: 9px 20px; border-radius: 6px; border: 1px solid var(--border);
-            background: white; font-size: 0.82rem; font-weight: 600;
-            cursor: pointer; color: #64748b; transition: all 0.15s;
-        }
-        .stage-nav-prev:hover, .stage-nav-next:hover { background: #f1f5f9; border-color: #cbd5e1; }
-        .stage-nav-prev:disabled, .stage-nav-next:disabled { opacity: 0.3; cursor: default; background: white; }
-        .stage-nav-next { background: var(--accent); color: white; border-color: var(--accent); }
-        .stage-nav-next:hover { background: #4338ca; border-color: #4338ca; }
-        .stage-nav-next:disabled { background: #e2e8f0; color: #94a3b8; border-color: #e2e8f0; }
-        #stage-nav-label { font-size: 0.78rem; color: #94a3b8; }
     </style>
 </head>
 <body>
@@ -444,6 +437,10 @@
     <button class="stage-tab" id="stab-2" onclick="switchStage(2)"><span class="tab-num">2</span>Find Patterns</button>
     <button class="stage-tab" id="stab-3" onclick="switchStage(3)"><span class="tab-num">3</span>Test Categories</button>
     <button class="stage-tab" id="stab-4" onclick="switchStage(4)"><span class="tab-num">4</span>Build a Claim</button>
+    <div id="stage-tab-nav">
+        <button class="stage-nav-prev" id="stage-prev-btn" onclick="switchStage(currentStage - 1)" disabled>← Prev</button>
+        <button class="stage-nav-next" id="stage-next-btn" onclick="switchStage(currentStage + 1)">Next →</button>
+    </div>
 </div>
 
 <!-- Stage 1: Coding workspace (always shown for other scripts; shown for Script 2 Stage 1) -->
@@ -610,13 +607,6 @@
 <div id="coding-bar">
     <input type="text" id="code-input" placeholder="Enter code label here...">
     <button id="apply-btn" onclick="applyManualCode()">Apply Code</button>
-</div>
-
-<!-- Stage prev/next nav bar -->
-<div id="stage-nav-bar">
-    <button class="stage-nav-prev" id="stage-prev-btn" onclick="switchStage(currentStage - 1)">← Previous</button>
-    <span id="stage-nav-label"></span>
-    <button class="stage-nav-next" id="stage-next-btn" onclick="switchStage(currentStage + 1)">Next →</button>
 </div>
 
 <!-- JS tooltip for pool cards -->
@@ -938,12 +928,10 @@
             document.getElementById('main-layout').style.display = '';
             document.getElementById('stage-workspace').classList.remove('visible');
             document.getElementById('coding-bar').classList.remove('hidden');
-            document.getElementById('stage-nav-bar').classList.remove('visible');
         } else {
             document.getElementById('main-layout').style.display = 'none';
             document.getElementById('stage-workspace').classList.add('visible');
             document.getElementById('coding-bar').classList.add('hidden');
-            document.getElementById('stage-nav-bar').classList.add('visible');
             ['sw-panel-2','sw-panel-3','sw-panel-4'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
@@ -956,11 +944,8 @@
         // Update prev/next buttons
         const prevBtn = document.getElementById('stage-prev-btn');
         const nextBtn = document.getElementById('stage-next-btn');
-        const label = document.getElementById('stage-nav-label');
         if (prevBtn) prevBtn.disabled = (n <= 1);
         if (nextBtn) nextBtn.disabled = (n >= 4);
-        const names = { 1:'Coding', 2:'Find Patterns', 3:'Test Categories', 4:'Build a Claim' };
-        if (label) label.textContent = `Stage ${n}: ${names[n]}`;
     }
 
     function openStage4Export() {
@@ -1040,7 +1025,6 @@ ${section('Nuance', nuance)}
         });
         document.getElementById('stage-workspace').classList.remove('visible');
         document.getElementById('coding-bar').classList.remove('hidden');
-        document.getElementById('stage-nav-bar').classList.remove('visible');
         updateStageUI();
     };
 
@@ -1053,11 +1037,9 @@ ${section('Nuance', nuance)}
             document.getElementById('stage-workspace').classList.remove('visible');
             document.getElementById('analysis-workspace').style.display = 'none';
             document.getElementById('col-1').classList.remove('hidden');
-            document.getElementById('stage-nav-bar').classList.remove('visible');
         } else {
             document.getElementById('analysis-workspace').style.display = 'none';
             document.getElementById('col-1').classList.remove('hidden');
-            document.getElementById('stage-nav-bar').classList.remove('visible');
         }
     };
 
