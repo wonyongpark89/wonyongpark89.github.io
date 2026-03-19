@@ -424,7 +424,7 @@
         </p>
         <label style="display:block;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#94a3b8;margin-bottom:6px;">Your full name</label>
         <input type="text" id="landing-name" placeholder="Enter your name to begin…"
-            style="width:100%;box-sizing:border-box;padding:12px 16px;border-radius:8px;border:1px solid var(--border);font-size:1rem;margin-bottom:16px;font-family:inherit;"
+            style="width:100%;box-sizing:border-box;padding:12px 16px;border-radius:8px;border:1px solid var(--border);font-size:1rem;margin-bottom:16px;font-family:inherit;text-transform:capitalize;"
             onkeydown="if(event.key==='Enter') beginSession()">
         <button onclick="beginSession()"
             style="width:100%;padding:13px;background:var(--accent);color:white;border:none;border-radius:8px;font-size:0.95rem;font-weight:600;cursor:pointer;">
@@ -1008,7 +1008,8 @@
 
     // ── Landing page ──────────────────────────────────────────────────────────
     function beginSession() {
-        const name = document.getElementById('landing-name').value.trim();
+        const name = document.getElementById('landing-name').value.trim()
+            .replace(/\b\w/g, c => c.toUpperCase());
         if (!name) {
             document.getElementById('landing-error').style.display = 'block';
             document.getElementById('landing-name').focus();
@@ -1126,13 +1127,28 @@
     }
 
     function openStage4Export() {
-        const name = document.getElementById('student-name')?.value.trim() || 'My Analysis';
+        const name     = document.getElementById('student-name')?.value.trim() || 'My Analysis';
         const pattern  = document.getElementById('s4-pattern')?.value.trim()  || '';
         const claim    = document.getElementById('s4-claim')?.value.trim()    || '';
         const evidence = document.getElementById('s4-evidence')?.value.trim() || '';
         const nuance   = document.getElementById('s4-nuance')?.value.trim()   || '';
 
-        // Gather categories from Stage 3 or Stage 2
+        const scriptNames = { 1: 'Script 1 — AI in Education', 2: 'Script 2 — English Anxiety' };
+        const scriptLabel = scriptNames[currentScript] || `Script ${currentScript}`;
+
+        // ── Stage 1: rebuild highlighted transcript from myCodes ──
+        let transcriptHtml = scripts[currentScript];
+        [...myCodes].sort((a,b) => b.text.length - a.text.length).forEach(item => {
+            const escaped = item.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const parts = item.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+            const dc = parts ? `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)` : '#334155';
+            transcriptHtml = transcriptHtml.replace(
+                new RegExp(`(${escaped})`, 'g'),
+                `<span style="background:${item.color};padding:0.1em 0;border-radius:3px;display:inline;">$1<span style="font-size:0.7em;font-weight:700;text-transform:uppercase;padding:1px 5px;border-radius:3px;background:${dc};color:white;margin-left:4px;vertical-align:middle;">${item.code}</span></span>`
+            );
+        });
+
+        // ── Stage 2-3: categories ──
         let catsHtml = '';
         document.querySelectorAll('.cluster-card').forEach(cl => {
             if (!cl.querySelectorAll('.pool-card').length) return;
@@ -1142,36 +1158,49 @@
             if (!catName) catName = cl.querySelector('.cluster-name-input').value.trim();
             if (!catName) catName = '(unnamed)';
             const phrase = cl.querySelector('.cluster-category-input').value.trim();
-            const codes = [...cl.querySelectorAll('.pool-card')].map(c => `<span style="display:inline-block;padding:2px 8px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:12px;font-size:0.78rem;font-weight:600;color:#4338ca;margin:2px 3px 2px 0">${c.dataset.code}</span>`).join('');
-            catsHtml += `<div style="margin-bottom:14px;padding:12px 14px;border:1px solid #e2e8f0;border-radius:8px;">
-                <div style="font-weight:700;font-size:0.9rem;margin-bottom:4px;">${catName}</div>
+            const codeList = [...cl.querySelectorAll('.pool-card')].map(c =>
+                `<span style="display:inline-block;padding:2px 8px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:12px;font-size:0.78rem;font-weight:600;color:#4338ca;margin:2px 3px 2px 0">${c.dataset.code}</span>`
+            ).join('');
+            catsHtml += `<div style="margin-bottom:12px;padding:12px 14px;border:1px solid #e2e8f0;border-radius:8px;">
+                <div style="font-weight:700;font-size:0.88rem;margin-bottom:3px;">${catName}</div>
                 ${phrase && phrase !== catName ? `<div style="font-style:italic;color:#7c3aed;font-size:0.78rem;margin-bottom:6px;">"${phrase}"</div>` : ''}
-                <div>${codes}</div>
+                <div>${codeList}</div>
             </div>`;
         });
 
         const section = (title, body) => body ? `
-            <h2 style="font-size:1rem;font-weight:700;color:#1e293b;margin:28px 0 8px;border-bottom:1px solid #e2e8f0;padding-bottom:6px;">${title}</h2>
-            <p style="font-size:0.92rem;line-height:1.7;color:#334155;white-space:pre-wrap;">${body}</p>` : '';
+            <h2 style="font-size:1rem;font-weight:700;color:#1e293b;margin:32px 0 8px;border-bottom:1px solid #e2e8f0;padding-bottom:6px;">${title}</h2>
+            <p style="font-size:0.92rem;line-height:1.7;color:#334155;white-space:pre-wrap;margin:0;">${body}</p>` : '';
 
         const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
-<title>Stage 4 Analysis — ${name}</title>
+<title>Analysis — ${name}</title>
 <style>
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 700px; margin: 40px auto; padding: 0 24px; color: #334155; }
-  h1 { font-size: 1.3rem; font-weight: 800; color: #1e293b; margin-bottom: 4px; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 760px; margin: 40px auto; padding: 0 24px; color: #334155; }
+  h1 { font-size: 1.25rem; font-weight: 800; color: #1e293b; margin: 0 0 4px; }
   .meta { font-size: 0.78rem; color: #94a3b8; margin-bottom: 32px; }
+  h2 { font-size: 1rem; font-weight: 700; color: #1e293b; margin: 32px 0 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; }
+  .transcript { line-height: 3; font-size: 0.95rem; color: #1e293b; }
+  .p-block { margin-bottom: 20px; border-left: 2px solid #f1f5f9; padding-left: 16px; }
+  .speaker { font-weight: 700; color: #94a3b8; font-size: 0.72rem; text-transform: uppercase; display: block; margin-bottom: 4px; line-height: 1.2; }
   @media print { body { margin: 20px; } }
 </style>
 </head><body>
-<h1>Stage 4: Build a Claim</h1>
-<div class="meta">Script 2 — English Anxiety · ${name} · ${new Date().toLocaleDateString()}</div>
-<h2 style="font-size:1rem;font-weight:700;color:#1e293b;margin:0 0 10px;border-bottom:1px solid #e2e8f0;padding-bottom:6px;">Your Categories</h2>
+<h1>Qualitative Analysis</h1>
+<div class="meta">${scriptLabel} · ${name} · ${new Date().toLocaleDateString()}</div>
+
+<h2>Stage 1: Coded Transcript</h2>
+<div class="transcript">${transcriptHtml}</div>
+
+<h2>Stage 2–3: Categories</h2>
 ${catsHtml || '<p style="color:#94a3b8;font-size:0.85rem;">No categories recorded.</p>'}
+
+<h2>Stage 4: Analytic Claim</h2>
 ${section('Overall Pattern', pattern)}
-${section('Analytic Claim', claim)}
-${section('Evidence from the Data', evidence)}
+${section('Claim', claim)}
+${section('Evidence', evidence)}
 ${section('Nuance', nuance)}
-<p style="margin-top:40px;font-size:0.72rem;color:#cbd5e1;">Generated from the Qualitative Coding Workbook · © Southampton Education School 2026</p>
+
+<p style="margin-top:48px;font-size:0.7rem;color:#cbd5e1;border-top:1px solid #f1f5f9;padding-top:12px;">Generated from the Qualitative Coding Workbook · © Southampton Education School 2026</p>
 </body></html>`;
 
         const w = window.open('', '_blank');
@@ -1316,6 +1345,17 @@ ${section('Nuance', nuance)}
 
     // Run updateStageUI after initial page load (hook wasn't active for loadScript(1))
     updateStageUI();
+    // Also restore stage 2-4 state for the initial script load (hook wasn't active)
+    if (currentScript <= 2 && currentMode === 'student') {
+        loadAnalysis();
+        if (s1Submitted) {
+            const btn = document.getElementById('submit-btn');
+            if (btn) { btn.innerText = 'Submit Coding'; btn.style.background = 'var(--success)'; }
+            const status = document.getElementById('submit-coding-status');
+            if (status) status.textContent = 'Previously submitted.';
+        }
+        updateTabGates();
+    }
 
     const _origExecuteSetMode = executeSetMode;
     executeSetMode = function(mode) {
