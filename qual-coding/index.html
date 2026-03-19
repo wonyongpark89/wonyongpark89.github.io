@@ -729,7 +729,7 @@
                 const col = colors[code] || 'hsla(220, 70%, 88%, 0.9)';
                 const parts = col.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
                 const darkColor = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
-                return `<span style="display:inline-block;padding:5px 10px;border-radius:6px;font-size:0.78rem;font-weight:600;background:${col};color:${darkColor};margin:3px;">${code}</span>`;
+                return `<span class="sample-code-chip" data-code="${code}" style="display:inline-block;padding:5px 10px;border-radius:6px;font-size:0.78rem;font-weight:600;background:${col};color:${darkColor};margin:3px;cursor:default;">${code}</span>`;
             }).join('');
             card.innerHTML = `
                 <div class="cluster-top">
@@ -741,6 +741,17 @@
                     <input class="cluster-category-input" type="text" value="${cat.connectedBy}" readonly style="background:#f8fafc;cursor:default;" />
                 </div>`;
             document.getElementById('clusters-wrap').appendChild(card);
+
+            // Attach tooltips to code chips showing their extract
+            card.querySelectorAll('.sample-code-chip').forEach(chip => {
+                const code = chip.dataset.code;
+                const entries = (sampleData[num] || []).filter(e => e.code === code);
+                if (!entries.length) return;
+                const tipText = entries.map(e => '"' + e.text.trim() + '"').join(' / ');
+                chip.addEventListener('mouseenter', e => { showTooltip({ dataset: { tooltip: tipText } }, e); });
+                chip.addEventListener('mousemove', positionTooltip);
+                chip.addEventListener('mouseleave', hideTooltip);
+            });
         });
 
         // Populate Stage 4 fields as read-only
@@ -1185,6 +1196,8 @@ ${section('Nuance', nuance)}
         });
         const data = {
             categories,
+            s1Submitted,
+            s3Submitted,
             s4: {
                 pattern:  document.getElementById('s4-pattern')?.value  || '',
                 claim:    document.getElementById('s4-claim')?.value    || '',
@@ -1201,6 +1214,9 @@ ${section('Nuance', nuance)}
         let data;
         try { data = JSON.parse(saved); } catch(e) { return; }
         if (!data || !data.categories) return;
+
+        if (data.s1Submitted) s1Submitted = true;
+        if (data.s3Submitted) s3Submitted = true;
 
         rebuildCodePool();
 
@@ -1246,6 +1262,11 @@ ${section('Nuance', nuance)}
         currentStage = 1;
         s1Submitted = false;
         s3Submitted = false;
+        // Reset submit button visuals
+        const submitBtn = document.getElementById('submit-btn');
+        if (submitBtn) { submitBtn.innerText = 'Submit Coding'; submitBtn.style.background = ''; }
+        const statusEl = document.getElementById('submit-coding-status');
+        if (statusEl) statusEl.textContent = '';
         comparePaneOpen = false;
         // Clear stage 2-4 UI
         document.getElementById('clusters-wrap').innerHTML = '';
@@ -1276,7 +1297,20 @@ ${section('Nuance', nuance)}
         if (nextBtn) nextBtn.disabled = false;
         updateStageUI();
         updateTabGates();
-        if (num <= 2 && currentMode === 'student') loadAnalysis();
+        if (num <= 2 && currentMode === 'student') {
+            loadAnalysis();
+            // Restore submit button states
+            if (s1Submitted) {
+                const btn = document.getElementById('submit-btn');
+                if (btn) { btn.innerText = 'Submitted ✓'; btn.style.background = '#94a3b8'; }
+                const status = document.getElementById('submit-coding-status');
+                if (status) status.textContent = 'Coding saved.';
+            }
+            if (s3Submitted) {
+                const btn = document.getElementById('s3-submit-btn');
+                if (btn) { btn.textContent = 'Submitted ✓'; btn.classList.add('sent'); }
+            }
+        }
         if (num > 2  && currentMode === 'student') renderSampleAnalysis(num);
     };
 
@@ -1326,6 +1360,7 @@ ${section('Nuance', nuance)}
                 btn.innerText = 'Submitted ✓'; btn.style.background = '#94a3b8';
                 status.textContent = 'Coding saved.';
                 s1Submitted = true;
+                saveAnalysis();
                 updateTabGates();
             })
             .catch(() => { btn.innerText = 'Submit Coding'; status.textContent = 'Error — try again.'; });
@@ -1570,7 +1605,7 @@ ${section('Nuance', nuance)}
         const btn = document.getElementById('s3-submit-btn');
         btn.textContent = 'Sending…';
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(gatherAnalysisData()) }) })
-            .then(() => { btn.textContent = 'Submitted ✓'; btn.classList.add('sent'); s3Submitted = true; updateTabGates(); })
+            .then(() => { btn.textContent = 'Submitted ✓'; btn.classList.add('sent'); s3Submitted = true; saveAnalysis(); updateTabGates(); })
             .catch(() => { btn.textContent = 'Submit'; btn.classList.remove('sent'); alert('Submission failed — please try again.'); });
     }
 
