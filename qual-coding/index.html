@@ -598,7 +598,7 @@
         </div>
         <div style="background:white;border-radius:var(--radius);border:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
             <span style="font-size:0.78rem;color:#64748b;flex:1;">Open a clean summary of your Stage 4 work to save or print.</span>
-            <button class="btn" style="background:var(--accent);color:white;border-color:var(--accent);" onclick="openStage4Export()">Save a copy ↗</button>
+            <button class="btn" id="s4-export-btn" style="background:var(--accent);color:white;border-color:var(--accent);" onclick="openStage4Export()">Save a copy ↗</button>
         </div>
         <div style="height:60px;flex-shrink:0;"></div>
     </div>
@@ -626,9 +626,9 @@
     const scriptInstructions = {
         1: "Explore student experiences with AI tools. <strong>To Code:</strong> Highlight a segment of text, type your label below, and press <strong>Enter</strong>.",
         2: "Explore the psychological impact of language anxiety. <strong>To Code:</strong> Highlight a segment of text, type your label below, and press <strong>Enter</strong>.",
-        3: "<strong>SAMPLE (Versus Coding):</strong> Identifies contrasts, conflicts and tensions. Observe how the text is coded below.",
-        4: "<strong>SAMPLE (Emotion Coding):</strong> Labels subjective feelings. Observe how the text is coded below.",
-        5: "<strong>SAMPLE (In Vivo Coding):</strong> Direct participant quotes are used as the codes. Observe how the labels are formatted below."
+        3: "<strong>SAMPLE (Versus Coding):</strong> Identifies contrasts, conflicts and tensions. Observe how the text is coded below, then explore Stages 2–4 to see a worked example of pattern analysis.",
+        4: "<strong>SAMPLE (Emotion Coding):</strong> Labels subjective feelings. Observe how the text is coded below, then explore Stages 2–4 to see a worked example of pattern analysis.",
+        5: "<strong>SAMPLE (In Vivo Coding):</strong> Direct participant quotes are used as the codes. Observe how the labels are formatted below, then explore Stages 2–4 to see a worked example of pattern analysis."
     };
 
     const sampleData = {
@@ -638,6 +638,92 @@
     };
 
     const colorPalette = ["hsla(200, 80%, 85%, 0.9)", "hsla(140, 75%, 85%, 0.9)", "hsla(340, 80%, 88%, 0.9)", "hsla(45, 90%, 85%, 0.9)", "hsla(280, 70%, 88%, 0.9)", "hsla(25, 85%, 85%, 0.9)", "hsla(180, 60%, 85%, 0.9)", "hsla(10, 80%, 88%, 0.9)", "hsla(60, 80%, 85%, 0.9)", "hsla(220, 70%, 88%, 0.9)"];
+
+    // ── Sample stage 2-4 worked examples ─────────────────────────────────────
+    const sampleAnalysis = {
+        3: {
+            categories: [
+                { name: "Privacy under threat", connectedBy: "Codes where surveillance feels like a violation of personal space and autonomy", codes: ["Privacy vs. Security","Privacy vs. Degree","Trust vs. Surveillance","Authenticity vs. Performance"] },
+                { name: "Fairness and legitimacy", connectedBy: "Codes where the value of the assessment system is at stake", codes: ["Integrity vs. Cheating","Fairness vs. Intrusion","Value vs. Dilution","Risk vs. Trade-off"] },
+                { name: "Behavioural self-monitoring", connectedBy: "Codes about performing normality under observation", codes: ["Normal behaviour vs. Suspicion","Security vs. Discomfort"] }
+            ],
+            s4: {
+                pattern: "These students experience AI proctoring as a forced negotiation between protecting their sense of self and meeting institutional demands — surveillance doesn't just monitor them, it changes how they inhabit the exam.",
+                claim: "This data suggests that AI proctoring does not merely detect dishonesty — it restructures the experience of assessment itself, creating a second layer of performance in which students must prove not just knowledge but behavioural normality. The 'versus' structure of their language reveals that they do not experience these tensions as resolvable: privacy and security, integrity and intrusion, are not balanced trade-offs but genuinely competing values with no clean answer.",
+                evidence: "The clearest evidence is in how Student C describes physical self-management during the exam: the need to 'sit completely still and stare at the screen' even when normal thinking involves looking away. This is not anxiety about being caught cheating — it is anxiety about being read correctly by a machine that cannot interpret human behaviour. The surveillance has become its own cognitive task.",
+                nuance: "Student D's acceptance complicates this — their concern is not privacy but fairness to honest students, and they are willing to absorb the discomfort. This suggests the tension is not simply pro- versus anti-surveillance, but reflects different underlying values about what a degree is for and who bears the cost of protecting its integrity."
+            }
+        },
+        4: {
+            categories: [
+                { name: "Pre-outcome anxiety", connectedBy: "Emotions during waiting — tension, self-doubt, unsettledness", codes: ["Tension","Self-doubt","Unsettledness"] },
+                { name: "Release at the verdict", connectedBy: "The physical and emotional letting-go when the result arrived", codes: ["Relief","Release","Emotional let-down"] },
+                { name: "Post-completion disorientation", connectedBy: "The strange feeling of not knowing what comes next", codes: ["Uncertainty","Disorientation"] }
+            ],
+            s4: {
+                pattern: "The candidate moves through three distinct emotional phases — sustained tension before the result, a physical and psychological release at the verdict, and then a quiet disorientation as the structure that organised their life dissolves.",
+                claim: "This data suggests that passing a viva is not experienced as an achievement in the moment but as a temporary endpoint — the relief is real, but it quickly gives way to something less comfortable. The emotional arc is not triumph but deflation followed by purposelessness. Completion, paradoxically, removes the very thing that gave the experience its meaning.",
+                evidence: "The description of 'everything in my body just sort of drop' captures something more than relief — it is a sudden loss of held tension that had become the candidate's default state. The body, not just the mind, had been carrying the exam. This physical register of release makes the emotional stakes legible in a way that abstract language about stress cannot.",
+                nuance: "The candidate's description of feeling 'proud, but also a bit disoriented' resists a straightforwardly positive reading. The pride is present but not dominant — it coexists with a kind of emptiness. This suggests the emotional economy of a viva is more complex than success versus failure: finishing something you have worked towards for years may involve a form of loss."
+            }
+        },
+        5: {
+            categories: [
+                { name: "Repetitive, low-engagement work", connectedBy: "Codes capturing the mechanical, circular quality of late-stage tasks", codes: ['"same small tasks over and over"','"keeping everything moving"'] },
+                { name: "Cognitive fade", connectedBy: "Codes about reduced presence and attention", codes: ['"everything starts to blur together"','"not fully switched on"','"present, but not fully present"'] },
+                { name: "Pragmatic completion mindset", connectedBy: "Codes about shifting from quality to simply finishing", codes: ['"getting it across the line"','"good enough, submit it, move on"'] }
+            ],
+            s4: {
+                pattern: "By the end of semester, these students are no longer studying in any meaningful sense — they are managing a process, keeping things moving with just enough effort to cross the finish line.",
+                claim: "This data suggests that late-semester exhaustion does not simply reduce motivation — it fundamentally changes students' relationship to their own work. The shift from 'is this good?' to 'is this good enough?' is not laziness but a rational adaptation to accumulated cognitive and emotional depletion. The in vivo codes capture this precisely: the students' own language has already stripped away aspiration, leaving only procedure.",
+                evidence: "The phrase 'present, but not fully present' is analytically significant: it names something that quantitative data about engagement cannot capture — a student who is technically attending, completing, submitting, but whose cognitive self has partially withdrawn. The in vivo code preserves the phenomenological precision that paraphrase would destroy.",
+                nuance: "It is worth noting that Student G's account — 'near the end it becomes more about getting it across the line' — is offered without self-criticism. Unlike the perfectionism visible earlier in the semester, the pragmatic mindset at the end is presented as simply realistic. This normalisation of reduced engagement may itself be part of what makes it difficult to address."
+            }
+        }
+    };
+
+    function renderSampleAnalysis(num) {
+        const data = sampleAnalysis[num];
+        if (!data) return;
+
+        document.getElementById('clusters-wrap').innerHTML = '';
+        const allCodes = (sampleData[num] || []);
+        const colors = {};
+        allCodes.forEach(c => { colors[c.code] = c.color; });
+
+        data.categories.forEach((cat, i) => {
+            const id = 'sample-cluster-' + i;
+            const card = document.createElement('div');
+            card.className = 'cluster-card'; card.id = id;
+            card.dataset.sampleCodes = JSON.stringify(cat.codes); // store for buildStage3/4
+            const codesHtml = cat.codes.map(code => {
+                const col = colors[code] || 'hsla(220, 70%, 88%, 0.9)';
+                const parts = col.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+                const darkColor = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
+                return `<span style="display:inline-block;padding:5px 10px;border-radius:6px;font-size:0.78rem;font-weight:600;background:${col};color:${darkColor};margin:3px;">${code}</span>`;
+            }).join('');
+            card.innerHTML = `
+                <div class="cluster-top">
+                    <input class="cluster-name-input" type="text" value="${cat.name}" readonly style="background:#f8fafc;cursor:default;" />
+                </div>
+                <div style="padding:8px 0 6px;display:flex;flex-wrap:wrap;gap:4px;">${codesHtml}</div>
+                <div class="cluster-category-wrap">
+                    <div class="cat-label">What holds these codes together?</div>
+                    <input class="cluster-category-input" type="text" value="${cat.connectedBy}" readonly style="background:#f8fafc;cursor:default;" />
+                </div>`;
+            document.getElementById('clusters-wrap').appendChild(card);
+        });
+
+        // Populate Stage 4 fields as read-only
+        const p = document.getElementById('s4-pattern');   if (p) { p.value = data.s4.pattern;  p.readOnly = true; p.style.background='#f8fafc'; }
+        const c = document.getElementById('s4-claim');     if (c) { c.value = data.s4.claim;    c.readOnly = true; c.style.background='#f8fafc'; }
+        const e = document.getElementById('s4-evidence');  if (e) { e.value = data.s4.evidence; e.readOnly = true; e.style.background='#f8fafc'; }
+        const n = document.getElementById('s4-nuance');    if (n) { n.value = data.s4.nuance;   n.readOnly = true; n.style.background='#f8fafc'; }
+
+        // Hide save and submit controls for samples
+        const exportBtn = document.getElementById('s4-export-btn');
+        if (exportBtn) exportBtn.closest('div').style.display = 'none';
+    }
 
     let currentMode = 'student', isCompare = false, currentScript = 1, myCodes = [], codeColors = {}, paletteIndex = 0, submissions = {};
     let currentStage = 1;
@@ -752,7 +838,7 @@
     document.getElementById('t1').addEventListener('mouseup', handleSelectionEnd);
 
     function handleSelectionEnd() {
-        if (currentScript > 2 || currentMode === 'teacher' || currentStage !== 1) return; 
+        if (currentScript > 2 || currentMode === 'teacher' || currentStage !== 1) return;
         setTimeout(() => {
             const sel = window.getSelection();
             if (sel.rangeCount > 0 && sel.toString().trim().length > 1) {
@@ -818,7 +904,7 @@
     function clearLocalCodes() {
         if(!confirm("⚠️ This will permanently clear your coding progress for this script. Continue?")) return;
         localStorage.removeItem(`coded_script_${currentScript}`);
-        localStorage.removeItem(ANALYSIS_KEY);
+        localStorage.removeItem(analysisKey());
         loadScript(currentScript);
     }
 
@@ -899,10 +985,10 @@
 
     // Show/hide stage tabs and workspace depending on script + mode
     function updateStageUI() {
-        const isS2Student = (currentScript === 2 && currentMode === 'student');
-        document.getElementById('stage-tabs').classList.toggle('visible', isS2Student);
-        if (!isS2Student) {
-            // Ensure main is shown and workspace hidden
+        const isStudentScript = (currentScript <= 2 && currentMode === 'student');
+        const isSampleScript  = (currentScript > 2  && currentMode === 'student');
+        document.getElementById('stage-tabs').classList.toggle('visible', isStudentScript || isSampleScript);
+        if (!isStudentScript && !isSampleScript) {
             document.getElementById('main-layout').style.display = '';
             document.getElementById('stage-workspace').classList.remove('visible');
             document.getElementById('coding-bar').classList.remove('hidden');
@@ -1001,10 +1087,10 @@ ${section('Nuance', nuance)}
 
     // ── Stage 2-4 persistence ─────────────────────────────────────────────────
 
-    const ANALYSIS_KEY = 'analysis_script_2';
+    function analysisKey() { return `analysis_script_${currentScript}`; }
 
     function saveAnalysis() {
-        if (currentScript !== 2 || currentMode === 'teacher') return;
+        if (currentScript > 2 || currentMode === 'teacher') return;
         const categories = [];
         document.querySelectorAll('.cluster-card').forEach(cl => {
             categories.push({
@@ -1023,21 +1109,19 @@ ${section('Nuance', nuance)}
                 nuance:   document.getElementById('s4-nuance')?.value   || ''
             }
         };
-        localStorage.setItem(ANALYSIS_KEY, JSON.stringify(data));
+        localStorage.setItem(analysisKey(), JSON.stringify(data));
     }
 
     function loadAnalysis() {
-        const saved = localStorage.getItem(ANALYSIS_KEY);
+        const saved = localStorage.getItem(analysisKey());
         if (!saved) return;
         let data;
         try { data = JSON.parse(saved); } catch(e) { return; }
         if (!data || !data.categories) return;
 
-        // Rebuild code pool first so all cards exist
         rebuildCodePool();
 
         data.categories.forEach(cat => {
-            // Create a cluster card
             clusterCounter++;
             const id = 'cluster-' + clusterCounter;
             const card = document.createElement('div');
@@ -1048,19 +1132,16 @@ ${section('Nuance', nuance)}
             setupDropZone(card.querySelector('.cluster-drop-zone'));
             document.getElementById('clusters-wrap').appendChild(card);
 
-            // Drop the saved codes into this cluster
             const zone = card.querySelector('.cluster-drop-zone');
             cat.codeIds.forEach(code => {
                 const poolCard = document.querySelector(`#code-pool .pool-card[data-code="${CSS.escape(code)}"]`);
                 if (poolCard) dropCardIntoZone(zone, code);
             });
 
-            // Wire up save-on-change
             card.querySelector('.cluster-name-input').addEventListener('input', saveAnalysis);
             card.querySelector('.cluster-category-input').addEventListener('input', saveAnalysis);
         });
 
-        // Restore S4 fields
         if (data.s4) {
             const p = document.getElementById('s4-pattern');   if (p) p.value = data.s4.pattern  || '';
             const c = document.getElementById('s4-claim');     if (c) c.value = data.s4.claim    || '';
@@ -1086,7 +1167,11 @@ ${section('Nuance', nuance)}
         document.getElementById('clusters-wrap').innerHTML = '';
         document.getElementById('code-pool').innerHTML = '';
         document.getElementById('s3-clusters-container').innerHTML = '';
-        ['s4-pattern','s4-claim','s4-evidence','s4-nuance'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+        // Reset S4 textareas (samples make them read-only)
+        ['s4-pattern','s4-claim','s4-evidence','s4-nuance'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) { el.value = ''; el.readOnly = false; el.style.background = ''; }
+        });
         document.getElementById('analysis-pane-1').innerHTML = '';
         document.getElementById('analysis-pane-2').innerHTML = '';
         document.getElementById('analysis-pane-2').classList.add('hidden');
@@ -1100,8 +1185,9 @@ ${section('Nuance', nuance)}
         document.getElementById('stage-workspace').classList.remove('visible');
         document.getElementById('coding-bar').classList.remove('hidden');
         updateStageUI();
-        // Restore stage 2-4 state for script 2
-        if (num === 2 && currentMode === 'student') loadAnalysis();
+        // Restore stage 2-4 state
+        if (num <= 2 && currentMode === 'student') loadAnalysis();
+        if (num > 2  && currentMode === 'student') renderSampleAnalysis(num);
     };
 
     const _origExecuteSetMode = executeSetMode;
@@ -1215,25 +1301,60 @@ ${section('Nuance', nuance)}
     // ── Stage 3 ──────────────────────────────────────────────────────────────
     function buildStage3() {
         const container = document.getElementById('s3-clusters-container'); container.innerHTML = '';
+        const isSample = currentScript > 2;
         const clusters = document.querySelectorAll('.cluster-card');
         if (!clusters.length) { container.innerHTML = '<p style="color:#94a3b8;font-size:0.85rem;padding:20px 0;">No categories yet — go to Stage 2 and build some first.</p>'; return; }
+
+        // For samples, use sampleData for extracts; for live scripts use pool cards
+        const allEntries = isSample ? (sampleData[currentScript] || []) : myCodes;
+
         clusters.forEach(cl => {
-            const codesInCluster = [...cl.querySelectorAll('.pool-card')].map(c => c.dataset.code);
-            if (!codesInCluster.length) return; // skip empty categories
             const name = cl.querySelector('.cluster-name-input').value.trim() || '(unnamed)';
             const phrase = cl.querySelector('.cluster-category-input').value.trim();
+
+            // Determine codes in this cluster
+            let codesInCluster;
+            if (isSample) {
+                codesInCluster = cl.dataset.sampleCodes ? JSON.parse(cl.dataset.sampleCodes) : [];
+            } else {
+                codesInCluster = [...cl.querySelectorAll('.pool-card')].map(c => c.dataset.code);
+                if (!codesInCluster.length) return; // skip empty for live scripts
+            }
+
             const div = document.createElement('div'); div.className = 's3-cluster-card'; div.dataset.clusterId = cl.id;
-            div.innerHTML = `<div class="s3-top"><input class="s3-name-input" type="text" value="${name}" placeholder="Category name…" /></div>${phrase ? `<p class="s3-category-label">"${phrase}"</p>` : ''}<p class="s3-prompt">Read the extracts below. Does every code really fit here? Drag any that don't belong to a different category.</p><div class="s3-drop-zone" data-s3-cluster="${cl.id}"></div>`;
+            const nameInput = isSample
+                ? `<input class="s3-name-input" type="text" value="${name}" readonly style="background:#f8fafc;cursor:default;" />`
+                : `<input class="s3-name-input" type="text" value="${name}" placeholder="Category name…" />`;
+            const promptText = isSample
+                ? 'Example: observe how the extracts within each category relate — do they all describe the same underlying issue?'
+                : 'Read the extracts below. Does every code really fit here? Drag any that don\'t belong to a different category.';
+            div.innerHTML = `<div class="s3-top">${nameInput}</div>${phrase ? `<p class="s3-category-label">"${phrase}"</p>` : ''}<p class="s3-prompt">${promptText}</p><div class="s3-drop-zone" data-s3-cluster="${cl.id}"></div>`;
+
             const dropZone = div.querySelector('.s3-drop-zone');
-            [...cl.querySelectorAll('.pool-card')].forEach(pc => myCodes.filter(m => m.code === pc.dataset.code).forEach(e => dropZone.appendChild(createS3CodeCard(e, cl.id))));
-            setupS3DropZone(dropZone);
+            codesInCluster.forEach(codeName => {
+                const entries = allEntries.filter(m => m.code === codeName);
+                entries.forEach(e => {
+                    const card = createS3CodeCard(e, cl.id);
+                    if (isSample) { card.draggable = false; card.style.cursor = 'default'; }
+                    dropZone.appendChild(card);
+                });
+            });
+
+            if (!isSample) {
+                setupS3DropZone(dropZone);
+                div.querySelector('.s3-name-input').addEventListener('input', ev => { const i = cl.querySelector('.cluster-name-input'); if (i) i.value = ev.target.value; saveAnalysis(); });
+            }
             container.appendChild(div);
-            div.querySelector('.s3-name-input').addEventListener('input', ev => { const i = cl.querySelector('.cluster-name-input'); if (i) i.value = ev.target.value; });
         });
-        // Reset submit button
-        const btn = document.getElementById('s3-submit-btn');
-        if (s3Submitted) { btn.textContent = 'Submitted ✓'; btn.classList.add('sent'); }
-        else { btn.textContent = 'Submit'; btn.classList.remove('sent'); }
+
+        // Submit bar
+        const bar = document.getElementById('s3-submit-bar');
+        if (bar) bar.style.display = isSample ? 'none' : '';
+        if (!isSample) {
+            const btn = document.getElementById('s3-submit-btn');
+            if (s3Submitted) { btn.textContent = 'Submitted ✓'; btn.classList.add('sent'); }
+            else { btn.textContent = 'Submit'; btn.classList.remove('sent'); }
+        }
     }
 
     function createS3CodeCard(entry, homeClusterId) {
@@ -1284,28 +1405,39 @@ ${section('Nuance', nuance)}
     // ── Stage 4 ──────────────────────────────────────────────────────────────
     function buildStage4() {
         const display = document.getElementById('s4-categories-display'); display.innerHTML = '';
+        const isSample = currentScript > 2;
         const s2Clusters = document.querySelectorAll('.cluster-card');
         if (!s2Clusters.length) { display.innerHTML = '<p style="color:#94a3b8;font-size:0.82rem;">No categories yet — complete Stages 2 and 3 first.</p>'; return; }
-        s2Clusters.forEach(cl => {
-            if (!cl.querySelectorAll('.pool-card').length) return; // skip empty categories
+
+        const allEntries = isSample ? (sampleData[currentScript] || []) : myCodes;
+
+        s2Clusters.forEach((cl, idx) => {
+            // Get category name
             const s3Card = document.querySelector(`#s3-clusters-container [data-cluster-id="${cl.id}"]`);
-            let catName = s3Card ? s3Card.querySelector('.s3-name-input').value.trim() : '';
+            let catName = (s3Card && !isSample) ? s3Card.querySelector('.s3-name-input').value.trim() : '';
             if (!catName) catName = cl.querySelector('.cluster-category-input').value.trim();
             if (!catName) catName = cl.querySelector('.cluster-name-input').value.trim();
             if (!catName) catName = '(unnamed)';
             const phrase = cl.querySelector('.cluster-category-input').value.trim();
+
+            // Get codes
+            let codes;
+            if (isSample) {
+                codes = cl.dataset.sampleCodes ? JSON.parse(cl.dataset.sampleCodes) : [];
+            } else {
+                if (!cl.querySelectorAll('.pool-card').length) return;
+                codes = [...cl.querySelectorAll('.pool-card')].map(pc => pc.dataset.code);
+            }
+
             let extractRows = '';
-            (s3Card ? [...s3Card.querySelectorAll('.s3-code-card')] : []).forEach(sc => {
-                const entry = myCodes.find(m => m.id === sc.dataset.entryId); if (!entry) return;
-                const parts = entry.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
-                const dc = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
-                extractRows += `<div class="s4-extract-row"><span class="s4-extract-code" style="background:${entry.color};color:${dc}">${entry.code}</span><span>"${entry.text.trim()}"</span></div>`;
+            codes.forEach(codeName => {
+                allEntries.filter(m => m.code === codeName).forEach(entry => {
+                    const parts = entry.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+                    const dc = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
+                    extractRows += `<div class="s4-extract-row"><span class="s4-extract-code" style="background:${entry.color};color:${dc}">${codeName}</span><span>"${entry.text.trim()}"</span></div>`;
+                });
             });
-            if (!extractRows) cl.querySelectorAll('.pool-card').forEach(pc => myCodes.filter(m => m.code === pc.dataset.code).forEach(entry => {
-                const parts = entry.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
-                const dc = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
-                extractRows += `<div class="s4-extract-row"><span class="s4-extract-code" style="background:${entry.color};color:${dc}">${pc.dataset.code}</span><span>"${entry.text.trim()}"</span></div>`;
-            }));
+
             const block = document.createElement('div'); block.className = 's4-cat-block';
             block.innerHTML = `<div class="s4-cat-header"><span class="s4-cat-name">${catName}</span>${phrase && phrase !== catName ? `<span class="s4-cat-phrase">${phrase}</span>` : ''}</div><div class="s4-cat-extracts">${extractRows || '<span style="color:#cbd5e1;font-size:0.78rem;">No extracts here.</span>'}</div>`;
             display.appendChild(block);
