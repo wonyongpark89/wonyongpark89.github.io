@@ -1264,7 +1264,7 @@ ${section('Nuance', nuance)}
         s3Submitted = false;
         // Reset submit button visuals
         const submitBtn = document.getElementById('submit-btn');
-        if (submitBtn) { submitBtn.innerText = 'Submit Coding'; submitBtn.style.background = ''; }
+        if (submitBtn) { submitBtn.innerText = 'Submit Coding'; submitBtn.style.background = 'var(--success)'; }
         const statusEl = document.getElementById('submit-coding-status');
         if (statusEl) statusEl.textContent = '';
         comparePaneOpen = false;
@@ -1302,13 +1302,13 @@ ${section('Nuance', nuance)}
             // Restore submit button states
             if (s1Submitted) {
                 const btn = document.getElementById('submit-btn');
-                if (btn) { btn.innerText = 'Submitted ✓'; btn.style.background = '#94a3b8'; }
+                if (btn) { btn.innerText = 'Submit Coding'; btn.style.background = 'var(--success)'; }
                 const status = document.getElementById('submit-coding-status');
-                if (status) status.textContent = 'Coding saved.';
+                if (status) status.textContent = 'Previously submitted.';
             }
             if (s3Submitted) {
                 const btn = document.getElementById('s3-submit-btn');
-                if (btn) { btn.textContent = 'Submitted ✓'; btn.classList.add('sent'); }
+                if (btn) { btn.textContent = 'Submit'; btn.classList.remove('sent'); }
             }
         }
         if (num > 2  && currentMode === 'student') renderSampleAnalysis(num);
@@ -1357,13 +1357,15 @@ ${section('Nuance', nuance)}
         const payload = { type: 'coding', codes: myCodes };
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(payload) }) })
             .then(() => {
-                btn.innerText = 'Submitted ✓'; btn.style.background = '#94a3b8';
-                status.textContent = 'Coding saved.';
+                btn.innerText = 'Resubmit ↺'; btn.style.background = '#94a3b8';
+                status.textContent = 'Coding saved. You can resubmit if you make changes.';
                 s1Submitted = true;
                 saveAnalysis();
                 updateTabGates();
+                // Re-enable after a moment so they can revise
+                setTimeout(() => { btn.innerText = 'Submit Coding'; btn.style.background = 'var(--success)'; }, 2000);
             })
-            .catch(() => { btn.innerText = 'Submit Coding'; status.textContent = 'Error — try again.'; });
+            .catch(() => { btn.innerText = 'Submit Coding'; btn.style.background = 'var(--success)'; status.textContent = 'Error — try again.'; });
     }
 
     // ── Stage 2 ──────────────────────────────────────────────────────────────
@@ -1605,7 +1607,12 @@ ${section('Nuance', nuance)}
         const btn = document.getElementById('s3-submit-btn');
         btn.textContent = 'Sending…';
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(gatherAnalysisData()) }) })
-            .then(() => { btn.textContent = 'Submitted ✓'; btn.classList.add('sent'); s3Submitted = true; saveAnalysis(); updateTabGates(); })
+            .then(() => {
+                btn.textContent = 'Submitted ✓'; btn.classList.add('sent');
+                s3Submitted = true; saveAnalysis(); updateTabGates();
+                // Re-enable after a moment so they can revise
+                setTimeout(() => { btn.textContent = 'Submit'; btn.classList.remove('sent'); }, 2000);
+            })
             .catch(() => { btn.textContent = 'Submit'; btn.classList.remove('sent'); alert('Submission failed — please try again.'); });
     }
 
