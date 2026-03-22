@@ -628,44 +628,25 @@
     <!-- Stage 4 -->
     <div class="sw-main hidden" id="sw-panel-4">
         <div class="definition-box"><div class="def-label">Definition — Theme</div><p>A theme is an extended phrase or sentence that identifies what a unit of data is about and/or what it means. Compared with categories, themes are more interpretive, more descriptive, and often more subtle.</p></div>
-        <div class="stage-instructions">The analytic goals here are to winnow down the number of themes to explore, and to develop either an <strong>overarching theme</strong> from the data corpus, or an <strong>integrative theme</strong> that weaves various themes together into a coherent narrative. Read your finalised categories, then work through the steps below.</div>
+        <div class="stage-instructions">The analytic goals here are to winnow down the number of themes to explore, and to develop either an <strong>overarching theme</strong> from the data corpus, or an <strong>integrative theme</strong> that weaves various themes together into a coherent narrative. <strong>What is going on here? What does this tell us?</strong></div>
         <div class="s4-section">
             <h3>Your finalised categories</h3>
-            <p class="s4-sub">Read each category and its extracts carefully before writing anything.</p>
+            <p class="s4-sub">Read each category and its extracts carefully before writing your theme.</p>
             <div id="s4-categories-display" class="s4-categories-list"></div>
         </div>
         <div class="s4-section">
-            <h3>Step 1 — Write a theme</h3>
-            <p class="s4-sub">Look across all your categories. What does the data, taken as a whole, <em>mean</em>? Write one extended phrase or sentence — not a list of topics, but an interpretation of what is happening for these speakers.</p>
-            <div class="s4-scaffold-box"><p>Try: <em>"These speakers experience…"</em> or <em>"What the data reveals is…"</em> — a theme names a meaning, not just a subject.</p></div>
-            <div class="s4-field-label">Your theme (extended phrase or sentence):</div>
-            <textarea class="s4-textarea" id="s4-pattern" placeholder="e.g. These speakers experience English seminar participation as a constant negotiation between wanting to contribute and fearing exposure…"></textarea>
-        </div>
-        <div class="s4-section">
-            <h3>Step 2 — Develop an overarching or integrative theme</h3>
-            <p class="s4-sub">Now push further. Do your categories and your theme point toward one larger meaning? Can you write a sentence that either distils everything into a single overarching theme, or weaves your themes together into a coherent narrative?</p>
-            <div class="s4-scaffold-box">
-                <p>Try: <em>"This data suggests that…"</em> or <em>"What appears to be happening across all categories is…"</em></p>
-                <p style="margin-top:5px;">This should be falsifiable — someone could disagree with it using different data.</p>
-            </div>
-            <div class="s4-field-label">Your overarching or integrative theme:</div>
-            <textarea class="s4-textarea" id="s4-claim" placeholder="e.g. Language anxiety here functions not only as a communication barrier but as a mechanism of identity suppression…"></textarea>
-        </div>
-        <div class="s4-section">
-            <h3>Step 3 — Ground it in evidence</h3>
-            <p class="s4-sub">Quote one or two specific extracts and explain what they show.</p>
-            <div class="s4-scaffold-box"><p>Try: <em>"This is evident in [quote], which shows that…"</em></p></div>
-            <div class="s4-field-label">Evidence from the data:</div>
-            <textarea class="s4-textarea" id="s4-evidence" placeholder="e.g. Participant 2's description of becoming 'a much less confident version of myself'…" style="min-height:80px;"></textarea>
-            <hr class="s4-divider">
-            <p class="s4-sub" style="margin-bottom:4px;">What complicates or qualifies your theme?</p>
-            <div class="s4-field-label">Nuance:</div>
-            <textarea class="s4-textarea" id="s4-nuance" placeholder="e.g. Participant 1's mention of relief suggests the silencing is also strategic…" style="min-height:64px;"></textarea>
+            <h3>Write your theme</h3>
+            <div class="s4-field-label">Your theme:</div>
+            <textarea class="s4-textarea" id="s4-pattern" placeholder="e.g. These speakers experience English seminar participation as a constant negotiation between wanting to contribute and fearing exposure — a process in which the effort of self-expression comes to feel greater than the value of contributing." style="min-height:120px;"></textarea>
         </div>
         <div style="background:white;border-radius:var(--radius);border:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
             <span style="font-size:0.78rem;color:#64748b;flex:1;">Open a clean summary of your analysis to save or print.</span>
             <button class="btn" id="s4-export-btn" style="background:var(--accent);color:white;border-color:var(--accent);" onclick="openStage4Export()">Save a copy ↗</button>
         </div>
+        <!-- Hidden fields kept for JS compatibility (persistence, submission, export) -->
+        <textarea id="s4-claim"    style="display:none;"></textarea>
+        <textarea id="s4-evidence" style="display:none;"></textarea>
+        <textarea id="s4-nuance"   style="display:none;"></textarea>
         <div style="height:60px;flex-shrink:0;"></div>
     </div>
 </div>
@@ -1231,11 +1212,8 @@
 <h2>Stage 2–3: Categories</h2>
 ${catsHtml || '<p style="color:#94a3b8;font-size:0.85rem;">No categories recorded.</p>'}
 
-<h2>Stage 4: Theme &amp; Analytic Claim</h2>
+<h2>Stage 4: Theme</h2>
 ${section('Theme', pattern)}
-${section('Analytic Claim', claim)}
-${section('Evidence', evidence)}
-${section('Nuance', nuance)}
 
 <p style="margin-top:48px;font-size:0.7rem;color:#cbd5e1;border-top:1px solid #f1f5f9;padding-top:12px;">Generated from the Qualitative Coding Workbook · © Southampton Education School 2026</p>
 </body></html>`;
@@ -1789,7 +1767,7 @@ ${section('Nuance', nuance)}
             html += c.codes.map(code => `<span class="analysis-cat-chip">${code}</span>`).join('') + '</div>';
         });
         html += '</div></div>';
-        [['Theme', d.pattern], ['Analytic Claim', d.claim], ['Evidence', d.evidence], ['Nuance', d.nuance]].forEach(([lbl, val]) => {
+        [['Theme', d.pattern]].forEach(([lbl, val]) => {
             if (!val) return;
             html += `<div class="analysis-review-card"><div class="analysis-review-header">${lbl}</div><div class="analysis-review-body" style="white-space:pre-wrap;line-height:1.6;">${val}</div></div>`;
         });
