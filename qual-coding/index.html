@@ -463,9 +463,9 @@
 <!-- Stage tab bar — only shown for Script 2 in student mode -->
 <div id="stage-tabs">
     <button class="stage-tab active" id="stab-1" onclick="switchStage(1)"><span class="tab-num">1</span>Coding</button>
-    <button class="stage-tab" id="stab-2" onclick="switchStage(2)"><span class="tab-num">2</span>Find Patterns</button>
-    <button class="stage-tab" id="stab-3" onclick="switchStage(3)"><span class="tab-num">3</span>Test Categories</button>
-    <button class="stage-tab" id="stab-4" onclick="switchStage(4)"><span class="tab-num">4</span>Build a Claim</button>
+    <button class="stage-tab" id="stab-2" onclick="switchStage(2)"><span class="tab-num">2</span>Developing Categories</button>
+    <button class="stage-tab" id="stab-3" onclick="switchStage(3)"><span class="tab-num">3</span>Testing Categories</button>
+    <button class="stage-tab" id="stab-4" onclick="switchStage(4)"><span class="tab-num">4</span>Developing Themes</button>
     <div id="stage-tab-nav">
         <button class="stage-nav-prev" id="stage-prev-btn" onclick="switchStage(currentStage - 1)" disabled>← Prev</button>
         <button class="stage-nav-next" id="stage-next-btn" onclick="switchStage(currentStage + 1)">Next →</button>
@@ -541,8 +541,8 @@
                 <option value="">Select Student…</option>
             </select>
             <div style="display:flex; gap:6px; margin-bottom:14px;">
-                <button class="pane-stage-btn active" id="pane-stage-left-1" onclick="setPaneStage(1,1)">Stage 1</button>
-                <button class="pane-stage-btn" id="pane-stage-left-3" onclick="setPaneStage(1,3)">Stage 3</button>
+                <button class="pane-stage-btn active" id="pane-stage-left-1" onclick="setPaneStage(1,1)">Coding</button>
+                <button class="pane-stage-btn" id="pane-stage-left-3" onclick="setPaneStage(1,3)">Categories</button>
             </div>
 
             <label class="input-label">Right panel</label>
@@ -550,8 +550,8 @@
                 <option value="">Select Student…</option>
             </select>
             <div style="display:flex; gap:6px; margin-bottom:14px;">
-                <button class="pane-stage-btn active" id="pane-stage-right-1" onclick="setPaneStage(2,1)">Stage 1</button>
-                <button class="pane-stage-btn" id="pane-stage-right-3" onclick="setPaneStage(2,3)">Stage 3</button>
+                <button class="pane-stage-btn active" id="pane-stage-right-1" onclick="setPaneStage(2,1)">Coding</button>
+                <button class="pane-stage-btn" id="pane-stage-right-3" onclick="setPaneStage(2,3)">Categories</button>
             </div>
 
             <button class="btn" id="toggle-compare-btn" style="width:100%; color:#475569" onclick="toggleComparePane()">Show Both</button>
@@ -570,7 +570,7 @@
 <div id="stage-workspace">
     <!-- Stage 2 -->
     <div class="sw-main" id="sw-panel-2">
-        <div class="stage-instructions" id="sw-instr-2">Look across all your codes — stop thinking line by line. <strong>What recurs?</strong> Drag codes into categories, name each one, then describe what holds them together. <strong>Not every code needs to go into a category</strong> — leftover codes are fine.</div>
+        <div class="stage-instructions" id="sw-instr-2"><strong>A category is composed of codes that "look alike and feel alike."</strong> It is a word or short phrase — more condensed than a code, and operating at a higher level of abstraction. Look across all your codes and drag those that look and feel alike into a category, then name it and describe what holds them together. <strong>Not every code needs to go into a category</strong> — leftover codes are fine.</div>
         <div id="code-pool-wrap">
             <h3>Your codes — hover to see the coded extract · drag into a category below</h3>
             <div id="code-pool"></div>
@@ -584,29 +584,31 @@
         <div class="stage-instructions">Test each category against the actual data. <strong>Do all the extracts really fit? Is anything out of place?</strong> Rename categories and move codes between them if needed, then submit.</div>
         <div id="s3-clusters-container"></div>
         <div id="s3-submit-bar">
-            <span>Submit your finalised categories when you're ready. This also saves your Stage 4 claim writing.</span>
+            <span>Submit your finalised categories when you're ready.</span>
             <button class="s3-submit-btn" id="s3-submit-btn" onclick="submitAnalysis()">Submit</button>
         </div>
     </div>
 
     <!-- Stage 4 -->
     <div class="sw-main hidden" id="sw-panel-4">
-        <div class="stage-instructions">This is where coding becomes analysis. <strong>Read your finalised categories, then work through the steps</strong> — from noticing a pattern, to making a claim, to grounding it in evidence.</div>
+        <div class="stage-instructions">This is where categories become themes. <strong>Read your finalised categories, then work through the steps</strong> — from writing a theme, to developing an analytic claim, to grounding it in evidence.</div>
         <div class="s4-section">
             <h3>Your finalised categories</h3>
             <p class="s4-sub">Read each category and its extracts carefully before writing anything.</p>
             <div id="s4-categories-display" class="s4-categories-list"></div>
         </div>
         <div class="s4-section">
-            <h3>Step 1 — What is the overall pattern?</h3>
-            <p class="s4-sub">What do all your categories add up to? Write one sentence about what is <em>happening</em> for these speakers — not a list of codes, but a process or experience.</p>
-            <div class="s4-scaffold-box"><p>If you had to explain this data to someone who hadn't read it, what would you say is going on?</p></div>
-            <div class="s4-field-label">Overall pattern (one sentence):</div>
+            <h3>Step 1 — Write a theme</h3>
+            <p class="s4-sub" style="font-style:italic;color:#4338ca;border-left:3px solid #c7d2fe;padding-left:10px;margin-bottom:12px;">"A theme is an extended phrase or sentence that identifies what a unit of data is about or what it means. Compared with categories, themes are more interpretive, more descriptive, and often more subtle."</p>
+            <p class="s4-sub">Look across all your categories. What does the data, taken as a whole, <em>mean</em>? Write one extended sentence — not a list of topics, but an interpretation.</p>
+            <div class="s4-scaffold-box"><p>Try: <em>"These speakers experience…"</em> or <em>"What the data reveals is…"</em> — a theme names a meaning, not just a subject.</p></div>
+            <div class="s4-field-label">Your theme (extended phrase or sentence):</div>
             <textarea class="s4-textarea" id="s4-pattern" placeholder="e.g. These speakers experience English seminar participation as a constant negotiation between wanting to contribute and fearing exposure…"></textarea>
         </div>
         <div class="s4-section">
-            <h3>Step 2 — Turn the pattern into a claim</h3>
-            <p class="s4-sub">A pattern describes. A claim argues. Push further — what does this pattern tell us about something bigger?</p>
+            <h3>Step 2 — Develop an analytic claim</h3>
+            <p class="s4-sub" style="font-style:italic;color:#4338ca;border-left:3px solid #c7d2fe;padding-left:10px;margin-bottom:12px;">"A code is a word or short phrase that symbolically assigns a summative, salient, essence-capturing, or evocative meaning to a portion of data."</p>
+            <p class="s4-sub">A theme describes. A claim argues. Push further — what does your theme suggest about something beyond this data?</p>
             <div class="s4-scaffold-box">
                 <p>Try: <em>"This data suggests that…"</em> or <em>"What appears to be happening is not simply X, but rather…"</em></p>
                 <p style="margin-top:5px;">A claim should be falsifiable — someone could disagree with it using different data.</p>
@@ -626,7 +628,7 @@
             <textarea class="s4-textarea" id="s4-nuance" placeholder="e.g. Participant 1's mention of relief suggests the silencing is also strategic…" style="min-height:64px;"></textarea>
         </div>
         <div style="background:white;border-radius:var(--radius);border:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
-            <span style="font-size:0.78rem;color:#64748b;flex:1;">Open a clean summary of your Stage 4 work to save or print.</span>
+            <span style="font-size:0.78rem;color:#64748b;flex:1;">Open a clean summary of your analysis to save or print.</span>
             <button class="btn" id="s4-export-btn" style="background:var(--accent);color:white;border-color:var(--accent);" onclick="openStage4Export()">Save a copy ↗</button>
         </div>
         <div style="height:60px;flex-shrink:0;"></div>
@@ -655,9 +657,9 @@
     const scriptInstructions = {
         1: "Explore student experiences with AI tools. <strong>To Code:</strong> Highlight a segment of text, type your label below, and press <strong>Enter</strong>.",
         2: "Explore the psychological impact of language anxiety. <strong>To Code:</strong> Highlight a segment of text, type your label below, and press <strong>Enter</strong>.",
-        3: "<strong>SAMPLE (Versus Coding):</strong> Identifies contrasts, conflicts and tensions. Observe how the text is coded below, then explore Stages 2–4 to see a worked example of pattern analysis.",
-        4: "<strong>SAMPLE (Emotion Coding):</strong> Labels subjective feelings. Observe how the text is coded below, then explore Stages 2–4 to see a worked example of pattern analysis.",
-        5: "<strong>SAMPLE (In Vivo Coding):</strong> Direct participant quotes are used as the codes. Observe how the labels are formatted below, then explore Stages 2–4 to see a worked example of pattern analysis."
+        3: "<strong>SAMPLE (Versus Coding):</strong> Identifies contrasts, conflicts and tensions. Observe how the text is coded below, then explore Stages 2–4 to see a worked example of developing categories and themes.",
+        4: "<strong>SAMPLE (Emotion Coding):</strong> Labels subjective feelings. Observe how the text is coded below, then explore Stages 2–4 to see a worked example of developing categories and themes.",
+        5: "<strong>SAMPLE (In Vivo Coding):</strong> Direct participant quotes are used as the codes. Observe how the labels are formatted below, then explore Stages 2–4 to see a worked example of developing categories and themes."
     };
 
     const sampleData = {
@@ -1090,7 +1092,7 @@
                 return;
             }
             if (n >= 4 && !s3Submitted) {
-                showGateMessage('Submit your Stage 3 categories before building a claim.');
+                showGateMessage('Submit your Stage 3 categories before developing themes.');
                 return;
             }
         }
@@ -1194,9 +1196,9 @@
 <h2>Stage 2–3: Categories</h2>
 ${catsHtml || '<p style="color:#94a3b8;font-size:0.85rem;">No categories recorded.</p>'}
 
-<h2>Stage 4: Analytic Claim</h2>
-${section('Overall Pattern', pattern)}
-${section('Claim', claim)}
+<h2>Stage 4: Theme &amp; Analytic Claim</h2>
+${section('Theme', pattern)}
+${section('Analytic Claim', claim)}
 ${section('Evidence', evidence)}
 ${section('Nuance', nuance)}
 
@@ -1643,7 +1645,7 @@ ${section('Nuance', nuance)}
     function submitAnalysis() {
         const name = document.getElementById('student-name').value.trim();
         if (!name) { alert('Enter your name in the sidebar first — switch to Stage 1 to find it.'); return; }
-        if (!document.querySelectorAll('.cluster-card').length) { alert('No categories to submit — complete Stage 2 first.'); return; }
+        if (!document.querySelectorAll('.cluster-card').length) { alert('No categories to submit — complete Stage 2 (Developing Categories) first.'); return; }
         const btn = document.getElementById('s3-submit-btn');
         btn.textContent = 'Sending…';
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(gatherAnalysisData()) }) })
@@ -1744,7 +1746,7 @@ ${section('Nuance', nuance)}
             paneEl.innerHTML = '<p style="color:#94a3b8;font-size:0.82rem;padding:10px 0;">No Stage 3 submission found.</p>';
             return;
         }
-        let html = `<div class="analysis-pane-name">${label} — Stage 3: Analysis</div>`;
+        let html = `<div class="analysis-pane-name">${label} — Stage 3: Categories &amp; Themes</div>`;
         html += `<div class="analysis-review-card"><div class="analysis-review-header">Categories (${d.categories.length})</div><div class="analysis-review-body">`;
         d.categories.forEach(c => {
             html += `<div class="analysis-section"><div class="analysis-section-label">${c.name}</div>`;
@@ -1752,7 +1754,7 @@ ${section('Nuance', nuance)}
             html += c.codes.map(code => `<span class="analysis-cat-chip">${code}</span>`).join('') + '</div>';
         });
         html += '</div></div>';
-        [['Overall Pattern', d.pattern], ['Analytic Claim', d.claim], ['Evidence', d.evidence], ['Nuance', d.nuance]].forEach(([lbl, val]) => {
+        [['Theme', d.pattern], ['Analytic Claim', d.claim], ['Evidence', d.evidence], ['Nuance', d.nuance]].forEach(([lbl, val]) => {
             if (!val) return;
             html += `<div class="analysis-review-card"><div class="analysis-review-header">${lbl}</div><div class="analysis-review-body" style="white-space:pre-wrap;line-height:1.6;">${val}</div></div>`;
         });
