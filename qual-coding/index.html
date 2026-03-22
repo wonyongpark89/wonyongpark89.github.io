@@ -460,7 +460,7 @@
             </div>
         </div>
         <p style="font-size:0.92rem;color:#475569;line-height:1.7;margin-bottom:24px;">
-            This workbook guides you through qualitative data analysis in four stages — from coding a transcript, to grouping patterns, to testing categories, to building an analytic claim. Work through each stage in order. Your progress is saved automatically.
+            This workbook guides you through qualitative analysis step by step: coding a transcript, developing categories, testing those categories against the data, and writing a theme. Some activities are worked examples, while others are for you to complete yourself. Your progress is saved on this device as you work.
         </p>
         <label style="display:block;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#94a3b8;margin-bottom:6px;">Your full name</label>
         <input type="text" id="landing-name" placeholder="Enter your name to begin…"
@@ -476,7 +476,7 @@
 
 <div id="pw-modal">
     <div class="pw-box">
-        <h3 style="margin-top:0">Teacher Access</h3>
+        <h3 style="margin-top:0">Instructor Access</h3>
         <p style="font-size:0.85rem; color:#64748b">Please enter your 4-digit security code.</p>
         <input type="password" id="pw-input" placeholder="••••" onkeydown="if(event.key==='Enter') checkPassword()">
         <div style="display:flex; gap:10px">
@@ -489,7 +489,7 @@
 <div id="script-unlock-modal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.8);backdrop-filter:blur(4px);display:none;justify-content:center;align-items:center;z-index:1000;">
     <div class="pw-box">
         <h3 style="margin-top:0">Unlock Script 2</h3>
-        <p style="font-size:0.85rem;color:#64748b;">This transcript is released during class. Enter the code provided by your tutor.</p>
+        <p style="font-size:0.85rem;color:#64748b;">This is an in-class exercise and is only accessible during the seminar. Your tutor will provide the code.</p>
         <input type="text" id="script-unlock-input" placeholder="Enter code…" autocomplete="off" style="text-transform:uppercase;" onkeydown="if(event.key==='Enter') checkScriptUnlock()">
         <p id="script-unlock-error" style="color:var(--danger);font-size:0.78rem;margin:0 0 10px;display:none;">Incorrect code. Try again.</p>
         <div style="display:flex;gap:10px">
@@ -509,7 +509,7 @@
     </div>
     <div class="nav-group">
         <button id="btn-student-mode" class="btn btn-mode active" onclick="setMode('student')">STUDENT</button>
-        <button id="btn-teacher-mode" class="btn btn-mode" onclick="setMode('teacher')">TEACHER</button>
+        <button id="btn-teacher-mode" class="btn btn-mode" onclick="setMode('teacher')">INSTRUCTOR</button>
     </div>
 </header>
 
@@ -559,7 +559,7 @@
         </div>
     </div>
 
-<!-- Analysis compare view (teacher mode) -->
+<!-- Analysis compare view (instructor mode) -->
 <div id="analysis-workspace" style="display:none; flex:1; overflow:hidden; padding:20px; gap:20px;">
     <div class="analysis-pane" id="analysis-pane-1" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; min-width:0;"></div>
     <div class="analysis-pane hidden" id="analysis-pane-2" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; min-width:0; border-left:1px solid var(--border); padding-left:20px;"></div>
