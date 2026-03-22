@@ -65,7 +65,8 @@
         #btn-student-mode.active { background: var(--success); color: white; border-color: var(--success); }
         #btn-teacher-mode.active { background: var(--teacher); color: white; border-color: var(--teacher); }
 
-        main { display: flex; flex: 1; overflow: hidden; padding: 20px; gap: 20px; margin-bottom: 80px; }
+        main { display: flex; flex: 1; overflow: hidden; padding: 20px; gap: 20px; margin-bottom: 0; transition: margin-bottom 0.2s; }
+        main.coding-bar-visible { margin-bottom: 80px; }
         .column { display: flex; flex-direction: column; gap: 20px; flex: 1; min-width: 0; }
         
         .workspace-card { 
@@ -155,14 +156,19 @@
 
         @media (max-width: 1024px) {
             body { overflow-y: auto; height: auto; min-height: 100dvh; }
-            main { flex-direction: column; overflow: visible; padding: 15px; padding-bottom: 120px; }
-            #sidebar { width: 100%; order: 2; }
+            main { flex-direction: column; overflow: visible; padding: 15px; }
+            main.coding-bar-visible { padding-bottom: 120px; }
+            #sidebar { width: 100%; order: 2; padding-bottom: 100px; }
             .column { height: auto; min-height: 450px; }
             #coding-bar { padding: 12px; gap: 8px; }
+            #stage-tabs { -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%); mask-image: linear-gradient(to right, black 85%, transparent 100%); }
         }
 
         .hidden { display: none !important; }
         .student-select { padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.85rem; background: white; width: 100%; max-width: 200px; }
+
+        .sample-banner { background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid var(--success); padding: 8px 14px; font-size: 0.78rem; color: #166534; display: flex; align-items: center; gap: 8px; }
+        .sample-banner::before { content: "👁"; font-size: 0.9rem; }
 
         /* ── Stage tabs (Script 2 student mode only) ── */
         #stage-tabs {
@@ -513,7 +519,7 @@
             <div class="card-header">
                 <span id="label-left">Transcript</span>
                 <div style="display: flex; gap: 8px; align-items: center;">
-                    <button class="btn" onclick="window.print()" style="font-size: 0.7rem; padding: 4px 8px;">Download PDF</button>
+                    <button class="btn" onclick="window.print()" style="font-size: 0.7rem; padding: 4px 8px;">Print / Save as PDF</button>
                     <select id="select-left" class="student-select hidden" onchange="applyReview(1)"></select>
                 </div>
             </div>
@@ -555,8 +561,11 @@
 
         <div class="sidebar-panel" id="export-section">
             <h4>Submission</h4>
-            <label for="student-name" class="input-label">Full Name</label>
-            <input type="text" id="student-name" class="btn" style="width:100%; background:#f8fafc; margin-bottom:12px; text-align:left; box-sizing: border-box;" placeholder="Enter your name...">
+            <div id="submitting-as" style="font-size:0.82rem;color:#475569;margin-bottom:12px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1px solid var(--border);">
+                <span style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#94a3b8;display:block;margin-bottom:2px;">Submitting as</span>
+                <span id="submitting-as-name" style="font-weight:600;color:var(--primary);"></span>
+            </div>
+            <input type="hidden" id="student-name">
             <button id="submit-btn" class="btn" style="width:100%; background:var(--success); color:white; border:none" onclick="submitCoding()">Submit Coding</button>
             <p id="submit-coding-status" style="font-size:0.72rem;color:#94a3b8;margin:6px 0 0;text-align:center;"></p>
         </div>
@@ -592,9 +601,15 @@
         </div>
 
         <div class="sidebar-panel hidden" id="teacher-links">
-            <h4>External Resources</h4>
-            <a href="https://docs.google.com/spreadsheets/d/1UJvmEBQoLJjgzziL0bzkcw8vI0HH-wLKgvmqnvMay9k/edit?gid=0#gid=0" target="_blank" class="btn" style="width:100%; display:block; text-align:center; text-decoration:none; margin-bottom:10px; color:#475569">Open Spreadsheet</a>
-            <a href="https://script.google.com/home/projects/1wzmRrw2nlybvzgUc4dXeQ5-KBJYLARM907_CcK3z8Qdnl1A17GFEhVtt/edit" target="_blank" class="btn" style="width:100%; display:block; text-align:center; text-decoration:none; color:#475569">Open Script Editor</a>
+            <h4>Developer Tools</h4>
+            <p style="font-size:0.72rem;color:#94a3b8;margin:0 0 10px;line-height:1.4;">These links open the back-end data store and script. Changes may affect all student submissions.</p>
+            <details style="font-size:0.82rem;">
+                <summary style="cursor:pointer;color:#64748b;font-weight:600;font-size:0.78rem;padding:4px 0;">Show links</summary>
+                <div style="margin-top:10px;">
+                    <a href="https://docs.google.com/spreadsheets/d/1UJvmEBQoLJjgzziL0bzkcw8vI0HH-wLKgvmqnvMay9k/edit?gid=0#gid=0" target="_blank" class="btn" style="width:100%; display:block; text-align:center; text-decoration:none; margin-bottom:10px; color:#475569">Open Spreadsheet</a>
+                    <a href="https://script.google.com/home/projects/1wzmRrw2nlybvzgUc4dXeQ5-KBJYLARM907_CcK3z8Qdnl1A17GFEhVtt/edit" target="_blank" class="btn" style="width:100%; display:block; text-align:center; text-decoration:none; color:#475569">Open Script Editor</a>
+                </div>
+            </details>
         </div>
         <div class="copyright">© Southampton Education School 2026. All Rights Reserved.</div>
     </div>
@@ -604,6 +619,7 @@
 <div id="stage-workspace">
     <!-- Stage 2 -->
     <div class="sw-main" id="sw-panel-2">
+        <div style="font-size:0.78rem;color:#64748b;padding:2px 0 6px;line-height:1.5;"><strong style="color:var(--accent);">Stage 2 of 4:</strong> You've coded the transcript. Now move from individual <em>codes</em> to broader <em>categories</em>.</div>
         <div class="definition-box"><div class="def-label">Definition — Category</div><p>A category is composed of codes that "look alike and feel alike." Categories are formed by grouping codes into patterns. Like a code, a category is a word or short phrase — but more condensed and operating at a higher level of abstraction.</p></div>
         <div class="stage-instructions">Look across all your codes and drag those that look and feel alike into a category. Name each one and describe what holds them together. <strong>Not every code needs to go into a category</strong> — leftover codes are fine.</div>
         <div id="code-pool-wrap">
@@ -616,6 +632,7 @@
 
     <!-- Stage 3 -->
     <div class="sw-main hidden" id="sw-panel-3">
+        <div style="font-size:0.78rem;color:#64748b;padding:2px 0 6px;line-height:1.5;"><strong style="color:var(--accent);">Stage 3 of 4:</strong> You've built categories. Now test them — do the extracts really fit where you've placed them?</div>
         <div class="definition-box"><div class="def-label">Definition — Category</div><p>A category is composed of codes that "look alike and feel alike." Categories are formed by grouping codes into patterns. Like a code, a category is a word or short phrase — but more condensed and operating at a higher level of abstraction.</p></div>
         <div class="stage-instructions">Test each category against the actual data. <strong>Do all the extracts really fit? Is anything out of place?</strong> Rename categories and move codes between them if needed, then submit.</div>
         <div id="s3-clusters-container"></div>
@@ -630,6 +647,7 @@
 
     <!-- Stage 4 -->
     <div class="sw-main hidden" id="sw-panel-4">
+        <div style="font-size:0.78rem;color:#64748b;padding:2px 0 6px;line-height:1.5;"><strong style="color:var(--accent);">Stage 4 of 4:</strong> You've refined your categories. Now step back and identify the overarching <em>theme</em> — what does this data tell us?</div>
         <div class="definition-box"><div class="def-label">Definition — Theme</div><p>A theme is an extended phrase or sentence that identifies what a unit of data is about and/or what it means. Compared with categories, themes are more interpretive, more descriptive, and often more subtle.</p></div>
         <div class="stage-instructions">The analytic goals here are to winnow down the number of themes to explore, and to develop either an <strong>overarching theme</strong> from the data corpus, or an <strong>integrative theme</strong> that weaves various themes together into a coherent narrative. <strong>What is going on here? What does this tell us?</strong></div>
         <div class="s4-section">
@@ -686,9 +704,9 @@
     const scriptInstructions = {
         1: "<div class=\"definition-box\"><div class=\"def-label\">Definition — Code</div><p>A code is a word or short phrase that symbolically assigns a summative, salient, essence-capturing, or evocative meaning to a portion of language-based or visual data. It is a compact interpretive marker attached to a segment of data — as short as a sentence or as long as a paragraph or larger unit.</p></div><div class=\"stage-instructions\" style=\"margin-top:0;border-radius:0 0 var(--radius) var(--radius);border-top:none;\"><strong>To Code:</strong> Highlight a segment of text, type your label below, and press <strong>Enter</strong>.</div>",
         2: "<div class=\"definition-box\"><div class=\"def-label\">Definition — Code</div><p>A code is a word or short phrase that symbolically assigns a summative, salient, essence-capturing, or evocative meaning to a portion of language-based or visual data. It is a compact interpretive marker attached to a segment of data — as short as a sentence or as long as a paragraph or larger unit.</p></div><div class=\"stage-instructions\" style=\"margin-top:0;border-radius:0 0 var(--radius) var(--radius);border-top:none;\"><strong>To Code:</strong> Highlight a segment of text, type your label below, and press <strong>Enter</strong>.</div>",
-        3: "<div class=\"stage-instructions\"><strong>SAMPLE (Versus Coding):</strong> Identifies contrasts, conflicts and tensions. Observe how the text is coded below, then explore Stages 2–4 to see a worked example of developing categories and themes.</div>",
-        4: "<div class=\"stage-instructions\"><strong>SAMPLE (Emotion Coding):</strong> Labels subjective feelings. Observe how the text is coded below, then explore Stages 2–4 to see a worked example of developing categories and themes.</div>",
-        5: "<div class=\"stage-instructions\"><strong>SAMPLE (In Vivo Coding):</strong> Direct participant quotes are used as the codes. Observe how the labels are formatted below, then explore Stages 2–4 to see a worked example of developing categories and themes.</div>"
+        3: "<div class=\"sample-banner\">Read-only worked example — explore each stage to see how coding leads to categories and themes.</div><div class=\"stage-instructions\"><strong>SAMPLE (Versus Coding):</strong> Identifies contrasts, conflicts and tensions. Observe how the text is coded below, then explore Stages 2–4 to see a worked example of developing categories and themes.</div>",
+        4: "<div class=\"sample-banner\">Read-only worked example — explore each stage to see how coding leads to categories and themes.</div><div class=\"stage-instructions\"><strong>SAMPLE (Emotion Coding):</strong> Labels subjective feelings. Observe how the text is coded below, then explore Stages 2–4 to see a worked example of developing categories and themes.</div>",
+        5: "<div class=\"sample-banner\">Read-only worked example — explore each stage to see how coding leads to categories and themes.</div><div class=\"stage-instructions\"><strong>SAMPLE (In Vivo Coding):</strong> Direct participant quotes are used as the codes. Observe how the labels are formatted below, then explore Stages 2–4 to see a worked example of developing categories and themes.</div>"
     };
 
     const sampleData = {
@@ -698,6 +716,14 @@
     };
 
     const colorPalette = ["hsla(200, 80%, 85%, 0.9)", "hsla(140, 75%, 85%, 0.9)", "hsla(340, 80%, 88%, 0.9)", "hsla(45, 90%, 85%, 0.9)", "hsla(280, 70%, 88%, 0.9)", "hsla(25, 85%, 85%, 0.9)", "hsla(180, 60%, 85%, 0.9)", "hsla(10, 80%, 88%, 0.9)", "hsla(60, 80%, 85%, 0.9)", "hsla(220, 70%, 88%, 0.9)"];
+
+    // ── Utility: sync main margin with coding bar visibility ──────────────────
+    function syncCodingBarMargin() {
+        const bar = document.getElementById('coding-bar');
+        const main = document.getElementById('main-layout');
+        const visible = bar && !bar.classList.contains('hidden');
+        if (main) main.classList.toggle('coding-bar-visible', visible);
+    }
 
     // ── Sample stage 2-4 worked examples ─────────────────────────────────────
     const sampleAnalysis = {
@@ -838,10 +864,11 @@
         // coding-bar: hidden for teacher, samples, or s2 stages 2-4
         const hideCodingBar = mode === 'teacher' || isSample || (isS2Student && currentStage !== 1);
         document.getElementById('coding-bar').classList.toggle('hidden', hideCodingBar);
+        syncCodingBarMargin();
         document.getElementById('codes-panel').classList.toggle('hidden', mode === 'teacher');
         document.getElementById('export-section').classList.toggle('hidden', mode === 'teacher' || isSample);
         document.getElementById('student-instructions').classList.toggle('hidden', mode === 'teacher');
-        document.getElementById('summary-1').classList.toggle('hidden', mode === 'student');
+        document.getElementById('summary-1').classList.remove('hidden');
         
         if (mode === 'teacher') {
             document.getElementById('select-left').classList.remove('hidden');
@@ -860,11 +887,12 @@
         document.getElementById('student-instructions').innerHTML = scriptInstructions[num];
         const isSample = num > 2;
         document.getElementById('coding-bar').classList.toggle('hidden', currentMode === 'teacher' || isSample);
+        syncCodingBarMargin();
         document.getElementById('export-section').classList.toggle('hidden', currentMode === 'teacher' || isSample);
         
         resetWorkspaces();
         if (isSample) renderSample(num);
-        else loadFromLocal(); 
+        else { loadFromLocal(); updateCodeList(myCodes); }
         if (currentMode === 'teacher') updateTeacherDropdowns();
     }
 
@@ -981,6 +1009,25 @@
 
     function updateCodeList(data, isSampleView = false) {
         document.getElementById('code-list').innerHTML = data.map(c => `<div class="code-badge" style="border-left-color:${c.color}">${!isSampleView ? `<span class="remove-code-btn" onclick="removeCode('${c.id}')">×</span>` : ''}<strong>${c.code}</strong><br><span style="color:#64748b; font-size:0.75rem">"${c.text.substring(0,30)}..."</span></div>`).join('') || '<p style="color:#94a3b8; font-size:0.75rem;">No codes established yet.</p>';
+        // Update the summary codebook bar (bottom of transcript card)
+        updateSummaryBar(data);
+    }
+
+    function updateSummaryBar(data) {
+        const summaryCont = document.getElementById('summary-content-1');
+        const summaryBox = document.getElementById('summary-1');
+        if (!summaryCont || !summaryBox) return;
+        const usedCodes = {};
+        data.forEach(item => {
+            const parts = item.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+            const dc = parts ? `hsla(${parts[1]}, ${parts[2]}%, 30%, 1)` : 'rgba(0,0,0,0.8)';
+            if (!usedCodes[item.code]) usedCodes[item.code] = { color: dc, count: 0 };
+            usedCodes[item.code].count++;
+        });
+        summaryCont.innerHTML = Object.keys(usedCodes).length
+            ? Object.keys(usedCodes).map(code => `<span class="teacher-label" style="background:${usedCodes[code].color}; margin-right:8px; margin-bottom:8px;">${code} (${usedCodes[code].count})</span>`).join('')
+            : '<span style="color:#94a3b8; font-size:0.72rem;">Codes will appear here as you add them.</span>';
+        summaryBox.classList.remove('hidden');
     }
 
     function saveToLocal() { localStorage.setItem(`coded_script_${currentScript}`, JSON.stringify(myCodes)); }
@@ -1031,7 +1078,12 @@
     }
 
     function clearCloudData() {
-        if(!confirm("⚠️ Delete ALL submissions?")) return;
+        const count = Object.keys(submissions).length;
+        const msg = count > 0
+            ? `This will permanently delete ${count} submission(s) across all scripts. This cannot be undone.\n\nType DELETE to confirm:`
+            : `This will permanently delete all submissions. This cannot be undone.\n\nType DELETE to confirm:`;
+        const input = prompt(msg);
+        if (input !== 'DELETE') { if (input !== null) alert('Purge cancelled — you must type DELETE exactly.'); return; }
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'clear' }) }).then(() => { alert("Data purged."); syncFromCloud(); });
     }
 
@@ -1048,6 +1100,7 @@
         }
         // Pre-fill the student name field in the sidebar
         document.getElementById('student-name').value = name;
+        document.getElementById('submitting-as-name').textContent = name;
         document.getElementById('landing-modal').style.display = 'none';
     }
 
@@ -1069,6 +1122,7 @@
             document.getElementById('main-layout').style.display = '';
             document.getElementById('stage-workspace').classList.remove('visible');
             document.getElementById('coding-bar').classList.remove('hidden');
+            syncCodingBarMargin();
         }
     }
 
@@ -1081,7 +1135,7 @@
             const locked = !isSample && (n >= 2 && !s1Submitted || n >= 4 && !s3Submitted);
             tab.classList.toggle('tab-locked', locked);
             tab.title = locked
-                ? (n < 4 ? 'Submit your Stage 1 coding first' : 'Submit your Stage 3 categories first')
+                ? (n < 4 ? 'Submit your coding via the sidebar first' : 'Submit your categories in Stage 3 first')
                 : '';
         });
         const nextBtn = document.getElementById('stage-next-btn');
@@ -1090,7 +1144,7 @@
             const locked = !isSample && (nextStage >= 2 && !s1Submitted || nextStage >= 4 && !s3Submitted);
             nextBtn.disabled = currentStage >= 4 || locked;
             nextBtn.title = locked
-                ? (nextStage < 4 ? 'Submit Stage 1 first' : 'Submit Stage 3 first')
+                ? (nextStage < 4 ? 'Submit your coding via the sidebar first' : 'Submit your categories in Stage 3 first')
                 : '';
         }
     }
@@ -1100,13 +1154,13 @@
         if (!el) {
             el = document.createElement('div');
             el.id = 'gate-msg';
-            el.style.cssText = 'position:fixed;top:60px;left:50%;transform:translateX(-50%);background:#1e293b;color:white;padding:10px 20px;border-radius:8px;font-size:0.82rem;font-weight:500;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);pointer-events:none;';
+            el.style.cssText = 'position:fixed;top:60px;left:50%;transform:translateX(-50%);background:#1e293b;color:white;padding:12px 24px;border-radius:8px;font-size:0.85rem;font-weight:500;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);pointer-events:none;max-width:440px;text-align:center;line-height:1.5;transition:opacity 0.4s;';
             document.body.appendChild(el);
         }
-        el.textContent = msg;
+        el.innerHTML = msg;
         el.style.opacity = '1';
         clearTimeout(el._t);
-        el._t = setTimeout(() => { el.style.opacity = '0'; }, 2400);
+        el._t = setTimeout(() => { el.style.opacity = '0'; }, 4000);
     }
 
     // Central stage switcher — called by tab clicks and internally
@@ -1117,11 +1171,11 @@
         const isSample = currentScript > 2;
         if (!isSample) {
             if (n >= 2 && !s1Submitted) {
-                showGateMessage('Submit your Stage 1 coding before moving on.');
+                showGateMessage('Code the transcript first, then use <strong>Submit Coding</strong> in the sidebar to unlock this stage.');
                 return;
             }
             if (n >= 4 && !s3Submitted) {
-                showGateMessage('Submit your Stage 3 categories before developing themes.');
+                showGateMessage('Use <strong>Submit Categories</strong> at the bottom of Stage 3 to unlock this stage.');
                 return;
             }
         }
@@ -1138,10 +1192,12 @@
             document.getElementById('main-layout').style.display = '';
             document.getElementById('stage-workspace').classList.remove('visible');
             document.getElementById('coding-bar').classList.remove('hidden');
+            syncCodingBarMargin();
         } else {
             document.getElementById('main-layout').style.display = 'none';
             document.getElementById('stage-workspace').classList.add('visible');
             document.getElementById('coding-bar').classList.add('hidden');
+            syncCodingBarMargin();
             ['sw-panel-2','sw-panel-3','sw-panel-4'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
@@ -1239,8 +1295,19 @@ ${pattern ? `<div class="theme-box"><p>${pattern}</p></div>` : '<p style="color:
 </body></html>`;
 
         const w = window.open('', '_blank');
-        w.document.write(html);
-        w.document.close();
+        if (w) {
+            w.document.write(html);
+            w.document.close();
+            showGateMessage('Summary opened in a new tab — use your browser\'s <strong>Print / Save as PDF</strong> to keep a copy.');
+        } else {
+            // Popup was blocked — fall back to blob download
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = `analysis-${name.replace(/\s+/g, '-').toLowerCase()}.html`; a.click();
+            URL.revokeObjectURL(url);
+            showGateMessage('Popup blocked — the summary has been downloaded as an HTML file instead.');
+        }
     }
 
     // ── Stage 2-4 persistence ─────────────────────────────────────────────────
@@ -1351,6 +1418,7 @@ ${pattern ? `<div class="theme-box"><p>${pattern}</p></div>` : '<p style="color:
         document.getElementById('main-layout').style.display = '';
         document.getElementById('stage-workspace').classList.remove('visible');
         document.getElementById('coding-bar').classList.remove('hidden');
+        syncCodingBarMargin();
         [1,2,3,4].forEach(i => {
             const t = document.getElementById('stab-' + i);
             if (t) t.classList.toggle('active', i === 1);
@@ -1427,7 +1495,9 @@ ${pattern ? `<div class="theme-box"><p>${pattern}</p></div>` : '<p style="color:
     // ── Stage 1 submit ────────────────────────────────────────────────────────
     function submitCoding() {
         const name = document.getElementById('student-name').value.trim();
-        if (!name || myCodes.length === 0) { alert('Enter your name and add some codes first.'); return; }
+        if (!name && myCodes.length === 0) { alert('Please refresh the page, enter your name, and add some codes first.'); return; }
+        if (!name) { alert('Your name was not captured. Please refresh the page and enter your name on the landing screen.'); return; }
+        if (myCodes.length === 0) { alert('Add at least one code before submitting. Highlight text in the transcript and type a label below.'); return; }
         const btn = document.getElementById('submit-btn');
         const status = document.getElementById('submit-coding-status');
         btn.innerText = 'Sending…'; btn.style.background = '#94a3b8';
@@ -1448,7 +1518,7 @@ ${pattern ? `<div class="theme-box"><p>${pattern}</p></div>` : '<p style="color:
     // ── Stage 3 submit ────────────────────────────────────────────────────────
     function submitAnalysis() {
         const name = document.getElementById('student-name').value.trim();
-        if (!name) { alert('Enter your name in the sidebar first — switch to Stage 1 to find it.'); return; }
+        if (!name) { alert('Your name was not captured. Please refresh the page and enter your name on the landing screen.'); return; }
         if (!document.querySelectorAll('.cluster-card').length) { alert('No categories to submit — complete Stage 2 (Developing Categories) first.'); return; }
         const btn = document.getElementById('s3-submit-btn');
         const status = document.getElementById('submit-analysis-status');
