@@ -486,10 +486,23 @@
     </div>
 </div>
 
+<div id="script-unlock-modal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.8);backdrop-filter:blur(4px);display:none;justify-content:center;align-items:center;z-index:1000;">
+    <div class="pw-box">
+        <h3 style="margin-top:0">Unlock Script 2</h3>
+        <p style="font-size:0.85rem;color:#64748b;">This transcript is released during class. Enter the code provided by your tutor.</p>
+        <input type="text" id="script-unlock-input" placeholder="Enter code…" autocomplete="off" style="text-transform:uppercase;" onkeydown="if(event.key==='Enter') checkScriptUnlock()">
+        <p id="script-unlock-error" style="color:var(--danger);font-size:0.78rem;margin:0 0 10px;display:none;">Incorrect code. Try again.</p>
+        <div style="display:flex;gap:10px">
+            <button class="btn" style="flex:1;background:var(--accent);color:white;border:none" onclick="checkScriptUnlock()">Unlock</button>
+            <button class="btn" style="flex:1" onclick="closeScriptUnlockModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
 <header>
     <div class="nav-group">
         <button class="btn btn-script active" id="btn-s1" onclick="loadScript(1)">1. AI in Education</button>
-        <button class="btn btn-script" id="btn-s2" onclick="loadScript(2)">2. English Anxiety</button>
+        <button class="btn btn-script" id="btn-s2" onclick="requestScript2()"><span id="s2-lock" style="margin-right:4px;">🔒</span>2. English Anxiety</button>
         <button class="btn btn-script btn-sample" id="btn-s3" onclick="loadScript(3)">Sample: Versus Coding</button>
         <button class="btn btn-script btn-sample" id="btn-s4" onclick="loadScript(4)">Sample: Emotion Coding</button>
         <button class="btn btn-script btn-sample" id="btn-s5" onclick="loadScript(5)">Sample: In Vivo Coding</button>
@@ -1107,6 +1120,51 @@
     // Focus name input on load
     document.getElementById('landing-name').focus();
 
+    // ── Script 2 unlock system ────────────────────────────────────────────────
+    let script2Unlocked = false;
+
+    function requestScript2() {
+        if (script2Unlocked || currentMode === 'teacher') {
+            loadScript(2);
+            return;
+        }
+        document.getElementById('script-unlock-modal').style.display = 'flex';
+        document.getElementById('script-unlock-input').value = '';
+        document.getElementById('script-unlock-error').style.display = 'none';
+        document.getElementById('script-unlock-input').focus();
+    }
+
+    function checkScriptUnlock() {
+        const input = document.getElementById('script-unlock-input').value.trim().toUpperCase();
+        const btn = document.querySelector('#script-unlock-modal .btn');
+        const origText = btn.textContent;
+        btn.textContent = 'Checking…';
+        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'unlock', scriptId: 2, password: input }) })
+            .then(res => res.text())
+            .then(result => {
+                btn.textContent = origText;
+                if (result === 'true') {
+                    script2Unlocked = true;
+                    document.getElementById('script-unlock-modal').style.display = 'none';
+                    const lock = document.getElementById('s2-lock');
+                    if (lock) lock.style.display = 'none';
+                    loadScript(2);
+                } else {
+                    document.getElementById('script-unlock-error').style.display = 'block';
+                    document.getElementById('script-unlock-input').select();
+                }
+            })
+            .catch(() => {
+                btn.textContent = origText;
+                document.getElementById('script-unlock-error').textContent = 'Connection error — try again.';
+                document.getElementById('script-unlock-error').style.display = 'block';
+            });
+    }
+
+    function closeScriptUnlockModal() {
+        document.getElementById('script-unlock-modal').style.display = 'none';
+    }
+
     // ── Stage system ──────────────────────────────────────────────────────────
 
     let clusterCounter = 0;
@@ -1408,6 +1466,12 @@ ${pattern ? `<div class="theme-box"><p>${pattern}</p></div>` : '<p style="color:
             const el = document.getElementById(id);
             if (el) { el.value = ''; el.readOnly = false; el.style.background = ''; }
         });
+        // Restore export bar (samples hide it)
+        const exportBtn = document.getElementById('s4-export-btn');
+        if (exportBtn) {
+            const exportBar = exportBtn.closest('div');
+            exportBar.style.display = (num > 2) ? 'none' : '';
+        }
         document.getElementById('analysis-pane-1').innerHTML = '';
         document.getElementById('analysis-pane-2').innerHTML = '';
         document.getElementById('analysis-pane-2').classList.add('hidden');
