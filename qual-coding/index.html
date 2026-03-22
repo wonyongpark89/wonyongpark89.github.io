@@ -662,7 +662,7 @@
     <div class="sw-main hidden" id="sw-panel-4">
         <div style="font-size:0.78rem;color:#64748b;padding:2px 0 6px;line-height:1.5;"><strong style="color:var(--accent);">Stage 4 of 4:</strong> You've refined your categories. Now step back and identify the overarching <em>theme</em> — what does this data tell us?</div>
         <div class="definition-box"><div class="def-label">Definition — Theme</div><p>A theme is an extended phrase or sentence that identifies what a unit of data is about and/or what it means. Compared with categories, themes are more interpretive, more descriptive, and often more subtle.</p></div>
-        <div class="stage-instructions">The analytic goals here are to winnow down the number of themes to explore, and to develop either an <strong>overarching theme</strong> from the data corpus, or an <strong>integrative theme</strong> that weaves various themes together into a coherent narrative. <strong>What is going on here? What does this tell us?</strong></div>
+        <div class="stage-instructions">Use your finalised categories as the raw material for a theme. A theme isn't a summary — it's an interpretation. <strong>What is the data telling you?</strong> Write a sentence or phrase that captures the overarching meaning.</div>
         <div class="s4-section">
             <h3>Your finalised categories</h3>
             <p class="s4-sub">Read each category and its extracts carefully before writing your theme.</p>
@@ -1191,19 +1191,25 @@
         [2, 3, 4].forEach(n => {
             const tab = document.getElementById('stab-' + n);
             if (!tab) return;
-            const locked = !isSample && (n >= 2 && !s1Submitted || n >= 4 && !s3Submitted);
+                const clusters = document.querySelectorAll('.cluster-card');
+            const hasCodeInCluster = [...clusters].some(cl => cl.querySelectorAll('.pool-card').length > 0);
+            const s2Complete = clusters.length > 0 && hasCodeInCluster;
+            const locked = !isSample && (n >= 2 && !s1Submitted || n >= 3 && !s2Complete || n >= 4 && !s3Submitted);
             tab.classList.toggle('tab-locked', locked);
             tab.title = locked
-                ? (n < 4 ? 'Submit your coding via the sidebar first' : 'Submit your categories in Stage 3 first')
+                ? (n < 3 ? 'Submit your coding via the sidebar first' : n === 3 ? 'Create at least one category with a code in Stage 2 first' : 'Submit your categories in Stage 3 first')
                 : '';
         });
         const nextBtn = document.getElementById('stage-next-btn');
         if (nextBtn) {
             const nextStage = currentStage + 1;
-            const locked = !isSample && (nextStage >= 2 && !s1Submitted || nextStage >= 4 && !s3Submitted);
+            const clusters2 = document.querySelectorAll('.cluster-card');
+            const hasCode2 = [...clusters2].some(cl => cl.querySelectorAll('.pool-card').length > 0);
+            const s2Complete = clusters2.length > 0 && hasCode2;
+            const locked = !isSample && (nextStage >= 2 && !s1Submitted || nextStage >= 3 && !s2Complete || nextStage >= 4 && !s3Submitted);
             nextBtn.disabled = currentStage >= 4 || locked;
             nextBtn.title = locked
-                ? (nextStage < 4 ? 'Submit your coding via the sidebar first' : 'Submit your categories in Stage 3 first')
+                ? (nextStage < 3 ? 'Submit your coding via the sidebar first' : nextStage === 3 ? 'Create at least one category with a code in Stage 2 first' : 'Submit your categories in Stage 3 first')
                 : '';
         }
     }
@@ -1232,6 +1238,14 @@
             if (n >= 2 && !s1Submitted) {
                 showGateMessage('Code the transcript first, then use <strong>Submit Coding</strong> in the sidebar to unlock this stage.');
                 return;
+            }
+            if (n >= 3 && currentStage === 2) {
+                const clusters = document.querySelectorAll('.cluster-card');
+                const hasCodeInCluster = [...clusters].some(cl => cl.querySelectorAll('.pool-card').length > 0);
+                if (!clusters.length || !hasCodeInCluster) {
+                    showGateMessage('Create at least one category and drag at least one code into it before moving to Stage 3.');
+                    return;
+                }
             }
             if (n >= 4 && !s3Submitted) {
                 showGateMessage('Use <strong>Submit Categories</strong> at the bottom of Stage 3 to unlock this stage.');
@@ -1639,6 +1653,7 @@ ${pattern ? `<div class="theme-box"><p>${pattern}</p></div>` : '<p style="color:
         card.querySelector('.cluster-name-input').addEventListener('input', saveAnalysis);
         card.querySelector('.cluster-category-input').addEventListener('input', saveAnalysis);
         saveAnalysis();
+        updateTabGates();
     }
 
     function removeCluster(id) {
@@ -1648,6 +1663,7 @@ ${pattern ? `<div class="theme-box"><p>${pattern}</p></div>` : '<p style="color:
         card.remove();
         saveAnalysis();
     }
+        updateTabGates();
 
     function setupDropZone(zone) {
         zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
@@ -1661,9 +1677,10 @@ ${pattern ? `<div class="theme-box"><p>${pattern}</p></div>` : '<p style="color:
         const ph = zone.querySelector('.drop-placeholder'); if (ph) ph.style.display = 'none';
         zone.appendChild(existing);
         const btn = document.createElement('span'); btn.className = 'return-btn'; btn.textContent = '×'; btn.title = 'Return to pool';
-        btn.addEventListener('click', e => { e.stopPropagation(); btn.remove(); document.getElementById('code-pool').appendChild(existing); if (!zone.querySelector('.pool-card')) { const p2 = zone.querySelector('.drop-placeholder'); if (p2) p2.style.display = ''; } saveAnalysis(); });
+        btn.addEventListener('click', e => { e.stopPropagation(); btn.remove(); document.getElementById('code-pool').appendChild(existing); if (!zone.querySelector('.pool-card')) { const p2 = zone.querySelector('.drop-placeholder'); if (p2) p2.style.display = ''; } saveAnalysis(); updateTabGates(); });
         existing.appendChild(btn);
         saveAnalysis();
+        updateTabGates();
     }
 
     // ── Stage 3 ──────────────────────────────────────────────────────────────
