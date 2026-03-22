@@ -226,6 +226,40 @@
             flex-shrink: 0;
         }
 
+        /* Definition box — visually distinct from instruction and scaffold */
+        #student-instructions .definition-box,
+        #student-instructions .stage-instructions {
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+        }
+        #student-instructions .definition-box:first-child {
+            border-top: 1px solid #fcd34d;
+        }
+        #student-instructions .stage-instructions:last-child {
+            border-bottom: 1px solid #dbeafe;
+        }
+        .definition-box {
+            background: #fffbeb; border: 1px solid #fcd34d;
+            border-left: 4px solid #f59e0b;
+            border-radius: var(--radius);
+            padding: 12px 16px; flex-shrink: 0;
+        }
+        .definition-box .def-label {
+            font-size: 0.65rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.08em; color: #92400e; margin-bottom: 6px;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .definition-box .def-label::before {
+            content: "◆";
+            font-size: 0.55rem;
+        }
+        .definition-box p {
+            margin: 0; font-size: 0.82rem; color: #78350f;
+            line-height: 1.6; font-style: italic;
+        }
+
         /* Stage 2 layout: left = code pool + clusters, right = transcript reference */
         #stage-workspace .sw-main {
             flex: 1; display: flex; flex-direction: column; gap: 14px;
@@ -483,7 +517,7 @@
                     <select id="select-left" class="student-select hidden" onchange="applyReview(1)"></select>
                 </div>
             </div>
-            <div id="student-instructions" style="padding: 14px 20px; background: #eff6ff; border-bottom: 1px solid #dbeafe; font-size: 0.85rem; color: #1e40af; line-height: 1.5;"></div>
+            <div id="student-instructions" style="display:flex;flex-direction:column;gap:0;"></div>
             <div id="t1" class="content-area"></div>
             <div id="summary-1" class="summary-box hidden">
                 <p class="summary-title">Summary Codebook</p>
@@ -570,7 +604,8 @@
 <div id="stage-workspace">
     <!-- Stage 2 -->
     <div class="sw-main" id="sw-panel-2">
-        <div class="stage-instructions" id="sw-instr-2"><strong>A category is composed of codes that "look alike and feel alike."</strong> It is a word or short phrase — more condensed than a code, and operating at a higher level of abstraction. Look across all your codes and drag those that look and feel alike into a category, then name it and describe what holds them together. <strong>Not every code needs to go into a category</strong> — leftover codes are fine.</div>
+        <div class="definition-box"><div class="def-label">Definition — Category</div><p>A category is composed of codes that "look alike and feel alike." Categories are formed by grouping codes into patterns. Like a code, a category is a word or short phrase — but more condensed and operating at a higher level of abstraction.</p></div>
+        <div class="stage-instructions">Look across all your codes and drag those that look and feel alike into a category. Name each one and describe what holds them together. <strong>Not every code needs to go into a category</strong> — leftover codes are fine.</div>
         <div id="code-pool-wrap">
             <h3>Your codes — hover to see the coded extract · drag into a category below</h3>
             <div id="code-pool"></div>
@@ -581,6 +616,7 @@
 
     <!-- Stage 3 -->
     <div class="sw-main hidden" id="sw-panel-3">
+        <div class="definition-box"><div class="def-label">Definition — Category</div><p>A category is composed of codes that "look alike and feel alike." Categories are formed by grouping codes into patterns. Like a code, a category is a word or short phrase — but more condensed and operating at a higher level of abstraction.</p></div>
         <div class="stage-instructions">Test each category against the actual data. <strong>Do all the extracts really fit? Is anything out of place?</strong> Rename categories and move codes between them if needed, then submit.</div>
         <div id="s3-clusters-container"></div>
         <div id="s3-submit-bar">
@@ -591,7 +627,8 @@
 
     <!-- Stage 4 -->
     <div class="sw-main hidden" id="sw-panel-4">
-        <div class="stage-instructions">This is where categories become themes. <strong>Read your finalised categories, then work through the steps</strong> — from writing a theme, to developing an analytic claim, to grounding it in evidence.</div>
+        <div class="definition-box"><div class="def-label">Definition — Theme</div><p>A theme is an extended phrase or sentence that identifies what a unit of data is about and/or what it means. Compared with categories, themes are more interpretive, more descriptive, and often more subtle.</p></div>
+        <div class="stage-instructions">The analytic goals here are to winnow down the number of themes to explore, and to develop either an <strong>overarching theme</strong> from the data corpus, or an <strong>integrative theme</strong> that weaves various themes together into a coherent narrative. Read your finalised categories, then work through the steps below.</div>
         <div class="s4-section">
             <h3>Your finalised categories</h3>
             <p class="s4-sub">Read each category and its extracts carefully before writing anything.</p>
@@ -599,31 +636,29 @@
         </div>
         <div class="s4-section">
             <h3>Step 1 — Write a theme</h3>
-            <p class="s4-sub" style="font-style:italic;color:#4338ca;border-left:3px solid #c7d2fe;padding-left:10px;margin-bottom:12px;">"A theme is an extended phrase or sentence that identifies what a unit of data is about or what it means. Compared with categories, themes are more interpretive, more descriptive, and often more subtle."</p>
-            <p class="s4-sub">Look across all your categories. What does the data, taken as a whole, <em>mean</em>? Write one extended sentence — not a list of topics, but an interpretation.</p>
+            <p class="s4-sub">Look across all your categories. What does the data, taken as a whole, <em>mean</em>? Write one extended phrase or sentence — not a list of topics, but an interpretation of what is happening for these speakers.</p>
             <div class="s4-scaffold-box"><p>Try: <em>"These speakers experience…"</em> or <em>"What the data reveals is…"</em> — a theme names a meaning, not just a subject.</p></div>
             <div class="s4-field-label">Your theme (extended phrase or sentence):</div>
             <textarea class="s4-textarea" id="s4-pattern" placeholder="e.g. These speakers experience English seminar participation as a constant negotiation between wanting to contribute and fearing exposure…"></textarea>
         </div>
         <div class="s4-section">
-            <h3>Step 2 — Develop an analytic claim</h3>
-            <p class="s4-sub" style="font-style:italic;color:#4338ca;border-left:3px solid #c7d2fe;padding-left:10px;margin-bottom:12px;">"A code is a word or short phrase that symbolically assigns a summative, salient, essence-capturing, or evocative meaning to a portion of data."</p>
-            <p class="s4-sub">A theme describes. A claim argues. Push further — what does your theme suggest about something beyond this data?</p>
+            <h3>Step 2 — Develop an overarching or integrative theme</h3>
+            <p class="s4-sub">Now push further. Do your categories and your theme point toward one larger meaning? Can you write a sentence that either distils everything into a single overarching theme, or weaves your themes together into a coherent narrative?</p>
             <div class="s4-scaffold-box">
-                <p>Try: <em>"This data suggests that…"</em> or <em>"What appears to be happening is not simply X, but rather…"</em></p>
-                <p style="margin-top:5px;">A claim should be falsifiable — someone could disagree with it using different data.</p>
+                <p>Try: <em>"This data suggests that…"</em> or <em>"What appears to be happening across all categories is…"</em></p>
+                <p style="margin-top:5px;">This should be falsifiable — someone could disagree with it using different data.</p>
             </div>
-            <div class="s4-field-label">Your analytic claim:</div>
+            <div class="s4-field-label">Your overarching or integrative theme:</div>
             <textarea class="s4-textarea" id="s4-claim" placeholder="e.g. Language anxiety here functions not only as a communication barrier but as a mechanism of identity suppression…"></textarea>
         </div>
         <div class="s4-section">
-            <h3>Step 3 — Support it with evidence</h3>
+            <h3>Step 3 — Ground it in evidence</h3>
             <p class="s4-sub">Quote one or two specific extracts and explain what they show.</p>
             <div class="s4-scaffold-box"><p>Try: <em>"This is evident in [quote], which shows that…"</em></p></div>
             <div class="s4-field-label">Evidence from the data:</div>
             <textarea class="s4-textarea" id="s4-evidence" placeholder="e.g. Participant 2's description of becoming 'a much less confident version of myself'…" style="min-height:80px;"></textarea>
             <hr class="s4-divider">
-            <p class="s4-sub" style="margin-bottom:4px;">What complicates or qualifies your claim?</p>
+            <p class="s4-sub" style="margin-bottom:4px;">What complicates or qualifies your theme?</p>
             <div class="s4-field-label">Nuance:</div>
             <textarea class="s4-textarea" id="s4-nuance" placeholder="e.g. Participant 1's mention of relief suggests the silencing is also strategic…" style="min-height:64px;"></textarea>
         </div>
@@ -655,11 +690,11 @@
     };
 
     const scriptInstructions = {
-        1: "Explore student experiences with AI tools. <strong>To Code:</strong> Highlight a segment of text, type your label below, and press <strong>Enter</strong>.",
-        2: "Explore the psychological impact of language anxiety. <strong>To Code:</strong> Highlight a segment of text, type your label below, and press <strong>Enter</strong>.",
-        3: "<strong>SAMPLE (Versus Coding):</strong> Identifies contrasts, conflicts and tensions. Observe how the text is coded below, then explore Stages 2–4 to see a worked example of developing categories and themes.",
-        4: "<strong>SAMPLE (Emotion Coding):</strong> Labels subjective feelings. Observe how the text is coded below, then explore Stages 2–4 to see a worked example of developing categories and themes.",
-        5: "<strong>SAMPLE (In Vivo Coding):</strong> Direct participant quotes are used as the codes. Observe how the labels are formatted below, then explore Stages 2–4 to see a worked example of developing categories and themes."
+        1: "<div class=\"definition-box\"><div class=\"def-label\">Definition — Code</div><p>A code is a word or short phrase that symbolically assigns a summative, salient, essence-capturing, or evocative meaning to a portion of language-based or visual data. It is a compact interpretive marker attached to a segment of data — as short as a sentence or as long as a paragraph or larger unit.</p></div><div class=\"stage-instructions\" style=\"margin-top:0;border-radius:0 0 var(--radius) var(--radius);border-top:none;\"><strong>To Code:</strong> Highlight a segment of text, type your label below, and press <strong>Enter</strong>.</div>",
+        2: "<div class=\"definition-box\"><div class=\"def-label\">Definition — Code</div><p>A code is a word or short phrase that symbolically assigns a summative, salient, essence-capturing, or evocative meaning to a portion of language-based or visual data. It is a compact interpretive marker attached to a segment of data — as short as a sentence or as long as a paragraph or larger unit.</p></div><div class=\"stage-instructions\" style=\"margin-top:0;border-radius:0 0 var(--radius) var(--radius);border-top:none;\"><strong>To Code:</strong> Highlight a segment of text, type your label below, and press <strong>Enter</strong>.</div>",
+        3: "<div class=\"stage-instructions\"><strong>SAMPLE (Versus Coding):</strong> Identifies contrasts, conflicts and tensions. Observe how the text is coded below, then explore Stages 2–4 to see a worked example of developing categories and themes.</div>",
+        4: "<div class=\"stage-instructions\"><strong>SAMPLE (Emotion Coding):</strong> Labels subjective feelings. Observe how the text is coded below, then explore Stages 2–4 to see a worked example of developing categories and themes.</div>",
+        5: "<div class=\"stage-instructions\"><strong>SAMPLE (In Vivo Coding):</strong> Direct participant quotes are used as the codes. Observe how the labels are formatted below, then explore Stages 2–4 to see a worked example of developing categories and themes.</div>"
     };
 
     const sampleData = {
