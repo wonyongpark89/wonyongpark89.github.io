@@ -621,7 +621,10 @@
         <div id="s3-clusters-container"></div>
         <div id="s3-submit-bar">
             <span>Submit your finalised categories when you're ready.</span>
-            <button class="s3-submit-btn" id="s3-submit-btn" onclick="submitAnalysis()">Submit</button>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+                <button class="s3-submit-btn" id="s3-submit-btn" onclick="submitAnalysis()">Submit Categories</button>
+                <p id="submit-analysis-status" style="font-size:0.72rem;color:#94a3b8;margin:0;text-align:right;"></p>
+            </div>
         </div>
     </div>
 
@@ -1369,7 +1372,9 @@ ${pattern ? `<div class="theme-box"><p>${pattern}</p></div>` : '<p style="color:
             }
             if (s3Submitted) {
                 const btn = document.getElementById('s3-submit-btn');
-                if (btn) { btn.textContent = 'Submit'; btn.classList.remove('sent'); }
+                if (btn) { btn.textContent = 'Submit Categories'; btn.style.background = ''; btn.classList.remove('sent'); }
+                const status = document.getElementById('submit-analysis-status');
+                if (status) status.textContent = 'Previously submitted.';
             }
         }
         if (num > 2  && currentMode === 'student') renderSampleAnalysis(num);
@@ -1425,19 +1430,40 @@ ${pattern ? `<div class="theme-box"><p>${pattern}</p></div>` : '<p style="color:
         if (!name || myCodes.length === 0) { alert('Enter your name and add some codes first.'); return; }
         const btn = document.getElementById('submit-btn');
         const status = document.getElementById('submit-coding-status');
-        btn.innerText = 'Sending…';
+        btn.innerText = 'Sending…'; btn.style.background = '#94a3b8';
         const payload = { type: 'coding', codes: myCodes };
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(payload) }) })
             .then(() => {
-                btn.innerText = 'Resubmit ↺'; btn.style.background = '#94a3b8';
-                status.textContent = 'Coding saved. You can resubmit if you make changes.';
-                s1Submitted = true;
-                saveAnalysis();
-                updateTabGates();
-                // Re-enable after a moment so they can revise
+                btn.innerText = 'Submitted ✓'; btn.style.background = '#94a3b8';
+                status.textContent = 'Saved. You can resubmit after making changes.';
+                s1Submitted = true; saveAnalysis(); updateTabGates();
                 setTimeout(() => { btn.innerText = 'Submit Coding'; btn.style.background = 'var(--success)'; }, 2000);
             })
-            .catch(() => { btn.innerText = 'Submit Coding'; btn.style.background = 'var(--success)'; status.textContent = 'Error — try again.'; });
+            .catch(() => {
+                btn.innerText = 'Submit Coding'; btn.style.background = 'var(--success)';
+                status.textContent = 'Error — try again.';
+            });
+    }
+
+    // ── Stage 3 submit ────────────────────────────────────────────────────────
+    function submitAnalysis() {
+        const name = document.getElementById('student-name').value.trim();
+        if (!name) { alert('Enter your name in the sidebar first — switch to Stage 1 to find it.'); return; }
+        if (!document.querySelectorAll('.cluster-card').length) { alert('No categories to submit — complete Stage 2 (Developing Categories) first.'); return; }
+        const btn = document.getElementById('s3-submit-btn');
+        const status = document.getElementById('submit-analysis-status');
+        btn.textContent = 'Sending…'; btn.style.background = '#94a3b8';
+        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(gatherAnalysisData()) }) })
+            .then(() => {
+                btn.textContent = 'Submitted ✓'; btn.style.background = '#94a3b8';
+                if (status) status.textContent = 'Saved. You can resubmit after making changes.';
+                s3Submitted = true; saveAnalysis(); updateTabGates();
+                setTimeout(() => { btn.textContent = 'Submit Categories'; btn.style.background = 'var(--success)'; }, 2000);
+            })
+            .catch(() => {
+                btn.textContent = 'Submit Categories'; btn.style.background = 'var(--success)';
+                if (status) status.textContent = 'Error — try again.';
+            });
     }
 
     // ── Stage 2 ──────────────────────────────────────────────────────────────
@@ -1560,7 +1586,7 @@ ${pattern ? `<div class="theme-box"><p>${pattern}</p></div>` : '<p style="color:
         if (!isSample) {
             const btn = document.getElementById('s3-submit-btn');
             if (s3Submitted) { btn.textContent = 'Submitted ✓'; btn.classList.add('sent'); }
-            else { btn.textContent = 'Submit'; btn.classList.remove('sent'); }
+            else { btn.textContent = 'Submit Categories'; btn.classList.remove('sent'); }
         }
     }
 
@@ -1670,22 +1696,6 @@ ${pattern ? `<div class="theme-box"><p>${pattern}</p></div>` : '<p style="color:
             evidence: document.getElementById('s4-evidence')?.value.trim() || '',
             nuance:   document.getElementById('s4-nuance')?.value.trim()   || ''
         };
-    }
-
-    function submitAnalysis() {
-        const name = document.getElementById('student-name').value.trim();
-        if (!name) { alert('Enter your name in the sidebar first — switch to Stage 1 to find it.'); return; }
-        if (!document.querySelectorAll('.cluster-card').length) { alert('No categories to submit — complete Stage 2 (Developing Categories) first.'); return; }
-        const btn = document.getElementById('s3-submit-btn');
-        btn.textContent = 'Sending…';
-        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(gatherAnalysisData()) }) })
-            .then(() => {
-                btn.textContent = 'Submitted ✓'; btn.classList.add('sent');
-                s3Submitted = true; saveAnalysis(); updateTabGates();
-                // Re-enable after a moment so they can revise
-                setTimeout(() => { btn.textContent = 'Submit'; btn.classList.remove('sent'); }, 2000);
-            })
-            .catch(() => { btn.textContent = 'Submit'; btn.classList.remove('sent'); alert('Submission failed — please try again.'); });
     }
 
     // ── Cloud sync (overrides original, parses type) ─────────────────────────
