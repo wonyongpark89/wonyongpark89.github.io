@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publications | Wonyong Park</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Grenfell Curriculum | Wonyong Park</title>
+  <meta name="description" content="The Grenfell Curriculum (Research England, 2023–2024). Community-engaged disaster justice education project with the Grenfell Tower fire community in London.">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 
-    <style>
+  <style>
 /* ── Parliament Design System ─────────────────────────────────────── */
 :root {
   --parliament-green:  #2d6a4f;
@@ -27,7 +28,6 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 html { scroll-behavior: smooth; scrollbar-gutter: stable; }
 
 body {
@@ -47,11 +47,10 @@ a {
 }
 a:hover { text-decoration-color: var(--link-green); }
 
-/* ── SKIP LINK ─────────────────────────────────────────────────── */
+/* ── SKIP LINK ───────────────────────────────────────────────────── */
 .skip-link {
   position: absolute;
-  top: -40px;
-  left: 0;
+  top: -40px; left: 0;
   background: var(--parliament-green);
   color: white;
   padding: 8px 16px;
@@ -61,13 +60,12 @@ a:hover { text-decoration-color: var(--link-green); }
 }
 .skip-link:focus { top: 0; }
 
-/* ── SITE HEADER ────────────────────────────────────────────────── */
+/* ── SITE HEADER ─────────────────────────────────────────────────── */
 .site-header {
   background-color: var(--parliament-green);
   color: var(--white);
   border-bottom: 4px solid var(--gold);
 }
-
 .header-inner {
   max-width: 1160px;
   margin: 0 auto;
@@ -78,7 +76,6 @@ a:hover { text-decoration-color: var(--link-green); }
   height: 72px;
   gap: 2rem;
 }
-
 .site-logo {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.45rem;
@@ -87,11 +84,7 @@ a:hover { text-decoration-color: var(--link-green); }
   text-decoration: none;
   letter-spacing: .02em;
   white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: .75rem;
 }
-
 .site-nav { display: flex; align-items: center; }
 .site-nav ul { display: flex; list-style: none; gap: 0; }
 .site-nav ul li a {
@@ -119,26 +112,22 @@ a:hover { text-decoration-color: var(--link-green); }
   padding: 2.5rem 24px 2rem;
   border-bottom: 3px solid var(--gold);
 }
-
-.page-title-inner {
-  max-width: 1160px;
-  margin: 0 auto;
+.page-title-inner { max-width: 1160px; margin: 0 auto; }
+.project-category-label {
+  display: inline-block;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: .65rem;
 }
-
 .page-title-band h1 {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 2.6rem;
+  font-size: 2.4rem;
   font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: .01em;
+  line-height: 1.15;
   color: var(--white);
-}
-
-.page-title-band .page-subtitle {
-  margin-top: .4rem;
-  font-size: 1rem;
-  color: rgba(255,255,255,.65);
-  font-family: 'Source Sans 3', sans-serif;
 }
 
 /* ── BREADCRUMB ──────────────────────────────────────────────────── */
@@ -161,163 +150,224 @@ a:hover { text-decoration-color: var(--link-green); }
 .main-wrapper {
   max-width: 1160px;
   margin: 0 auto;
-  padding: 2.5rem 24px 4rem;
+  padding: 2.5rem 24px 5rem;
   display: grid;
   grid-template-columns: 240px 1fr;
   gap: 2.5rem;
   align-items: start;
 }
 
-/* ── SIDEBAR TABS ────────────────────────────────────────────────── */
-.sidebar {
+/* ── SIDEBAR ─────────────────────────────────────────────────────── */
+.project-sidebar {
   position: sticky;
   top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-.sidebar-heading {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: .8rem;
+.sidebar-item {
+  padding: .9rem 1rem;
+  border: 1px solid var(--border-warm);
+  border-top: none;
+  background: var(--white);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: .93rem;
+  color: var(--text-mid);
+  line-height: 1.5;
+}
+.project-sidebar .sidebar-item:first-child {
+  border-top: 1px solid var(--border-warm);
+  border-top: 3px solid var(--parliament-green);
+}
+
+.sidebar-label {
+  display: block;
+  font-size: .68rem;
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--text-muted);
-  padding: 0 0 .6rem 0;
-  border-bottom: 2px solid var(--parliament-green);
-  margin-bottom: 0;
+  margin-bottom: .3rem;
 }
 
-.sidebar-tabs {
+/* Download list in sidebar */
+.download-list {
   list-style: none;
-  border: 1px solid var(--border-warm);
-  background: var(--white);
-}
-
-.sidebar-tabs li button {
-  width: 100%;
-  background: none;
-  border: none;
-  border-bottom: 1px solid var(--border-warm);
-  padding: .9rem 1rem;
-  text-align: left;
-  font-family: 'Source Sans 3', sans-serif;
-  font-size: .9rem;
-  font-weight: 600;
-  color: var(--text-mid);
-  cursor: pointer;
+  padding: 0;
+  margin: .25rem 0 0 0;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: background .15s, color .15s;
+  flex-direction: column;
+  gap: .45rem;
 }
-.sidebar-tabs li:last-child button { border-bottom: none; }
-.sidebar-tabs li button:hover { background: var(--parchment-mid); color: var(--parliament-green); }
-.sidebar-tabs li button.active {
-  background: var(--parliament-green);
-  color: var(--white);
-  border-left: 4px solid var(--gold);
+.download-link {
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+  color: var(--link-green);
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.4;
+  transition: color .2s;
 }
-.sidebar-tabs li button .count {
-  font-size: .75rem;
-  font-weight: 400;
-  background: rgba(0,0,0,.12);
-  padding: .1em .5em;
-  border-radius: 2px;
-  margin-left: 8px; /* Added base spacing */
-}
-.sidebar-tabs li button.active .count { background: rgba(255,255,255,.2); }
-
-.sidebar-note {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  background: var(--parchment-mid);
-  border: 1px solid var(--border-warm);
-  border-left: 3px solid var(--gold);
-  font-size: .82rem;
-  color: var(--text-muted);
-  line-height: 1.5;
+.download-link:hover { color: var(--parliament-dark); text-decoration: underline; text-decoration-color: var(--parliament-dark); }
+.download-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  color: var(--gold);
 }
 
 /* ── CONTENT AREA ────────────────────────────────────────────────── */
-.content-area { min-width: 0; }
+.project-content { min-width: 0; }
 
-.tab-content { display: none; }
-.tab-content.active {
-  display: block;
-  animation: fadeIn .2s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── CATEGORY HEADING ────────────────────────────────────────────── */
-.category-block { margin-bottom: 3rem; }
-
-.category-heading {
+.project-content h2 {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   font-weight: 700;
   color: var(--parliament-dark);
-  margin-bottom: 1.5rem;
-  padding-bottom: .6rem;
+  margin: 2.25rem 0 .9rem;
+  padding-bottom: .5rem;
   border-bottom: 2px solid var(--parliament-green);
   display: flex;
   align-items: center;
-  gap: .6rem;
+  gap: .5rem;
 }
-.category-heading::before {
+.project-content h2::before {
   content: '';
   display: inline-block;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   background: var(--gold);
   border-radius: 50%;
   flex-shrink: 0;
 }
+.project-content h2:first-of-type { margin-top: 0; }
 
-/* ── YEAR GROUP ──────────────────────────────────────────────────── */
-.year-group { margin-bottom: 2rem; }
+.project-content p {
+  font-size: 1rem;
+  color: var(--text-mid);
+  margin-bottom: 1rem;
+  line-height: 1.8;
+}
 
-.year-label {
+.project-content ul {
+  margin: 0 0 1.25rem 0;
+  padding: 0;
+  list-style: none;
+}
+.project-content ul li {
+  font-size: .97rem;
+  color: var(--text-mid);
+  line-height: 1.7;
+  padding: .55rem .9rem .55rem 1rem;
+  border-left: 3px solid var(--border-warm);
+  margin-bottom: .45rem;
+  background: var(--white);
+  border-bottom: 1px solid var(--border-warm);
+  transition: border-left-color .2s;
+}
+.project-content ul li:hover { border-left-color: var(--gold); }
+.project-content ul li strong { color: var(--text-dark); }
+
+/* ── BACK LINK ───────────────────────────────────────────────────── */
+.back-link {
   display: inline-flex;
   align-items: center;
+  gap: .4em;
+  margin-top: 2.5rem;
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--parliament-green);
+  text-decoration: none;
+  border: 1px solid var(--border-warm);
+  background: var(--white);
+  padding: .5rem 1rem;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.back-link:hover {
   background: var(--parliament-green);
   color: var(--white);
-  font-size: .7rem;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  padding: .25em .7em;
-  margin-bottom: 1rem;
+  border-color: var(--parliament-green);
+  text-decoration: none;
+  text-decoration-color: transparent;
 }
 
-/* ── PUBLICATION ENTRY ───────────────────────────────────────────── */
-.pub-entry {
-  background: var(--white);
+/* ── CAROUSEL ────────────────────────────────────────────────────── */
+.carousel-section { margin: 1.5rem 0 2rem; }
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+  background: var(--parchment-mid);
   border: 1px solid var(--border-warm);
-  border-left: 4px solid var(--parliament-green);
-  padding: 1rem 1.25rem;
-  margin-bottom: .75rem;
-  font-size: .95rem;
-  line-height: 1.7;
-  color: var(--text-mid);
-  transition: border-left-color .2s, box-shadow .2s;
 }
-.pub-entry:hover {
-  border-left-color: var(--gold);
-  box-shadow: 0 2px 8px rgba(0,0,0,.07);
+.carousel-track {
+  display: flex;
+  transition: transform 420ms ease;
+  will-change: transform;
+}
+.carousel-slide { min-width: 100%; position: relative; }
+.carousel-slide img {
+  display: block;
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
 }
 
-.pub-entry strong { color: var(--text-dark); font-weight: 700; }
-.pub-entry em { font-style: italic; }
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,.92);
+  border: 1px solid var(--border-warm);
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: var(--text-dark);
+  transition: background .15s, color .15s;
+}
+.carousel-btn:hover { background: var(--parliament-green); color: var(--white); border-color: var(--parliament-green); }
+.carousel-btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.carousel-btn.prev { left: 10px; }
+.carousel-btn.next { right: 10px; }
 
-.pub-link {
-  color: var(--link-green);
-  font-size: .85rem;
-  word-break: break-word;
-  display: inline-block;
-  margin-top: .2rem;
+.carousel-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: .75rem;
+  flex-wrap: wrap;
+}
+.carousel-caption {
+  font-size: .88rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+.carousel-dots { display: flex; gap: .45rem; align-items: center; }
+.carousel-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  border: 1px solid var(--border-warm);
+  background: var(--white);
+  cursor: pointer;
+  padding: 0;
+  transition: background .15s, border-color .15s;
+}
+.carousel-dot[aria-current="true"] {
+  background: var(--parliament-green);
+  border-color: var(--parliament-green);
+}
+.carousel-sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
 }
 
 /* ── FOOTER ──────────────────────────────────────────────────────── */
@@ -329,18 +379,15 @@ a:hover { text-decoration-color: var(--link-green); }
   text-align: center;
   font-size: .85rem;
 }
-.site-footer a { color: rgba(255,255,255,.75); }
 
 /* ── RESPONSIVE ──────────────────────────────────────────────────── */
 @media (max-width: 820px) {
   .main-wrapper { grid-template-columns: 1fr; }
-  .sidebar { position: static; }
-  .sidebar-tabs { display: flex; flex-wrap: wrap; }
-  .sidebar-tabs li { flex: 1 1 auto; }
-  .sidebar-tabs li button { border-right: 1px solid var(--border-warm); justify-content: center; }
-  .sidebar-tabs li button .count { margin-left: 12px; }
 
-  /* CHANGED: centre header items on narrow widths */
+  /* UNPIN sidebar on narrow screens */
+  .project-sidebar { position: static; }
+
+  /* Keep mobile header centring */
   .header-inner {
     height: auto;
     padding: .75rem 24px;
@@ -359,328 +406,267 @@ a:hover { text-decoration-color: var(--link-green); }
     justify-content: center;
   }
 }
-</style>
+  </style>
 </head>
 <body>
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
+<!-- HEADER -->
 <header class="site-header">
   <div class="header-inner">
-    <a href="/" class="site-logo">
-      Wonyong Park
-    </a>
+    <a href="/" class="site-logo">Wonyong Park</a>
     <nav class="site-nav" aria-label="Main navigation">
       <ul>
         <li><a href="/">About</a></li>
-        <li><a href="/publications/" class="active">Publications</a></li>
-        <li><a href="/projects/">Projects</a></li>
+        <li><a href="/publications/">Publications</a></li>
+        <li><a href="/projects/" class="active">Projects</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
+<!-- PAGE TITLE -->
 <div class="page-title-band">
   <div class="page-title-inner">
-    <h1>Publications</h1>
-    <p class="page-subtitle">Peer-reviewed research, books, chapters, opinions and technical reports</p>
+    <span class="project-category-label">Research Project</span>
+    <h1>The Grenfell Curriculum</h1>
   </div>
 </div>
 
+<!-- BREADCRUMB -->
 <div class="breadcrumb-bar" aria-label="Breadcrumb">
   <div class="inner">
     <a href="/">Home</a>
     <span aria-hidden="true">›</span>
-    Publications
+    <a href="/projects/">Projects</a>
+    <span aria-hidden="true">›</span>
+    The Grenfell Curriculum
   </div>
 </div>
 
+<!-- MAIN -->
 <main id="main-content">
   <div class="main-wrapper">
 
-    <aside class="sidebar" aria-label="Publication categories">
-      <div class="sidebar-heading">Publication Type</div>
-      <ul class="sidebar-tabs">
-        <li>
-          <button class="active" onclick="openTab(event,'journals')" aria-controls="journals" aria-selected="true">
-            Journal Articles
-            <span class="count">26</span>
-          </button>
-        </li>
-        <li>
-          <button onclick="openTab(event,'special-issues')" aria-controls="special-issues" aria-selected="false">
-            Special Issues
-            <span class="count">4</span>
-          </button>
-        </li>
-        <li>
-          <button onclick="openTab(event,'books-chapters')" aria-controls="books-chapters" aria-selected="false">
-            Books &amp; Chapters
-            <span class="count">10</span>
-          </button>
-        </li>
-        <li>
-          <button onclick="openTab(event,'opinions-reports')" aria-controls="opinions-reports" aria-selected="false">
-            Others
-            <span class="count">12</span>
-          </button>
-        </li>
-        <li>
-          <button onclick="openTab(event,'in-progress')" aria-controls="in-progress" aria-selected="false">
-            In Progress
-            <span class="count">5</span>
-          </button>
-        </li>
-      </ul>
-
-      <div class="sidebar-note">
-        Publications listed in reverse chronological order. DOI links open in new tabs.
+    <!-- SIDEBAR -->
+    <aside class="project-sidebar">
+      <div class="sidebar-item">
+        <span class="sidebar-label">Duration</span>
+        2023 – 2024
+      </div>
+      <div class="sidebar-item">
+        <span class="sidebar-label">Funder</span>
+        Research England
+      </div>
+      <div class="sidebar-item">
+        <span class="sidebar-label">Partners</span>
+        The Grenfell Foundation<br>
+        Grenfell United<br>
+        Grenfell Tower Memorial Commission
+      </div>
+      <div class="sidebar-item">
+        <span class="sidebar-label">Project links</span>
+        <ul class="download-list" aria-label="Project links">
+          <li>
+            <a class="download-link" href="https://www.grenfellcurriculum.com/" target="_blank" rel="noopener noreferrer">
+              <svg class="download-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 3h7v7"/><path d="M10 14L21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/>
+              </svg>
+              <span>Project website</span>
+            </a>
+          </li>
+          <li>
+            <a class="download-link" href="https://www.grenfellcurriculum.com/cpd/" target="_blank" rel="noopener noreferrer">
+              <svg class="download-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 3h7v7"/><path d="M10 14L21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/>
+              </svg>
+              <span>Free online CPD course</span>
+            </a>
+          </li>
+        </ul>
       </div>
     </aside>
 
-    <div class="content-area">
+    <!-- CONTENT -->
+    <article class="project-content">
 
-      <div id="special-issues" class="tab-content">
+      <h2>Summary</h2>
+      <p>
+        The project combines disaster justice education and community-engaged participatory research methods to create a space for collaborative learning and identify educational needs and priorities, in collaboration with the Grenfell Tower fire community in London.
+      </p>
+      <p>
+        The Grenfell Tower fire disaster occurred on 14 June 2017, in North Kensington, London, marking one of the most tragic events in recent British history. A fire broke out in the 24-storey residential building and rapidly spread due to the flammable exterior cladding. The blaze raged for over 60 hours, resulting in the deaths of 72 people and injuring many others. Investigations revealed significant failures in social housing policy, fire safety regulations and building materials, with the state and cladding manufacturers bearing substantial responsibility for creating and perpetuating these social injustices. The project considers how we can redress such injustices and build a safe, just and disaster-resilient society through education.
+      </p>
+      <p>
+        We interviewed members of the Grenfell community, as well as teachers in North Kensington and Grenfell activists. We also collected existing lessons and in- and out-of-school educational initiatives about Grenfell from across the UK. In June 2024, we convened four 'Grenfell Education Meetings' with the community (survivors and bereaved, teachers, young adults and children) to discuss and reimagine education for social justice after Grenfell.
+      </p>
 
-        <div class="category-block">
-          <h2 class="category-heading">Special Issues</h2>
+      <h2>Research Questions</h2>
+      <ul>
+        <li>What does Grenfell mean to the survivors, bereaved families and residents, including young people?</li>
+        <li>What should we teach young people about the Grenfell disaster, and how can we do this?</li>
+      </ul>
 
-          <div class="year-group">
-            <span class="year-label">In Progress</span>
-            <div class="pub-entry">Park, W., &amp; Guilfoyle, L. (in progress). (Eds.). <strong>Research-informed policy and practice in science education</strong>. Special issue of <em>Research in Science Education</em>.</div>
+      <h2>Objectives</h2>
+      <ul>
+        <li>Understand the community's experiences, views, emotions and hopes related to Grenfell</li>
+        <li>Develop a set of priorities and approaches for disaster justice education in the context of Grenfell</li>
+        <li>Produce actionable policy recommendations for disaster justice education in the context of Grenfell</li>
+      </ul>
+
+      <h2>Project Website and CPD Course</h2>
+      <p>
+        Further information, educational resources and project updates are available on the
+        <a href="https://www.grenfellcurriculum.com/" target="_blank" rel="noopener noreferrer">Grenfell Curriculum project website</a>.
+      </p>
+      <p>
+        The free online course
+        <a href="https://www.grenfellcurriculum.com/cpd/" target="_blank" rel="noopener noreferrer"><em>Teaching about Grenfell: Education and Social Justice after Disasters</em></a>
+        provides structured continuing professional development for teachers across phases and subject areas.
+      </p>
+
+      <h2>Team</h2>
+      <ul>
+        <li><strong>Wonyong Park</strong>, University of Southampton (Principal Investigator)</li>
+        <li><strong>Nigel Fancourt</strong>, University of Oxford (Co-Investigator)</li>
+        <li><strong>Hanan Wahabi</strong>, Grenfell Tower Memorial Commission (Co-Investigator)</li>
+        <li><strong>Arzhia Habibi</strong>, University of Oxford (Research Assistant)</li>
+        <li><strong>Ruaa Al Rubaye</strong>, University of Southampton (Summer Intern)</li>
+        <li><strong>Harry Russell</strong>, University of Southampton (Research Assistant)</li>
+      </ul>
+
+      <h2>Outputs</h2>
+      <ul>
+        <li>
+          <a href="https://doi.org/10.5258/SOTON/P1293" target="_blank" rel="noopener noreferrer">The Grenfell Curriculum: Honouring the Legacy of Grenfell through Teacher Professional Development</a> (2026)
+        </li>
+        <li>
+          <a href="https://doi.org/10.5258/SOTON/P1281" target="_blank" rel="noopener noreferrer">From Loss to Learning: National Tragedies and the National Curriculum</a> (2026)
+        </li>
+        <li>
+          <a href="https://doi.org/10.5258/SOTON/P1214" target="_blank" rel="noopener noreferrer">Teaching about Grenfell: Recommendations from the Community</a> (2025)
+        </li>
+        <li>
+          <a href="https://eprints.soton.ac.uk/506712/" target="_blank" rel="noopener noreferrer">Never Again: Disaster Memory and Education for Social Justice after Grenfell</a> (2025)
+        </li>
+        <li>
+          <a href="https://doi.org/10.5258/SOTON/PP0070" target="_blank" rel="noopener noreferrer">Education and Memorialisation for Disaster Justice: Lessons from Grenfell, Hillsborough and Sewol</a> (2024)
+        </li>
+      </ul>
+
+      <h2>Gallery</h2>
+      <section class="carousel-section" aria-label="Project gallery">
+        <div class="carousel" id="wpCarousel" tabindex="0" aria-roledescription="carousel" aria-label="Project images">
+          <div class="carousel-track" id="wpCarouselTrack">
+            <figure class="carousel-slide" data-caption="Grenfell Education Meeting with community members">
+              <img src="gem1.jpeg" alt="Grenfell Education Meeting with community members">
+            </figure>
+            <figure class="carousel-slide" data-caption="Grenfell Education Meeting with community members">
+              <img src="gem2.jpeg" alt="Grenfell Education Meeting with community members">
+            </figure>
+            <figure class="carousel-slide" data-caption="Grenfell Education Meeting with community members">
+              <img src="gem3.jpeg" alt="Grenfell Education Meeting with community members">
+            </figure>
           </div>
 
-          <div class="year-group">
-            <span class="year-label">2025</span>
-            <div class="pub-entry">Millar, V., Park, W., &amp; Dillon, J. (2025). (Eds). <strong>The science curriculum: Issues, tensions and future prospects</strong>. Special issue of <em>International Journal of Science Education</em>. (Volume 47, Issue 15–16) <br><a href="https://www.tandfonline.com/toc/tsed20/47/15-16" class="pub-link" target="_blank">https://www.tandfonline.com/toc/tsed20/47/15-16</a></div>
-            <div class="pub-entry">Park, W., Grace, M., Hutton, C., &amp; Knowles, S. G. (2025). (Eds.). <strong>Science education in an age of unnatural disasters</strong>. Special issue of <em>Science &amp; Education</em>. (Volume 34, Issue 3) <br><a href="https://link.springer.com/journal/11191/volumes-and-issues/34-3" class="pub-link" target="_blank">https://link.springer.com/journal/11191/volumes-and-issues/34-3</a></div>
-            <div class="pub-entry">Park, W., &amp; Erduran, S. (2025) (Eds.). <strong>Argumentation and the problem of misinformation in science education</strong>. Topical collection of <em>Research in Science Education</em>. <br><a href="https://link.springer.com/collections/jfjieedgbd" class="pub-link" target="_blank">https://link.springer.com/collections/jfjieedgbd</a></div>
-          </div>
+          <button class="carousel-btn prev" type="button" id="wpCarouselPrev" aria-label="Previous image">
+            <span aria-hidden="true">‹</span>
+          </button>
+          <button class="carousel-btn next" type="button" id="wpCarouselNext" aria-label="Next image">
+            <span aria-hidden="true">›</span>
+          </button>
+
+          <p class="carousel-sr-only" id="wpCarouselHelp">
+            Use the left and right arrow keys to navigate the images.
+          </p>
         </div>
 
-      </div><div id="journals" class="tab-content active">
-
-        <div class="category-block">
-          <h2 class="category-heading">Articles</h2>
-
-          <div class="year-group">
-            <span class="year-label">2026</span>
-            <div class="pub-entry"> Park, W. (in press). <strong>“Be better than you need to be”: A-level Physics students’ rants, resilience and peer pedagogy on TikTok</strong>. <em>Research in Science Education.</em> <br><a href="https://doi.org/10.1007/s11165-026-10332-x" class="pub-link" target="_blank">https://doi.org/10.1007/s11165-026-10332-x</a></div>
-            <div class="pub-entry">Park, W., Erduran, S., &amp; Hillier, J. (2026). <strong>Building connections to teach the nature of science: An experienced science teacher's formative assessment practices in a high school science classroom</strong>. <em>Journal of Research in Science Teaching</em>, 63(2), 161–185. <br><a href="https://doi.org/10.1002/tea.70029" class="pub-link" target="_blank">https://doi.org/10.1002/tea.70029</a></div>
-          </div>  
-
-          <div class="year-group">
-            <span class="year-label">2025</span>
-            <div class="pub-entry">Millar, V., Park, W., &amp; Dillon, J. (2025). <strong>The science curriculum: Issues, tensions and future prospects</strong>. <em>International Journal of Science Education</em>, 47(15–16), 1965–1971. <br><a href="https://doi.org/10.1080/09500693.2025.2504644" class="pub-link" target="_blank">https://doi.org/10.1080/09500693.2025.2504644</a></div>
-            <div class="pub-entry">Townend, I., Baden, D., Baker, J., Buermann, J., Dawson, I., Dbouk, W., Dearing, J. A., Doncaster, C. P., Eigenbrod, F., Hellman, T., Hoyle, R. B., & Ianni, A., Kassem, H., Katsikopoulou, K., Kunc, M., Manfren, M., Marshall, A., Park, W., Sengupta, D., & Wanick, V. (2025). <strong>Anticipating futures: Understanding the fundamental importance of narratives through an integrative interdisciplinary approach</strong>. <em>Futures</em>, 173, 103649. <br><a href="https://doi.org/10.1016/j.futures.2025.103649" class="pub-link" target="_blank">https://doi.org/10.1016/j.futures.2025.103649</a></div>
-            <div class="pub-entry">Park, W. (2025). <strong>STEM education for transformative hazard literacy: from technological fixes to slow learning</strong>. <em>Journal of Hazard Literacy</em>, 1(1), e3. <br><a href="https://doi.org/10.63737/jhl.25.0014" class="pub-link" target="_blank">https://doi.org/10.63737/jhl.25.0014</a></div>
-            <div class="pub-entry">Park, W., Grace, M., Hutton, C. W., &amp; Knowles, S. G. (2025). <strong>Science education in an age of unnatural disasters: An introduction to the special issue</strong>. <em>Science &amp; Education</em>, 34(3), 957–967. <br><a href="https://doi.org/10.1007/s11191-025-00652-1" class="pub-link" target="_blank">https://doi.org/10.1007/s11191-025-00652-1</a></div>
-            <div class="pub-entry">Park, W., Shaby, N., &amp; Newman, R. (2025). <strong>"We often forget it was a disaster": Cross-curricular teacher collaboration to develop a curriculum unit on the Titanic disaster</strong>. <em>Science &amp; Education</em>, 34(3), 1087–1114. <br><a href="https://doi.org/10.1007/s11191-024-00540-0" class="pub-link" target="_blank">https://doi.org/10.1007/s11191-024-00540-0</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2024</span>
-            <div class="pub-entry">Park, W., Lim, I., &amp; Song, J. (2024). <strong>Exploring the intersection of disasters and science education with preservice science teachers through a disaster case study</strong>. <em>Cultural Studies of Science Education</em>, 19(4), 593–622. <br><a href="https://doi.org/10.1007/s11422-024-10225-3" class="pub-link" target="_blank">https://doi.org/10.1007/s11422-024-10225-3</a></div>
-            <div class="pub-entry">Brock, R., &amp; Park, W. (2024). <strong>Distinguishing nature of science beliefs, knowledge and understandings: Towards clarity and coherence in educational goals related to nature of science</strong>. <em>Science &amp; Education</em>, 33(3), 495–516. <br><a href="https://doi.org/10.1007/s11191-022-00368-6" class="pub-link" target="_blank">https://doi.org/10.1007/s11191-022-00368-6</a></div>
-            <div class="pub-entry">Park, W., Cullinane, A., Gandolfi, H., Alameh, S., &amp; Mesci, G. (2024). <strong>Innovations and future directions in nature of science research: Reflections from early career academics</strong>. <em>Research in Science Education</em>, 54(1), 27–48. <br><a href="https://doi.org/10.1007/s11165-023-10102-z" class="pub-link" target="_blank">https://doi.org/10.1007/s11165-023-10102-z</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2023</span>
-            <div class="pub-entry">Ha, H., Park, W., &amp; Song, J. (2023). <strong>Preservice elementary teachers' socioscientific reasoning during a decision-making activity in the context of COVID-19</strong>. <em>Science &amp; Education</em>, 32(6), 1869–1886. <br><a href="https://doi.org/10.1007/s11191-022-00359-7" class="pub-link" target="_blank">https://doi.org/10.1007/s11191-022-00359-7</a></div>
-            <div class="pub-entry">Park, W., Lee, H., Ko, Y., &amp; Lee, H. (2023). <strong>"Safety" and "integration": Examining the introduction of disaster into the science curriculum in South Korea</strong>. <em>Journal of Curriculum Studies</em>, 55(5), 580–597. <br><a href="https://doi.org/10.1080/00220272.2023.2239887" class="pub-link" target="_blank">https://doi.org/10.1080/00220272.2023.2239887</a></div>
-            <div class="pub-entry">Park, W., Erduran, S., Song, J., &amp; Kim, M. (2023). <strong>"It's a lesson with no correct answer": Design issues in preservice teachers' collaborative lesson planning using history of science</strong>. <em>International Journal of Science Education</em>, 45(3), 181–203. <br><a href="https://doi.org/10.1080/09500693.2022.2154132" class="pub-link" target="_blank">https://doi.org/10.1080/09500693.2022.2154132</a></div>
-            <div class="pub-entry">Park, W. &amp; Brock, R. (2023). <strong>Is there a limit to resemblances? Revisiting the science-pseudoscience problem from a family resemblance perspective</strong>. <em>Science &amp; Education</em>, 32(5), 1265–1286. <br><a href="https://doi.org/10.1007/s11191-022-00394-4" class="pub-link" target="_blank">https://doi.org/10.1007/s11191-022-00394-4</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2022</span>
-            <div class="pub-entry">Cho, H-J., Jo, J.-H., Choi, N., Choi, J., &amp; Park, W. (2022). <strong>Environmental themes and ecosystem services in picture books about forests for sustainability education</strong>. <em>Journal of Forest Research</em>, 27(6), 419–428. <br><a href="https://doi.org/10.1080/09500693.2022.2154132" class="pub-link" target="_blank">https://doi.org/10.1080/09500693.2022.2154132</a></div>
-            <div class="pub-entry">Park, W., &amp; Cho, H. (2022). <strong>The interaction of history and STEM learning goals in teacher-developed curriculum materials: Opportunities and challenges for STEAM education</strong>. <em>Asia Pacific Education Review</em>, 23(3), 457–474. <br><a href="https://doi.org/10.1007/s12564-022-09741-0" class="pub-link" target="_blank">https://doi.org/10.1007/s12564-022-09741-0</a></div>
-            <div class="pub-entry">Park, W., Erduran, S., &amp; Guilfoyle, L. (2022). <strong>Secondary teachers' instructional practices on argumentation in the context of science and religious education</strong>. <em>International Journal of Science Education</em>, 44(8), 1251–1276. <br><a href="https://doi.org/10.1080/09500693.2022.2074565" class="pub-link" target="_blank">https://doi.org/10.1080/09500693.2022.2074565</a></div>
-            <div class="pub-entry">Erduran, S., Guilfoyle, L., &amp; Park, W. (2022). <strong>Science and religious education teachers' perceptions of argumentation and its teaching</strong>. <em>Research in Science Education</em>, 52(2), 655–673. <br><a href="https://doi.org/10.1007/s11165-020-09966-2" class="pub-link" target="_blank">https://doi.org/10.1007/s11165-020-09966-2</a></div>
-            <div class="pub-entry">Park, W., &amp; Song, J. (2022). <strong>Looking back at "our science" and "our history": Exploring Korean preservice teachers' encounters with East Asian history of science</strong>. <em>Cultural Studies of Science Education</em>, 17(2), 355–381. <br><a href="https://doi.org/10.1007/s11422-021-10060-w" class="pub-link" target="_blank">https://doi.org/10.1007/s11422-021-10060-w</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2021</span>
-            <div class="pub-entry">Park, W., Kim, D., &amp; Kang, D. Y. (2021). <strong>Research trends in science and mathematics education in South Korea 2014–2018: A cross-disciplinary analysis of publications in selected local journals</strong>. <em>Asia-Pacific Science Education</em>, 7, 280–308. <br><a href="https://doi.org/10.1163/23641177-bja10029" class="pub-link" target="_blank">https://doi.org/10.1163/23641177-bja10029</a></div>
-            <div class="pub-entry">Guilfoyle, L., Erduran, S., &amp; Park, W. (2021). <strong>Science and religious education teachers' views of the comparison of argumentation in science and religion</strong>. <em>Journal of Beliefs and Values</em>, 42(2), 190–204. <br><a href="https://doi.org/10.1080/13617672.2020.1805925" class="pub-link" target="_blank">https://doi.org/10.1080/13617672.2020.1805925</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2020</span>
-            <div class="pub-entry">Park, W., Wu, J.-Y., &amp; Erduran, S. (2020). <strong>The nature of STEM disciplines in the science education standards documents from the USA, Korea and Taiwan: Focusing on disciplinary aims, values and practices</strong>. <em>Science &amp; Education</em>, 29(4), 899–927. <br><a href="https://doi.org/10.1007/s11191-020-00139-1" class="pub-link" target="_blank">https://doi.org/10.1007/s11191-020-00139-1</a></div>
-            <div class="pub-entry">Park, W. (2020). <strong>Beyond the "two cultures" in the teaching of disaster: or how disaster education and science education could benefit each other</strong>. <em>Educational Philosophy and Theory</em>, 52(13), 1434–1448. <br><a href="https://doi.org/10.1080/00131857.2020.1751126" class="pub-link" target="_blank">https://doi.org/10.1080/00131857.2020.1751126</a></div>
-            <div class="pub-entry">Park, W., Yang, S., &amp; Song, J. (2020). <strong>Eliciting students' understanding of nature of science with text-based tasks: Insights from new Korean high school textbooks</strong>. <em>International Journal of Science Education</em>, 42(3), 426–450. <br><a href="https://doi.org/10.1080/09500693.2020.1714094" class="pub-link" target="_blank">https://doi.org/10.1080/09500693.2020.1714094</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2019</span>
-            <div class="pub-entry">Park, W., Yang, S., &amp; Song, J. (2019). <strong>When modern physics meets nature of science: The representation of nature of science in general relativity in new Korean physics textbooks</strong>. <em>Science &amp; Education</em>, 28(9–10), 1055–1083. <br><a href="https://doi.org/10.1007/s11191-019-00075-9" class="pub-link" target="_blank">https://doi.org/10.1007/s11191-019-00075-9</a></div>
-            <div class="pub-entry">Erduran, S., Guilfoyle, L., Park, W., Chan, J., &amp; Fancourt, N. (2019). <strong>Argumentation and interdisciplinarity: Reflections from the Oxford Argumentation in Religion and Science Project</strong>. <em>Disciplinary and Interdisciplinary Science Education Research</em>, 1, 8. <br><a href="https://doi.org/10.1186/s43031-019-0006-9" class="pub-link" target="_blank">https://doi.org/10.1186/s43031-019-0006-9</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2018</span>
-            <div class="pub-entry">Park, W., &amp; Song, J. (2018). <strong>Goethe's conception of "experiment as mediator" and implications for practical work in school science</strong>. <em>Science &amp; Education</em>, 27(1–2), 39–61. <br><a href="https://doi.org/10.1007/s11191-018-9965-z" class="pub-link" target="_blank">https://doi.org/10.1007/s11191-018-9965-z</a></div>
-          </div>
+        <div class="carousel-meta">
+          <p class="carousel-caption" id="wpCarouselCaption">Grenfell Education Meeting with community members.</p>
+          <div class="carousel-dots" id="wpCarouselDots" aria-label="Choose an image"></div>
         </div>
+      </section>
 
-      </div><div id="books-chapters" class="tab-content">
+      <a href="/projects/" class="back-link">← Back to Projects</a>
 
-        <div class="category-block">
-          <h2 class="category-heading">Books</h2>
+    </article>
+  </div>
+</main>
 
-          <div class="year-group">
-            <span class="year-label">Under Contract</span>
-            <div class="pub-entry">Park, W. (under contract). <strong><em>Disaster education for social justice: A STEM-centred approach.</em></strong> Routledge.</div>
-            <div class="pub-entry">Park, W., Summers, R., &amp; Pleasants, J. (under contract). (Eds.). <strong><em>Nature of science in science curriculum and teacher education: A global perspective.</em></strong> Springer.</div>
-          </div>
-        </div>
-
-        <div class="category-block">
-          <h2 class="category-heading">Book Chapters</h2>
-
-          <div class="year-group">
-            <span class="year-label">2025</span>
-            <div class="pub-entry">Park, W., Chun, J., &amp; Ji, H. (2025). <strong>Why did the Fukushima nuclear accident happen, and how did it affect people?</strong>. In D. Steele &amp; A. K. Mercier (Eds.), <em>Justice-oriented science teaching and learning: Anchoring phenomena in secondary classrooms</em> (pp. 397–410). Springer. <br><a href="https://doi.org/10.1007/978-3-031-76297-0_21" class="pub-link" target="_blank">https://doi.org/10.1007/978-3-031-76297-0_21</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2024</span>
-            <div class="pub-entry">Skilling, K., &amp; Park, W. (2024). <strong>STEM in a changing world: "Insider" and "outsider" perspectives</strong>. In L. English &amp; T. Lehmann (Eds.), <em>Ways of thinking in STEM-based problem solving: Teaching and learning in a new era</em> (pp. 15–28). Routledge. <br><a href="https://doi.org/10.4324/9781003404989-2" class="pub-link" target="_blank">https://doi.org/10.4324/9781003404989-2</a></div>
-            <div class="pub-entry">Erduran, S., Guilfoyle, L., &amp; Park, W. (2024). <strong>Broadening STEM education through cross-curricular collaboration: The case of argumentation in science and religious education</strong>. In Y. Li, Z. Zeng &amp; N. Song (Eds.), <em>Disciplinary and interdisciplinary education in STEM: Changes and innovations</em> (241–264). Springer. <br><a href="https://doi.org/10.1007/978-3-031-52924-5_12" class="pub-link" target="_blank">https://doi.org/10.1007/978-3-031-52924-5_12</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2023</span>
-            <div class="pub-entry">Erduran, S, &amp; Park, W. (2023). <strong>A systemic approach to the integration of Big Science in science education</strong>. In P. Charitos, et al. (Eds.), <em>Big Science in the 21st century: Economic and social impacts</em>. IOP Publishing. <br><a href="https://doi.org/10.1088/978-0-7503-3631-4ch42" class="pub-link" target="_blank">https://doi.org/10.1088/978-0-7503-3631-4ch42</a></div>
-            <div class="pub-entry">Erduran, S, &amp; Park, W. (2023). <strong>Teaching and learning about argumentation in physics education</strong>. In F. Tasar &amp; P. Heron (Eds.), <em>International handbook of physics education research: Learning physics</em> (pp. 1–32). AIP Publishing. <br><a href="https://doi.org/10.1063/9780735425477_016" class="pub-link" target="_blank">https://doi.org/10.1063/9780735425477_016</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2020</span>
-            <div class="pub-entry">Park, W., Wu, J.-Y., &amp; Erduran, S. (2020). <strong>Investigating the epistemic nature of STEM: Analysis of curriculum documents from the USA using the Family Resemblance Approach</strong>. In Anderson, J., &amp; Li, Y. (Eds.) <em>Integrated approaches to STEM education: An international perspective</em> (pp. 137–155). Springer. <br><a href="https://doi.org/10.1007/978-3-030-52229-2_8" class="pub-link" target="_blank">https://doi.org/10.1007/978-3-030-52229-2_8</a></div>
-            <div class="pub-entry">Yang, S., Park, W., &amp; Song, J. (2020). <strong>Representations of nature of science in new Korean science textbooks: The case of "scientific inquiry and experimentation"</strong>. In A.-L. Tan., et al. (Eds.), <em>Science education in the 21st century</em> (pp. 19–35). Springer. <br><a href="https://doi.org/10.1007/978-981-15-5155-0_2" class="pub-link" target="_blank">https://doi.org/10.1007/978-981-15-5155-0_2</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2019</span>
-            <div class="pub-entry">Park, W., &amp; Song, J. (2019). <strong>Between realism and constructivism: A sketch of pluralism for science education</strong>. In E. Herring, et al. (Eds.), <em>The past, present and future of integrated history and philosophy of science</em> (pp. 228–247). Routledge. <br><a href="https://doi.org/10.4324/9781351214827-14" class="pub-link" target="_blank">https://doi.org/10.4324/9781351214827-14</a></div>
-          </div>
-        </div>
-
-      </div><div id="opinions-reports" class="tab-content">
-
-        <div class="category-block">
-          <h2 class="category-heading">Opinions and Practitioner Pieces</h2>
-
-          <div class="year-group">
-            <span class="year-label">2025</span>
-            <div class="pub-entry">Park, W., Russell, H., &amp; Fancourt, N. (2025). <strong>Never again: Disaster memory and education for social justice after Grenfell</strong>. <em>Teaching Citizenship</em>, 61, 38–41. <br><a href="/project3/never-again.pdf" class="pub-link" target="_blank">https://www.wonyongpark.com/project3/never-again.pdf</a></div>
-            <div class="pub-entry">Newman, R., &amp; Park, W. (2025). <strong>Creating opportunities for learning across subjects through the Titanic disaster</strong>. <em>BERA Blog</em>. <br><a href="https://www.bera.ac.uk/blog/creating-opportunities-for-learning-across-subjects-through-the-titanic-disaster" class="pub-link" target="_blank">https://www.bera.ac.uk/blog/creating-opportunities-for-learning-across-subjects-through-the-titanic-disaster</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2024</span>
-            <div class="pub-entry">Park, W., Miani, L., &amp; Levrini, O. (2024). <strong>Disasters in the classroom: Lessons on talking to students about extreme climate events</strong>. <em>UNDRR PreventionWeb</em>. <br><a href="https://www.preventionweb.net/drr-community-voices/disasters-classroom-lessons-talking-students-about-extreme-climate-events" class="pub-link" target="_blank">https://www.preventionweb.net/drr-community-voices/disasters-classroom-lessons-talking-students-about-extreme-climate-events</a></div>
-            <div class="pub-entry">Park, W. (2024). <strong>Remembering Titanic: Lessons from a cross-curricular professional development project with science and history teachers</strong>. <em>Education in Science</em>, 294, 22–23. <br><a href="https://www.ase.org.uk/resources/education-in-science/issue-294/remembering-titanic" class="pub-link" target="_blank">https://www.ase.org.uk/resources/education-in-science/issue-294/remembering-titanic</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2023</span>
-            <div class="pub-entry">Park, W. (2023). <strong>Computing education in the UK</strong>. <em>Science Times</em>. (written in Korean) <br><a href="https://www.sciencetimes.co.kr/news/%ec%98%81%ea%b5%ad%ec%9d%98-%ec%bb%b4%ed%93%a8%ed%8c%85-%ea%b5%90%ec%9c%a1-1/" class="pub-link" target="_blank">https://www.sciencetimes.co.kr/...</a></div>
-            <div class="pub-entry">Park, W., Lee, S., Lee, E., &amp; Lee, J. (2023). <strong>How South Koreans remember tragedy through education</strong>. <em>BERA Blog</em>. <br><a href="https://www.bera.ac.uk/blog/how-south-koreans-remember-tragedy-through-education" class="pub-link" target="_blank">https://www.bera.ac.uk/blog/how-south-koreans-remember-tragedy-through-education</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2022</span>
-            <div class="pub-entry">Park, W. (2022). <strong>Learning from Grenfell and Sewol: Why science education can be crucial for disaster justice and resilience</strong>. <em>HPS&amp;ST Newsletter</em>. <br><a href="https://www.hpsst.com/opinion.html" class="pub-link" target="_blank">https://www.hpsst.com/opinion.html</a></div>
-            <div class="pub-entry">Park, W. (2022). <strong>K-Science Education: Korean science education from an international perspective</strong>. <em>Journal of Seoul Science Education</em> (written in Korean). <br><a href="http://webzine-ssei.kr/education_issue/54" class="pub-link" target="_blank">http://webzine-ssei.kr/education_issue/54</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2020</span>
-            <div class="pub-entry">Park, W. (2020). <strong>Preparing school science for the next disaster</strong>. <em>Teach311+COVID19 Collective Blog</em>. <br><a href="https://www.teach311.org/2020/06/25/wonyong-park/" class="pub-link" target="_blank">https://www.teach311.org/2020/06/25/wonyong-park/</a></div>
-          </div>
-        </div>
-
-        <div class="category-block">
-          <h2 class="category-heading">Technical Reports</h2>
-
-          <div class="year-group">
-            <span class="year-label">2026</span>
-            <div class="pub-entry">Park, W., Hughes, C., Brown, C., Brock, R., Cutler, M., Kenrick, C., &amp; Kearney, L. (2025). <strong><em>Research-informed practice in science teaching: A practical guide for science teachers.</em></strong> Association for Science Education. <br><a href="https://doi.org/10.5258/SOTON/P1290" class="pub-link" target="_blank">https://doi.org/10.5258/SOTON/P1290</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2025</span>
-            <div class="pub-entry">Park, W., Fancourt, N., Schulz, J., &amp; Wahabi, H. (2025). <strong><em>The Grenfell Curriculum: Honouring the legacy of Grenfell through teacher professional development.</em></strong> University of Southampton. <br><a href="https://doi.org/10.5258/SOTON/P1293" class="pub-link" target="_blank">https://doi.org/10.5258/SOTON/P1293</a></div>
-            <div class="pub-entry">Park, W., Downey, C., Hughes, C., Russell, H., Cutler, M., &amp; Ladbrook, L. (2025). <strong><em>Making research count in science education policy.</em></strong> University of Southampton &amp; Association for Science Education. <br><a href="https://doi.org/10.5258/SOTON/P1232" class="pub-link" target="_blank">https://doi.org/10.5258/SOTON/P1232</a></div>
-            <div class="pub-entry">Park, W., Fancourt, N., Habibi, A., &amp; Wahabi, H. (2025). <strong><em>Teaching about Grenfell: Recommendations from the community.</em></strong> <br><a href="https://doi.org/10.5258/SOTON/P1214" class="pub-link" target="_blank">https://doi.org/10.5258/SOTON/P1214</a></div>
-          </div>
-
-          <div class="year-group">
-            <span class="year-label">2024</span>
-            <div class="pub-entry">Park, W., Byrne, I., Scraton, P., Lee, J., Lee, E., Wahabi, H., &amp; Calamelli, E. (2024). <strong><em>Education and memorialisation for disaster justice: Lessons from Grenfell, Hillsborough and Sewol.</em></strong> University of Southampton. <br><a href="https://doi.org/10.5258/SOTON/PP0070" class="pub-link" target="_blank">https://doi.org/10.5258/SOTON/PP0070</a></div>
-          </div>
-        </div>
-
-      </div><div id="in-progress" class="tab-content">
-
-        <div class="category-block">
-          <h2 class="category-heading">In Progress</h2>
-
-          <div class="year-group">
-            <span class="year-label">Under Review</span>
-
-            <div class="pub-entry">
-              Mainwaring, L., &amp; Park, W. (in review). <strong>Between learning and solidarity: Medical students’ learning and identity work in times of industrial action</strong>. (minor revision submitted)
-            </div>
-
-            <div class="pub-entry">
-              Park, W. (in review). <strong>Contested numbers: Epistemic friction in parliamentary debates on AI-embedded digital textbooks in South Korea</strong>. (submitted)
-            </div>
-
-            <div class="pub-entry">
-              Park, W., &amp; Ha, H. (in review). <strong>Testing times: A structure/agency perspective on becoming a science teacher in a competitive, exam-based teacher selection system</strong>. (major revision submitted)
-            </div>
-
-            <div class="pub-entry">
-              Park, W., Fancourt, N., Habibi, A., &amp; Wahabi, H. (in review). <strong>Beyond remembrance: A community-engaged framework for education for disaster justice after the Grenfell Tower fire</strong>. (submitted)
-            </div>
-
-          </div>
-        </div>
-
-      </div></div></div></main>
-
+<!-- FOOTER -->
 <footer class="site-footer">
   &copy; 2026 Wonyong Park | University of Southampton
 </footer>
 
 <script>
-function openTab(evt, tabName) {
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.sidebar-tabs button').forEach(btn => {
-    btn.classList.remove('active');
-    btn.setAttribute('aria-selected', 'false');
-  });
-  document.getElementById(tabName).classList.add('active');
-  evt.currentTarget.classList.add('active');
-  evt.currentTarget.setAttribute('aria-selected', 'true');
-}
+(function(){
+  const root      = document.getElementById('wpCarousel');
+  const track     = document.getElementById('wpCarouselTrack');
+  const slides    = Array.from(track.querySelectorAll('.carousel-slide'));
+  const btnPrev   = document.getElementById('wpCarouselPrev');
+  const btnNext   = document.getElementById('wpCarouselNext');
+  const captionEl = document.getElementById('wpCarouselCaption');
+  const dotsWrap  = document.getElementById('wpCarouselDots');
 
-// Auto-calculate exact counts from .pub-entry elements in each tab
-document.querySelectorAll('.sidebar-tabs button').forEach(btn => {
-  const tabId = btn.getAttribute('aria-controls');
-  const tab = document.getElementById(tabId);
-  if (!tab) return;
-  const count = tab.querySelectorAll('.pub-entry').length;
-  const badge = btn.querySelector('.count');
-  if (badge) badge.textContent = count;
-});
+  if (!root || slides.length === 0) return;
+
+  let index = 0;
+  let startX = null;
+  let isDragging = false;
+
+  slides.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'carousel-dot';
+    b.setAttribute('aria-label', 'Go to image ' + (i + 1));
+    b.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(b);
+  });
+
+  const dots = Array.from(dotsWrap.querySelectorAll('.carousel-dot'));
+
+  function update() {
+    track.style.transform = 'translateX(' + (-index * 100) + '%)';
+    captionEl.textContent = slides[index].getAttribute('data-caption') || '';
+    dots.forEach((d, i) => d.setAttribute('aria-current', String(i === index)));
+    btnPrev.disabled = (index === 0);
+    btnNext.disabled = (index === slides.length - 1);
+    btnPrev.style.opacity = btnPrev.disabled ? .4 : 1;
+    btnNext.style.opacity = btnNext.disabled ? .4 : 1;
+  }
+
+  function goTo(i) { index = Math.max(0, Math.min(slides.length - 1, i)); update(); }
+  function next() { goTo(index + 1); }
+  function prev() { goTo(index - 1); }
+
+  btnNext.addEventListener('click', next);
+  btnPrev.addEventListener('click', prev);
+
+  root.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') { e.preventDefault(); next(); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); prev(); }
+  });
+
+  const onPointerDown = (e) => { isDragging = true; startX = e.clientX ?? (e.touches?.[0]?.clientX); };
+  const onPointerUp   = (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    const endX = e.clientX ?? (e.changedTouches?.[0]?.clientX);
+    if (startX == null || endX == null) return;
+    if (Math.abs(endX - startX) > 40) { endX - startX < 0 ? next() : prev(); }
+    startX = null;
+  };
+
+  root.addEventListener('pointerdown', onPointerDown);
+  root.addEventListener('pointerup', onPointerUp);
+  root.addEventListener('pointercancel', onPointerUp);
+  root.addEventListener('touchstart', onPointerDown, { passive: true });
+  root.addEventListener('touchend', onPointerUp, { passive: true });
+  root.addEventListener('touchcancel', onPointerUp, { passive: true });
+
+  update();
+})();
 </script>
 
 </body>
