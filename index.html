@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,272 +7,17 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&amp;family=Source+Sans+3:wght@400;600&amp;display=swap" rel="stylesheet">
 
-    <style>
-/* ── Parliament Design System ─────────────────────────────────────── */
-:root {
-  --parliament-green:  #2d6a4f;
-  --parliament-dark:   #1b4332;
-  --gold:              #b08d57;
-  --gold-light:        #e8d5a3;
-  --parchment:         #f8f7f4;
-  --parchment-mid:     #f0ede6;
-  --border-warm:       #ddd8ce;
-  --text-dark:         #1c1c1c;
-  --text-mid:          #3a3a3a;
-  --text-muted:        #6b6b6b;
-  --white:             #ffffff;
-  --link-green:        #2d6a4f;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; scrollbar-gutter: stable; }
-
-body {
-  font-family: 'Source Sans 3', sans-serif;
-  background-color: var(--parchment);
-  color: var(--text-dark);
-  line-height: 1.75;
-  -webkit-font-smoothing: antialiased;
-}
-
-a {
-  color: var(--link-green);
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 3px;
-  transition: text-decoration-color .2s ease, color .2s ease;
-}
-a:hover { text-decoration-color: var(--link-green); }
-
-/* ── SKIP LINK ───────────────────────────────────────────────────── */
-.skip-link {
-  position: absolute;
-  top: -40px; left: 0;
-  background: var(--parliament-green);
-  color: white;
-  padding: 8px 16px;
-  font-size: .875rem;
-  z-index: 999;
-  transition: top .2s;
-}
-.skip-link:focus { top: 0; }
-
-/* ── SITE HEADER ─────────────────────────────────────────────────── */
-.site-header {
-  background-color: var(--parliament-green);
-  color: var(--white);
-  border-bottom: 4px solid var(--gold);
-}
-
-.header-inner {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 72px;
-  gap: 2rem;
-}
-
-.site-logo {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.45rem;
-  font-weight: 700;
-  color: var(--white);
-  text-decoration: none;
-  letter-spacing: .02em;
-  white-space: nowrap;
-}
-
-.site-nav { display: flex; align-items: center; }
-.site-nav ul { display: flex; list-style: none; gap: 0; }
-.site-nav ul li a {
-  display: block;
-  padding: .5rem 1.1rem;
-  color: rgba(255,255,255,.85);
-  text-decoration: none;
-  font-size: .9rem;
-  font-weight: 600;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  border-bottom: 3px solid transparent;
-  transition: color .2s, border-color .2s, background .2s;
-}
-.site-nav ul li a:hover { color: var(--white); background: rgba(255,255,255,.1); }
-.site-nav ul li a.active {
-  color: var(--gold-light);
-  border-bottom-color: var(--gold);
-}
-
-/* ── HERO BAND ───────────────────────────────────────────────────── */
-.hero-band {
-  background-color: var(--parliament-dark);
-  color: var(--white);
-  border-bottom: 3px solid var(--gold);
-}
-
-.hero-inner {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 3rem 24px 3rem;
-  display: flex;
-  align-items: center;
-  gap: 3.5rem;
-}
-
-.hero-text { flex: 1; }
-
-.hero-text h1 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 2.6rem;
-  font-weight: 700;
-  line-height: 1.1;
-  color: var(--white);
-  margin-bottom: .5rem;
-}
-
-.hero-text .hero-role {
-  font-size: 1rem;
-  color: rgba(255,255,255,.65);
-  font-family: 'Source Sans 3', sans-serif;
-}
-
-.hero-image {
-  flex-shrink: 0;
-}
-
-.headshot {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid var(--gold);
-  background-color: rgba(255,255,255,.1);
-  display: block;
-}
-
-/* ── BREADCRUMB ──────────────────────────────────────────────────── */
-.breadcrumb-bar {
-  background: var(--parchment-mid);
-  border-bottom: 1px solid var(--border-warm);
-  padding: .55rem 24px;
-}
-.breadcrumb-bar .inner {
-  max-width: 1160px;
-  margin: 0 auto;
-  font-size: .8rem;
-  color: var(--text-muted);
-}
-.breadcrumb-bar a { color: var(--link-green); text-decoration: none; }
-.breadcrumb-bar a:hover { text-decoration: underline; }
-.breadcrumb-bar span { margin: 0 .4rem; }
-
-/* ── MAIN LAYOUT ─────────────────────────────────────────────────── */
-.main-wrapper {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 2.5rem 24px 4rem;
-}
-
-/* ── SECTIONS ────────────────────────────────────────────────────── */
-.content-section {
-  margin-bottom: 3rem;
-  background: var(--white);
-  border: 1px solid var(--border-warm);
-  border-left: 4px solid var(--parliament-green);
-  padding: 1.75rem 2rem;
-}
-
-.content-section h2 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--parliament-dark);
-  margin-bottom: 1.2rem;
-  padding-bottom: .6rem;
-  border-bottom: 1px solid var(--border-warm);
-  display: flex;
-  align-items: center;
-  gap: .6rem;
-}
-.content-section h2::before {
-  content: '';
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  background: var(--gold);
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.content-section p {
-  font-family: 'Source Sans 3', sans-serif;
-  font-size: 1rem;
-  color: var(--text-mid);
-  margin-bottom: 1rem;
-  line-height: 1.8;
-}
-.content-section p:last-child { margin-bottom: 0; }
-
-/* ── STUDENT LIST ────────────────────────────────────────────────── */
-.student-list {
-  list-style: none;
-  margin-top: 1rem;
-}
-.student-list li {
-  font-family: 'Source Sans 3', sans-serif;
-  font-size: 1rem;
-  color: var(--text-mid);
-  padding: .85rem 1rem .85rem 1.25rem;
-  border-left: 3px solid var(--border-warm);
-  margin-bottom: .6rem;
-  line-height: 1.65;
-  background: var(--parchment);
-  transition: border-color .2s;
-}
-.student-list li:hover { border-left-color: var(--gold); }
-.student-list li strong { color: var(--text-dark); }
-
-.lead-note {
-  font-weight: 600;
-  color: var(--text-dark);
-  margin-bottom: .5rem !important;
-}
-
-/* ── FOOTER ──────────────────────────────────────────────────────── */
-.site-footer {
-  background: var(--parliament-dark);
-  color: rgba(255,255,255,.6);
-  border-top: 4px solid var(--gold);
-  padding: 2rem 24px;
-  text-align: center;
-  font-size: .85rem;
-}
-
-/* ── RESPONSIVE ──────────────────────────────────────────────────── */
-@media (max-width: 820px) {
-  .hero-inner { flex-direction: column-reverse; text-align: center; gap: 1.5rem; }
-  .hero-image { margin: 0 auto; }
-
-  /* CHANGED: centre header items on narrow widths */
-  .header-inner {
-    height: auto;
-    padding: .75rem 24px;
-    flex-direction: column;
-    align-items: center;
-    gap: .5rem;
-  }
-  .site-nav { width: 100%; justify-content: center; }
-  .site-nav ul { flex-wrap: wrap; justify-content: center; }
-
-  .content-section { padding: 1.25rem 1.25rem; }
-}
-    </style>
+    <link rel="stylesheet" href="/assets/css/site.css">
+<script src="/assets/js/site.js" defer></script><meta name="description" content="Wonyong Park, Associate Professor of Science Education at the University of Southampton. Research on disaster education, nature of science, assessment and social justice.">
+<link rel="canonical" href="https://www.wonyongpark.com/">
+<meta property="og:title" content="About | Wonyong Park">
+<meta property="og:description" content="Wonyong Park, Associate Professor of Science Education at the University of Southampton. Research on disaster education, nature of science, assessment and social justice.">
+<meta property="og:url" content="https://www.wonyongpark.com/">
+<meta property="og:type" content="website">
 </head>
-<body>
+<body class="page-home">
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -282,7 +27,7 @@ a:hover { text-decoration-color: var(--link-green); }
     <a href="/" class="site-logo">Wonyong Park</a>
     <nav class="site-nav" aria-label="Main navigation">
       <ul>
-        <li><a href="/" class="active">About</a></li>
+        <li><a href="/" class="active" aria-current="page">About</a></li>
         <li><a href="/publications/">Publications</a></li>
         <li><a href="/projects/">Projects</a></li>
       </ul>
@@ -298,19 +43,19 @@ a:hover { text-decoration-color: var(--link-green); }
       <p class="hero-role">Associate Professor of Science Education | University of Southampton</p>
     </div>
     <div class="hero-image">
-      <img src="/headshot.jpg" alt="Wonyong Park" class="headshot">
+      <img src="/headshot.jpg" alt="Wonyong Park" class="headshot" width="800" height="799">
     </div>
   </div>
 </div>
 
 <!-- BREADCRUMB -->
-<div class="breadcrumb-bar" aria-label="Breadcrumb">
+<nav class="breadcrumb-bar" aria-label="Breadcrumb">
   <div class="inner">
     <a href="/">Home</a>
     <span aria-hidden="true">›</span>
     About
   </div>
-</div>
+</nav>
 
 <!-- MAIN -->
 <main id="main-content">
@@ -318,35 +63,41 @@ a:hover { text-decoration-color: var(--link-green); }
 
     <section class="content-section" id="about">
       <h2>About</h2>
-      <p>I am an Associate Professor of Science Education in <a href="https://www.southampton.ac.uk/about/faculties-schools-departments/southampton-education-school" target="_blank">Southampton Education School, University of Southampton</a>.</p>
-      <p>Alongside my research and teaching, I serve as Co-Editor of <a href="https://www.tandfonline.com/journals/crst20" target="_blank">Research in Science and Technological Education</a>, and Associate Editor of <a href="https://link.springer.com/journal/11165" target="_blank">Research in Science Education</a>, <a href="https://onlinelibrary.wiley.com/journal/10982736" target="_blank">Journal of Research in Science Teaching</a>, and <a href="https://www.ejhl.org/" target="_blank">Journal of Hazard Literacy</a>, and have previously guest-edited special issues for <a href="https://www.tandfonline.com/journals/tsed20" target="_blank">International Journal of Science Education</a> and <a href="https://link.springer.com/journal/11191" target="_blank">Science &amp; Education</a>.</p>
-      <p>I am Strand 12 (Equity, Diversity and Identity in Science Education) Co-Chair for the <a href="https://www.esera.org/" target="_blank">European Science Education Research Association</a> and Co-Coordinator for Strand 13 (History, Philosophy, Sociology, and Nature of Science) of <a href="https://narst.org/strands" target="_blank">NARST: A Global Organization for Improving Science Education Through Research</a>.</p>
+      <p>I am an Associate Professor of Science Education in <a href="https://www.southampton.ac.uk/about/faculties-schools-departments/southampton-education-school" target="_blank" rel="noopener noreferrer">Southampton Education School, University of Southampton</a>.</p>
+      <p>Alongside my research and teaching, I serve as Co-Editor of <a href="https://www.tandfonline.com/journals/crst20" target="_blank" rel="noopener noreferrer">Research in Science &amp; Technological Education</a>, and Associate Editor of <a href="https://link.springer.com/journal/11165" target="_blank" rel="noopener noreferrer">Research in Science Education</a>, <a href="https://onlinelibrary.wiley.com/journal/10982736" target="_blank" rel="noopener noreferrer">Journal of Research in Science Teaching</a>, and <a href="https://www.ejhl.org/" target="_blank" rel="noopener noreferrer">Journal of Hazard Literacy</a>, and have previously guest-edited special issues for <a href="https://www.tandfonline.com/journals/tsed20" target="_blank" rel="noopener noreferrer">International Journal of Science Education</a> and <a href="https://link.springer.com/journal/11191" target="_blank" rel="noopener noreferrer">Science &amp; Education</a>.</p>
+      <p>I am Strand 12 (Equity, Diversity and Identity in Science Education) Co-Chair for the <a href="https://www.esera.org/" target="_blank" rel="noopener noreferrer">European Science Education Research Association</a> and Co-Coordinator for Strand 13 (History, Philosophy, Sociology, and Nature of Science) of <a href="https://narst.org/strands" target="_blank" rel="noopener noreferrer">NARST: A Global Organization for Improving Science Education Through Research</a>.</p>
     </section>
 
     <section class="content-section" id="work">
       <h2>My work and research</h2>
       <p>My research sits at the crossroads of science, the humanities and society. I am particularly interested in how science and STEM education can contribute to social justice, especially during moments of local or global crisis. Much of my work takes a cross-curricular approach, connecting science with subjects such as history, citizenship, religious education and even music. I am also committed to building stronger connections between research, policy and practice in science education.</p>
-      <p>My projects have received funding from the <a href="https://www.ukri.org/councils/esrc/" target="_blank">Economic and Social Research Council</a>, <a href="https://www.ukri.org/councils/research-england/" target="_blank">Research England</a>, <a href="https://www.nsf.gov/" target="_blank">the National Science Foundation</a>, <a href="https://www.unesco.org/en" target="_blank">UNESCO</a>, the <a href="https://intl.aks.ac.kr/english/index.do" target="_blank">Academy of Korean Studies</a>, <a href="https://www.grenfellfoundation.org.uk/" target="_blank">the Grenfell Foundation</a>, and <a href="https://www.iljufoundation.org/" target="_blank">Ilju Academic and Culture Foundation</a>.</p>
-      <p>I am putting together a <a href="https://www.zotero.org/groups/5106264/bibliography_of_disaster_education/library" target="_blank">Bibliography of Disaster Education</a>, a comprehensive list of publications, podcasts, news, policy reports and other sources for researching and teaching about disaster education. To find out more about my recent and current projects, see <a href="/projects/">Projects</a>.</p>
-    </section>
+      <p>I also investigate how scientific knowledge is produced, understood and assessed in education. My work on nature of science, formative assessment and examination systems explores how classroom and assessment practices shape learners’ agency, identities and opportunities in science.</p>
+<p>My projects have received funding from the <a href="https://www.ukri.org/councils/esrc/" target="_blank" rel="noopener noreferrer">Economic and Social Research Council</a>, <a href="https://www.ukri.org/councils/research-england/" target="_blank" rel="noopener noreferrer">Research England</a>, <a href="https://www.nsf.gov/" target="_blank" rel="noopener noreferrer">the National Science Foundation</a>, <a href="https://www.unesco.org/en" target="_blank" rel="noopener noreferrer">UNESCO</a>, the <a href="https://intl.aks.ac.kr/english/index.do" target="_blank" rel="noopener noreferrer">Academy of Korean Studies</a>, <a href="https://www.grenfellfoundation.org.uk/" target="_blank" rel="noopener noreferrer">the Grenfell Foundation</a>, and <a href="https://www.iljufoundation.org/" target="_blank" rel="noopener noreferrer">Ilju Academic and Culture Foundation</a>.</p>
+      <p>I am putting together a <a href="https://www.zotero.org/groups/5106264/bibliography_of_disaster_education/library" target="_blank" rel="noopener noreferrer">Bibliography of Disaster Education</a>, a comprehensive list of publications, podcasts, news, policy reports and other sources for researching and teaching about disaster education. To find out more about my recent and current projects, see <a href="/projects/">Projects</a>.</p>
+    <p>For researchers beginning work in physics education, I have written <a href="/theory-in-per.html">How do I use theory in physics education research?</a></p></section>
 
     <section class="content-section" id="background">
       <h2>My background</h2>
-      <p>I grew up in an industrial coastal city in South Korea, an environment that continues to shape how I think about science, society and education. I studied physics education and completed my teacher training at <a href="https://en.snu.ac.kr/" target="_blank">Seoul National University</a>, where I also earned an MSc in science education.</p>
-      <p>After teaching in secondary schools in Seoul, I moved to the UK to undertake a DPhil in Science Education at the <a href="https://www.education.ox.ac.uk/" target="_blank">Department of Education, University of Oxford</a>, from 2018 to 2021. In my <a href="https://ora.ox.ac.uk/objects/uuid:f117fbd8-6e07-456a-b6ad-92ff74b28d0a" target="_blank">doctoral project</a>, I looked at how three high school science teachers assessed students' nature of science understandings in their classrooms.</p>
+      <p>I grew up in an industrial coastal city in South Korea, an environment that continues to shape how I think about science, society and education. I studied physics education and completed my teacher training at <a href="https://en.snu.ac.kr/" target="_blank" rel="noopener noreferrer">Seoul National University</a>, where I also earned an MSc in science education.</p>
+      <p>After teaching in secondary schools in Seoul, I moved to the UK to undertake a DPhil in Science Education at the <a href="https://www.education.ox.ac.uk/" target="_blank" rel="noopener noreferrer">Department of Education, University of Oxford</a>, from 2018 to 2021. In my <a href="https://ora.ox.ac.uk/objects/uuid:f117fbd8-6e07-456a-b6ad-92ff74b28d0a" target="_blank" rel="noopener noreferrer">doctoral project</a>, I looked at how three high school science teachers assessed students' nature of science understandings in their classrooms.</p>
     </section>
 
     <section class="content-section" id="study">
       <h2>Study with me</h2>
-      <p>I welcome prospective PhD students and postdoctoral researchers who share interests in science education, physics education, STEM education and/or disaster education. For more information about PhD application, see <a href="https://www.southampton.ac.uk/study/postgraduate-research/education" target="_blank">this page</a>.</p>
-      <p>There are competitive PhD funding opportunities to study at the University of Southampton, for example, the <a href="https://southcoastdtp.ac.uk/" target="_blank">South Coast Doctoral Training Partnership</a> and <a href="https://www.southampton.ac.uk/doctoral-college/presidential-scholarships.page" target="_blank">other University-based scholarships</a>.</p>
-      <p>If you are considering a postdoctoral pathway, you may wish to explore opportunities such as <a href="https://southcoastdtp.ac.uk/our-people/postdoctoral-fellows/" target="_blank">ESRC SCDTP Postdoctoral Fellowships</a>, <a href="https://marie-sklodowska-curie-actions.ec.europa.eu/actions/postdoctoral-fellowships" target="_blank">Marie Skłodowska-Curie Actions</a>, <a href="https://www.thebritishacademy.ac.uk/funding/postdoctoral-fellowships/" target="_blank">British Academy Postdoctoral Fellowships</a> and <a href="https://www.leverhulme.ac.uk/early-career-fellowships" target="_blank">Leverhulme Early Career Fellowships</a>.</p>
+      <p>I welcome prospective PhD students and postdoctoral researchers who share interests in science education, physics education, STEM education and/or disaster education. For more information about PhD application, see <a href="https://www.southampton.ac.uk/study/postgraduate-research/education" target="_blank" rel="noopener noreferrer">this page</a>.</p>
+      <p>To discuss a research idea or potential supervision, email <a href="mailto:w.park@soton.ac.uk">w.park@soton.ac.uk</a>. My <a href="https://orcid.org/0000-0002-8911-5968">ORCID profile</a> provides a further record of my research.</p>
+<p>There are competitive PhD funding opportunities to study at the University of Southampton, for example, the <a href="https://southcoastdtp.ac.uk/" target="_blank" rel="noopener noreferrer">South Coast Doctoral Training Partnership</a> and <a href="https://www.southampton.ac.uk/doctoral-college/presidential-scholarships.page" target="_blank" rel="noopener noreferrer">other University-based scholarships</a>.</p>
+      <p>If you are considering a postdoctoral pathway, you may wish to explore opportunities such as <a href="https://southcoastdtp.ac.uk/our-people/postdoctoral-fellows/" target="_blank" rel="noopener noreferrer">ESRC SCDTP Postdoctoral Fellowships</a>, <a href="https://marie-sklodowska-curie-actions.ec.europa.eu/actions/postdoctoral-fellowships" target="_blank" rel="noopener noreferrer">Marie Skłodowska-Curie Actions</a>, <a href="https://www.thebritishacademy.ac.uk/funding/postdoctoral-fellowships/" target="_blank" rel="noopener noreferrer">British Academy Postdoctoral Fellowships</a> and <a href="https://www.leverhulme.ac.uk/early-career-fellowships" target="_blank" rel="noopener noreferrer">Leverhulme Early Career Fellowships</a>.</p>
       <p class="lead-note">I am privileged to be supervisor to four talented PhD students:</p>
       <ul class="student-list">
-        <li><strong>Jingwen Song</strong>: Teacher professional development for action-oriented climate change education through socioscientific inquiry-based learning (SSIBL): a case study of an early childhood setting in Shanghai, China (started 2022, submitted)</li>
-        <li><strong>Emily Bastable</strong>: How can knowledge exchange and enterprise be applied and integrated into higher education curricula? (started 2023, SCDTP Scholar)</li>
-        <li><strong>Yizhang Sun</strong>: Using Chinese traditional cultural resources to enrich high school chemistry teaching (started 2024)</li>
-        <li><strong>Callie Langley</strong>: Composing resilience: The role of music in post-disaster recovery and community resilience in the UK (started 2025, Leverhulme Scholar)</li>
+        <li>
+<strong>Jingwen Song</strong>: Teacher professional development for action-oriented climate change education through socioscientific inquiry-based learning (SSIBL): a case study of an early childhood setting in Shanghai, China (started 2022, submitted)</li>
+        <li>
+<strong>Emily Bastable</strong>: How can knowledge exchange and enterprise be applied and integrated into higher education curricula? (started 2023, SCDTP Scholar)</li>
+        <li>
+<strong>Yizhang Sun</strong>: Using Chinese traditional cultural resources to enrich high school chemistry teaching (started 2024)</li>
+        <li>
+<strong>Callie Langley</strong>: Composing resilience: The role of music in post-disaster recovery and community resilience in the UK (started 2025, Leverhulme Scholar)</li>
       </ul>
     </section>
 
@@ -355,8 +106,9 @@ a:hover { text-decoration-color: var(--link-green); }
 
 <!-- FOOTER -->
 <footer class="site-footer">
-  &copy; 2026 Wonyong Park | University of Southampton
+  © 2026 Wonyong Park | University of Southampton
 </footer>
 
 </body>
 </html>
+

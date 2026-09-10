@@ -1,299 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en-GB">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects | Wonyong Park</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&amp;family=Source+Sans+3:wght@400;600&amp;display=swap" rel="stylesheet">
 
-  <style>
-/* ── Parliament Design System ─────────────────────────────────────── */
-:root {
-  --parliament-green:  #2d6a4f;
-  --parliament-dark:   #1b4332;
-  --gold:              #b08d57;
-  --gold-light:        #e8d5a3;
-  --parchment:         #f8f7f4;
-  --parchment-mid:     #f0ede6;
-  --border-warm:       #ddd8ce;
-  --text-dark:         #1c1c1c;
-  --text-mid:          #3a3a3a;
-  --text-muted:        #6b6b6b;
-  --white:             #ffffff;
-  --link-green:        #2d6a4f;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; scrollbar-gutter: stable; }
-
-body {
-  font-family: 'Source Sans 3', sans-serif;
-  background-color: var(--parchment);
-  color: var(--text-dark);
-  line-height: 1.75;
-  -webkit-font-smoothing: antialiased;
-}
-
-a {
-  color: var(--link-green);
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 3px;
-  transition: text-decoration-color .2s ease, color .2s ease;
-}
-a:hover { text-decoration-color: var(--link-green); }
-
-/* ── SKIP LINK ───────────────────────────────────────────────────── */
-.skip-link {
-  position: absolute;
-  top: -40px; left: 0;
-  background: var(--parliament-green);
-  color: white;
-  padding: 8px 16px;
-  font-size: .875rem;
-  z-index: 999;
-  transition: top .2s;
-}
-.skip-link:focus { top: 0; }
-
-/* ── SITE HEADER ─────────────────────────────────────────────────── */
-.site-header {
-  background-color: var(--parliament-green);
-  color: var(--white);
-  border-bottom: 4px solid var(--gold);
-}
-
-.header-inner {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 72px;
-  gap: 2rem;
-}
-
-.site-logo {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.45rem;
-  font-weight: 700;
-  color: var(--white);
-  text-decoration: none;
-  letter-spacing: .02em;
-  white-space: nowrap;
-}
-
-.site-nav { display: flex; align-items: center; }
-.site-nav ul { display: flex; list-style: none; gap: 0; }
-.site-nav ul li a {
-  display: block;
-  padding: .5rem 1.1rem;
-  color: rgba(255,255,255,.85);
-  text-decoration: none;
-  font-size: .9rem;
-  font-weight: 600;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  border-bottom: 3px solid transparent;
-  transition: color .2s, border-color .2s, background .2s;
-}
-.site-nav ul li a:hover { color: var(--white); background: rgba(255,255,255,.1); }
-.site-nav ul li a.active {
-  color: var(--gold-light);
-  border-bottom-color: var(--gold);
-}
-
-/* ── PAGE TITLE BAND ─────────────────────────────────────────────── */
-.page-title-band {
-  background-color: var(--parliament-dark);
-  color: var(--white);
-  padding: 2.5rem 24px 2rem;
-  border-bottom: 3px solid var(--gold);
-}
-
-.page-title-inner {
-  max-width: 1160px;
-  margin: 0 auto;
-}
-
-.page-title-band h1 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 2.6rem;
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: .01em;
-  color: var(--white);
-}
-
-.page-title-band .page-subtitle {
-  margin-top: .4rem;
-  font-size: 1rem;
-  color: rgba(255,255,255,.65);
-  font-family: 'Source Sans 3', sans-serif;
-}
-
-/* ── BREADCRUMB ──────────────────────────────────────────────────── */
-.breadcrumb-bar {
-  background: var(--parchment-mid);
-  border-bottom: 1px solid var(--border-warm);
-  padding: .55rem 24px;
-}
-.breadcrumb-bar .inner {
-  max-width: 1160px;
-  margin: 0 auto;
-  font-size: .8rem;
-  color: var(--text-muted);
-}
-.breadcrumb-bar a { color: var(--link-green); text-decoration: none; }
-.breadcrumb-bar a:hover { text-decoration: underline; }
-.breadcrumb-bar span { margin: 0 .4rem; }
-
-/* ── MAIN WRAPPER ────────────────────────────────────────────────── */
-.main-wrapper {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 2.5rem 24px 5rem;
-}
-
-/* ── PROJECT GRID ────────────────────────────────────────────────── */
-.project-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 1.5rem;
-}
-
-/* ── PROJECT CARD ────────────────────────────────────────────────── */
-.project-card {
-  background: var(--white);
-  border: 1px solid var(--border-warm);
-  border-top: 4px solid var(--parliament-green);
-  display: flex;
-  flex-direction: column;
-  transition: border-top-color .2s, box-shadow .2s, transform .2s;
-}
-
-.project-card:hover {
-  border-top-color: var(--gold);
-  box-shadow: 0 6px 24px rgba(0,0,0,.09);
-  transform: translateY(-3px);
-}
-
-.project-card-inner {
-  padding: 1.5rem 1.5rem 1.25rem;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-/* Meta row */
-.project-meta {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: .75rem;
-  margin-bottom: .85rem;
-}
-
-.project-funder {
-  font-size: .72rem;
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  flex: 1;
-  line-height: 1.4;
-}
-
-/* Status badge */
-.status-badge {
-  flex-shrink: 0;
-  font-size: .65rem;
-  font-weight: 700;
-  letter-spacing: .07em;
-  text-transform: uppercase;
-  padding: .2em .6em;
-  line-height: 1.3;
-  color: var(--white);
-}
-.status-live      { background: var(--parliament-green); }
-.status-completed { background: var(--text-muted); }
-
-/* Card title */
-.project-card h2 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.2rem;
-  font-weight: 700;
-  line-height: 1.3;
-  color: var(--text-dark);
-  margin-bottom: .85rem;
-}
-
-/* Summary text */
-.project-summary {
-  font-size: .93rem;
-  color: var(--text-mid);
-  line-height: 1.7;
-  flex-grow: 1;
-  margin-bottom: 1.25rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Read more link */
-.card-footer {
-  border-top: 1px solid var(--border-warm);
-  padding-top: .9rem;
-  margin-top: auto;
-}
-
-.read-more {
-  font-size: .88rem;
-  font-weight: 600;
-  color: var(--parliament-green);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: .3em;
-  transition: color .2s, gap .2s;
-}
-.read-more:hover { color: var(--parliament-dark); gap: .55em; }
-.read-more::after { content: '→'; }
-
-/* Loading / empty state */
-.state-message {
-  grid-column: 1 / -1;
-  color: var(--text-muted);
-  font-size: .95rem;
-  padding: 2rem 0;
-}
-
-/* ── FOOTER ──────────────────────────────────────────────────────── */
-.site-footer {
-  background: var(--parliament-dark);
-  color: rgba(255,255,255,.6);
-  border-top: 4px solid var(--gold);
-  padding: 2rem 24px;
-  text-align: center;
-  font-size: .85rem;
-}
-
-/* ── RESPONSIVE ──────────────────────────────────────────────────── */
-@media (max-width: 820px) {
-  .header-inner { height: auto; padding: .75rem 24px; flex-direction: column; align-items: center; gap: .5rem; }
-  .site-nav { width: 100%; justify-content: center; }
-  .site-nav ul { flex-wrap: wrap; justify-content: center; }
-  .project-list { grid-template-columns: 1fr; }
-}
-  </style>
+  <link rel="stylesheet" href="/assets/css/site.css">
+<script src="/assets/js/site.js" defer></script><meta name="description" content="Current projects and completed research phases led by Wonyong Park, spanning disaster education, science education policy, teacher development and STEM participation.">
+<link rel="canonical" href="https://www.wonyongpark.com/projects/">
+<meta property="og:title" content="Projects | Wonyong Park">
+<meta property="og:description" content="Current projects and completed research phases led by Wonyong Park, spanning disaster education, science education policy, teacher development and STEM participation.">
+<meta property="og:url" content="https://www.wonyongpark.com/projects/">
+<meta property="og:type" content="website">
 </head>
 
-<body>
+<body class="page-projects">
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -305,7 +30,7 @@ a:hover { text-decoration-color: var(--link-green); }
       <ul>
         <li><a href="/">About</a></li>
         <li><a href="/publications/">Publications</a></li>
-        <li><a href="/projects/" class="active">Projects</a></li>
+        <li><a href="/projects/" class="active" aria-current="page">Projects</a></li>
       </ul>
     </nav>
   </div>
@@ -320,164 +45,102 @@ a:hover { text-decoration-color: var(--link-green); }
 </div>
 
 <!-- BREADCRUMB -->
-<div class="breadcrumb-bar" aria-label="Breadcrumb">
+<nav class="breadcrumb-bar" aria-label="Breadcrumb">
   <div class="inner">
     <a href="/">Home</a>
     <span aria-hidden="true">›</span>
     Projects
   </div>
-</div>
+</nav>
 
 <!-- MAIN -->
 <main id="main-content">
   <div class="main-wrapper">
-    <div class="project-list" id="projectList">
-      <p class="state-message">Loading projects…</p>
-    </div>
-  </div>
+<section class="project-group" aria-labelledby="current-projects"><h2 class="section-title" id="current-projects">Current projects</h2>
+<div class="project-list">
+<article class="project-card"><div class="project-card-inner">
+<div class="project-meta">
+<span class="project-funder">4.16 Institute for Life and Safety Education</span><span class="status-badge status-live">Current</span>
+</div>
+<h3><a href="/project10/">International Conference on Disaster Memory and Education</a></h3>
+<p class="project-dates">2025–2027</p>
+<p class="project-summary">An annual international conference series connecting disaster memory, education, preparedness and resilience. Explore the 2025 and 2026 editions.</p>
+<div class="card-footer"><a class="read-more" href="/project10/" aria-label="View project: International Conference on Disaster Memory and Education">View project</a></div>
+</div></article>
+<article class="project-card"><div class="project-card-inner">
+<div class="project-meta">
+<span class="project-funder">Academy of Korean Studies</span><span class="status-badge status-live">Current</span>
+</div>
+<h3><a href="/project9/">STEM Participation and Aspiration in Ultra-Low-Fertility South Korea</a></h3>
+<p class="project-dates">2025–2027 · one-year extension</p>
+<p class="project-summary">Ethnographic research on STEM opportunities and aspirations in small schools in Jeju, in the context of demographic change.</p>
+<div class="card-footer"><a class="read-more" href="/project9/" aria-label="View project: STEM Participation and Aspiration in Ultra-Low-Fertility South Korea">View project</a></div>
+</div></article>
+<article class="project-card"><div class="project-card-inner">
+<div class="project-meta">
+<span class="project-funder">Economic and Social Research Council</span><span class="status-badge status-live">Current</span>
+</div>
+<h3><a href="/project8/">Making Research Matter</a></h3>
+<p class="project-dates">2025–2026</p>
+<p class="project-summary">Supporting science teachers’ engagement with research, including the research-informed practice toolkit published in 2026.</p>
+<div class="card-footer"><a class="read-more" href="/project8/" aria-label="View project: Making Research Matter">View project</a></div>
+</div></article>
+<article class="project-card"><div class="project-card-inner">
+<div class="project-meta">
+<span class="project-funder">ESRC and The Grenfell Foundation</span><span class="status-badge status-live">Current</span>
+</div>
+<h3><a href="/project7/">Teaching Disasters: Professional Development for Teachers</a></h3>
+<p class="project-dates">2024–2027</p>
+<p class="project-summary">The teacher development and implementation phase of the Grenfell Curriculum: online CPD, classroom resources and continuing evaluation.</p>
+<div class="card-footer"><a class="read-more" href="/project7/" aria-label="View project: Teaching Disasters: Professional Development for Teachers">View project</a></div>
+</div></article>
+</div></section><section class="project-group" aria-labelledby="completed-projects"><h2 class="section-title" id="completed-projects">Completed projects and earlier phases</h2>
+<div class="project-list">
+<article class="project-card"><div class="project-card-inner">
+<div class="project-meta">
+<span class="project-funder">Higher Education Innovation Fund</span><span class="status-badge status-completed">Completed</span>
+</div>
+<h3><a href="/project6/">Bridging Research and Policy to Improve Science Education in England</a></h3>
+<p class="project-dates">2024–2025</p>
+<p class="project-summary">Research–policy dialogue with the Association for Science Education, including the July 2025 symposium and policy report.</p>
+<div class="card-footer"><a class="read-more" href="/project6/" aria-label="View project: Bridging Research and Policy to Improve Science Education in England">View project</a></div>
+</div></article>
+<article class="project-card"><div class="project-card-inner">
+<div class="project-meta">
+<span class="project-funder">Research England</span><span class="status-badge status-completed">Completed</span>
+</div>
+<h3><a href="/project3/">The Grenfell Curriculum: Community Research</a></h3>
+<p class="project-dates">2023–2024 · original research phase</p>
+<p class="project-summary">Community-engaged research on education after Grenfell, informing the EDJ framework and subsequent teacher professional development.</p>
+<div class="card-footer"><a class="read-more" href="/project3/" aria-label="View project: The Grenfell Curriculum: Community Research">View project</a></div>
+</div></article>
+<article class="project-card"><div class="project-card-inner">
+<div class="project-meta">
+<span class="project-funder">Higher Education Innovation Fund</span><span class="status-badge status-completed">Completed</span>
+</div>
+<h3><a href="/project5/">Remembering Titanic</a></h3>
+<p class="project-dates">2022–2023</p>
+<p class="project-summary">Science and history teachers, museum educators and pupils co-developed a cross-curricular unit on Titanic and Southampton.</p>
+<div class="card-footer"><a class="read-more" href="/project5/" aria-label="View project: Remembering Titanic">View project</a></div>
+</div></article>
+<article class="project-card"><div class="project-card-inner">
+<div class="project-meta">
+<span class="project-funder">Economic and Social Research Council</span><span class="status-badge status-completed">Completed</span>
+</div>
+<h3><a href="/project1/">Networking for Disaster Education Research</a></h3>
+<p class="project-dates">2022–2023 · funded project</p>
+<p class="project-summary">UK–South Korea collaboration on disaster education, with subsequent publications and continuing international partnerships.</p>
+<div class="card-footer"><a class="read-more" href="/project1/" aria-label="View project: Networking for Disaster Education Research">View project</a></div>
+</div></article>
+</div></section>
+</div>
 </main>
 
 <!-- FOOTER -->
 <footer class="site-footer">
-  &copy; 2026 Wonyong Park | University of Southampton
+  © 2026 Wonyong Park | University of Southampton
 </footer>
-
-<script>
-(() => {
-  const MAX_PROJECTS_TO_CHECK = 50;
-  const listEl = document.getElementById('projectList');
-  if (!listEl) return;
-
-  const normaliseSpace = (s) => (s || '').replace(/\s+/g, ' ').trim();
-
-  const firstNWords = (text, n) => {
-    const words = normaliseSpace(text).split(' ').filter(Boolean);
-    const clipped = words.slice(0, n).join(' ');
-    return words.length > n ? clipped + '…' : clipped;
-  };
-
-  const extractSidebarValue = (doc, labelText) => {
-    const items = Array.from(doc.querySelectorAll('.project-sidebar .sidebar-item'));
-    for (const item of items) {
-      const label = item.querySelector('.sidebar-label');
-      if (!label) continue;
-      if (normaliseSpace(label.textContent).toLowerCase() === labelText.toLowerCase()) {
-        const clone = item.cloneNode(true);
-        const cloneLabel = clone.querySelector('.sidebar-label');
-        if (cloneLabel) cloneLabel.remove();
-        return normaliseSpace(clone.textContent);
-      }
-    }
-    return '';
-  };
-
-  const extractTitle = (doc) =>
-    normaliseSpace(
-      (doc.querySelector('header h1') || doc.querySelector('h1'))?.textContent || ''
-    );
-
-  const extractSummaryText = (doc) => {
-    const h2s = Array.from(doc.querySelectorAll('.project-content h2'));
-    const summaryH2 = h2s.find(h => normaliseSpace(h.textContent).toLowerCase() === 'summary');
-    if (!summaryH2) return '';
-    const parts = [];
-    let el = summaryH2.nextElementSibling;
-    while (el && el.tagName.toLowerCase() !== 'h2') {
-      if (el.tagName.toLowerCase() === 'p') parts.push(normaliseSpace(el.textContent));
-      el = el.nextElementSibling;
-    }
-    return normaliseSpace(parts.join(' '));
-  };
-
-  const inferStatusFromDuration = (duration) => {
-    if (!duration) return null;
-    const years = duration.match(/\d{4}/g);
-    if (!years || !years.length) return null;
-    const endYear = parseInt(years[years.length - 1], 10);
-    return endYear >= new Date().getFullYear() ? 'Live' : 'Completed';
-  };
-
-  const renderCard = ({ n, title, duration, funder, summary }) => {
-    const article = document.createElement('article');
-    article.className = 'project-card';
-
-    const inner = document.createElement('div');
-    inner.className = 'project-card-inner';
-
-    // Meta row
-    const meta = document.createElement('div');
-    meta.className = 'project-meta';
-
-    const funderEl = document.createElement('span');
-    funderEl.className = 'project-funder';
-    funderEl.textContent = funder || duration || 'Research Project';
-    meta.appendChild(funderEl);
-
-    const status = inferStatusFromDuration(duration);
-    if (status) {
-      const badge = document.createElement('span');
-      badge.className = 'status-badge ' + (status.toLowerCase() === 'live' ? 'status-live' : 'status-completed');
-      badge.textContent = status;
-      meta.appendChild(badge);
-    }
-
-    const h2 = document.createElement('h2');
-    h2.textContent = title || `Project ${n}`;
-
-    const p = document.createElement('p');
-    p.className = 'project-summary';
-    p.textContent = summary;
-
-    const cardFooter = document.createElement('div');
-    cardFooter.className = 'card-footer';
-
-    const a = document.createElement('a');
-    a.className = 'read-more';
-    a.href = `/project${n}/`;
-    a.textContent = 'View project';
-
-    cardFooter.appendChild(a);
-    inner.appendChild(meta);
-    inner.appendChild(h2);
-    inner.appendChild(p);
-    inner.appendChild(cardFooter);
-    article.appendChild(inner);
-    return article;
-  };
-
-  const loadProject = async (n) => {
-    const url = `/project${n}/`;
-    const res = await fetch(url, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`Missing: ${url}`);
-    const htmlText = await res.text();
-    const doc = new DOMParser().parseFromString(htmlText, 'text/html');
-    const title    = extractTitle(doc);
-    const duration = extractSidebarValue(doc, 'Duration');
-    const funder   = extractSidebarValue(doc, 'Funder');
-    const summary  = firstNWords(extractSummaryText(doc), 35);
-    return { n, title, duration, funder, summary };
-  };
-
-  (async () => {
-    const checks = Array.from({ length: MAX_PROJECTS_TO_CHECK }, (_, i) => i + 1)
-      .map(n => loadProject(n).then(v => ({ ok: true, v })).catch(() => ({ ok: false, n })));
-
-    const results = await Promise.all(checks);
-    const found = results.filter(r => r.ok).map(r => r.v);
-    found.sort((a, b) => b.n - a.n);
-
-    listEl.innerHTML = '';
-    if (found.length === 0) {
-      const p = document.createElement('p');
-      p.className = 'state-message';
-      p.textContent = 'No project pages found.';
-      listEl.appendChild(p);
-    } else {
-      for (const proj of found) listEl.appendChild(renderCard(proj));
-    }
-  })();
-})();
-</script>
 
 </body>
 </html>
+
