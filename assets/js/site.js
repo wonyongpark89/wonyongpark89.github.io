@@ -2,6 +2,33 @@
 (() => {
   'use strict';
 
+  // Publications: emphasise "Park, W." in author lists and size non-year labels.
+  document.querySelectorAll('.pub-entry').forEach(entry => {
+    const walker = document.createTreeWalker(entry, NodeFilter.SHOW_TEXT);
+    const hits = [];
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      if (!node.parentElement.closest('strong, em, a') && node.nodeValue.includes('Park, W.')) hits.push(node);
+    }
+    hits.forEach(node => {
+      const parts = node.nodeValue.split('Park, W.');
+      const fragment = document.createDocumentFragment();
+      parts.forEach((part, i) => {
+        if (i > 0) {
+          const me = document.createElement('span');
+          me.className = 'me';
+          me.textContent = 'Park, W.';
+          fragment.append(me);
+        }
+        fragment.append(part);
+      });
+      node.replaceWith(fragment);
+    });
+  });
+  document.querySelectorAll('.year-label').forEach(label => {
+    if (!/^\d{4}$/.test(label.textContent.trim())) label.classList.add('is-text');
+  });
+
   document.querySelectorAll('.carousel-section').forEach(section => {
     const carousel = section.querySelector('.carousel');
     const track = section.querySelector('.carousel-track');

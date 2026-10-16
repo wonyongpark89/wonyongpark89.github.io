@@ -8,407 +8,12 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:ital,wght@0,400..700;1,400..600&amp;display=swap" rel="stylesheet">
 
-  <style>
-/* ── Parliament Design System ─────────────────────────────────────── */
-:root {
-  --parliament-green:  #2d6a4f;
-  --parliament-dark:   #1b4332;
-  --gold:              #b08d57;
-  --gold-light:        #e8d5a3;
-  --parchment:         #f8f7f4;
-  --parchment-mid:     #f0ede6;
-  --border-warm:       #ddd8ce;
-  --text-dark:         #1c1c1c;
-  --text-mid:          #3a3a3a;
-  --text-muted:        #6b6b6b;
-  --white:             #ffffff;
-  --link-green:        #2d6a4f;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; scrollbar-gutter: stable; }
-
-body {
-  font-family: 'Source Sans 3', sans-serif;
-  background-color: var(--parchment);
-  color: var(--text-dark);
-  line-height: 1.75;
-  -webkit-font-smoothing: antialiased;
-}
-
-a {
-  color: var(--link-green);
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 3px;
-  transition: text-decoration-color .2s ease, color .2s ease;
-}
-a:hover { text-decoration-color: var(--link-green); }
-
-/* ── SKIP LINK ───────────────────────────────────────────────────── */
-.skip-link {
-  position: absolute;
-  top: -40px; left: 0;
-  background: var(--parliament-green);
-  color: white;
-  padding: 8px 16px;
-  font-size: .875rem;
-  z-index: 999;
-  transition: top .2s;
-}
-.skip-link:focus { top: 0; }
-
-/* ── SITE HEADER ─────────────────────────────────────────────────── */
-.site-header {
-  background-color: var(--parliament-green);
-  color: var(--white);
-  border-bottom: 4px solid var(--gold);
-}
-.header-inner {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 72px;
-  gap: 2rem;
-}
-.site-logo {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.45rem;
-  font-weight: 700;
-  color: var(--white);
-  text-decoration: none;
-  letter-spacing: .02em;
-  white-space: nowrap;
-}
-.site-nav { display: flex; align-items: center; }
-.site-nav ul { display: flex; list-style: none; gap: 0; }
-.site-nav ul li a {
-  display: block;
-  padding: .5rem 1.1rem;
-  color: rgba(255,255,255,.85);
-  text-decoration: none;
-  font-size: .9rem;
-  font-weight: 600;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  border-bottom: 3px solid transparent;
-  transition: color .2s, border-color .2s, background .2s;
-}
-.site-nav ul li a:hover { color: var(--white); background: rgba(255,255,255,.1); }
-.site-nav ul li a.active {
-  color: var(--gold-light);
-  border-bottom-color: var(--gold);
-}
-
-/* ── PAGE TITLE BAND ─────────────────────────────────────────────── */
-.page-title-band {
-  background-color: var(--parliament-dark);
-  color: var(--white);
-  padding: 2.5rem 24px 2rem;
-  border-bottom: 3px solid var(--gold);
-}
-.page-title-inner { max-width: 1160px; margin: 0 auto; }
-.project-category-label {
-  display: inline-block;
-  font-size: .7rem;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--gold-light);
-  margin-bottom: .65rem;
-}
-.page-title-band h1 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 2.4rem;
-  font-weight: 700;
-  line-height: 1.15;
-  color: var(--white);
-}
-
-/* ── BREADCRUMB ──────────────────────────────────────────────────── */
-.breadcrumb-bar {
-  background: var(--parchment-mid);
-  border-bottom: 1px solid var(--border-warm);
-  padding: .55rem 24px;
-}
-.breadcrumb-bar .inner {
-  max-width: 1160px;
-  margin: 0 auto;
-  font-size: .8rem;
-  color: var(--text-muted);
-}
-.breadcrumb-bar a { color: var(--link-green); text-decoration: none; }
-.breadcrumb-bar a:hover { text-decoration: underline; }
-.breadcrumb-bar span { margin: 0 .4rem; }
-
-/* ── MAIN LAYOUT ─────────────────────────────────────────────────── */
-.main-wrapper {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 2.5rem 24px 5rem;
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 2.5rem;
-  align-items: start;
-}
-
-/* ── SIDEBAR ─────────────────────────────────────────────────────── */
-.project-sidebar {
-  position: sticky;
-  top: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.sidebar-item {
-  padding: .9rem 1rem;
-  border: 1px solid var(--border-warm);
-  border-top: none;
-  background: var(--white);
-  font-family: 'Source Sans 3', sans-serif;
-  font-size: .93rem;
-  color: var(--text-mid);
-  line-height: 1.5;
-}
-.project-sidebar .sidebar-item:first-child {
-  border-top: 1px solid var(--border-warm);
-  border-top: 3px solid var(--parliament-green);
-}
-
-.sidebar-label {
-  display: block;
-  font-size: .68rem;
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: .3rem;
-}
-
-/* Download list in sidebar */
-.download-list {
-  list-style: none;
-  padding: 0;
-  margin: .25rem 0 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: .45rem;
-}
-.download-link {
-  display: flex;
-  align-items: flex-start;
-  gap: .5rem;
-  color: var(--link-green);
-  text-decoration: none;
-  font-size: .88rem;
-  line-height: 1.4;
-  transition: color .2s;
-}
-.download-link:hover { color: var(--parliament-dark); text-decoration: underline; text-decoration-color: var(--parliament-dark); }
-.download-icon {
-  display: inline-flex;
-  flex-shrink: 0;
-  width: 16px;
-  height: 16px;
-  margin-top: 2px;
-  color: var(--gold);
-}
-
-/* ── CONTENT AREA ────────────────────────────────────────────────── */
-.project-content { min-width: 0; }
-
-.project-content h2 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--parliament-dark);
-  margin: 2.25rem 0 .9rem;
-  padding-bottom: .5rem;
-  border-bottom: 2px solid var(--parliament-green);
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-}
-.project-content h2::before {
-  content: '';
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  background: var(--gold);
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.project-content h2:first-of-type { margin-top: 0; }
-
-.project-content p {
-  font-size: 1rem;
-  color: var(--text-mid);
-  margin-bottom: 1rem;
-  line-height: 1.8;
-}
-
-.project-content ul {
-  margin: 0 0 1.25rem 0;
-  padding: 0;
-  list-style: none;
-}
-.project-content ul li {
-  font-size: .97rem;
-  color: var(--text-mid);
-  line-height: 1.7;
-  padding: .55rem .9rem .55rem 1rem;
-  border-left: 3px solid var(--border-warm);
-  margin-bottom: .45rem;
-  background: var(--white);
-  border-bottom: 1px solid var(--border-warm);
-  transition: border-left-color .2s;
-}
-.project-content ul li:hover { border-left-color: var(--gold); }
-.project-content ul li strong { color: var(--text-dark); }
-
-/* ── BACK LINK ───────────────────────────────────────────────────── */
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: .4em;
-  margin-top: 2.5rem;
-  font-size: .9rem;
-  font-weight: 600;
-  color: var(--parliament-green);
-  text-decoration: none;
-  border: 1px solid var(--border-warm);
-  background: var(--white);
-  padding: .5rem 1rem;
-  transition: background .15s, border-color .15s, color .15s;
-}
-.back-link:hover {
-  background: var(--parliament-green);
-  color: var(--white);
-  border-color: var(--parliament-green);
-  text-decoration: none;
-  text-decoration-color: transparent;
-}
-
-/* ── CAROUSEL ────────────────────────────────────────────────────── */
-.carousel-section { margin: 1.5rem 0 2rem; }
-
-.carousel {
-  position: relative;
-  overflow: hidden;
-  background: var(--parchment-mid);
-  border: 1px solid var(--border-warm);
-}
-.carousel-track {
-  display: flex;
-  transition: transform 420ms ease;
-  will-change: transform;
-}
-.carousel-slide { min-width: 100%; position: relative; }
-.carousel-slide img {
-  display: block;
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
-}
-
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255,255,255,.92);
-  border: 1px solid var(--border-warm);
-  width: 40px; height: 40px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  font-size: 1.3rem;
-  color: var(--text-dark);
-  transition: background .15s, color .15s;
-}
-.carousel-btn:hover { background: var(--parliament-green); color: var(--white); border-color: var(--parliament-green); }
-.carousel-btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
-.carousel-btn.prev { left: 10px; }
-.carousel-btn.next { right: 10px; }
-
-.carousel-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  margin-top: .75rem;
-  flex-wrap: wrap;
-}
-.carousel-caption {
-  font-size: .88rem;
-  color: var(--text-muted);
-  margin: 0;
-}
-.carousel-dots { display: flex; gap: .45rem; align-items: center; }
-.carousel-dot {
-  width: 9px; height: 9px;
-  border-radius: 50%;
-  border: 1px solid var(--border-warm);
-  background: var(--white);
-  cursor: pointer;
-  padding: 0;
-  transition: background .15s, border-color .15s;
-}
-.carousel-dot[aria-current="true"] {
-  background: var(--parliament-green);
-  border-color: var(--parliament-green);
-}
-.carousel-sr-only {
-  position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px; overflow: hidden;
-  clip: rect(0,0,0,0);
-  white-space: nowrap; border: 0;
-}
-
-/* ── FOOTER ──────────────────────────────────────────────────────── */
-.site-footer {
-  background: var(--parliament-dark);
-  color: rgba(255,255,255,.6);
-  border-top: 4px solid var(--gold);
-  padding: 2rem 24px;
-  text-align: center;
-  font-size: .85rem;
-}
-
-/* ── RESPONSIVE ──────────────────────────────────────────────────── */
-@media (max-width: 820px) {
-  .main-wrapper { grid-template-columns: 1fr; }
-
-  /* UNPIN sidebar on narrow screens */
-  .project-sidebar { position: static; }
-
-  /* Keep mobile header centring */
-  .header-inner {
-    height: auto;
-    padding: .75rem 24px;
-    flex-direction: column;
-    align-items: center;
-    gap: .5rem;
-  }
-
-  .site-nav {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .site-nav ul {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-}
-  </style>
+  <link rel="stylesheet" href="/assets/css/site.css">
+<script src="/assets/js/site.js" defer></script>
 </head>
-<body>
+<body class="page-project">
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -420,7 +25,7 @@ a:hover { text-decoration-color: var(--link-green); }
       <ul>
         <li><a href="/">About</a></li>
         <li><a href="/publications/">Publications</a></li>
-        <li><a href="/projects/" class="active">Projects</a></li>
+        <li><a href="/projects/" class="active" aria-current="page">Projects</a></li>
       </ul>
     </nav>
   </div>
@@ -429,19 +34,8 @@ a:hover { text-decoration-color: var(--link-green); }
 <!-- PAGE TITLE -->
 <div class="page-title-band">
   <div class="page-title-inner">
-    <span class="project-category-label">Research Project</span>
+    <a class="crumb" href="/projects/"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8H3M7 4 3 8l4 4"/></svg>All projects</a>
     <h1>The Grenfell Curriculum</h1>
-  </div>
-</div>
-
-<!-- BREADCRUMB -->
-<div class="breadcrumb-bar" aria-label="Breadcrumb">
-  <div class="inner">
-    <a href="/">Home</a>
-    <span aria-hidden="true">›</span>
-    <a href="/projects/">Projects</a>
-    <span aria-hidden="true">›</span>
-    The Grenfell Curriculum
   </div>
 </div>
 
@@ -493,10 +87,10 @@ a:hover { text-decoration-color: var(--link-green); }
 
       <h2>Summary</h2>
       <p>
-        The project combines disaster justice education and community-engaged participatory research methods to create a space for collaborative learning and identify educational needs and priorities, in collaboration with the Grenfell Tower fire community in London.
+        The project combines <span class="hl">disaster justice education and community-engaged participatory research methods</span> to create a space for collaborative learning and identify educational needs and priorities, in collaboration with the Grenfell Tower fire community in London.
       </p>
       <p>
-        The Grenfell Tower fire disaster occurred on 14 June 2017, in North Kensington, London, marking one of the most tragic events in recent British history. A fire broke out in the 24-storey residential building and rapidly spread due to the flammable exterior cladding. The blaze raged for over 60 hours, resulting in the deaths of 72 people and injuring many others. Investigations revealed significant failures in social housing policy, fire safety regulations and building materials, with the state and cladding manufacturers bearing substantial responsibility for creating and perpetuating these social injustices. The project considers how we can redress such injustices and build a safe, just and disaster-resilient society through education.
+        The Grenfell Tower fire disaster occurred on 14 June 2017, in North Kensington, London, marking one of the most tragic events in recent British history. A fire broke out in the 24-storey residential building and rapidly spread due to the flammable exterior cladding. The blaze raged for over 60 hours, resulting in the deaths of 72 people and injuring many others. Investigations revealed significant failures in social housing policy, fire safety regulations and building materials, with the state and cladding manufacturers bearing substantial responsibility for creating and perpetuating these social injustices. The project considers how we can redress such injustices and <span class="hl">build a safe, just and disaster-resilient society through education</span>.
       </p>
       <p>
         We interviewed members of the Grenfell community, as well as teachers in North Kensington and Grenfell activists. We also collected existing lessons and in- and out-of-school educational initiatives about Grenfell from across the UK. In June 2024, we convened four 'Grenfell Education Meetings' with the community (survivors and bereaved, teachers, young adults and children) to discuss and reimagine education for social justice after Grenfell.
@@ -571,10 +165,10 @@ a:hover { text-decoration-color: var(--link-green); }
           </div>
 
           <button class="carousel-btn prev" type="button" id="wpCarouselPrev" aria-label="Previous image">
-            <span aria-hidden="true">‹</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4.5 7 10l5.5 5.5"/></svg>
           </button>
           <button class="carousel-btn next" type="button" id="wpCarouselNext" aria-label="Next image">
-            <span aria-hidden="true">›</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 4.5 13 10l-5.5 5.5"/></svg>
           </button>
 
           <p class="carousel-sr-only" id="wpCarouselHelp">
@@ -588,7 +182,7 @@ a:hover { text-decoration-color: var(--link-green); }
         </div>
       </section>
 
-      <a href="/projects/" class="back-link">← Back to Projects</a>
+      <a href="/projects/" class="back-link"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8H3M7 4 3 8l4 4"/></svg>Back to Projects</a>
 
     </article>
   </div>
@@ -598,76 +192,6 @@ a:hover { text-decoration-color: var(--link-green); }
 <footer class="site-footer">
   &copy; 2026 Wonyong Park | University of Southampton
 </footer>
-
-<script>
-(function(){
-  const root      = document.getElementById('wpCarousel');
-  const track     = document.getElementById('wpCarouselTrack');
-  const slides    = Array.from(track.querySelectorAll('.carousel-slide'));
-  const btnPrev   = document.getElementById('wpCarouselPrev');
-  const btnNext   = document.getElementById('wpCarouselNext');
-  const captionEl = document.getElementById('wpCarouselCaption');
-  const dotsWrap  = document.getElementById('wpCarouselDots');
-
-  if (!root || slides.length === 0) return;
-
-  let index = 0;
-  let startX = null;
-  let isDragging = false;
-
-  slides.forEach((_, i) => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'carousel-dot';
-    b.setAttribute('aria-label', 'Go to image ' + (i + 1));
-    b.addEventListener('click', () => goTo(i));
-    dotsWrap.appendChild(b);
-  });
-
-  const dots = Array.from(dotsWrap.querySelectorAll('.carousel-dot'));
-
-  function update() {
-    track.style.transform = 'translateX(' + (-index * 100) + '%)';
-    captionEl.textContent = slides[index].getAttribute('data-caption') || '';
-    dots.forEach((d, i) => d.setAttribute('aria-current', String(i === index)));
-    btnPrev.disabled = (index === 0);
-    btnNext.disabled = (index === slides.length - 1);
-    btnPrev.style.opacity = btnPrev.disabled ? .4 : 1;
-    btnNext.style.opacity = btnNext.disabled ? .4 : 1;
-  }
-
-  function goTo(i) { index = Math.max(0, Math.min(slides.length - 1, i)); update(); }
-  function next() { goTo(index + 1); }
-  function prev() { goTo(index - 1); }
-
-  btnNext.addEventListener('click', next);
-  btnPrev.addEventListener('click', prev);
-
-  root.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') { e.preventDefault(); next(); }
-    if (e.key === 'ArrowLeft')  { e.preventDefault(); prev(); }
-  });
-
-  const onPointerDown = (e) => { isDragging = true; startX = e.clientX ?? (e.touches?.[0]?.clientX); };
-  const onPointerUp   = (e) => {
-    if (!isDragging) return;
-    isDragging = false;
-    const endX = e.clientX ?? (e.changedTouches?.[0]?.clientX);
-    if (startX == null || endX == null) return;
-    if (Math.abs(endX - startX) > 40) { endX - startX < 0 ? next() : prev(); }
-    startX = null;
-  };
-
-  root.addEventListener('pointerdown', onPointerDown);
-  root.addEventListener('pointerup', onPointerUp);
-  root.addEventListener('pointercancel', onPointerUp);
-  root.addEventListener('touchstart', onPointerDown, { passive: true });
-  root.addEventListener('touchend', onPointerUp, { passive: true });
-  root.addEventListener('touchcancel', onPointerUp, { passive: true });
-
-  update();
-})();
-</script>
 
 </body>
 </html>
