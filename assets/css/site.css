@@ -160,8 +160,8 @@ a:hover { text-decoration-color: var(--teal); }
 .actions { margin-top: var(--s6); display: flex; flex-wrap: wrap; gap: var(--s3); align-items: center; }
 .actions > a:not(.btn) { margin-left: var(--s2); font-weight: 600; }
 .intro-portrait img {
-  width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 30%;
-  border-radius: var(--r-img); background: var(--ivory-deep);
+  width: 100%; height: auto; aspect-ratio: auto; object-fit: contain;
+  border-radius: 0; background: transparent;
 }
 
 .content-section {
