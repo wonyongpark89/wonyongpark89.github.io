@@ -342,10 +342,13 @@ a:hover { text-decoration-color: var(--teal); }
 /* ── Responsive ──────────────────────────────────────────────────── */
 @media (max-width: 860px) {
   body { font-size: 1.0625rem; }
+  .page-home .header-inner { justify-content: center; }
   .intro { padding-block: var(--s4) var(--s8); }
-  .intro-inner { grid-template-columns: 1fr; gap: var(--s6); }
-  .intro-portrait { order: -1; justify-self: start; max-width: 136px; }
-  .intro-lede { margin-top: var(--s6); }
+  .intro-inner { grid-template-columns: 1fr; gap: var(--s6); text-align: center; }
+  .intro-portrait { order: -1; justify-self: center; max-width: 136px; }
+  .intro-lede { margin-top: var(--s6); margin-inline: auto; }
+  .intro .actions { justify-content: center; }
+  .intro .actions > a:not(.btn) { margin-left: 0; }
   .content-section { grid-template-columns: 1fr; padding: var(--s7) 0; }
   .content-section > h2 { grid-row: auto; margin-bottom: var(--s4); }
   .content-section > :not(h2) { grid-column: 1; }
