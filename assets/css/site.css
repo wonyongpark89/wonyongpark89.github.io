@@ -137,6 +137,7 @@ a:hover { text-decoration-color: var(--teal); }
 
 /* ── Footer ──────────────────────────────────────────────────────── */
 .site-footer {
+  text-align: center;
   padding-block: var(--s6) var(--s7);
   border-top: 1px solid var(--line); font-size: .875rem; color: var(--ink-soft);
 }
