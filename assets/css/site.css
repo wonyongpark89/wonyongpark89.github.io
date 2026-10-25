@@ -178,7 +178,7 @@ a:hover { text-decoration-color: var(--teal); }
 .content-section p:last-child { margin-bottom: 0; }
 .lead-note { font-weight: 600; color: var(--ink); margin-top: var(--s5); }
 .student-list { list-style: none; margin-bottom: var(--s4); }
-.student-list li { padding: var(--s4) 0; border-top: 1px solid var(--line); color: var(--ink-soft); }
+.student-list li { padding: var(--s3) 0 var(--s3) var(--s5); position: relative; border-top: 1px solid var(--line); color: var(--ink-soft); }
 .student-list li:last-child { border-bottom: 1px solid var(--line); }
 .student-list li strong { color: var(--ink); font-weight: 650; }
 .section-figure { margin: var(--s3) 0 var(--s6); }
@@ -250,7 +250,7 @@ a:hover { text-decoration-color: var(--teal); }
 .project-content ul { list-style: none; margin-bottom: var(--s5); }
 .project-content ul li { padding: var(--s3) 0 var(--s3) var(--s5); position: relative; border-bottom: 1px solid var(--line); }
 .project-content ul li:first-child { border-top: 1px solid var(--line); }
-.project-content ul li::before {
+.project-content ul li::before, .student-list li::before {
   content: ""; position: absolute; left: 2px; top: 1.15em; width: 7px; height: 7px; border-radius: 50%; background: var(--turq);
 }
 .project-content ul li strong { font-weight: 650; }
