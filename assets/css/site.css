@@ -139,9 +139,8 @@ a:hover { text-decoration-color: var(--teal); }
 .site-footer {
   text-align: center;
   padding-block: var(--s6) var(--s7);
-  border-top: 1px solid var(--line); font-size: .875rem; color: var(--ink-soft);
+  font-size: .875rem; color: var(--ink-soft);
 }
-.page-publications .site-footer { border-top: 0; }
 
 /* ════════════════════════════════════════════════════════════════
    ABOUT
