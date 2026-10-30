@@ -343,7 +343,8 @@ a:hover { text-decoration-color: var(--teal); }
 /* ── Responsive ──────────────────────────────────────────────────── */
 @media (max-width: 860px) {
   body { font-size: 1.0625rem; }
-  .page-home .header-inner { justify-content: center; }
+  .header-inner { justify-content: center; }
+  .site-logo { display: none; }
   .intro { padding-block: var(--s4) var(--s8); }
   .intro-inner { grid-template-columns: 1fr; gap: var(--s6); text-align: center; }
   .intro-portrait { order: -1; justify-self: center; max-width: 136px; }
