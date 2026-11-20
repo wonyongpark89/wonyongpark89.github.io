@@ -4587,6 +4587,7 @@ var De=/^#(\d+)$/.exec(window.location.hash),Ye=De!==null?Math.max(0,Math.min(c-
 .paper-title-ko{position:absolute;z-index:1;display:flex;align-items:center;box-sizing:border-box;margin:0;padding:0;background:#fff;color:#1f2330;font-family:"GmarketSans Bold",Arial,ui-sans-serif,system-ui,sans-serif;font-size:27px;font-weight:700;line-height:1.22;text-align:left;text-wrap:balance;word-break:keep-all;overflow-wrap:normal;pointer-events:none;}
 @media print{.paper-title-ko[data-build-hidden]{visibility:visible!important;opacity:1!important;}}
 </style><style id="mentimeter-live-poll-styles">
+@media screen{.deck-slide[data-added-slide="fairness-live-poll"] .deck-fit{overflow:clip;}}
 .poll-live-body{display:grid;grid-template-columns:minmax(0,1fr) 380px;column-gap:40px;align-items:center;text-align:left;gap:0 40px;}
 .poll-live-results{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-width:0;min-height:0;}
 .mentimeter-view{position:relative;width:100%;max-width:1080px;aspect-ratio:16/9;overflow:hidden;border:1px solid #d8dfee;border-radius:12px;box-sizing:border-box;background:#fff;}
@@ -4628,7 +4629,7 @@ var De=/^#(\d+)$/.exec(window.location.hash),Ye=De!==null?Math.max(0,Math.min(c-
 <div class="poll-live-results">
   <div class="mentimeter-view">
     <div class="mentimeter-static" aria-hidden="true"><div class="mentimeter-static-label">Mentimeter live poll</div><div class="mentimeter-static-question">공정한 평가란 무엇일까요?</div><p>생각을 한두 문장으로 남겨 주세요.</p></div>
-    <iframe id="mentimeter-live-frame" title="Mentimeter 실시간 응답" data-mentimeter-src="https://www.mentimeter.com/app/presentation/alvcwkf4zbpixb573soufr5zf3u3ck2d/embed" sandbox="allow-popups allow-scripts allow-same-origin allow-presentation" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen width="1120" height="630" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    <iframe id="mentimeter-live-frame" scrolling="no" title="Mentimeter 실시간 응답" data-mentimeter-src="https://www.mentimeter.com/app/presentation/alvcwkf4zbpixb573soufr5zf3u3ck2d/embed" sandbox="allow-popups allow-scripts allow-same-origin allow-presentation" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen width="1120" height="630" referrerpolicy="strict-origin-when-cross-origin"></iframe>
   </div>
   <div class="poll-live-timer-bar">
     <div class="poll-live-clock"><span>남은 시간</span><output data-node-path="0.1.1" id="fairness-poll-time" class="fairness-poll-time" role="timer" aria-label="남은 시간" aria-live="off">1:00</output></div>
