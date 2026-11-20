@@ -21,6 +21,7 @@ The website is published from this repository to GitHub Pages at www.wonyongpark
 ## Capabilities and Constraints
 
 - The user requested separate `/teaching/` and `/talks/` archive lists with a shared password.
+- Keep both archives unlisted in the main website navigation; the user accesses them by typing their URLs directly.
 - The user explicitly chose password protection for the lists only. File URLs, repository contents and history remain public; this is a convenience gate rather than confidential storage.
 - Include EDUC1033, EDUC3028, the qualitative-analysis workbook, the two qualitative-coding tools, the theory-in-PER teaching note, the Chungnam talk and the three Titanic workshop/ASE presentation PDFs.
 - Migrate EDUC1033 and qual-analysis into this repository and redirect their old website URLs.

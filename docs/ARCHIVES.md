@@ -2,6 +2,8 @@
 
 Canonical lists: `/teaching/` and `/talks/`.
 
+Keep these lists unlisted from the main website navigation. Open them by typing their URLs directly. Cross-links between the two lists remain within the archive pages.
+
 The user chose a password gate for the lists only. Direct HTML/PDF URLs, source files and public Git history are public. The shared password is checked locally using the SHA-256 digest in `assets/data/archives.json`; it is not sent to a server. Unlocking is remembered per archive in the current browser tab. The Lock archive button clears that state.
 
 ## Add or update materials

@@ -8,6 +8,8 @@ Read/Operate: open the appropriate archive list, choose a course or dated talk, 
 
 Nine teaching entries and four talk/workshop entries. The user chose a shared-password gate for the archive lists only, and migration plus redirects for EDUC1033 and qual-analysis. Project websites and social-media carousels stay in place.
 
+The archive lists are unlisted from the main website navigation. Access is by a directly entered URL; Teaching/Talks navigation is present only within archive pages.
+
 ## Direction contract
 
 - Inherit the existing ivory/deep-teal identity and Bricolage Grotesque/Figtree type system in `assets/css/site.css`.
