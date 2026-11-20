@@ -1,0 +1,644 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-05T10:44:34.965Z",
+  "title": "Design System: Qualitative Coding Workbook",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Deep Course Green",
+        "canonical": "#243d34",
+        "tonalRamp": [
+          "oklch(15% 0.03506 169.43)",
+          "oklch(26.43% 0.03506 169.43)",
+          "oklch(37.86% 0.03506 169.43)",
+          "oklch(49.29% 0.03506 169.43)",
+          "oklch(60.71% 0.03506 169.43)",
+          "oklch(72.14% 0.03506 169.43)",
+          "oklch(83.57% 0.03506 169.43)",
+          "oklch(95% 0.03506 169.43)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Working Green",
+        "canonical": "#285b47",
+        "tonalRamp": [
+          "oklch(15% 0.06488 165.37)",
+          "oklch(26.43% 0.06488 165.37)",
+          "oklch(37.86% 0.06488 165.37)",
+          "oklch(49.29% 0.06488 165.37)",
+          "oklch(60.71% 0.06488 165.37)",
+          "oklch(72.14% 0.06488 165.37)",
+          "oklch(83.57% 0.06488 165.37)",
+          "oklch(95% 0.06488 165.37)"
+        ]
+      },
+      "success": {
+        "role": "primary",
+        "displayName": "Success Green",
+        "canonical": "#285b47",
+        "tonalRamp": [
+          "oklch(15% 0.06488 165.37)",
+          "oklch(26.43% 0.06488 165.37)",
+          "oklch(37.86% 0.06488 165.37)",
+          "oklch(49.29% 0.06488 165.37)",
+          "oklch(60.71% 0.06488 165.37)",
+          "oklch(72.14% 0.06488 165.37)",
+          "oklch(83.57% 0.06488 165.37)",
+          "oklch(95% 0.06488 165.37)"
+        ]
+      },
+      "accent-hover": {
+        "role": "primary",
+        "displayName": "Working Green Hover",
+        "canonical": "#1f4b39",
+        "tonalRamp": [
+          "oklch(15% 0.05836 164.25)",
+          "oklch(26.43% 0.05836 164.25)",
+          "oklch(37.86% 0.05836 164.25)",
+          "oklch(49.29% 0.05836 164.25)",
+          "oklch(60.71% 0.05836 164.25)",
+          "oklch(72.14% 0.05836 164.25)",
+          "oklch(83.57% 0.05836 164.25)",
+          "oklch(95% 0.05836 164.25)"
+        ]
+      },
+      "teacher": {
+        "role": "secondary",
+        "displayName": "Instructor Slate",
+        "canonical": "#40546b",
+        "tonalRamp": [
+          "oklch(15% 0.04553 252.33)",
+          "oklch(26.43% 0.04553 252.33)",
+          "oklch(37.86% 0.04553 252.33)",
+          "oklch(49.29% 0.04553 252.33)",
+          "oklch(60.71% 0.04553 252.33)",
+          "oklch(72.14% 0.04553 252.33)",
+          "oklch(83.57% 0.04553 252.33)",
+          "oklch(95% 0.04553 252.33)"
+        ]
+      },
+      "danger": {
+        "role": "secondary",
+        "displayName": "Error Red",
+        "canonical": "#a13432",
+        "tonalRamp": [
+          "oklch(15% 0.14468 25.21)",
+          "oklch(26.43% 0.14468 25.21)",
+          "oklch(37.86% 0.14468 25.21)",
+          "oklch(49.29% 0.14468 25.21)",
+          "oklch(60.71% 0.14468 25.21)",
+          "oklch(72.14% 0.14468 25.21)",
+          "oklch(83.57% 0.14468 25.21)",
+          "oklch(95% 0.14468 25.21)"
+        ]
+      },
+      "bg": {
+        "role": "neutral",
+        "displayName": "Workbook Ground",
+        "canonical": "#f2f4f0",
+        "tonalRamp": [
+          "oklch(15% 0.00569 128.53)",
+          "oklch(26.43% 0.00569 128.53)",
+          "oklch(37.86% 0.00569 128.53)",
+          "oklch(49.29% 0.00569 128.53)",
+          "oklch(60.71% 0.00569 128.53)",
+          "oklch(72.14% 0.00569 128.53)",
+          "oklch(83.57% 0.00569 128.53)",
+          "oklch(95% 0.00569 128.53)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "White Paper",
+        "canonical": "#fff",
+        "tonalRamp": [
+          "oklch(15% 0.00000 89.88)",
+          "oklch(26.43% 0.00000 89.88)",
+          "oklch(37.86% 0.00000 89.88)",
+          "oklch(49.29% 0.00000 89.88)",
+          "oklch(60.71% 0.00000 89.88)",
+          "oklch(72.14% 0.00000 89.88)",
+          "oklch(83.57% 0.00000 89.88)",
+          "oklch(95% 0.00000 89.88)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Gray-Green Ink",
+        "canonical": "#29362f",
+        "tonalRamp": [
+          "oklch(15% 0.02135 161.38)",
+          "oklch(26.43% 0.02135 161.38)",
+          "oklch(37.86% 0.02135 161.38)",
+          "oklch(49.29% 0.02135 161.38)",
+          "oklch(60.71% 0.02135 161.38)",
+          "oklch(72.14% 0.02135 161.38)",
+          "oklch(83.57% 0.02135 161.38)",
+          "oklch(95% 0.02135 161.38)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Quiet Ink",
+        "canonical": "#626d65",
+        "tonalRamp": [
+          "oklch(15% 0.01822 154.13)",
+          "oklch(26.43% 0.01822 154.13)",
+          "oklch(37.86% 0.01822 154.13)",
+          "oklch(49.29% 0.01822 154.13)",
+          "oklch(60.71% 0.01822 154.13)",
+          "oklch(72.14% 0.01822 154.13)",
+          "oklch(83.57% 0.01822 154.13)",
+          "oklch(95% 0.01822 154.13)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Soft Rule",
+        "canonical": "#d7ddd6",
+        "tonalRamp": [
+          "oklch(15% 0.01143 141.26)",
+          "oklch(26.43% 0.01143 141.26)",
+          "oklch(37.86% 0.01143 141.26)",
+          "oklch(49.29% 0.01143 141.26)",
+          "oklch(60.71% 0.01143 141.26)",
+          "oklch(72.14% 0.01143 141.26)",
+          "oklch(83.57% 0.01143 141.26)",
+          "oklch(95% 0.01143 141.26)"
+        ]
+      },
+      "tint": {
+        "role": "primary",
+        "displayName": "Mineral Green",
+        "canonical": "#e8eee6",
+        "tonalRamp": [
+          "oklch(15% 0.01239 137.79)",
+          "oklch(26.43% 0.01239 137.79)",
+          "oklch(37.86% 0.01239 137.79)",
+          "oklch(49.29% 0.01239 137.79)",
+          "oklch(60.71% 0.01239 137.79)",
+          "oklch(72.14% 0.01239 137.79)",
+          "oklch(83.57% 0.01239 137.79)",
+          "oklch(95% 0.01239 137.79)"
+        ]
+      },
+      "stage-active": {
+        "role": "primary",
+        "displayName": "Current Step Mineral",
+        "canonical": "#e2eadd",
+        "tonalRamp": [
+          "oklch(15% 0.01931 133.08)",
+          "oklch(26.43% 0.01931 133.08)",
+          "oklch(37.86% 0.01931 133.08)",
+          "oklch(49.29% 0.01931 133.08)",
+          "oklch(60.71% 0.01931 133.08)",
+          "oklch(72.14% 0.01931 133.08)",
+          "oklch(83.57% 0.01931 133.08)",
+          "oklch(95% 0.01931 133.08)"
+        ]
+      },
+      "instruction-bg": {
+        "role": "primary",
+        "displayName": "Instruction Paper",
+        "canonical": "#edf2eb",
+        "tonalRamp": [
+          "oklch(15% 0.01067 136.56)",
+          "oklch(26.43% 0.01067 136.56)",
+          "oklch(37.86% 0.01067 136.56)",
+          "oklch(49.29% 0.01067 136.56)",
+          "oklch(60.71% 0.01067 136.56)",
+          "oklch(72.14% 0.01067 136.56)",
+          "oklch(83.57% 0.01067 136.56)",
+          "oklch(95% 0.01067 136.56)"
+        ]
+      },
+      "instruction-ink": {
+        "role": "primary",
+        "displayName": "Instruction Ink",
+        "canonical": "#38513a",
+        "tonalRamp": [
+          "oklch(15% 0.04881 146.62)",
+          "oklch(26.43% 0.04881 146.62)",
+          "oklch(37.86% 0.04881 146.62)",
+          "oklch(49.29% 0.04881 146.62)",
+          "oklch(60.71% 0.04881 146.62)",
+          "oklch(72.14% 0.04881 146.62)",
+          "oklch(83.57% 0.04881 146.62)",
+          "oklch(95% 0.04881 146.62)"
+        ]
+      },
+      "definition-bg": {
+        "role": "neutral",
+        "displayName": "Reference Paper",
+        "canonical": "#f4f5ef",
+        "tonalRamp": [
+          "oklch(15% 0.00800 114.22)",
+          "oklch(26.43% 0.00800 114.22)",
+          "oklch(37.86% 0.00800 114.22)",
+          "oklch(49.29% 0.00800 114.22)",
+          "oklch(60.71% 0.00800 114.22)",
+          "oklch(72.14% 0.00800 114.22)",
+          "oklch(83.57% 0.00800 114.22)",
+          "oklch(95% 0.00800 114.22)"
+        ]
+      },
+      "field-bg": {
+        "role": "neutral",
+        "displayName": "Field Paper",
+        "canonical": "#fbfcf9",
+        "tonalRamp": [
+          "oklch(15% 0.00408 121.56)",
+          "oklch(26.43% 0.00408 121.56)",
+          "oklch(37.86% 0.00408 121.56)",
+          "oklch(49.29% 0.00408 121.56)",
+          "oklch(60.71% 0.00408 121.56)",
+          "oklch(72.14% 0.00408 121.56)",
+          "oklch(83.57% 0.00408 121.56)",
+          "oklch(95% 0.00408 121.56)"
+        ]
+      },
+      "reading-ink": {
+        "role": "neutral",
+        "displayName": "Reading Ink",
+        "canonical": "#29372f",
+        "tonalRamp": [
+          "oklch(15% 0.02338 159.70)",
+          "oklch(26.43% 0.02338 159.70)",
+          "oklch(37.86% 0.02338 159.70)",
+          "oklch(49.29% 0.02338 159.70)",
+          "oklch(60.71% 0.02338 159.70)",
+          "oklch(72.14% 0.02338 159.70)",
+          "oklch(83.57% 0.02338 159.70)",
+          "oklch(95% 0.02338 159.70)"
+        ]
+      },
+      "code-sky": {
+        "role": "tertiary",
+        "displayName": "Sky Annotation",
+        "canonical": "hsla(200, 80%, 85%, 0.9)",
+        "tonalRamp": [
+          "oklch(15% 0.05097 229.66)",
+          "oklch(26.43% 0.05097 229.66)",
+          "oklch(37.86% 0.05097 229.66)",
+          "oklch(49.29% 0.05097 229.66)",
+          "oklch(60.71% 0.05097 229.66)",
+          "oklch(72.14% 0.05097 229.66)",
+          "oklch(83.57% 0.05097 229.66)",
+          "oklch(95% 0.05097 229.66)"
+        ]
+      },
+      "code-leaf": {
+        "role": "tertiary",
+        "displayName": "Leaf Annotation",
+        "canonical": "hsla(140, 75%, 85%, 0.9)",
+        "tonalRamp": [
+          "oklch(15% 0.07804 155.40)",
+          "oklch(26.43% 0.07804 155.40)",
+          "oklch(37.86% 0.07804 155.40)",
+          "oklch(49.29% 0.07804 155.40)",
+          "oklch(60.71% 0.07804 155.40)",
+          "oklch(72.14% 0.07804 155.40)",
+          "oklch(83.57% 0.07804 155.40)",
+          "oklch(95% 0.07804 155.40)"
+        ]
+      },
+      "code-rose": {
+        "role": "tertiary",
+        "displayName": "Rose Annotation",
+        "canonical": "hsla(340, 80%, 88%, 0.9)",
+        "tonalRamp": [
+          "oklch(15% 0.05917 356.45)",
+          "oklch(26.43% 0.05917 356.45)",
+          "oklch(37.86% 0.05917 356.45)",
+          "oklch(49.29% 0.05917 356.45)",
+          "oklch(60.71% 0.05917 356.45)",
+          "oklch(72.14% 0.05917 356.45)",
+          "oklch(83.57% 0.05917 356.45)",
+          "oklch(95% 0.05917 356.45)"
+        ]
+      },
+      "code-gold": {
+        "role": "tertiary",
+        "displayName": "Gold Annotation",
+        "canonical": "hsla(45, 90%, 85%, 0.9)",
+        "tonalRamp": [
+          "oklch(15% 0.06898 91.81)",
+          "oklch(26.43% 0.06898 91.81)",
+          "oklch(37.86% 0.06898 91.81)",
+          "oklch(49.29% 0.06898 91.81)",
+          "oklch(60.71% 0.06898 91.81)",
+          "oklch(72.14% 0.06898 91.81)",
+          "oklch(83.57% 0.06898 91.81)",
+          "oklch(95% 0.06898 91.81)"
+        ]
+      },
+      "code-lilac": {
+        "role": "tertiary",
+        "displayName": "Lilac Annotation",
+        "canonical": "hsla(280, 70%, 88%, 0.9)",
+        "tonalRamp": [
+          "oklch(15% 0.06548 314.47)",
+          "oklch(26.43% 0.06548 314.47)",
+          "oklch(37.86% 0.06548 314.47)",
+          "oklch(49.29% 0.06548 314.47)",
+          "oklch(60.71% 0.06548 314.47)",
+          "oklch(72.14% 0.06548 314.47)",
+          "oklch(83.57% 0.06548 314.47)",
+          "oklch(95% 0.06548 314.47)"
+        ]
+      },
+      "code-apricot": {
+        "role": "tertiary",
+        "displayName": "Apricot Annotation",
+        "canonical": "hsla(25, 85%, 85%, 0.9)",
+        "tonalRamp": [
+          "oklch(15% 0.05596 57.47)",
+          "oklch(26.43% 0.05596 57.47)",
+          "oklch(37.86% 0.05596 57.47)",
+          "oklch(49.29% 0.05596 57.47)",
+          "oklch(60.71% 0.05596 57.47)",
+          "oklch(72.14% 0.05596 57.47)",
+          "oklch(83.57% 0.05596 57.47)",
+          "oklch(95% 0.05596 57.47)"
+        ]
+      },
+      "code-aqua": {
+        "role": "tertiary",
+        "displayName": "Aqua Annotation",
+        "canonical": "hsla(180, 60%, 85%, 0.9)",
+        "tonalRamp": [
+          "oklch(15% 0.04709 196.36)",
+          "oklch(26.43% 0.04709 196.36)",
+          "oklch(37.86% 0.04709 196.36)",
+          "oklch(49.29% 0.04709 196.36)",
+          "oklch(60.71% 0.04709 196.36)",
+          "oklch(72.14% 0.04709 196.36)",
+          "oklch(83.57% 0.04709 196.36)",
+          "oklch(95% 0.04709 196.36)"
+        ]
+      },
+      "code-coral": {
+        "role": "tertiary",
+        "displayName": "Coral Annotation",
+        "canonical": "hsla(10, 80%, 88%, 0.9)",
+        "tonalRamp": [
+          "oklch(15% 0.04758 31.24)",
+          "oklch(26.43% 0.04758 31.24)",
+          "oklch(37.86% 0.04758 31.24)",
+          "oklch(49.29% 0.04758 31.24)",
+          "oklch(60.71% 0.04758 31.24)",
+          "oklch(72.14% 0.04758 31.24)",
+          "oklch(83.57% 0.04758 31.24)",
+          "oklch(95% 0.04758 31.24)"
+        ]
+      },
+      "code-citron": {
+        "role": "tertiary",
+        "displayName": "Citron Annotation",
+        "canonical": "hsla(60, 80%, 85%, 0.9)",
+        "tonalRamp": [
+          "oklch(15% 0.07823 107.78)",
+          "oklch(26.43% 0.07823 107.78)",
+          "oklch(37.86% 0.07823 107.78)",
+          "oklch(49.29% 0.07823 107.78)",
+          "oklch(60.71% 0.07823 107.78)",
+          "oklch(72.14% 0.07823 107.78)",
+          "oklch(83.57% 0.07823 107.78)",
+          "oklch(95% 0.07823 107.78)"
+        ]
+      },
+      "code-periwinkle": {
+        "role": "tertiary",
+        "displayName": "Periwinkle Annotation",
+        "canonical": "hsla(220, 70%, 88%, 0.9)",
+        "tonalRamp": [
+          "oklch(15% 0.04238 264.33)",
+          "oklch(26.43% 0.04238 264.33)",
+          "oklch(37.86% 0.04238 264.33)",
+          "oklch(49.29% 0.04238 264.33)",
+          "oklch(60.71% 0.04238 264.33)",
+          "oklch(72.14% 0.04238 264.33)",
+          "oklch(83.57% 0.04238 264.33)",
+          "oklch(95% 0.04238 264.33)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Name-entry product heading."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Current activity name."
+      },
+      "section": {
+        "displayName": "Section",
+        "purpose": "Analysis-section headings."
+      },
+      "task": {
+        "displayName": "Task",
+        "purpose": "Current task and sidebar headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Ordinary interface content."
+      },
+      "guidance": {
+        "displayName": "Guidance",
+        "purpose": "Instructions and explanations."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Compact controls."
+      },
+      "speaker": {
+        "displayName": "Speaker",
+        "purpose": "Source speaker attribution."
+      },
+      "reading": {
+        "displayName": "Reading",
+        "purpose": "Transcript prose with 72ch paragraph measure."
+      },
+      "extract": {
+        "displayName": "Extract",
+        "purpose": "Original extracts in category testing."
+      }
+    },
+    "shadows": [
+      {
+        "name": "access-dialog",
+        "value": "0 15px 45px #14241b33",
+        "purpose": "Instructor and in-class access overlays."
+      },
+      {
+        "name": "code-tooltip",
+        "value": "0 5px 12px #17261d26",
+        "purpose": "Inspecting a code over the workspace."
+      },
+      {
+        "name": "gate-message",
+        "value": "0 4px 12px rgba(0,0,0,0.2)",
+        "purpose": "Existing temporary gate feedback."
+      },
+      {
+        "name": "current-step-rule",
+        "value": "inset 0 -2px var(--accent)",
+        "purpose": "Location indicator rather than elevation."
+      }
+    ],
+    "motion": [
+      {
+        "name": "control-state",
+        "value": "background-color 150ms, border-color 150ms, color 150ms",
+        "purpose": "Button state feedback."
+      },
+      {
+        "name": "gate-fade",
+        "value": "opacity 0.4s",
+        "purpose": "Existing temporary gate message fade."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transition: none !important; scroll-behavior: auto !important",
+        "purpose": "Applied under prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide-min",
+        "value": "1700px"
+      },
+      {
+        "name": "intermediate-max",
+        "value": "1150px"
+      },
+      {
+        "name": "stack-max",
+        "value": "800px"
+      },
+      {
+        "name": "phone-max",
+        "value": "480px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Submit or advance the current analysis task.",
+      "html": "<button class=\"ds-primary\">Submit Categories</button>",
+      "css": ".ds-primary{font-family:var(--ui-font,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif);background:var(--accent,#285b47);color:var(--surface,#fff);border:1px solid var(--accent,#285b47);border-radius:var(--radius,4px);min-height:38px;padding:9px 16px;font-size:12px;font-weight:600;line-height:1.4;cursor:pointer;transition:background-color 150ms,border-color 150ms,color 150ms}.ds-primary:hover{background:#1f4b39;border-color:#1f4b39}.ds-primary:focus-visible{outline:2px solid var(--accent,#285b47);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Quiet supporting action in a reading toolbar.",
+      "html": "<button class=\"ds-secondary\">Print / Save as PDF</button>",
+      "css": ".ds-secondary{font-family:var(--ui-font,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif);background:var(--surface,#fff);color:var(--ink,#29362f);border:1px solid var(--border,#d7ddd6);border-radius:var(--radius,4px);min-height:36px;padding:8px 12px;font-size:12px;font-weight:550;line-height:1.4;cursor:pointer;transition:background-color 150ms,border-color 150ms,color 150ms}.ds-secondary:hover{background:var(--tint,#e8eee6);border-color:#a5b3a6}.ds-secondary:active{background:#dce6d9}.ds-secondary:focus-visible{outline:2px solid var(--accent,#285b47);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
+    },
+    {
+      "name": "Coding Field",
+      "kind": "input",
+      "refersTo": "field-code",
+      "description": "Give a selected passage a short code.",
+      "html": "<label class=\"ds-label\" for=\"ds-code\">Code the selected extract</label><input class=\"ds-field\" id=\"ds-code\" placeholder=\"Give this extract a short label\">",
+      "css": ".ds-label{font-family:var(--ui-font,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif);display:block;margin-bottom:7px;font-size:12px;font-weight:600;color:var(--ink,#29362f)}.ds-field{font-family:var(--ui-font,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif);width:100%;padding:12px 14px;border:1px solid #b6c2b0;border-radius:var(--radius,4px);background:#fbfcf9;color:var(--ink,#29362f);font-size:13px;caret-color:var(--accent,#285b47)}.ds-field::placeholder{color:var(--muted,#626d65);opacity:1}.ds-field:focus-visible{outline:2px solid var(--accent,#285b47);outline-offset:3px}@media(max-width:800px){.ds-field{font-size:16px;padding:11px 12px}}"
+    },
+    {
+      "name": "Activity Navigation",
+      "kind": "nav",
+      "refersTo": "nav-activity-selected",
+      "description": "Grouped activity choices remain above the step route.",
+      "html": "<nav class=\"ds-activities\" aria-label=\"Choose an activity\"><span>Practice</span><button class=\"ds-activity ds-selected\" aria-pressed=\"true\">1. AI in Education</button><button class=\"ds-activity\" aria-pressed=\"false\">2. English Anxiety</button></nav>",
+      "css": ".ds-activities{font-family:var(--ui-font,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif);display:flex;align-items:center;flex-wrap:wrap;gap:5px;padding:11px 0;background:var(--surface,#fff);color:var(--muted,#626d65);font-size:12px}.ds-activities>span{margin-right:7px}.ds-activity{font-family:var(--ui-font,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif);min-height:36px;padding:8px 12px;border:1px solid transparent;border-radius:var(--radius,4px);background:transparent;color:#536158;font-size:12px;font-weight:550;line-height:1.4;cursor:pointer;transition:background-color 150ms,border-color 150ms,color 150ms}.ds-activity:hover{background:#f2f4f0}.ds-activity.ds-selected{background:var(--tint,#e8eee6);color:var(--primary,#243d34);border-color:#c7d6c4}.ds-activity.ds-selected:hover{background:#e1eadc;border-color:#a7bea4}.ds-activity:active{background:#dce6d9}.ds-activity:focus-visible{outline:2px solid var(--accent,#285b47);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-activity{transition:none}}"
+    },
+    {
+      "name": "Transcript Sheet",
+      "kind": "card",
+      "refersTo": "card-workspace",
+      "description": "Flat reading sheet with quiet toolbar and Georgia passage.",
+      "html": "<section class=\"ds-sheet\"><header>Transcript</header><div class=\"ds-reading\"><p><span>STUDENT A:</span>I use them quite a lot, but mostly at the beginning of a task rather than the end.</p></div></section>",
+      "css": ".ds-sheet{background:var(--surface,#fff);color:var(--ink,#29362f);border:1px solid var(--border,#d7ddd6);border-radius:3px;overflow:hidden}.ds-sheet header{font-family:var(--ui-font,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif);padding:11px 22px;border-bottom:1px solid var(--border,#d7ddd6);font-size:12px;font-weight:600}.ds-reading{padding:28px 34px;font-family:Georgia,\"Times New Roman\",serif;color:#29372f;font-size:17px;line-height:2.15}.ds-reading p{max-width:72ch;margin:0 auto 25px}.ds-reading span{font-family:var(--ui-font,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif);display:block;margin-bottom:5px;color:#687466;font-size:11px;font-weight:600;line-height:1.5;letter-spacing:.035em}"
+    },
+    {
+      "name": "Category Card",
+      "kind": "card",
+      "refersTo": "card-category",
+      "description": "Worked-example category with wrapping title and explanation.",
+      "html": "<section class=\"ds-category\"><p class=\"ds-category-name\">Privacy and perceived fairness</p><div class=\"ds-drop\"><span>Privacy vs. Security</span></div><div class=\"ds-shared\"><div>What holds these codes together?</div><p>Students weigh the intrusion of surveillance against the fairness of assessment.</p></div></section>",
+      "css": ".ds-category{font-family:var(--ui-font,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif);padding:18px;background:var(--surface,#fff);color:var(--ink,#29362f);border:1px solid var(--border,#d7ddd6);border-radius:3px;min-width:0}.ds-category-name{margin:0 0 13px;font-size:15px;font-weight:600;line-height:1.5;overflow-wrap:anywhere}.ds-drop{min-height:70px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:8px;padding:12px;background:#fafcf7;border:1px dashed #a8b7a0;border-radius:3px}.ds-drop span{padding:7px 10px;font-size:12px;font-weight:550;border:1px solid #bfc9b9;border-radius:3px;background:hsla(340,80%,88%,.9);color:hsla(340,80%,20%,1);overflow-wrap:anywhere}.ds-shared{border-top:1px solid var(--border,#d7ddd6);margin-top:14px;padding-top:14px}.ds-shared div{font-size:11px;color:var(--muted,#626d65);margin-bottom:8px}.ds-shared p{margin:0;font-size:13px;line-height:1.7;overflow-wrap:anywhere}"
+    },
+    {
+      "name": "Analysis Code Chip",
+      "kind": "chip",
+      "refersTo": "chip-code",
+      "description": "A named categorical mark using the source HSLA palette.",
+      "html": "<span class=\"ds-chip\">Privacy vs. Security</span>",
+      "css": ".ds-chip{font-family:var(--ui-font,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif);display:inline-flex;align-items:center;gap:5px;border:1px solid #bfc9b9;border-radius:3px;padding:7px 10px;font-size:12px;font-weight:550;background:hsla(340,80%,88%,.9);color:hsla(340,80%,20%,1);max-width:100%;overflow-wrap:anywhere}"
+    },
+    {
+      "name": "Analysis Step Route",
+      "kind": "nav",
+      "refersTo": "nav-step-current",
+      "description": "Numbered steps retain descriptions and written gate state.",
+      "html": "<nav class=\"ds-route\" aria-label=\"Analysis steps\"><button class=\"ds-step ds-current\" aria-current=\"step\"><span class=\"ds-number\">1</span><span class=\"ds-step-copy\"><strong>Coding</strong><span>Label meaningful extracts</span><small>Current step</small></span></button><button class=\"ds-step ds-locked\" aria-disabled=\"true\"><span class=\"ds-number\">2</span><span class=\"ds-step-copy\"><strong>Developing categories</strong><span>Find shared ideas</span><small>Locked</small></span></button></nav>",
+      "css": ".ds-route{font-family:var(--ui-font,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));background:var(--bg,#f2f4f0);border-top:1px solid #c3ccc0;border-bottom:1px solid #c3ccc0}.ds-step{font-family:var(--ui-font,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif);display:flex;align-items:flex-start;gap:12px;padding:16px 15px 14px;text-align:left;background:transparent;border:0;border-right:1px solid var(--border,#d7ddd6);color:#566357;cursor:pointer}.ds-step:last-child{border-right:0}.ds-step:hover{background:#e8eee4}.ds-current{background:#e2eadd;color:var(--primary,#243d34);box-shadow:inset 0 -2px var(--accent,#285b47)}.ds-number{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:27px;height:27px;border:1px solid #b4c0b0;border-radius:50%;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}.ds-current .ds-number{background:var(--primary,#243d34);border-color:var(--primary,#243d34);color:#fff}.ds-step-copy{display:flex;flex-direction:column;gap:4px}.ds-step-copy strong{font-size:13px;font-weight:600;line-height:1.35}.ds-step-copy>span{font-size:11px;color:var(--muted,#626d65);line-height:1.4}.ds-step-copy small{font-size:11px;line-height:1.5;color:#5c685b}.ds-current small{font-weight:650;color:var(--accent,#285b47)}.ds-locked{cursor:help}.ds-locked .ds-number{border-style:dashed}.ds-step:focus-visible{outline:2px solid var(--accent,#285b47);outline-offset:3px}"
+    },
+    {
+      "name": "Definition Reference",
+      "kind": "custom",
+      "refersTo": "instruction-strip",
+      "description": "Expandable definition and current coding instruction.",
+      "html": "<details class=\"ds-reference\"><summary>Reference: What is a code?</summary><div>A code is a short label attached to a meaningful extract.</div></details><div class=\"ds-instruction\"><strong>To Code:</strong> Highlight a segment of text, type your label below, and press Enter.</div>",
+      "css": ".ds-reference{font-family:var(--ui-font,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif);margin:0}.ds-reference summary{cursor:pointer;padding:10px 22px;font-size:12px;color:#58664f;background:#f4f5ef;border-bottom:1px solid #e1e4d9}.ds-reference summary:hover{background:#e9eddf}.ds-reference summary:focus-visible{outline:2px solid var(--accent,#285b47);outline-offset:3px}.ds-reference>div{padding:13px 22px;color:#505a47;font-size:12px;line-height:1.65;background:#fbfcf8;border-bottom:1px solid #e1e4d9}.ds-instruction{font-family:var(--ui-font,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif);padding:10px 22px;background:#edf2eb;border-bottom:1px solid #d7e1d2;color:#38513a;font-size:12px;line-height:1.65}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Course Handbook",
+    "overview": "A university course handbook made into a working analysis surface. White reading sheets sit within a pale mineral-green workspace; quiet rules, compact controls, and explicit instructions make the learning sequence easy to locate. The interface is restrained and familiar, with course identity retained in the header.\n\nSystem sans typography carries the product interface, while Georgia distinguishes transcript passages and original extracts. Grouped activity choices, numbered analysis steps, and the current-task line remain separate levels. The material is flat and text-led: no shipping raster imagery, gradients, or decorative illustrations.",
+    "keyCharacteristics": [
+      "White reading surfaces within a pale mineral-green frame.",
+      "One system sans family for the interface; Georgia for source material.",
+      "Activity, step, and task occupy distinct levels.",
+      "Written state and next-action guidance accompany color.",
+      "Fine borders, slight corners, and restrained feedback."
+    ],
+    "rules": [
+      {
+        "name": "The Working Green Rule",
+        "body": "Use deep green for primary actions and selected controls; use pale green to locate the current place without competing with the transcript.",
+        "section": "colors"
+      },
+      {
+        "name": "The Source Voice Rule",
+        "body": "Use Georgia for transcript prose and original extracts. Keep instructions, field values, labels, and controls in the system sans family.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Sheet Rule",
+        "body": "Reading and analysis containers use a white surface and fine boundary at rest. Reserve ambient shadows for overlays and transient feedback.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do distinguish grouped activity choices, numbered steps, and the current task.",
+      "Do retain written Current step, Locked, and Available states and a specific next action.",
+      "Do keep source passages spacious and category names and explanations able to wrap.",
+      "Do pair analysis colors with code text; preserve the same code color across extracts and category views.",
+      "Do preserve visible keyboard focus and honor reduced-motion preferences."
+    ],
+    "donts": [
+      "Don't introduce gradients or decorative illustrations into this course-handbook world.",
+      "Don't use annotation colors as a second navigation or decorative palette.",
+      "Don't add elevated dashboard tiles to ordinary reading and analysis surfaces.",
+      "Don't hide a worked-example explanation inside a single-line read-only field.",
+      "Don't treat legacy export-window and instructor inline colors as a new visual direction."
+    ]
+  }
+}

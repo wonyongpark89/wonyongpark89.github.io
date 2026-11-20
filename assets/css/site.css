@@ -383,3 +383,6 @@ a:hover { text-decoration-color: var(--teal); }
   .themes { background: white; color: black; }
   .themes h2, .theme-list h3, .theme-list p { color: black; }
 }
+
+/* Five main navigation links wrap cleanly on narrow screens. */
+.site-nav ul{flex-wrap:wrap;justify-content:center;}

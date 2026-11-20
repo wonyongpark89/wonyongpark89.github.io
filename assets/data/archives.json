@@ -1,0 +1,166 @@
+{
+  "archives": [
+    {
+      "id": "teaching",
+      "title": "Teaching archive",
+      "description": "Lecture slides, seminar materials and research methods resources.",
+      "password_hash": "736e537f0f664a3d8208e88c114f2c5a16fff5800e5c146b0b83b1c43213d003",
+      "groups": [
+        {
+          "id": "educ1033",
+          "title": "EDUC1033",
+          "entries": [
+            {
+              "id": "educ1033-w9-lecture",
+              "title": "Week 9 lecture · The teaching profession under pressure",
+              "description": "Recruitment, retention, workload and pay",
+              "formats": {
+                "HTML": "/teaching/educ1033/w9/lecture/",
+                "PDF": "/teaching/educ1033/w9/EDUC1033-W9-Lecture-slides.pdf"
+              }
+            },
+            {
+              "id": "educ1033-w9-seminar",
+              "title": "Week 9 seminar · The teaching profession under pressure",
+              "description": "Workload and priorities for helping teachers stay",
+              "formats": {
+                "HTML": "/teaching/educ1033/w9/seminar/",
+                "PDF": "/teaching/educ1033/w9/EDUC1033-W9-Seminar-slides.pdf"
+              }
+            },
+            {
+              "id": "educ1033-w10-lecture",
+              "title": "Week 10 lecture · Health and safety education",
+              "description": "Health literacy, school safety and climate disruption",
+              "formats": {
+                "HTML": "/teaching/educ1033/w10/lecture/",
+                "PDF": "/teaching/educ1033/w10/EDUC1033-W10-Lecture-slides.pdf"
+              }
+            },
+            {
+              "id": "educ1033-w10-seminar",
+              "title": "Week 10 seminar · Health and safety education",
+              "description": "COM-B and planning a school response",
+              "formats": {
+                "HTML": "/teaching/educ1033/w10/seminar/",
+                "PDF": "/teaching/educ1033/w10/EDUC1033-W10-Seminar-slides.pdf"
+              }
+            }
+          ]
+        },
+        {
+          "id": "educ3028",
+          "title": "EDUC3028",
+          "entries": [
+            {
+              "id": "educ3028-w8",
+              "title": "Week 8 · Instability, conflict and disaster",
+              "description": "Lecture · An educational perspective",
+              "formats": {
+                "HTML": "/teaching/educ3028/w8/"
+              }
+            }
+          ]
+        },
+        {
+          "id": "research-methods",
+          "title": "Research methods",
+          "entries": [
+            {
+              "id": "qual-analysis",
+              "title": "Qualitative Coding Workbook",
+              "description": "EDUC6530 · Data Analysis for Educational Research",
+              "formats": {
+                "HTML": "/teaching/qual-analysis/"
+              }
+            },
+            {
+              "id": "qual-coding",
+              "title": "Qualitative coding tool",
+              "description": "Browser-based coding workbook",
+              "formats": {
+                "HTML": "/teaching/qual-coding/"
+              }
+            },
+            {
+              "id": "qual-coding-tablet",
+              "title": "Qualitative coding tool for tablets",
+              "description": "Tablet coding interface",
+              "formats": {
+                "HTML": "/teaching/qual-coding-tablet/"
+              }
+            },
+            {
+              "id": "theory-in-per",
+              "title": "How Do I Use Theory in Physics Education Research?",
+              "description": "Teaching note",
+              "formats": {
+                "HTML": "/teaching/theory-in-per/"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "talks",
+      "title": "Talks archive",
+      "description": "Presentation slides from talks and teacher workshops.",
+      "password_hash": "736e537f0f664a3d8208e88c114f2c5a16fff5800e5c146b0b83b1c43213d003",
+      "groups": [
+        {
+          "id": "talks-2026",
+          "title": "2026",
+          "entries": [
+            {
+              "id": "chungnam",
+              "title": "교사의 평가 판단은 어떻게 공정성과 신뢰를 확보할까?",
+              "description": "Chungnam Education Office · 24 November 2026 · Korean",
+              "formats": {
+                "HTML": "/talks/chungnam/",
+                "PDF": "/talks/chungnam/chungnam-slides.pdf"
+              },
+              "lang": "ko"
+            }
+          ]
+        },
+        {
+          "id": "talks-2024",
+          "title": "2024",
+          "entries": [
+            {
+              "id": "titanic-ase-2024",
+              "title": "Integrating Science and History Learning: The Remembering Titanic Project",
+              "description": "ASE Conference · University of Northampton · 6 January 2024",
+              "formats": {
+                "PDF": "/talks/titanic/ase-2024.pdf"
+              }
+            }
+          ]
+        },
+        {
+          "id": "talks-2023",
+          "title": "2023",
+          "entries": [
+            {
+              "id": "titanic-workshop-2",
+              "title": "Remembering Titanic · Teacher Workshop 2",
+              "description": "University of Southampton · 15 May 2023",
+              "formats": {
+                "PDF": "/talks/titanic/workshop-2.pdf"
+              }
+            },
+            {
+              "id": "titanic-workshop-1",
+              "title": "Remembering Titanic · Teacher Workshop 1",
+              "description": "SeaCity Museum · 22 February 2023",
+              "formats": {
+                "PDF": "/talks/titanic/workshop-1.pdf"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

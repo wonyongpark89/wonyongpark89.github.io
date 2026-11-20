@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qualitative Coding Workbook</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%274%27 fill=%27%23243d34%27/%3E%3Cpath d=%27M9 8h14M9 13h14M9 18h8M9 23h11%27 stroke=%27white%27 stroke-width=%272%27/%3E%3C/svg%3E">
+    
+    <meta name="theme-color" content="#243d34">
+    <link rel="stylesheet" href="workbook.css?v=81fde49">
+</head>
+<body>
+
+<!-- Session entry -->
+<section id="landing-modal" class="welcome" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+    <div class="welcome-sheet">
+        <div class="welcome-intro">
+            <h1 id="welcome-title">Qualitative Coding<br>Workbook</h1>
+            <p class="course-line">Southampton Education School<br>EDUC6530 · Data Analysis for Educational Research</p>
+            <p class="welcome-description">Work closely with the data. Move from individual codes to categories, then develop an interpretation of what it means.</p>
+            <form class="welcome-form" onsubmit="event.preventDefault(); beginSession()">
+                <label for="landing-name">Your full name</label>
+                <input type="text" id="landing-name" autocomplete="name" placeholder="Enter your name" aria-describedby="name-help landing-error">
+                <p id="name-help">This name will appear on your submissions.</p>
+                <button class="btn primary-btn" type="submit">Begin workbook <span aria-hidden="true">→</span></button>
+                <p id="landing-error" role="alert" style="display:none;">Please enter your name to continue.</p>
+            </form>
+            <p class="device-note">Your progress is saved on this device as you work.</p>
+        </div>
+        <div class="welcome-route">
+            <h2>From transcript to theme</h2>
+            <p>Four steps, with practice activities and worked examples to guide you.</p>
+            <ol>
+                <li><span class="route-number">1</span><div><h3>Code the transcript</h3><p>Give meaningful extracts a short label.</p></div></li>
+                <li><span class="route-number">2</span><div><h3>Develop categories</h3><p>Group codes that share an idea.</p></div></li>
+                <li><span class="route-number">3</span><div><h3>Test your categories</h3><p>Check each group against the original data.</p></div></li>
+                <li><span class="route-number">4</span><div><h3>Develop a theme</h3><p>Interpret the meaning across categories.</p></div></li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<div id="pw-modal" role="dialog" aria-modal="true" aria-labelledby="instructor-title">
+    <div class="pw-box">
+        <h2 id="instructor-title">Instructor access</h2>
+        <p style="font-size:0.85rem; color:#64748b">Please enter your 4-digit security code.</p>
+        <label class="input-label" for="pw-input">Security code</label>
+        <input type="password" id="pw-input" inputmode="numeric" autocomplete="off" placeholder="••••" onkeydown="if(event.key==='Enter') checkPassword()">
+        <div style="display:flex; gap:10px">
+            <button class="btn btn-verify-action" style="flex:1; background:var(--teacher); color:white; border:none" onclick="checkPassword()">Verify</button>
+            <button class="btn" style="flex:1" onclick="closePwModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div id="script-unlock-modal" role="dialog" aria-modal="true" aria-labelledby="unlock-title" style="display:none;">
+    <div class="pw-box">
+        <h2 id="unlock-title">Unlock English Anxiety</h2>
+        <p style="font-size:0.85rem;color:#64748b;">This is an in-class exercise and is only accessible during the seminar. Your tutor will provide the code.</p>
+        <label class="input-label" for="script-unlock-input">Class access code</label>
+        <input type="text" id="script-unlock-input" placeholder="Enter code…" autocomplete="off" style="text-transform:uppercase;" onkeydown="if(event.key==='Enter') checkScriptUnlock()">
+        <p id="script-unlock-error" style="color:var(--danger);font-size:0.78rem;margin:0 0 10px;display:none;">Incorrect code. Try again.</p>
+        <div style="display:flex;gap:10px">
+            <button class="btn" style="flex:1;background:var(--accent);color:white;border:none" onclick="checkScriptUnlock()">Unlock</button>
+            <button class="btn" style="flex:1" onclick="closeScriptUnlockModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div id="workbook-app" inert>
+<a class="skip-link" href="#main-layout">Skip to the workspace</a>
+<header class="app-header">
+    <div class="app-identity"><h1>Qualitative Coding Workbook</h1><p>Southampton Education School <span aria-hidden="true">/</span> EDUC6530</p></div>
+    <div class="session-tools"><span id="session-name"></span><button class="btn tour-replay" id="tour-start-btn" type="button">Interface tour</button><div class="nav-group mode-switch" aria-label="Workbook mode">
+        <button id="btn-student-mode" class="btn btn-mode active" onclick="setMode('student')">Student</button>
+        <button id="btn-teacher-mode" class="btn btn-mode" onclick="setMode('teacher')">Instructor</button>
+    </div></div>
+</header>
+<nav class="activity-nav" aria-label="Choose an activity">
+    <div class="activity-group"><span class="activity-group-label">Practice</span><div class="nav-group">
+        <button class="btn btn-script active" id="btn-s1" onclick="loadScript(1)">1. AI in Education</button>
+        <button class="btn btn-script" id="btn-s2" onclick="requestScript2()"><svg id="s2-lock" width="13" height="15" viewBox="0 0 16 18" fill="none" aria-hidden="true"><rect x="2.5" y="7.5" width="11" height="8" rx="1" stroke="currentColor"/><path d="M5 7V4a3 3 0 016 0v3" stroke="currentColor"/></svg>2. English Anxiety</button>
+    </div></div>
+    <div class="activity-group examples-group"><span class="activity-group-label">Worked examples</span><div class="nav-group">
+        <button class="btn btn-script btn-sample" id="btn-s3" onclick="loadScript(3)">Versus Coding</button>
+        <button class="btn btn-script btn-sample" id="btn-s4" onclick="loadScript(4)">Emotion Coding</button>
+        <button class="btn btn-script btn-sample" id="btn-s5" onclick="loadScript(5)">In Vivo Coding</button>
+    </div></div>
+</nav>
+<div class="workbook-heading"><div><h2 id="activity-title">AI in Education</h2><p id="activity-description">Practice transcript 1</p></div><span class="save-note">Progress saved on this device</span></div>
+<nav id="stage-tabs" aria-label="Analysis steps">
+    <button class="stage-tab active" id="stab-1" onclick="switchStage(1)"><span class="tab-num">1</span><span class="step-copy"><strong>Coding</strong><span>Label meaningful extracts</span><small class="step-state">Current step</small></span></button>
+    <button class="stage-tab" id="stab-2" onclick="switchStage(2)"><span class="tab-num">2</span><span class="step-copy"><strong>Developing categories</strong><span>Find shared ideas</span><small class="step-state">Locked</small></span></button>
+    <button class="stage-tab" id="stab-3" onclick="switchStage(3)"><span class="tab-num">3</span><span class="step-copy"><strong>Testing categories</strong><span>Return to the data</span><small class="step-state">Locked</small></span></button>
+    <button class="stage-tab" id="stab-4" onclick="switchStage(4)"><span class="tab-num">4</span><span class="step-copy"><strong>Developing themes</strong><span>Interpret the meaning</span><small class="step-state">Locked</small></span></button>
+</nav>
+<section class="lesson-context" aria-label="Current task">
+    <div><h3 id="lesson-task">Code the transcript</h3><p id="next-step-note" aria-live="polite">Submit your coding to continue to categories.</p></div>
+    <div id="stage-tab-nav"><button class="stage-nav-prev" id="stage-prev-btn" onclick="switchStage(currentStage - 1)" disabled aria-label="Previous analysis step">← Back</button><button class="stage-nav-next" id="stage-next-btn" onclick="switchStage(currentStage + 1)">Next step →</button></div>
+</section>
+
+<main id="main-layout" tabindex="-1">
+    <div class="column" id="col-1">
+        <div class="workspace-card" id="pdf-content">
+            <div class="card-header">
+                <span id="label-left">Transcript</span>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <button class="btn" onclick="printTranscript()" style="font-size: 0.7rem; padding: 4px 8px;">Print / Save as PDF</button>
+                    <select id="select-left" class="student-select hidden" onchange="applyReview(1)"></select>
+                </div>
+            </div>
+            <div id="student-instructions" style="display:flex;flex-direction:column;gap:0;"></div>
+            <div id="t1" class="content-area"></div>
+            <div id="summary-1" class="summary-box hidden">
+                <p class="summary-title">Summary Codebook</p>
+                <div id="summary-content-1" style="display: flex; flex-wrap: wrap;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="column hidden" id="col-2">
+        <div class="workspace-card">
+            <div class="card-header">
+                <span id="label-right">Comparison Transcript</span>
+                <select id="select-right" class="student-select" onchange="applyReview(2)"></select>
+            </div>
+            <div id="t2" class="content-area"></div>
+            <div id="summary-2" class="summary-box">
+                <p class="summary-title">Summary Codebook</p>
+                <div id="summary-content-2" style="display: flex; flex-wrap: wrap;"></div>
+            </div>
+        </div>
+    </div>
+
+<!-- Analysis compare view (instructor mode) -->
+<div id="analysis-workspace" style="display:none; flex:1; overflow:hidden; padding:20px; gap:20px;">
+    <div class="analysis-pane" id="analysis-pane-1" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; min-width:0;"></div>
+    <div class="analysis-pane hidden" id="analysis-pane-2" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; min-width:0; border-left:1px solid var(--border); padding-left:20px;"></div>
+</div>
+
+    <div id="sidebar">
+        <div class="sidebar-panel" id="codes-panel">
+            <div class="panel-heading"><h3>My codebook</h3><span id="code-count" aria-label="Number of coded extracts">0</span></div><p class="panel-help">The labels you attach to the data.</p>
+            <div id="code-list" style="max-height: 300px; overflow-y: auto; margin: 10px 0;"></div>
+            <button class="btn" style="width:100%; margin-top:5px; color:var(--danger); border-color:rgba(239, 68, 68, 0.2)" onclick="clearLocalCodes()">Clear all codes</button>
+        </div>
+
+        <div class="sidebar-panel" id="export-section">
+            <h3>Submit this step</h3><p class="panel-help">When you are ready, send your coding to your instructor to unlock categories.</p>
+            <div id="submitting-as" style="font-size:0.82rem;color:#475569;margin-bottom:12px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1px solid var(--border);">
+                <span style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#94a3b8;display:block;margin-bottom:2px;">Submitting as</span>
+                <span id="submitting-as-name" style="font-weight:600;color:var(--primary);"></span>
+            </div>
+            <input type="hidden" id="student-name">
+            <button id="submit-btn" class="btn" style="width:100%; background:var(--success); color:white; border:none" onclick="submitCoding()">Submit Coding</button>
+            <p id="submit-coding-status" style="font-size:0.72rem;color:#94a3b8;margin:6px 0 0;text-align:center;"></p>
+        </div>
+
+        <div class="sidebar-panel hidden" id="teacher-tools">
+            <h3>Class submissions</h3>
+            <button class="btn" id="refresh-btn" style="width:100%; background:var(--accent); color:white; border:none" onclick="syncFromCloud()">Sync Submissions</button>
+            <button class="btn" id="clear-btn" style="width:100%; margin-top:10px; color:var(--danger); border-color:rgba(239, 68, 68, 0.2)" onclick="clearCloudData()">Purge All Data</button>
+        </div>
+
+        <div class="sidebar-panel hidden" id="teacher-review">
+            <h3>Review submissions</h3>
+
+            <label class="input-label" style="margin-top:4px;">Left panel</label>
+            <select id="sel-student-left" class="student-select" style="max-width:100%; margin-bottom:6px;" onchange="renderPane(1)">
+                <option value="">Select Student…</option>
+            </select>
+            <div style="display:flex; gap:6px; margin-bottom:14px;">
+                <button class="pane-stage-btn active" id="pane-stage-left-1" onclick="setPaneStage(1,1)">Coding</button>
+                <button class="pane-stage-btn" id="pane-stage-left-3" onclick="setPaneStage(1,3)">Categories</button>
+            </div>
+
+            <label class="input-label">Right panel</label>
+            <select id="sel-student-right" class="student-select" style="max-width:100%; margin-bottom:6px;" onchange="renderPane(2)">
+                <option value="">Select Student…</option>
+            </select>
+            <div style="display:flex; gap:6px; margin-bottom:14px;">
+                <button class="pane-stage-btn active" id="pane-stage-right-1" onclick="setPaneStage(2,1)">Coding</button>
+                <button class="pane-stage-btn" id="pane-stage-right-3" onclick="setPaneStage(2,3)">Categories</button>
+            </div>
+
+            <button class="btn" id="toggle-compare-btn" style="width:100%; color:#475569" onclick="toggleComparePane()">Show Both</button>
+        </div>
+
+        <div class="copyright">© Southampton Education School 2026. All Rights Reserved.</div>
+    </div>
+</main>
+
+<!-- Stage workspace: Stages 2–4 (Script 2 student mode, replaces main) -->
+<section id="stage-workspace" aria-label="Analysis workspace">
+    <!-- Stage 2 -->
+    <div class="sw-main" id="sw-panel-2">
+        <div style="font-size:0.78rem;color:#64748b;padding:2px 0 6px;line-height:1.5;"><strong style="color:var(--accent);">Stage 2 of 4:</strong> You've coded the transcript. Now move from individual <em>codes</em> to broader <em>categories</em>.</div>
+        <div class="definition-box"><div class="def-label">Definition — Category</div><p>A category is composed of codes that "look alike and feel alike." Categories are formed by grouping codes into patterns. Like a code, a category is a word or short phrase — but more condensed and operating at a higher level of abstraction.</p></div>
+        <div class="stage-instructions">Look across all your codes and drag those that look and feel alike into a category. Name each one and describe what holds them together. <strong>Not every code needs to go into a category</strong> — leftover codes are fine.</div>
+        <div id="code-pool-wrap">
+            <h3>Your codes — hover to see the coded extract · drag into a category below</h3>
+            <div id="code-pool"></div>
+        </div>
+        <div id="clusters-wrap"></div>
+        <button id="add-cluster-btn" onclick="addCluster()">+ Add Category</button>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="sw-main hidden" id="sw-panel-3">
+        <div style="font-size:0.78rem;color:#64748b;padding:2px 0 6px;line-height:1.5;"><strong style="color:var(--accent);">Stage 3 of 4:</strong> You've built categories. Now test them — do the extracts really fit where you've placed them?</div>
+        <div class="definition-box"><div class="def-label">Definition — Category</div><p>A category is composed of codes that "look alike and feel alike." Categories are formed by grouping codes into patterns. Like a code, a category is a word or short phrase — but more condensed and operating at a higher level of abstraction.</p></div>
+        <div class="stage-instructions">Test each category against the actual data. <strong>Do all the extracts really fit? Is anything out of place?</strong> Rename categories and move codes between them if needed, then submit.</div>
+        <div id="s3-clusters-container"></div>
+        <div id="s3-submit-bar">
+            <span>Submit your finalised categories when you're ready.</span>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+                <button class="s3-submit-btn" id="s3-submit-btn" onclick="submitAnalysis()">Submit Categories</button>
+                <p id="submit-analysis-status" style="font-size:0.72rem;color:#94a3b8;margin:0;text-align:right;"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="sw-main hidden" id="sw-panel-4">
+        <div style="font-size:0.78rem;color:#64748b;padding:2px 0 6px;line-height:1.5;"><strong style="color:var(--accent);">Stage 4 of 4:</strong> You've refined your categories. Now step back and identify the overarching <em>theme</em> — what does this data tell us?</div>
+        <div class="definition-box"><div class="def-label">Definition — Theme</div><p>A theme is an extended phrase or sentence that identifies what a unit of data is about and/or what it means. Compared with categories, themes are more interpretive, more descriptive, and often more subtle.</p></div>
+        <div class="stage-instructions">Use your finalised categories as the raw material for a theme. A theme isn't a summary — it's an interpretation. <strong>What is the data telling you?</strong> Write a sentence or phrase that captures the overarching meaning.</div>
+        <div class="s4-section">
+            <h3>Your finalised categories</h3>
+            <p class="s4-sub">Read each category and its extracts carefully before writing your theme.</p>
+            <div id="s4-categories-display" class="s4-categories-list"></div>
+        </div>
+        <div class="s4-section">
+            <h3>Write your theme</h3>
+            <div style="background:#f8fafc;border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin-bottom:12px;">
+                <div style="font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;margin-bottom:8px;">Questions to guide your writing</div>
+                <ul style="margin:0;padding-left:18px;font-size:0.82rem;color:#475569;line-height:1.9;">
+                    <li>What is the central idea that connects these categories?</li>
+                    <li>What is going on here conceptually — not just descriptively?</li>
+                    <li>How do these categories relate to each other?</li>
+                    <li>Do they represent stages, tensions, causes, or consequences?</li>
+                    <li>What question does this theme answer?</li>
+                </ul>
+            </div>
+            <div class="s4-field-label">Your theme:</div>
+            <textarea class="s4-textarea" id="s4-pattern" style="min-height:120px;"></textarea>
+        </div>
+        <div id="s4-submit-bar" style="background:white;border-radius:var(--radius);border:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;">
+            <span style="font-size:0.78rem;color:#64748b;flex:1;">Submit your theme when you’re ready. You can resubmit after making changes.</span>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+                <button class="s3-submit-btn" id="s4-submit-btn" onclick="submitTheme()">Submit Theme</button>
+                <p id="submit-theme-status" style="font-size:0.72rem;color:#94a3b8;margin:0;text-align:right;"></p>
+            </div>
+        </div>
+        <div style="background:white;border-radius:var(--radius);border:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+            <span style="font-size:0.78rem;color:#64748b;flex:1;">Open a clean summary of your analysis to save or print.</span>
+            <button class="btn" id="s4-export-btn" style="background:var(--accent);color:white;border-color:var(--accent);" onclick="openStage4Export()">Save a copy ↗</button>
+        </div>
+        <!-- Hidden fields kept for JS compatibility (persistence, submission, export) -->
+        <textarea id="s4-claim"    style="display:none;"></textarea>
+        <textarea id="s4-evidence" style="display:none;"></textarea>
+        <textarea id="s4-nuance"   style="display:none;"></textarea>
+        <div style="height:60px;flex-shrink:0;"></div>
+    </div>
+</section>
+
+<div id="coding-bar">
+    <div class="coding-selection"><label for="code-input">Code the selected extract</label><p id="selection-note" aria-live="polite">Select a passage in the transcript to begin.</p></div>
+    <div class="coding-entry"><input type="text" id="code-input" placeholder="Give this extract a short label" aria-describedby="selection-note"><button id="apply-btn" onclick="applyManualCode()">Apply code <span aria-hidden="true">↵</span></button></div>
+</div>
+</div>
+
+<!-- JS tooltip for pool cards -->
+<div id="pool-tooltip" role="tooltip"></div>
+
+<script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbzEo0HjKylsTZ4jpcbBfIP3c_sPODpezIm1js7mH5hd_sWRtEcV4Vqgjb7umirx9wPv/exec";
+
+    const scripts = {
+        1: `<div class="p-block"><span class="speaker">INTERVIEWER:</span> Could you tell me a bit about how AI tools fit into your day-to-day studying, if at all?</div><div class="p-block"><span class="speaker">STUDENT A:</span> I use them quite a lot, but mostly at the beginning of a task rather than the end. So, if I have a reading for next week, I might paste in the abstract and ask for a plain-language overview first, just so I know what I am looking at. It does not replace the reading, but it makes the article feel less intimidating. Especially when it is one of those papers where the first two pages are all theory and you are still not quite sure what the author is arguing.</div><div class="p-block"><span class="speaker">STUDENT B:</span> I have used it more carefully, to be honest. I can see why people find it useful, but sometimes I think it gives me something that sounds clear before I have actually understood it myself. I used it for some help with SPSS syntax a few weeks ago, and it did give me something usable, but then in the seminar I realised I could not explain what I had done. That bothered me a bit, because I felt like I had skipped over the part where I was actually supposed to learn.</div><div class="p-block"><span class="speaker">STUDENT A:</span> Yes, I know what you mean. I think I treat it more like a starting point than an answer. I still check things afterwards. But at the same time, the workload is so heavy that it is hard not to use something that saves time. Even small things, like asking it to suggest headings for an essay plan or helping me turn messy notes into a list of themes, make a difference when you are juggling readings, assignments, and placement.</div><div class="p-block"><span class="speaker">STUDENT B:</span> Another thing for me is that people are not all using the same version of it. Some students are paying for tools that seem much better than the free ones. So even if the university says, fine, use AI in a responsible way, it still feels uneven. It is a bit uncomfortable knowing that what counts as being “good at studying” might partly depend on what kind of software you can afford.</div>`,
+        2: `<div class="p-block"><span class="speaker">MODERATOR:</span> Can you describe what it is like for you when you have to speak in English during seminars?</div><div class="p-block"><span class="speaker">PARTICIPANT 1:</span> For me, the hardest part is waiting for my turn. I am not really following the discussion properly because I am too busy preparing one sentence in my head. I keep changing the wording, then worrying about whether the grammar is right, then wondering if by the time I speak the conversation will already have moved on. So even before I say anything, I already feel tense.</div><div class="p-block"><span class="speaker">PARTICIPANT 2:</span> I feel that too, but what gets to me most is that I sound like a much less confident version of myself. In my own language, I am quite expressive and quick. I can disagree with people, make jokes, explain what I mean. In English, I become much more cautious. I choose the safest words, the shortest sentence, and then I stop. It makes me feel like people in class are meeting a very reduced version of who I am.</div><div class="p-block"><span class="speaker">PARTICIPANT 3:</span> Mine is almost physical. If a tutor asks me directly, I can feel my mind go blank straight away. It is strange because sometimes I do know what I want to say, but I am concentrating so hard on pronunciation and whether I sound stupid that I lose the point I was trying to make. Afterwards I can usually think of a much better answer, but in that moment it is like everything closes down.</div><div class="p-block"><span class="speaker">PARTICIPANT 1:</span> Yes, and then when someone else starts speaking instead, I feel relieved for a second, but also annoyed with myself. Because it is not that I have nothing to contribute. It is more that speaking takes so much effort that I am constantly weighing up whether it is worth the risk of getting it wrong in front of everyone.</div>`,
+        3: `<div class="p-block"><span class="speaker">Interviewer:</span> What are your thoughts on the new AI-based exam proctoring systems?</div><div class="p-block"><span class="speaker">Student C:</span> I understand the university wants to prevent cheating, but having a camera track my eye movements feels like a complete invasion of my space. I’m in my bedroom, yet I feel like a prisoner. It's a choice between my privacy and my degree. I shouldn't have to show a stranger my personal living space just to prove I'm not a fraud. It creates this inherent atmosphere of distrust from the very start.</div><div class="p-block"><span class="speaker">Student C:</span> Also, it changes how I behave during the exam. I feel like I have to sit completely still and stare at the screen the whole time, even when I would normally look away to think. It makes me more nervous, not less, and I worry that normal behaviour could be flagged as suspicious.</div><div class="p-block"><span class="speaker">Student D:</span> I see it differently. I've worked hard for my grades, and if someone can just look up answers on their phone, it devalues my degree. I’d rather have the intrusion if it means the results are actually fair. For me, the security of the system is more important than the temporary discomfort of being watched. We are here to be assessed on our merit, and if the system can't guarantee that merit, what's the point of the institution?</div><div class="p-block"><span class="speaker">Student D:</span> It is not perfect, but I think people exaggerate how bad it is. Most of the time, it is just a few hours of being monitored. Compared to the risk of widespread cheating, that seems like a reasonable trade-off. Otherwise, the value of the degree starts to mean less for everyone.</div>`,
+        4: `<div class="p-block"><span class="speaker">Interviewer:</span> Can you talk me through what the experience of your graduate job interview was like?</div><div class="p-block"><span class="speaker">HANNAH:</span> The morning of the interview I felt completely on edge. I had prepared as much as I could, but I kept running through possible questions in my head and worrying that I would not be able to think clearly under pressure. I remember sitting in the waiting area looking at the other candidates and feeling like they all seemed more confident than me. I kept telling myself to stay calm, but my hands were shaking and I could not focus on anything properly.</div><div class="p-block"><span class="speaker">HANNAH:</span> During the interview itself, there were moments where I thought it was going well and moments where I felt I had completely lost the thread. One of the panel asked me something I had not prepared for, and I could feel my face go red. I managed to say something, but afterwards I kept replaying that answer and thinking about how much better I could have put it. It is strange how one moment can overshadow everything else you said.</div><div class="p-block"><span class="speaker">HANNAH:</span> When they emailed me the next day to say I had got the job, the main feeling was relief rather than excitement. I think I had been holding so much tension in my body that when it was finally over, everything just kind of collapsed. I sat on my bed and did not really feel anything for a while. It took a few hours before I actually felt pleased.</div><div class="p-block"><span class="speaker">HANNAH:</span> But then over the next few days a different feeling crept in, which was a kind of nervousness about what came next. I had spent so long focusing on getting the job that I had not really thought about actually doing it. So there was this odd mix of pride and anxiety, like I had achieved something but also opened up a whole new set of things to worry about.</div>`,
+        5: `<div class="p-block"><span class="speaker">Moderator:</span> How do you usually experience the final weeks of the semester?</div><div class="p-block"><span class="speaker">Student E:</span> It usually gets quite repetitive by that stage. I am in the library most days, and I find myself doing the same small tasks over and over, checking references, changing wording, going back to things I thought I had already finished. You are still working, but it can feel a bit like you are just keeping everything moving.</div><div class="p-block"><span class="speaker">Student F:</span> For me the hardest part is that everything starts to blur together. I can still get things done, but I do not always feel fully switched on. Sometimes I am reading something and realise I have reached the bottom of the page without really taking it in. So I am present, but not fully present, if that makes sense.</div><div class="p-block"><span class="speaker">Student G:</span> I think I become much more deadline-focused. Earlier in the semester I might spend more time thinking about whether something is actually good, but near the end it becomes more about getting it across the line. You start saying to yourself, this is good enough, submit it, move on. It is a different mindset from when you actually have time to think.</div>`
+    };
+
+    const scriptInstructions = {
+        1: "<div class=\"definition-box\"><div class=\"def-label\">Definition — Code</div><p>A code is a word or short phrase that symbolically assigns a summative, salient, essence-capturing, or evocative meaning to a portion of language-based or visual data. It is a compact interpretive marker attached to a segment of data — as short as a sentence or as long as a paragraph or larger unit.</p></div><div class=\"stage-instructions\" style=\"margin-top:0;border-radius:0 0 var(--radius) var(--radius);border-top:none;\"><strong>To Code:</strong> Highlight a segment of text, type your label below, and press <strong>Enter</strong>.</div>",
+        2: "<div class=\"definition-box\"><div class=\"def-label\">Definition — Code</div><p>A code is a word or short phrase that symbolically assigns a summative, salient, essence-capturing, or evocative meaning to a portion of language-based or visual data. It is a compact interpretive marker attached to a segment of data — as short as a sentence or as long as a paragraph or larger unit.</p></div><div class=\"stage-instructions\" style=\"margin-top:0;border-radius:0 0 var(--radius) var(--radius);border-top:none;\"><strong>To Code:</strong> Highlight a segment of text, type your label below, and press <strong>Enter</strong>.</div>",
+        3: "<div class=\"sample-banner\">Read-only worked example — explore each stage to see how coding leads to categories and themes.</div><div class=\"stage-instructions\"><strong>SAMPLE (Versus Coding):</strong> Identifies contrasts, conflicts and tensions. Observe how the text is coded below, then explore Stages 2–4 to see a worked example of developing categories and themes.</div>",
+        4: "<div class=\"sample-banner\">Read-only worked example — explore each stage to see how coding leads to categories and themes.</div><div class=\"stage-instructions\"><strong>SAMPLE (Emotion Coding):</strong> Labels subjective feelings. Observe how the text is coded below, then explore Stages 2–4 to see a worked example of developing categories and themes.</div>",
+        5: "<div class=\"sample-banner\">Read-only worked example — explore each stage to see how coding leads to categories and themes.</div><div class=\"stage-instructions\"><strong>SAMPLE (In Vivo Coding):</strong> Direct participant quotes are used as the codes. Observe how the labels are formatted below, then explore Stages 2–4 to see a worked example of developing categories and themes.</div>"
+    };
+
+    const sampleData = {
+        3: [{"id":"v1","code":"Privacy vs. Security","text":"having a camera track my eye movements feels like a complete invasion of my space","color":"hsla(340, 80%, 88%, 0.9)"},{"id":"v2","code":"Privacy vs. Degree","text":"a choice between my privacy and my degree","color":"hsla(25, 85%, 85%, 0.9)"},{"id":"v3","code":"Trust vs. Surveillance","text":"creates this inherent atmosphere of distrust","color":"hsla(10, 80%, 88%, 0.9)"},{"id":"v4","code":"Authenticity vs. Performance","text":"I feel like I have to sit completely still and stare at the screen","color":"hsla(200, 80%, 85%, 0.9)"},{"id":"v5","code":"Normal behaviour vs. Suspicion","text":"normal behaviour could be flagged as suspicious","color":"hsla(220, 70%, 88%, 0.9)"},{"id":"v6","code":"Integrity vs. Cheating","text":"if someone can just look up answers on their phone, it devalues my degree","color":"hsla(140, 75%, 85%, 0.9)"},{"id":"v7","code":"Security vs. Discomfort","text":"security of the system is more important than the temporary discomfort","color":"hsla(180, 60%, 85%, 0.9)"},{"id":"v8","code":"Fairness vs. Intrusion","text":"I’d rather have the intrusion if it means the results are actually fair","color":"hsla(60, 80%, 85%, 0.9)"},{"id":"v9","code":"Risk vs. Trade-off","text":"a reasonable trade-off","color":"hsla(45, 90%, 85%, 0.9)"},{"id":"v10","code":"Value vs. Dilution","text":"the value of the degree starts to mean less","color":"hsla(280, 70%, 88%, 0.9)"}],
+        4: [{"id":"e1","code":"Anticipatory dread","text":"I felt completely on edge","color":"hsla(340, 80%, 88%, 0.9)"},{"id":"e2","code":"Self-comparison","text":"looking at the other candidates and feeling like they all seemed more confident than me","color":"hsla(10, 80%, 88%, 0.9)"},{"id":"e3","code":"Physical anxiety","text":"my hands were shaking and I could not focus on anything properly","color":"hsla(45, 90%, 85%, 0.9)"},{"id":"e4","code":"Exposure","text":"I could feel my face go red","color":"hsla(25, 85%, 85%, 0.9)"},{"id":"e5","code":"Rumination","text":"I kept replaying that answer and thinking about how much better I could have put it","color":"hsla(220, 70%, 88%, 0.9)"},{"id":"e6","code":"Relief","text":"the main feeling was relief rather than excitement","color":"hsla(140, 75%, 85%, 0.9)"},{"id":"e7","code":"Emotional collapse","text":"everything just kind of collapsed. I sat on my bed and did not really feel anything for a while","color":"hsla(180, 60%, 85%, 0.9)"},{"id":"e8","code":"Delayed pride","text":"It took a few hours before I actually felt pleased","color":"hsla(200, 80%, 85%, 0.9)"},{"id":"e9","code":"Forward anxiety","text":"a kind of nervousness about what came next","color":"hsla(280, 70%, 88%, 0.9)"},{"id":"e10","code":"Ambivalent achievement","text":"this odd mix of pride and anxiety, like I had achieved something but also opened up a whole new set of things to worry about","color":"hsla(60, 80%, 85%, 0.9)"}],
+        5: [{"id":"i1","code":"\"same small tasks over and over\"","text":"I find myself doing the same small tasks over and over, checking references, changing wording, going back to things I thought I had already finished","color":"hsla(280, 70%, 88%, 0.9)"},{"id":"i2","code":"\"keeping everything moving\"","text":"You are still working, but it can feel a bit like you are just keeping everything moving","color":"hsla(220, 70%, 88%, 0.9)"},{"id":"i3","code":"\"everything starts to blur together\"","text":"For me the hardest part is that everything starts to blur together","color":"hsla(180, 60%, 85%, 0.9)"},{"id":"i4","code":"\"not fully switched on\"","text":"I can still get things done, but I do not always feel fully switched on","color":"hsla(45, 90%, 85%, 0.9)"},{"id":"i5","code":"\"present, but not fully present\"","text":"Sometimes I am reading something and realise I have reached the bottom of the page without really taking it in. So I am present, but not fully present","color":"hsla(25, 85%, 85%, 0.9)"},{"id":"i6","code":"\"getting it across the line\"","text":"near the end it becomes more about getting it across the line","color":"hsla(340, 80%, 88%, 0.9)"},{"id":"i7","code":"\"good enough, submit it, move on\"","text":"You start saying to yourself, this is good enough, submit it, move on","color":"hsla(10, 80%, 88%, 0.9)"}]
+    };
+
+    const colorPalette = ["hsla(200, 80%, 85%, 0.9)", "hsla(140, 75%, 85%, 0.9)", "hsla(340, 80%, 88%, 0.9)", "hsla(45, 90%, 85%, 0.9)", "hsla(280, 70%, 88%, 0.9)", "hsla(25, 85%, 85%, 0.9)", "hsla(180, 60%, 85%, 0.9)", "hsla(10, 80%, 88%, 0.9)", "hsla(60, 80%, 85%, 0.9)", "hsla(220, 70%, 88%, 0.9)"];
+
+    // ── Utilities: escaping ───────────────────────────────────────────────────
+    // Anything typed by a student (code labels, names, categories, themes) must go
+    // through esc() before it is placed in innerHTML.
+    function esc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+    }
+    const COLOR_RE = /^hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)$/;
+    function safeColor(c) { return COLOR_RE.test(String(c)) ? String(c) : 'hsla(220, 70%, 88%, 0.9)'; }
+    function darkOf(c, lightness) {
+        const p = String(c || '').match(COLOR_RE);
+        return p ? `hsla(${p[1]}, ${p[2]}%, ${lightness}%, 1)` : '#334155';
+    }
+
+    // ── Utilities: position-based highlighting ────────────────────────────────
+    // Codes are stored with character offsets (start/end) into the transcript's
+    // plain text, so a code is drawn exactly where it was made — even if the same
+    // words appear elsewhere, or the selection spans several speakers.
+    // Older entries without offsets are located once by their text and then migrated.
+
+    // Transcript text nodes in order, skipping code labels.
+    function transcriptTextNodes(root) {
+        const out = [];
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+            acceptNode: n => (n.parentElement && n.parentElement.closest('.teacher-label')) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT
+        });
+        let n; while ((n = walker.nextNode())) out.push(n);
+        return out;
+    }
+
+    function plainTextOf(scriptNum) {
+        const tmp = document.createElement('div'); tmp.innerHTML = scripts[scriptNum] || '';
+        return transcriptTextNodes(tmp).map(n => n.data).join('');
+    }
+
+    // Readable extract for [start, end): speaker names dropped, a space between turns.
+    function extractText(scriptNum, start, end) {
+        const tmp = document.createElement('div'); tmp.innerHTML = scripts[scriptNum] || '';
+        let pos = 0, out = '', lastBlock = null;
+        transcriptTextNodes(tmp).forEach(node => {
+            const nStart = pos, nEnd = pos + node.length; pos = nEnd;
+            if (nEnd <= start || nStart >= end) return;
+            if (node.parentElement.closest('.speaker')) return;
+            const block = node.parentElement.closest('.p-block');
+            if (lastBlock && block !== lastBlock) out += ' ';
+            lastBlock = block;
+            out += node.data.slice(Math.max(0, start - nStart), Math.min(node.length, end - nStart));
+        });
+        return out.replace(/\s+/g, ' ').trim();
+    }
+
+    // Whitespace- and case-insensitive search, used only for entries saved without offsets.
+    function locateText(plain, text, used) {
+        const target = String(text || '').replace(/\s+/g, '').toLowerCase();
+        if (target.length < 1) return null;
+        let squashed = ''; const map = [];
+        for (let i = 0; i < plain.length; i++) { if (!/\s/.test(plain[i])) { squashed += plain[i].toLowerCase(); map.push(i); } }
+        let from = 0, idx, first = null;
+        while ((idx = squashed.indexOf(target, from)) !== -1) {
+            const loc = { start: map[idx], end: map[idx + target.length - 1] + 1 };
+            if (!first) first = loc;
+            if (!used.has(loc.start + ':' + loc.end)) return loc;
+            from = idx + 1;
+        }
+        return first;
+    }
+
+    // Draws `entries` onto a fresh copy of the transcript inside `container`.
+    // Returns [{id, start, end}] for every entry that could be placed.
+    function renderHighlights(container, scriptNum, entries, opts = {}) {
+        container.innerHTML = scripts[scriptNum] || '';
+        const plain = transcriptTextNodes(container).map(n => n.data).join('');
+        const used = new Set();
+        const spans = [];
+        (entries || []).forEach(e => {
+            if (!e) return;
+            let s = e.start, en = e.end;
+            const valid = Number.isInteger(s) && Number.isInteger(en) && s >= 0 && en <= plain.length && s < en;
+            if (!valid) { const loc = locateText(plain, e.text, used); if (!loc) return; s = loc.start; en = loc.end; }
+            used.add(s + ':' + en);
+            spans.push({ e, start: s, end: en });
+        });
+        if (!spans.length) return [];
+
+        // Split text nodes at every highlight boundary.
+        const cuts = new Set(); spans.forEach(sp => { cuts.add(sp.start); cuts.add(sp.end); });
+        let pos = 0;
+        transcriptTextNodes(container).forEach(node => {
+            const nStart = pos; pos += node.length;
+            [...cuts].filter(c => c > nStart && c < pos).sort((a, b) => b - a).forEach(c => node.splitText(c - nStart));
+        });
+        const segs = []; pos = 0;
+        transcriptTextNodes(container).forEach(node => { segs.push({ node, start: pos, end: pos + node.length }); pos += node.length; });
+
+        // Longest first, so shorter (nested) codes end up on top.
+        spans.sort((a, b) => (b.end - b.start) - (a.end - a.start));
+        spans.forEach(sp => {
+            const color = sp.e.pending ? null : safeColor(sp.e.color);
+            let lastWrap = null;
+            segs.forEach(g => {
+                if (g.start < sp.start || g.end > sp.end || !g.node.length) return;
+                if (g.node.parentElement.closest('.speaker')) return;
+                const w = document.createElement('span');
+                w.className = sp.e.pending ? 'pending-selection' : 'highlighted';
+                if (sp.e.id) w.dataset.id = sp.e.id;
+                if (color) w.style.background = color;
+                g.node.parentNode.insertBefore(w, g.node);
+                w.appendChild(g.node);
+                lastWrap = w;
+            });
+            if (!lastWrap || sp.e.pending) return;
+            const label = document.createElement('span');
+            label.className = 'teacher-label';
+            label.style.background = darkOf(color, 30);
+            label.textContent = sp.e.code;
+            if (opts.removable) {
+                const x = document.createElement('span');
+                x.className = 'uncode-inline'; x.textContent = '×'; x.title = 'Remove this code';
+                x.dataset.removeId = sp.e.id;
+                label.appendChild(x);
+            }
+            lastWrap.after(label);
+        });
+        return spans.map(sp => ({ id: sp.e.id, start: sp.start, end: sp.end }));
+    }
+
+    // Character offset of a DOM boundary point within the transcript's plain text.
+    function rangeOffset(root, node, offset) {
+        const r = document.createRange(); r.setStart(root, 0);
+        try { r.setEnd(node, offset); } catch (e) { return 0; }
+        let count = 0;
+        for (const tn of transcriptTextNodes(root)) {
+            if (tn === node) return count + offset;
+            if (!r.intersectsNode(tn)) break;
+            count += tn.length;
+        }
+        return count;
+    }
+
+    // ── Utility: sync main margin with coding bar visibility ──────────────────
+    function syncCodingBarMargin() {
+        const bar = document.getElementById('coding-bar');
+        const main = document.getElementById('main-layout');
+        const visible = bar && !bar.classList.contains('hidden');
+        if (main) main.classList.toggle('coding-bar-visible', visible);
+    }
+
+    // ── Sample stage 2-4 worked examples ─────────────────────────────────────
+    const sampleAnalysis = {
+        3: {
+            categories: [
+                { name: "Privacy under threat", connectedBy: "Codes where surveillance feels like a violation of personal space and autonomy", codes: ["Privacy vs. Security","Privacy vs. Degree","Trust vs. Surveillance","Authenticity vs. Performance"] },
+                { name: "Fairness and legitimacy", connectedBy: "Codes where the value of the assessment system is at stake", codes: ["Integrity vs. Cheating","Fairness vs. Intrusion","Value vs. Dilution","Risk vs. Trade-off"] },
+                { name: "Behavioural self-monitoring", connectedBy: "Codes about performing normality under observation", codes: ["Normal behaviour vs. Suspicion","Security vs. Discomfort"] }
+            ],
+            s4: {
+                pattern: "These students experience AI proctoring as a forced negotiation between protecting their sense of self and meeting institutional demands — surveillance doesn't just monitor them, it changes how they inhabit the exam.",
+                claim: "This data suggests that AI proctoring does not merely detect dishonesty — it restructures the experience of assessment itself, creating a second layer of performance in which students must prove not just knowledge but behavioural normality. The 'versus' structure of their language reveals that they do not experience these tensions as resolvable: privacy and security, integrity and intrusion, are not balanced trade-offs but genuinely competing values with no clean answer.",
+                evidence: "The clearest evidence is in how Student C describes physical self-management during the exam: the need to 'sit completely still and stare at the screen' even when normal thinking involves looking away. This is not anxiety about being caught cheating — it is anxiety about being read correctly by a machine that cannot interpret human behaviour. The surveillance has become its own cognitive task.",
+                nuance: "Student D's acceptance complicates this — their concern is not privacy but fairness to honest students, and they are willing to absorb the discomfort. This suggests the tension is not simply pro- versus anti-surveillance, but reflects different underlying values about what a degree is for and who bears the cost of protecting its integrity."
+            }
+        },
+        4: {
+            categories: [
+                { name: "Pre-interview anxiety", connectedBy: "Emotions experienced before and during the interview — dread, comparison, and physical stress", codes: ["Anticipatory dread","Self-comparison","Physical anxiety"] },
+                { name: "Performance vulnerability", connectedBy: "The feeling of being exposed and judged in the moment, and the replaying afterwards", codes: ["Exposure","Rumination"] },
+                { name: "Deflated relief", connectedBy: "The outcome brings relief rather than joy — an emotional collapse rather than celebration", codes: ["Relief","Emotional collapse","Delayed pride"] },
+                { name: "Achievement as new uncertainty", connectedBy: "Success does not resolve anxiety but redirects it towards the future", codes: ["Forward anxiety","Ambivalent achievement"] }
+            ],
+            s4: {
+                pattern: "Hannah moves through four emotional phases — escalating anxiety before the interview, a raw sense of exposure during it, a deflated relief when she succeeds, and then a redirected anxiety about what the achievement now demands of her.",
+                claim: "This data suggests that getting a graduate job is not experienced as a straightforward success but as a transition from one form of anxiety to another. The relief is real but strikingly flat — closer to exhaustion than celebration. The emotional arc is not preparation → triumph but preparation → exposure → collapse → renewed worry. Achievement, rather than resolving uncertainty, simply replaces its object.",
+                evidence: "The most revealing moment is Hannah's description of sitting on her bed and not feeling anything after receiving the offer. This is not what success is supposed to feel like. The absence of emotion is itself emotionally significant — it suggests the interview consumed so much affective energy that there was nothing left for the outcome. The body had already spent what the mind wanted to celebrate with.",
+                nuance: "Hannah's phrase 'pride and anxiety' sitting together is analytically important. She does not describe moving from one to the other — they coexist simultaneously. This challenges a linear reading of the emotional process and suggests that for students entering the graduate job market, achievement and apprehension may be structurally inseparable rather than sequential."
+            }
+        },
+        5: {
+            categories: [
+                { name: "Repetitive, low-engagement work", connectedBy: "Codes capturing the mechanical, circular quality of late-stage tasks", codes: ['"same small tasks over and over"','"keeping everything moving"'] },
+                { name: "Cognitive fade", connectedBy: "Codes about reduced presence and attention", codes: ['"everything starts to blur together"','"not fully switched on"','"present, but not fully present"'] },
+                { name: "Pragmatic completion mindset", connectedBy: "Codes about shifting from quality to simply finishing", codes: ['"getting it across the line"','"good enough, submit it, move on"'] }
+            ],
+            s4: {
+                pattern: "By the end of semester, these students are no longer studying in any meaningful sense — they are managing a process, keeping things moving with just enough effort to cross the finish line.",
+                claim: "This data suggests that late-semester exhaustion does not simply reduce motivation — it fundamentally changes students' relationship to their own work. The shift from 'is this good?' to 'is this good enough?' is not laziness but a rational adaptation to accumulated cognitive and emotional depletion. The in vivo codes capture this precisely: the students' own language has already stripped away aspiration, leaving only procedure.",
+                evidence: "The phrase 'present, but not fully present' is analytically significant: it names something that quantitative data about engagement cannot capture — a student who is technically attending, completing, submitting, but whose cognitive self has partially withdrawn. The in vivo code preserves the phenomenological precision that paraphrase would destroy.",
+                nuance: "It is worth noting that Student G's account — 'near the end it becomes more about getting it across the line' — is offered without self-criticism. Unlike the perfectionism visible earlier in the semester, the pragmatic mindset at the end is presented as simply realistic. This normalisation of reduced engagement may itself be part of what makes it difficult to address."
+            }
+        }
+    };
+
+    function renderSampleAnalysis(num) {
+        const data = sampleAnalysis[num];
+        if (!data) return;
+
+        document.getElementById('clusters-wrap').innerHTML = '';
+        const allCodes = (sampleData[num] || []);
+        const colors = {};
+        allCodes.forEach(c => { colors[c.code] = c.color; });
+
+        data.categories.forEach((cat, i) => {
+            const id = 'sample-cluster-' + i;
+            const card = document.createElement('div');
+            card.className = 'cluster-card'; card.id = id;
+            card.dataset.sampleCodes = JSON.stringify(cat.codes); // store for buildStage3/4
+            const codesHtml = cat.codes.map(code => {
+                const col = colors[code] || 'hsla(220, 70%, 88%, 0.9)';
+                const parts = col.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+                const darkColor = parts ? `hsla(${parts[1]}, ${parts[2]}%, 25%, 1)` : '#334155';
+                return `<span class="sample-code-chip" data-code="${code}" style="display:inline-block;padding:5px 10px;border-radius:6px;font-size:0.78rem;font-weight:600;background:${col};color:${darkColor};margin:3px;cursor:default;">${code}</span>`;
+            }).join('');
+            card.innerHTML = `
+                <div class="cluster-top">
+                    <input class="cluster-name-input" type="text" value="${cat.name}" readonly style="background:#f8fafc;cursor:default;" />
+                </div>
+                <div style="padding:8px 0 6px;display:flex;flex-wrap:wrap;gap:4px;">${codesHtml}</div>
+                <div class="cluster-category-wrap">
+                    <div class="cat-label">What holds these codes together?</div>
+                    <input class="cluster-category-input" type="text" value="${cat.connectedBy}" readonly style="background:#f8fafc;cursor:default;" />
+                </div>`;
+            document.getElementById('clusters-wrap').appendChild(card);
+
+            // Attach tooltips to code chips showing their extract
+            card.querySelectorAll('.sample-code-chip').forEach(chip => {
+                const code = chip.dataset.code;
+                const entries = (sampleData[num] || []).filter(e => e.code === code);
+                if (!entries.length) return;
+                const tipText = entries.map(e => '"' + e.text.trim() + '"').join(' / ');
+                chip.addEventListener('mouseenter', e => { showTooltip({ dataset: { tooltip: tipText } }, e); });
+                chip.addEventListener('mousemove', positionTooltip);
+                chip.addEventListener('mouseleave', hideTooltip);
+            });
+        });
+
+        // Populate Stage 4 fields as read-only
+        const p = document.getElementById('s4-pattern');   if (p) { p.value = data.s4.pattern;  p.readOnly = true; p.style.background='#f8fafc'; }
+        const c = document.getElementById('s4-claim');     if (c) { c.value = data.s4.claim;    c.readOnly = true; c.style.background='#f8fafc'; }
+        const e = document.getElementById('s4-evidence');  if (e) { e.value = data.s4.evidence; e.readOnly = true; e.style.background='#f8fafc'; }
+        const n = document.getElementById('s4-nuance');    if (n) { n.value = data.s4.nuance;   n.readOnly = true; n.style.background='#f8fafc'; }
+
+        // Hide save and submit controls for samples
+        const exportBtn = document.getElementById('s4-export-btn');
+        if (exportBtn) exportBtn.closest('div').style.display = 'none';
+    }
+
+    let currentMode = 'student', isCompare = false, currentScript = 1, myCodes = [], codeColors = {}, paletteIndex = 0, submissions = {};
+    let currentStage = 1;
+    let pendingSelection = null;   // { start, end, text } — text selected but not yet coded
+    let instructorCode = '';       // kept in memory only, sent with instructor-only requests
+    let comparePaneOpen = false;
+    let paneStage = { 1: 1, 2: 1 };
+
+    function setMode(mode) {
+        if (mode === 'teacher') {
+            document.getElementById('pw-modal').style.display = 'flex';
+            document.getElementById('pw-input').focus();
+        } else { executeSetMode('student'); }
+    }
+
+    // POST to the Apps Script and throw if the server did not confirm success.
+    // Accepts JSON replies ({ok:true,...}) and the older plain-text replies.
+    async function postToApi(body) {
+        const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify(body) });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const text = await res.text();
+        let json = null; try { json = JSON.parse(text); } catch (e) { /* plain text */ }
+        if (json && typeof json === 'object' && json.ok === false) throw new Error(json.error || 'Server error');
+        if (json === null && /^\s*</.test(text)) throw new Error('Server error');   // Apps Script error page
+        if (json === null && /^\s*Error\b/i.test(text)) throw new Error(text.trim());   // older script's error reply
+        return json !== null ? json : text;
+    }
+    function isTrue(result) { return result === true || result === 'true' || (result && result.ok === true); }
+
+    async function checkPassword() {
+        const input = document.getElementById('pw-input').value;
+        const btn = document.querySelector('.btn-verify-action');
+        btn.innerText = "Verifying...";
+        try {
+            const result = await postToApi({ action: 'verify', password: input });
+            if (isTrue(result)) {
+                instructorCode = input;
+                document.getElementById('pw-modal').style.display = 'none';
+                document.getElementById('pw-input').value = '';
+                btn.innerText = "Verify";
+                executeSetMode('teacher');
+            } else { alert("Verification failed."); btn.innerText = "Verify"; }
+        } catch (e) {
+            alert(/locked/i.test(e.message) ? e.message : "Verification failed or connection error.");
+            btn.innerText = "Verify";
+        }
+    }
+
+    function closePwModal() { document.getElementById('pw-modal').style.display = 'none'; document.getElementById('pw-input').value = ''; }
+
+    function executeSetMode(mode) {
+        currentMode = mode;
+        document.getElementById('btn-student-mode').classList.toggle('active', mode === 'student');
+        document.getElementById('btn-teacher-mode').classList.toggle('active', mode === 'teacher');
+        document.getElementById('teacher-tools').classList.toggle('hidden', mode === 'student');
+        
+        const isSample = currentScript > 2;
+        const isS2Student = currentScript === 2 && mode === 'student';
+        // coding-bar: hidden for teacher, samples, or s2 stages 2-4
+        const hideCodingBar = mode === 'teacher' || isSample || (isS2Student && currentStage !== 1);
+        document.getElementById('coding-bar').classList.toggle('hidden', hideCodingBar);
+        syncCodingBarMargin();
+        document.getElementById('codes-panel').classList.toggle('hidden', mode === 'teacher');
+        document.getElementById('export-section').classList.toggle('hidden', mode === 'teacher' || isSample);
+        document.getElementById('student-instructions').classList.toggle('hidden', mode === 'teacher');
+        document.getElementById('summary-1').classList.remove('hidden');
+        
+        if (mode === 'teacher') {
+            document.getElementById('select-left').classList.remove('hidden');
+        } else {
+            isCompare = false; 
+            document.getElementById('col-2').classList.add('hidden'); 
+            document.getElementById('select-left').classList.add('hidden');
+            instructorCode = '';
+            submissions = {};
+            loadScript(currentScript);
+        }
+    }
+
+    function loadScript(num) {
+        currentScript = num; myCodes = []; paletteIndex = 0; pendingSelection = null;
+        document.querySelectorAll('.btn-script').forEach((b, i) => b.classList.toggle('active', i+1 === num));
+        document.getElementById('student-instructions').innerHTML = scriptInstructions[num];
+        const isSample = num > 2;
+        document.getElementById('coding-bar').classList.toggle('hidden', currentMode === 'teacher' || isSample);
+        syncCodingBarMargin();
+        document.getElementById('export-section').classList.toggle('hidden', currentMode === 'teacher' || isSample);
+        
+        resetWorkspaces();
+        if (isSample) renderSample(num);
+        else { loadFromLocal(); updateCodeList(myCodes); }
+        if (currentMode === 'teacher') updateTeacherDropdowns();
+    }
+
+    function renderSample(num) {
+        const data = sampleData[num];
+        renderHighlights(document.getElementById('t1'), num, data, { removable: false });
+        updateCodeList(data, true);
+    }
+
+    function resetWorkspaces() {
+        document.getElementById('t1').innerHTML = scripts[currentScript];
+        document.getElementById('t2').innerHTML = scripts[currentScript];
+        document.getElementById('code-list').innerHTML = "";
+        document.getElementById('summary-content-1').innerHTML = "";
+        document.getElementById('summary-content-2').innerHTML = "";
+    }
+
+    document.getElementById('t1').addEventListener('touchend', handleSelectionEnd);
+    document.getElementById('t1').addEventListener('mouseup', handleSelectionEnd);
+    // "×" on an inline code label
+    document.getElementById('t1').addEventListener('click', e => {
+        const x = e.target.closest('[data-remove-id]');
+        if (x) { e.stopPropagation(); removeCode(x.dataset.removeId); }
+    });
+    // "×" in the sidebar codebook
+    document.getElementById('code-list').addEventListener('click', e => {
+        const x = e.target.closest('[data-remove-id]');
+        if (x) removeCode(x.dataset.removeId);
+    });
+
+    // Redraw the student's own transcript (their codes + any pending selection).
+    function renderCoding() {
+        const entries = myCodes.slice();
+        if (pendingSelection) entries.push({ id: '', pending: true, ...pendingSelection });
+        return renderHighlights(document.getElementById('t1'), currentScript, entries, { removable: true });
+    }
+
+    function handleSelectionEnd() {
+        if (currentScript > 2 || currentMode === 'teacher' || currentStage !== 1) return;
+        setTimeout(() => {
+            const sel = window.getSelection();
+            if (!sel.rangeCount || sel.toString().trim().length < 2) return;
+            const range = sel.getRangeAt(0);
+            const root = document.getElementById('t1');
+            if (!root.contains(range.startContainer) || !root.contains(range.endContainer)) return;
+            let start = rangeOffset(root, range.startContainer, range.startOffset);
+            let end = rangeOffset(root, range.endContainer, range.endOffset);
+            const plain = plainTextOf(currentScript);
+            while (start < end && /\s/.test(plain[start])) start++;
+            while (end > start && /\s/.test(plain[end - 1])) end--;
+            if (end - start < 2) return;
+            sel.removeAllRanges();
+            pendingSelection = { start, end, text: extractText(currentScript, start, end) };
+            renderCoding();
+            document.getElementById('code-input').focus();
+        }, 50);
+    }
+
+    document.getElementById('code-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') applyManualCode(); });
+
+    function applyManualCode() {
+        const input = document.getElementById('code-input');
+        const codeName = input.value.trim();
+        if (!codeName || !pendingSelection) return;
+
+        const id = "c" + Date.now();
+        if (!codeColors[codeName]) {
+            codeColors[codeName] = colorPalette[paletteIndex % colorPalette.length];
+            paletteIndex++;
+        }
+        const color = codeColors[codeName];
+        const { start, end, text } = pendingSelection;
+        pendingSelection = null;
+
+        myCodes.push({ id, code: codeName, text, color, start, end });
+        renderCoding();
+        updateCodeList(myCodes);
+        saveToLocal();
+        input.value = "";
+        input.blur();
+    }
+
+    function removeCode(id) {
+        myCodes = myCodes.filter(c => c.id !== id);
+        renderCoding();
+        updateCodeList(myCodes);
+        saveToLocal();
+    }
+
+    function clearLocalCodes() {
+        if(!confirm("⚠️ This will permanently clear your coding progress for this script. Continue?")) return;
+        localStorage.removeItem(`coded_script_${currentScript}`);
+        localStorage.removeItem(analysisKey());
+        loadScript(currentScript);
+    }
+
+    function updateCodeList(data, isSampleView = false) {
+        document.getElementById('code-list').innerHTML = data.map(c => {
+            const t = String(c.text || '').trim();
+            const snippet = t.length > 30 ? t.substring(0, 30) + '…' : t;
+            return `<div class="code-badge" style="border-left-color:${safeColor(c.color)}">${!isSampleView ? `<span class="remove-code-btn" data-remove-id="${esc(c.id)}" title="Remove this code">×</span>` : ''}<strong>${esc(c.code)}</strong><br><span style="color:#64748b; font-size:0.75rem">"${esc(snippet)}"</span></div>`;
+        }).join('') || '<p style="color:#94a3b8; font-size:0.75rem;">No codes established yet.</p>';
+        // Update the summary codebook bar (bottom of transcript card)
+        updateSummaryBar(data);
+    }
+
+    function updateSummaryBar(data) {
+        const summaryCont = document.getElementById('summary-content-1');
+        const summaryBox = document.getElementById('summary-1');
+        if (!summaryCont || !summaryBox) return;
+        const usedCodes = {};
+        data.forEach(item => {
+            if (!usedCodes[item.code]) usedCodes[item.code] = { color: darkOf(item.color, 30), count: 0 };
+            usedCodes[item.code].count++;
+        });
+        summaryCont.innerHTML = Object.keys(usedCodes).length
+            ? Object.keys(usedCodes).map(code => `<span class="teacher-label" style="background:${usedCodes[code].color}; margin-right:8px; margin-bottom:8px;">${esc(code)} (${usedCodes[code].count})</span>`).join('')
+            : '<span style="color:#94a3b8; font-size:0.72rem;">Codes will appear here as you add them.</span>';
+        summaryBox.classList.remove('hidden');
+    }
+
+    function saveToLocal() { localStorage.setItem(`coded_script_${currentScript}`, JSON.stringify(myCodes)); }
+
+    function loadFromLocal() {
+        let data = [];
+        try { data = JSON.parse(localStorage.getItem(`coded_script_${currentScript}`) || '[]') || []; } catch (e) { data = []; }
+        if (!Array.isArray(data) || !data.length) return;
+        data.forEach(item => {
+            if (!item || !item.code) return;
+            if (!codeColors[item.code]) { codeColors[item.code] = safeColor(item.color); paletteIndex++; }
+            myCodes.push(item);
+        });
+        // Draw, then migrate older entries (saved without offsets) to exact positions.
+        const placed = renderCoding();
+        let migrated = false;
+        placed.forEach(p => {
+            const c = myCodes.find(m => m.id === p.id);
+            if (c && (c.start !== p.start || c.end !== p.end)) { c.start = p.start; c.end = p.end; migrated = true; }
+        });
+        if (migrated) saveToLocal();
+        updateCodeList(myCodes);
+    }
+
+    async function clearCloudData() {
+        const count = Object.keys(submissions).length;
+        const msg = count > 0
+            ? `This will permanently delete ${count} submission(s) across all scripts. This cannot be undone.\n\nType DELETE to confirm:`
+            : `This will permanently delete all submissions. This cannot be undone.\n\nType DELETE to confirm:`;
+        const input = prompt(msg);
+        if (input !== 'DELETE') { if (input !== null) alert('Purge cancelled — you must type DELETE exactly.'); return; }
+        try {
+            await postToApi({ action: 'clear', password: instructorCode });
+            alert("Data purged.");
+            syncFromCloud();
+        } catch (e) {
+            alert('Purge failed: ' + e.message);
+        }
+    }
+
+    loadScript(1);
+
+    // ── Landing page ──────────────────────────────────────────────────────────
+    function beginSession() {
+        const name = document.getElementById('landing-name').value.trim()
+            .replace(/\b\w/g, c => c.toUpperCase());
+        if (!name) {
+            document.getElementById('landing-error').style.display = 'block';
+            document.getElementById('landing-name').focus();
+            return;
+        }
+        // Pre-fill the student name field in the sidebar
+        document.getElementById('student-name').value = name;
+        document.getElementById('submitting-as-name').textContent = name;
+        document.getElementById('landing-modal').style.display = 'none';
+        try { localStorage.setItem('qcw_student_name', name); } catch (e) {}
+    }
+
+    // Pre-fill the name from last time, then focus the input
+    try {
+        const savedName = localStorage.getItem('qcw_student_name');
+        if (savedName) document.getElementById('landing-name').value = savedName;
+    } catch (e) {}
+    document.getElementById('landing-name').focus();
+
+    // ── Script 2 unlock system ────────────────────────────────────────────────
+    let script2Unlocked = false;
+    try {
+        if (localStorage.getItem('qcw_s2_unlocked') === '1') {
+            script2Unlocked = true;
+            const lock = document.getElementById('s2-lock');
+            if (lock) lock.style.display = 'none';
+        }
+    } catch (e) {}
+
+    function requestScript2() {
+        if (script2Unlocked || currentMode === 'teacher') {
+            loadScript(2);
+            return;
+        }
+        document.getElementById('script-unlock-modal').style.display = 'flex';
+        document.getElementById('script-unlock-input').value = '';
+        document.getElementById('script-unlock-error').style.display = 'none';
+        document.getElementById('script-unlock-input').focus();
+    }
+
+    function checkScriptUnlock() {
+        const input = document.getElementById('script-unlock-input').value.trim().toUpperCase();
+        const btn = document.querySelector('#script-unlock-modal .btn');
+        const origText = btn.textContent;
+        btn.textContent = 'Checking…';
+        postToApi({ action: 'unlock', scriptId: 2, password: input })
+            .catch(e => { if (/incorrect|locked|false/i.test(e.message)) return 'false'; throw e; })
+            .then(result => {
+                btn.textContent = origText;
+                if (isTrue(result)) {
+                    script2Unlocked = true;
+                    try { localStorage.setItem('qcw_s2_unlocked', '1'); } catch (e) {}
+                    document.getElementById('script-unlock-modal').style.display = 'none';
+                    const lock = document.getElementById('s2-lock');
+                    if (lock) lock.style.display = 'none';
+                    loadScript(2);
+                } else {
+                    document.getElementById('script-unlock-error').style.display = 'block';
+                    document.getElementById('script-unlock-input').select();
+                }
+            })
+            .catch(() => {
+                btn.textContent = origText;
+                document.getElementById('script-unlock-error').textContent = 'Connection error — try again.';
+                document.getElementById('script-unlock-error').style.display = 'block';
+            });
+    }
+
+    function closeScriptUnlockModal() {
+        document.getElementById('script-unlock-modal').style.display = 'none';
+    }
+
+    // ── Stage system ──────────────────────────────────────────────────────────
+
+    let clusterCounter = 0;
+    let s1Submitted = false;
+    let s3Submitted = false;
+
+    // Show/hide stage tabs and workspace depending on script + mode
+    function updateStageUI() {
+        const isStudentScript = (currentScript <= 2 && currentMode === 'student');
+        const isSampleScript  = (currentScript > 2  && currentMode === 'student');
+        document.getElementById('stage-tabs').classList.toggle('visible', isStudentScript || isSampleScript);
+        if (!isStudentScript && !isSampleScript) {
+            document.getElementById('main-layout').style.display = '';
+            document.getElementById('stage-workspace').classList.remove('visible');
+            document.getElementById('coding-bar').classList.remove('hidden');
+            syncCodingBarMargin();
+        }
+    }
+
+    // ── Tab gate logic ────────────────────────────────────────────────────────
+    function updateTabGates() {
+        const isSample = currentScript > 2;
+        [2, 3, 4].forEach(n => {
+            const tab = document.getElementById('stab-' + n);
+            if (!tab) return;
+            const clusters = document.querySelectorAll('.cluster-card');
+            const hasCodeInCluster = [...clusters].some(cl => cl.querySelectorAll('.pool-card').length > 0);
+            const s2Complete = clusters.length > 0 && hasCodeInCluster;
+            const locked = !isSample && (n >= 2 && !s1Submitted || n >= 3 && !s2Complete || n >= 4 && !s3Submitted);
+            tab.classList.toggle('tab-locked', locked);
+            tab.title = locked
+                ? (n < 3 ? 'Submit your coding via the sidebar first' : n === 3 ? 'Create at least one category with a code in Stage 2 first' : 'Submit your categories in Stage 3 first')
+                : '';
+        });
+        const nextBtn = document.getElementById('stage-next-btn');
+        if (nextBtn) {
+            const nextStage = currentStage + 1;
+            const clusters2 = document.querySelectorAll('.cluster-card');
+            const hasCode2 = [...clusters2].some(cl => cl.querySelectorAll('.pool-card').length > 0);
+            const s2Complete = clusters2.length > 0 && hasCode2;
+            const locked = !isSample && (nextStage >= 2 && !s1Submitted || nextStage >= 3 && !s2Complete || nextStage >= 4 && !s3Submitted);
+            nextBtn.disabled = currentStage >= 4 || locked;
+            nextBtn.title = locked
+                ? (nextStage < 3 ? 'Submit your coding via the sidebar first' : nextStage === 3 ? 'Create at least one category with a code in Stage 2 first' : 'Submit your categories in Stage 3 first')
+                : '';
+        }
+    }
+
+    function showGateMessage(msg) {
+        let el = document.getElementById('gate-msg');
+        if (!el) {
+            el = document.createElement('div');
+            el.id = 'gate-msg';
+            el.style.cssText = 'position:fixed;top:60px;left:50%;transform:translateX(-50%);background:#1e293b;color:white;padding:12px 24px;border-radius:8px;font-size:0.85rem;font-weight:500;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);pointer-events:none;max-width:440px;text-align:center;line-height:1.5;transition:opacity 0.4s;';
+            document.body.appendChild(el);
+        }
+        el.innerHTML = msg;
+        el.style.opacity = '1';
+        clearTimeout(el._t);
+        el._t = setTimeout(() => { el.style.opacity = '0'; }, 4000);
+    }
+
+    // Central stage switcher — called by tab clicks and internally
+    function switchStage(n) {
+        if (n < 1 || n > 4) return;
+
+        // Gate check for live scripts
+        const isSample = currentScript > 2;
+        if (!isSample) {
+            if (n >= 2 && !s1Submitted) {
+                showGateMessage('Code the transcript first, then use <strong>Submit Coding</strong> in the sidebar to unlock this stage.');
+                return;
+            }
+            if (n >= 3 && currentStage === 2) {
+                const clusters = document.querySelectorAll('.cluster-card');
+                const hasCodeInCluster = [...clusters].some(cl => cl.querySelectorAll('.pool-card').length > 0);
+                if (!clusters.length || !hasCodeInCluster) {
+                    showGateMessage('Create at least one category and drag at least one code into it before moving to Stage 3.');
+                    return;
+                }
+            }
+            if (n >= 4 && !s3Submitted) {
+                showGateMessage('Use <strong>Submit Categories</strong> at the bottom of Stage 3 to unlock this stage.');
+                return;
+            }
+        }
+
+        currentStage = n;
+
+        // Update tab active states
+        [1,2,3,4].forEach(i => {
+            const t = document.getElementById('stab-' + i);
+            if (t) t.classList.toggle('active', i === n);
+        });
+
+        if (n === 1) {
+            document.getElementById('main-layout').style.display = '';
+            document.getElementById('stage-workspace').classList.remove('visible');
+            document.getElementById('coding-bar').classList.remove('hidden');
+            syncCodingBarMargin();
+        } else {
+            document.getElementById('main-layout').style.display = 'none';
+            document.getElementById('stage-workspace').classList.add('visible');
+            document.getElementById('coding-bar').classList.add('hidden');
+            syncCodingBarMargin();
+            ['sw-panel-2','sw-panel-3','sw-panel-4'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById('sw-panel-' + n).classList.remove('hidden');
+            if (n === 2) rebuildCodePool();
+            if (n === 3) buildStage3();
+            if (n === 4) buildStage4();
+        }
+
+        // Update prev/next buttons
+        const prevBtn = document.getElementById('stage-prev-btn');
+        if (prevBtn) prevBtn.disabled = (n <= 1);
+        updateTabGates();
+    }
+
+    function printTranscript() {
+        const transcriptEl = document.getElementById('t1');
+        if (!transcriptEl) return;
+        const transcriptHtml = transcriptEl.innerHTML;
+        const printBtnHtml = `<div id="print-bar" style="position:sticky;top:0;z-index:100;background:white;border-bottom:1px solid #e5e7eb;padding:10px 24px;display:flex;align-items:center;gap:12px;"><button onclick="window.print();return false;" style="background:#4f46e5;color:white;border:none;padding:9px 22px;border-radius:6px;font-size:0.9rem;font-weight:600;cursor:pointer;">Print / Save as PDF</button><span style="font-size:0.78rem;color:#94a3b8;">Highlights will appear automatically.</span></div>`;
+        const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Transcript</title>
+<style>
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0; color: #1e293b; background: white; }
+  .transcript-body { max-width: 760px; margin: 0 auto; padding: 32px 24px; line-height: 3.8; font-size: 1rem; }
+  .p-block { margin-bottom: 24px; border-left: 2px solid #f1f5f9; padding-left: 18px; }
+  .speaker { font-weight: 700; color: #94a3b8; font-size: 0.72rem; text-transform: uppercase; display: block; margin-bottom: 4px; line-height: 1.2; }
+  .highlighted { display: inline; padding: 0.2em 0; border-radius: 4px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .teacher-label { font-size: 0.85rem; font-weight: 800; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; color: white; display: inline-flex; align-items: center; line-height: 1.1; margin-left: 6px; vertical-align: middle; }
+  .uncode-inline { display: none !important; }
+  @media print { #print-bar { display: none !important; } body { margin: 0; } }
+</style>
+</head><body>
+${printBtnHtml}
+<div class="transcript-body">${transcriptHtml}</div>
+</body></html>`;
+        const w = window.open('', '_blank');
+        if (w) { w.document.write(html); w.document.close(); }
+        else { showGateMessage('Popup blocked — please allow popups for this page and try again.'); }
+    }
+
+    function openStage4Export() {
+        const name    = document.getElementById('student-name')?.value.trim() || 'My Analysis';
+        const pattern = document.getElementById('s4-pattern')?.value.trim()  || '';
+
+        const scriptNames = { 1: 'Script 1 — AI in Education', 2: 'Script 2 — English Anxiety' };
+        const scriptLabel = scriptNames[currentScript] || `Script ${currentScript}`;
+
+        // ── Stage 1: rebuild highlighted transcript ──
+        const tmpTranscript = document.createElement('div');
+        renderHighlights(tmpTranscript, currentScript, myCodes, { removable: false });
+        const transcriptHtml = tmpTranscript.innerHTML;
+
+        // ── Stage 4: categories with extracts (mirrors buildStage4 output) ──
+        let catsHtml = '';
+        document.querySelectorAll('.cluster-card').forEach(cl => {
+            const catName = categoryName(cl);
+            const phrase = cl.querySelector('.cluster-category-input').value.trim();
+            const codes = [...cl.querySelectorAll('.pool-card')].map(c => c.dataset.code);
+            if (!codes.length) return;
+
+            let extractRows = '';
+            codes.forEach(codeName => {
+                myCodes.filter(m => m.code === codeName).forEach(entry => {
+                    extractRows += `<div style="display:flex;align-items:flex-start;gap:8px;font-size:0.82rem;color:#475569;line-height:1.5;margin-bottom:4px;">
+                        <span style="flex-shrink:0;padding:1px 7px;border-radius:4px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.02em;background:${safeColor(entry.color)};color:${darkOf(entry.color, 25)};margin-top:2px;">${esc(codeName)}</span>
+                        <span>"${esc(String(entry.text || '').trim())}"</span></div>`;
+                });
+            });
+
+            catsHtml += `<div style="margin-bottom:14px;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;">
+                <div style="padding:9px 14px;background:#f8fafc;border-bottom:1px solid #e2e8f0;">
+                    <span style="font-weight:700;font-size:0.9rem;color:#1e293b;">${esc(catName)}</span>
+                    ${phrase && phrase !== catName ? `<span style="font-size:0.75rem;color:#7c3aed;font-style:italic;margin-left:10px;">${esc(phrase)}</span>` : ''}
+                </div>
+                <div style="padding:10px 14px;">${extractRows || '<span style="color:#cbd5e1;font-size:0.78rem;">No extracts.</span>'}</div>
+            </div>`;
+        });
+
+        const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+<title>Analysis — ${esc(name)}</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 760px; margin: 40px auto; padding: 0 24px; color: #334155; }
+  .highlighted { padding: 0.1em 0; border-radius: 3px; display: inline; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .teacher-label { font-size: 0.7em; font-weight: 700; text-transform: uppercase; padding: 1px 5px; border-radius: 3px; color: white; margin-left: 4px; vertical-align: middle; }
+  h1 { font-size: 1.25rem; font-weight: 800; color: #1e293b; margin: 0 0 4px; }
+  .meta { font-size: 0.78rem; color: #94a3b8; margin-bottom: 32px; }
+  h2 { font-size: 1rem; font-weight: 700; color: #1e293b; margin: 36px 0 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; }
+  .transcript { line-height: 3; font-size: 0.95rem; color: #1e293b; }
+  .p-block { margin-bottom: 20px; border-left: 2px solid #f1f5f9; padding-left: 16px; }
+  .speaker { font-weight: 700; color: #94a3b8; font-size: 0.72rem; text-transform: uppercase; display: block; margin-bottom: 4px; line-height: 1.2; }
+  .theme-box { background:#fffbeb;border:1px solid #fcd34d;border-left:4px solid #f59e0b;border-radius:8px;padding:16px 20px;margin-top:4px; }
+  .theme-box p { margin:0;font-size:0.95rem;line-height:1.7;color:#78350f;white-space:pre-wrap; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+  #print-bar { position: sticky; top: 0; z-index: 100; background: white; border-bottom: 1px solid #e5e7eb; padding: 10px 24px; display: flex; align-items: center; gap: 12px; }
+  #print-bar button { background: #4f46e5; color: white; border: none; padding: 9px 22px; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+  #print-bar span { font-size: 0.78rem; color: #94a3b8; }
+  @media print { #print-bar { display: none !important; } body { margin: 20px; } }
+</style>
+</head><body>
+<div id="print-bar"><button onclick="window.print()">Print / Save as PDF</button><span>Highlights will appear automatically.</span></div>
+<div style="max-width:760px;margin:0 auto;padding:32px 24px;">
+<h1>Qualitative Analysis</h1>
+<div class="meta">${esc(scriptLabel)} · ${esc(name)} · ${new Date().toLocaleDateString()}</div>
+
+<h2>Stage 1: Coded Transcript</h2>
+<div class="transcript">${transcriptHtml}</div>
+
+<h2>Stage 4: Finalised Categories</h2>
+${catsHtml || '<p style="color:#94a3b8;font-size:0.85rem;">No categories recorded.</p>'}
+
+<h2>Stage 4: Theme</h2>
+${pattern ? `<div class="theme-box"><p>${esc(pattern)}</p></div>` :'<p style="color:#94a3b8;font-size:0.85rem;">No theme written yet.</p>'}
+
+<p style="margin-top:48px;font-size:0.7rem;color:#cbd5e1;border-top:1px solid #f1f5f9;padding-top:12px;">Generated from the Qualitative Coding Workbook · © Southampton Education School 2026</p>
+</div>
+</body></html>`;
+
+        const w = window.open('', '_blank');
+        if (w) {
+            w.document.write(html);
+            w.document.close();
+            showGateMessage('Summary opened in a new tab — use your browser\'s <strong>Print / Save as PDF</strong> to keep a copy.');
+        } else {
+            // Popup was blocked — fall back to blob download
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = `analysis-${name.replace(/\s+/g, '-').toLowerCase()}.html`; a.click();
+            URL.revokeObjectURL(url);
+            showGateMessage('Popup blocked — the summary has been downloaded as an HTML file instead.');
+        }
+    }
+
+    // ── Stage 2-4 persistence ─────────────────────────────────────────────────
+
+    function analysisKey() { return `analysis_script_${currentScript}`; }
+
+    function saveAnalysis() {
+        if (currentScript > 2 || currentMode === 'teacher') return;
+        const categories = [];
+        document.querySelectorAll('.cluster-card').forEach(cl => {
+            categories.push({
+                id: cl.id,
+                name: cl.querySelector('.cluster-name-input').value,
+                connectedBy: cl.querySelector('.cluster-category-input').value,
+                codeIds: [...cl.querySelectorAll('.pool-card')].map(c => c.dataset.code)
+            });
+        });
+        const data = {
+            categories,
+            s1Submitted,
+            s3Submitted,
+            s4: {
+                pattern:  document.getElementById('s4-pattern')?.value  || '',
+                claim:    document.getElementById('s4-claim')?.value    || '',
+                evidence: document.getElementById('s4-evidence')?.value || '',
+                nuance:   document.getElementById('s4-nuance')?.value   || ''
+            }
+        };
+        localStorage.setItem(analysisKey(), JSON.stringify(data));
+    }
+
+    function loadAnalysis() {
+        const saved = localStorage.getItem(analysisKey());
+        if (!saved) return;
+        let data;
+        try { data = JSON.parse(saved); } catch(e) { return; }
+        if (!data || !data.categories) return;
+
+        if (data.s1Submitted) s1Submitted = true;
+        if (data.s3Submitted) s3Submitted = true;
+
+        rebuildCodePool();
+
+        data.categories.forEach(cat => {
+            clusterCounter++;
+            const id = 'cluster-' + clusterCounter;
+            const card = document.createElement('div');
+            card.className = 'cluster-card'; card.id = id;
+            card.innerHTML = `<div class="cluster-top"><input class="cluster-name-input" type="text" placeholder="Name this category…" /><button class="remove-cluster-btn" onclick="removeCluster('${id}')">Remove</button></div><div class="cluster-drop-zone" data-cluster="${id}"><span class="drop-placeholder" style="color:#cbd5e1;font-size:0.78rem;align-self:center;pointer-events:none;">Drop codes here</span></div><div class="cluster-category-wrap"><div class="cat-label">What holds these codes together?</div><input class="cluster-category-input" type="text" placeholder="Describe the shared idea in one phrase…" /></div>`;
+            card.querySelector('.cluster-name-input').value = cat.name || '';
+            card.querySelector('.cluster-category-input').value = cat.connectedBy || '';
+            setupDropZone(card.querySelector('.cluster-drop-zone'));
+            document.getElementById('clusters-wrap').appendChild(card);
+
+            const zone = card.querySelector('.cluster-drop-zone');
+            cat.codeIds.forEach(code => {
+                const poolCard = document.querySelector(`#code-pool .pool-card[data-code="${CSS.escape(code)}"]`);
+                if (poolCard) dropCardIntoZone(zone, code);
+            });
+
+            card.querySelector('.cluster-name-input').addEventListener('input', saveAnalysis);
+            card.querySelector('.cluster-category-input').addEventListener('input', saveAnalysis);
+        });
+
+        if (data.s4) {
+            const p = document.getElementById('s4-pattern');   if (p) p.value = data.s4.pattern  || '';
+            const c = document.getElementById('s4-claim');     if (c) c.value = data.s4.claim    || '';
+            const e = document.getElementById('s4-evidence');  if (e) e.value = data.s4.evidence || '';
+            const n = document.getElementById('s4-nuance');    if (n) n.value = data.s4.nuance   || '';
+        }
+    }
+
+    // Wire saveAnalysis into S4 textareas on input
+    ['s4-pattern','s4-claim','s4-evidence','s4-nuance'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', saveAnalysis);
+    });
+
+    // Hook loadScript to reset stages and show/hide tabs
+    const _origLoadScript = loadScript;
+    loadScript = function(num) {
+        _origLoadScript(num);
+        currentStage = 1;
+        s1Submitted = false;
+        s3Submitted = false;
+        // Reset submit button visuals
+        const submitBtn = document.getElementById('submit-btn');
+        if (submitBtn) { submitBtn.innerText = 'Submit Coding'; submitBtn.style.background = 'var(--success)'; }
+        const statusEl = document.getElementById('submit-coding-status');
+        if (statusEl) statusEl.textContent = '';
+        comparePaneOpen = false;
+        // Clear stage 2-4 UI
+        document.getElementById('clusters-wrap').innerHTML = '';
+        document.getElementById('code-pool').innerHTML = '';
+        document.getElementById('s3-clusters-container').innerHTML = '';
+        // Reset S4 textareas (samples make them read-only)
+        ['s4-pattern','s4-claim','s4-evidence','s4-nuance'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) { el.value = ''; el.readOnly = false; el.style.background = ''; }
+        });
+        // Restore export bar (samples hide it)
+        const exportBtn = document.getElementById('s4-export-btn');
+        if (exportBtn) {
+            const exportBar = exportBtn.closest('div');
+            exportBar.style.display = (num > 2) ? 'none' : '';
+        }
+        document.getElementById('analysis-pane-1').innerHTML = '';
+        document.getElementById('analysis-pane-2').innerHTML = '';
+        document.getElementById('analysis-pane-2').classList.add('hidden');
+        if (document.getElementById('toggle-compare-btn')) document.getElementById('toggle-compare-btn').innerText = 'Show Both';
+        document.getElementById('analysis-workspace').style.display = 'none';
+        document.getElementById('col-1').classList.remove('hidden');
+        // Always restore main-layout (may have been hidden by switchStage)
+        document.getElementById('main-layout').style.display = '';
+        document.getElementById('stage-workspace').classList.remove('visible');
+        document.getElementById('coding-bar').classList.remove('hidden');
+        syncCodingBarMargin();
+        [1,2,3,4].forEach(i => {
+            const t = document.getElementById('stab-' + i);
+            if (t) t.classList.toggle('active', i === 1);
+        });
+        const prevBtn = document.getElementById('stage-prev-btn');
+        const nextBtn = document.getElementById('stage-next-btn');
+        if (prevBtn) prevBtn.disabled = true;
+        if (nextBtn) nextBtn.disabled = false;
+        updateStageUI();
+        updateTabGates();
+        if (num <= 2 && currentMode === 'student') {
+            loadAnalysis();
+            // Restore submit button states
+            if (s1Submitted) {
+                const btn = document.getElementById('submit-btn');
+                if (btn) { btn.innerText = 'Submit Coding'; btn.style.background = 'var(--success)'; }
+                const status = document.getElementById('submit-coding-status');
+                if (status) status.textContent = 'Previously submitted.';
+            }
+            if (s3Submitted) {
+                const btn = document.getElementById('s3-submit-btn');
+                if (btn) { btn.textContent = 'Submit Categories'; btn.style.background = ''; btn.classList.remove('sent'); }
+                const status = document.getElementById('submit-analysis-status');
+                if (status) status.textContent = 'Previously submitted.';
+            }
+            // Reset Stage 4 submit button
+            const s4btn = document.getElementById('s4-submit-btn');
+            if (s4btn) { s4btn.textContent = 'Submit Theme'; s4btn.style.background = 'var(--success)'; }
+            const s4status = document.getElementById('submit-theme-status');
+            if (s4status) s4status.textContent = '';
+        }
+        if (num > 2  && currentMode === 'student') renderSampleAnalysis(num);
+    };
+
+    // Run updateStageUI after initial page load (hook wasn't active for loadScript(1))
+    updateStageUI();
+    // Also restore stage 2-4 state for the initial script load (hook wasn't active)
+    if (currentScript <= 2 && currentMode === 'student') {
+        loadAnalysis();
+        if (s1Submitted) {
+            const btn = document.getElementById('submit-btn');
+            if (btn) { btn.innerText = 'Submit Coding'; btn.style.background = 'var(--success)'; }
+            const status = document.getElementById('submit-coding-status');
+            if (status) status.textContent = 'Previously submitted.';
+        }
+        updateTabGates();
+    }
+
+    const _origExecuteSetMode = executeSetMode;
+    executeSetMode = function(mode) {
+        _origExecuteSetMode(mode);
+        updateStageUI();
+        document.getElementById('teacher-review').classList.toggle('hidden', mode === 'student');
+        if (mode === 'teacher') {
+            document.getElementById('stage-workspace').classList.remove('visible');
+            document.getElementById('analysis-workspace').style.display = 'none';
+            document.getElementById('col-1').classList.remove('hidden');
+        } else {
+            document.getElementById('analysis-workspace').style.display = 'none';
+            document.getElementById('col-1').classList.remove('hidden');
+        }
+    };
+
+    // ── Tooltip ───────────────────────────────────────────────────────────────
+    const tooltip = document.getElementById('pool-tooltip');
+    function showTooltip(card, e) {
+        const text = card.dataset.tooltip; if (!text) return;
+        tooltip.textContent = text; tooltip.style.display = 'block'; positionTooltip(e);
+    }
+    function positionTooltip(e) {
+        const pad = 10, tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+        let x = e.clientX + 14, y = e.clientY - th - 10;
+        if (x + tw > window.innerWidth - pad) x = e.clientX - tw - 14;
+        if (y < pad) y = e.clientY + 22;
+        tooltip.style.left = x + 'px'; tooltip.style.top = y + 'px';
+    }
+    function hideTooltip() { tooltip.style.display = 'none'; }
+
+    // ── Stage 1 submit ────────────────────────────────────────────────────────
+    function submitCoding() {
+        const name = document.getElementById('student-name').value.trim();
+        if (!name && myCodes.length === 0) { alert('Please refresh the page, enter your name, and add some codes first.'); return; }
+        if (!name) { alert('Your name was not captured. Please refresh the page and enter your name on the landing screen.'); return; }
+        if (myCodes.length === 0) { alert('Add at least one code before submitting. Highlight text in the transcript and type a label below.'); return; }
+        const btn = document.getElementById('submit-btn');
+        const status = document.getElementById('submit-coding-status');
+        btn.innerText = 'Sending…'; btn.style.background = '#94a3b8';
+        const payload = { type: 'coding', codes: myCodes };
+        postToApi({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(payload) })
+            .then(() => {
+                btn.innerText = 'Submitted ✓'; btn.style.background = '#94a3b8';
+                status.textContent = 'Saved at ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + '. You can resubmit after making changes.';
+                s1Submitted = true; saveAnalysis(); updateTabGates();
+                setTimeout(() => { btn.innerText = 'Submit Coding'; btn.style.background = 'var(--success)'; }, 2000);
+            })
+            .catch(() => {
+                btn.innerText = 'Submit Coding'; btn.style.background = 'var(--success)';
+                status.textContent = 'Not submitted — the server did not confirm. Check your connection and try again.';
+            });
+    }
+
+    // ── Stage 3 submit ────────────────────────────────────────────────────────
+    function submitAnalysis() {
+        const name = document.getElementById('student-name').value.trim();
+        if (!name) { alert('Your name was not captured. Please refresh the page and enter your name on the landing screen.'); return; }
+        if (!document.querySelectorAll('.cluster-card').length) { alert('No categories to submit — complete Stage 2 (Developing Categories) first.'); return; }
+        const btn = document.getElementById('s3-submit-btn');
+        const status = document.getElementById('submit-analysis-status');
+        btn.textContent = 'Sending…'; btn.style.background = '#94a3b8';
+        postToApi({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(gatherAnalysisData()) })
+            .then(() => {
+                btn.textContent = 'Submitted ✓'; btn.style.background = '#94a3b8';
+                if (status) status.textContent = 'Saved at ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + '. You can resubmit after making changes.';
+                s3Submitted = true; saveAnalysis(); updateTabGates();
+                setTimeout(() => { btn.textContent = 'Submit Categories'; btn.style.background = 'var(--success)'; }, 2000);
+            })
+            .catch(() => {
+                btn.textContent = 'Submit Categories'; btn.style.background = 'var(--success)';
+                if (status) status.textContent = 'Not submitted — the server did not confirm. Try again.';
+            });
+    }
+
+    // ── Stage 4 submit ────────────────────────────────────────────────────────
+    function submitTheme() {
+        const name = document.getElementById('student-name').value.trim();
+        if (!name) { alert('Your name was not captured. Please refresh the page and enter your name on the landing screen.'); return; }
+        const pattern = document.getElementById('s4-pattern')?.value.trim() || '';
+        if (!pattern) { alert('Write your theme before submitting.'); return; }
+        const btn = document.getElementById('s4-submit-btn');
+        const status = document.getElementById('submit-theme-status');
+        btn.textContent = 'Sending…'; btn.style.background = '#94a3b8';
+        postToApi({ action: 'record', name, scriptId: currentScript, data: JSON.stringify(gatherAnalysisData()) })
+            .then(() => {
+                btn.textContent = 'Submitted ✓'; btn.style.background = '#94a3b8';
+                if (status) status.textContent = 'Saved at ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + '. You can resubmit after making changes.';
+                saveAnalysis();
+                setTimeout(() => { btn.textContent = 'Submit Theme'; btn.style.background = 'var(--success)'; }, 2000);
+            })
+            .catch(() => {
+                btn.textContent = 'Submit Theme'; btn.style.background = 'var(--success)';
+                if (status) status.textContent = 'Not submitted — the server did not confirm. Try again.';
+            });
+    }
+
+
+    // ── Stage 2 ──────────────────────────────────────────────────────────────
+    function rebuildCodePool() {
+        const placedCodes = new Set();
+        document.querySelectorAll('.cluster-drop-zone .pool-card').forEach(c => placedCodes.add(c.dataset.code));
+        const pool = document.getElementById('code-pool'); pool.innerHTML = '';
+        const codeMap = {};
+        myCodes.forEach(c => { if (!codeMap[c.code]) codeMap[c.code] = {...c, texts:[]}; codeMap[c.code].texts.push(c.text); });
+        Object.values(codeMap).forEach(c => { if (placedCodes.has(c.code)) return; pool.appendChild(createPoolCard(c)); });
+    }
+
+    function createPoolCard(codeObj) {
+        const card = document.createElement('div');
+        card.className = 'pool-card'; card.dataset.code = codeObj.code; card.dataset.color = codeObj.color;
+        const allTexts = codeObj.texts || [codeObj.text];
+        card.dataset.tooltip = allTexts.map(t => '"' + t.trim() + '"').join(' / ');
+        const parts = codeObj.color.match(/hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*([\d.]+)\)/);
+        if (parts) { card.style.background = codeObj.color; card.style.color = `hsla(${parts[1]}, ${parts[2]}%, 20%, 1)`; }
+        card.appendChild(document.createTextNode(codeObj.code));
+        card.draggable = true;
+        card.addEventListener('mouseenter', e => showTooltip(card, e));
+        card.addEventListener('mousemove', positionTooltip);
+        card.addEventListener('mouseleave', hideTooltip);
+        card.addEventListener('dragstart', e => { hideTooltip(); e.dataTransfer.setData('text/plain', codeObj.code); card.classList.add('dragging'); });
+        card.addEventListener('dragend', () => card.classList.remove('dragging'));
+        addTouchDrag(card);
+        return card;
+    }
+
+    function addCluster() {
+        clusterCounter++;
+        const id = 'cluster-' + clusterCounter;
+        const card = document.createElement('div'); card.className = 'cluster-card'; card.id = id;
+        card.innerHTML = `<div class="cluster-top"><input class="cluster-name-input" type="text" placeholder="Name this category…" /><button class="remove-cluster-btn" onclick="removeCluster('${id}')">Remove</button></div><div class="cluster-drop-zone" data-cluster="${id}"><span class="drop-placeholder" style="color:#cbd5e1;font-size:0.78rem;align-self:center;pointer-events:none;">Drop codes here</span></div><div class="cluster-category-wrap"><div class="cat-label">What holds these codes together?</div><input class="cluster-category-input" type="text" placeholder="Describe the shared idea in one phrase…" /></div>`;
+        setupDropZone(card.querySelector('.cluster-drop-zone'));
+        document.getElementById('clusters-wrap').appendChild(card);
+        card.querySelector('.cluster-name-input').addEventListener('input', saveAnalysis);
+        card.querySelector('.cluster-category-input').addEventListener('input', saveAnalysis);
+        saveAnalysis();
+        updateTabGates();
+    }
+
+    function removeCluster(id) {
+        const card = document.getElementById(id); if (!card) return;
+        const pool = document.getElementById('code-pool');
+        card.querySelectorAll('.pool-card').forEach(c => { const b = c.querySelector('.return-btn'); if (b) b.remove(); pool.appendChild(c); });
+        card.remove();
+        saveAnalysis();
+        updateTabGates();
+    }
+
+    function setupDropZone(zone) {
+        zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+        zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); dropCardIntoZone(zone, e.dataTransfer.getData('text/plain')); });
+    }
+
+    function dropCardIntoZone(zone, code) {
+        const existing = document.querySelector(`.pool-card[data-code="${CSS.escape(code)}"]`); if (!existing) return;
+        const oldBtn = existing.querySelector('.return-btn'); if (oldBtn) oldBtn.remove();
+        const ph = zone.querySelector('.drop-placeholder'); if (ph) ph.style.display = 'none';
+        zone.appendChild(existing);
+        const btn = document.createElement('span'); btn.className = 'return-btn'; btn.textContent = '×'; btn.title = 'Return to pool';
+        btn.addEventListener('click', e => { e.stopPropagation(); btn.remove(); document.getElementById('code-pool').appendChild(existing); if (!zone.querySelector('.pool-card')) { const p2 = zone.querySelector('.drop-placeholder'); if (p2) p2.style.display = ''; } saveAnalysis(); updateTabGates(); });
+        existing.appendChild(btn);
+        saveAnalysis();
+        updateTabGates();
+    }
+
+    // ── Stage 3 ──────────────────────────────────────────────────────────────
+    function buildStage3() {
+        const container = document.getElementById('s3-clusters-container'); container.innerHTML = '';
+        const isSample = currentScript > 2;
+        const clusters = document.querySelectorAll('.cluster-card');
+        if (!clusters.length) { container.innerHTML = '<p style="color:#94a3b8;font-size:0.85rem;padding:20px 0;">No categories yet — go to Stage 2 and build some first.</p>'; return; }
+
+        const allEntries = isSample ? (sampleData[currentScript] || []) : myCodes;
+
+        clusters.forEach(cl => {
+            const name = cl.querySelector('.cluster-name-input').value.trim() || '(unnamed)';
+            const phrase = cl.querySelector('.cluster-category-input').value.trim();
+
+            let codesInCluster;
+            if (isSample) {
+                codesInCluster = cl.dataset.sampleCodes ? JSON.parse(cl.dataset.sampleCodes) : [];
+            } else {
+                codesInCluster = [...cl.querySelectorAll('.pool-card')].map(c => c.dataset.code);
+                if (!codesInCluster.length) return;
+            }
+
+            const div = document.createElement('div'); div.className = 's3-cluster-card'; div.dataset.clusterId = cl.id;
+            const nameInput = isSample
+                ? `<input class="s3-name-input" type="text" value="${esc(name)}" readonly style="background:#f8fafc;cursor:default;" />`
+                : `<input class="s3-name-input" type="text" value="${esc(name)}" placeholder="Category name\u2026" />`;
+            const promptText = isSample
+                ? 'Example: observe how the codes and their extracts within each category relate \u2014 do they all describe the same underlying issue?'
+                : 'Does every code really belong here? Drag any that don\'t fit to a different category.';
+            div.innerHTML = `<div class="s3-top">${nameInput}</div>${phrase ? `<p class="s3-category-label">"${esc(phrase)}"</p>` : ''}<p class="s3-prompt">${promptText}</p><div class="s3-drop-zone" data-s3-cluster="${cl.id}"></div>`;
+
+            const dropZone = div.querySelector('.s3-drop-zone');
+            codesInCluster.forEach(codeName => {
+                const entries = allEntries.filter(m => m.code === codeName);
+                if (!entries.length) return;
+                const block = createS3CodeBlock(codeName, entries, cl.id, isSample);
+                dropZone.appendChild(block);
+            });
+
+            if (!isSample) {
+                setupS3DropZone(dropZone);
+                div.querySelector('.s3-name-input').addEventListener('input', ev => { const i = cl.querySelector('.cluster-name-input'); if (i) i.value = ev.target.value; saveAnalysis(); });
+            }
+            container.appendChild(div);
+        });
+
+        const bar = document.getElementById('s3-submit-bar');
+        if (bar) bar.style.display = isSample ? 'none' : '';
+        if (!isSample) {
+            const btn = document.getElementById('s3-submit-btn');
+            if (s3Submitted) { btn.textContent = 'Submitted \u2713'; btn.classList.add('sent'); }
+            else { btn.textContent = 'Submit Categories'; btn.classList.remove('sent'); }
+        }
+    }
+
+    // Code-level block: shows code label + all its extracts as read-only text beneath
+    function createS3CodeBlock(codeName, entries, homeClusterId, isSample) {
+        const block = document.createElement('div');
+        block.className = 's3-code-block';
+        block.dataset.code = codeName;
+        block.dataset.homeCluster = homeClusterId;
+        if (!isSample) block.draggable = true;
+
+        const firstColor = safeColor(entries[0].color);
+        const darkColor = darkOf(firstColor, 25);
+        const countText = entries.length === 1 ? '1 extract' : `${entries.length} extracts`;
+        const extractsHtml = entries.map(e => `<div class="s3-extract-row">"${esc(String(e.text || '').trim())}"</div>`).join('');
+
+        block.style.borderLeft = `3px solid ${darkColor}`;
+        block.innerHTML = `
+            <div class="s3-code-block-header" style="background:${firstColor}20;">
+                <span class="s3-code-label" style="background:${firstColor};color:${darkColor}">${esc(codeName)}</span>
+                <span class="s3-code-count">${countText}</span>
+                ${!isSample ? '<span class="s3-drag-hint">\u2807 drag</span>' : ''}
+            </div>
+            <div class="s3-extracts-list">${extractsHtml}</div>`;
+
+        if (!isSample) {
+            block.addEventListener('dragstart', e => { e.dataTransfer.setData('s3CodeName', codeName); block.classList.add('dragging'); });
+            block.addEventListener('dragend', () => block.classList.remove('dragging'));
+            addS3TouchDrag(block);
+        }
+        return block;
+    }
+
+    function setupS3DropZone(zone) {
+        zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+        zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); moveS3BlockToZone(zone, e.dataTransfer.getData('s3CodeName')); });
+    }
+
+    function moveS3BlockToZone(targetZone, codeName) {
+        const block = document.querySelector(`#s3-clusters-container .s3-code-block[data-code="${CSS.escape(codeName)}"]`);
+        if (!block || block.closest('.s3-drop-zone') === targetZone) return;
+        targetZone.appendChild(block);
+        syncS3MoveToStage2(codeName, targetZone);
+    }
+
+    function syncS3MoveToStage2(codeName, targetZone) {
+        const targetS3ClusterId = targetZone.closest('.s3-cluster-card').dataset.clusterId;
+        const poolCard = document.querySelector(`#clusters-wrap .pool-card[data-code="${CSS.escape(codeName)}"]`);
+        if (!poolCard) return;
+        const targetS2Zone = document.querySelector(`#${targetS3ClusterId} .cluster-drop-zone`);
+        if (!targetS2Zone) return;
+        const oldBtn = poolCard.querySelector('.return-btn'); if (oldBtn) oldBtn.remove();
+        const oldZone = poolCard.closest('.cluster-drop-zone');
+        targetS2Zone.appendChild(poolCard);
+        if (oldZone && !oldZone.querySelector('.pool-card')) { const ph = oldZone.querySelector('.drop-placeholder'); if (ph) ph.style.display = ''; }
+        const newPh = targetS2Zone.querySelector('.drop-placeholder'); if (newPh) newPh.style.display = 'none';
+        const btn = document.createElement('span'); btn.className = 'return-btn'; btn.textContent = '\u00d7'; btn.title = 'Return to pool';
+        btn.addEventListener('click', ev => { ev.stopPropagation(); btn.remove(); document.getElementById('code-pool').appendChild(poolCard); if (!targetS2Zone.querySelector('.pool-card')) { const p2 = targetS2Zone.querySelector('.drop-placeholder'); if (p2) p2.style.display = ''; } saveAnalysis(); updateTabGates(); });
+        poolCard.appendChild(btn);
+    }
+
+    function addS3TouchDrag(block) {
+        let clone = null;
+        block.addEventListener('touchstart', e => {
+            const header = block.querySelector('.s3-code-block-header');
+            clone = document.createElement('div');
+            clone.className = 's3-code-block';
+            clone.innerHTML = header ? header.outerHTML : block.innerHTML;
+            clone.style.cssText = `position:fixed;opacity:0.85;pointer-events:none;z-index:9999;width:${block.offsetWidth}px;border-left:${block.style.borderLeft};border-radius:6px;overflow:hidden;`;
+            document.body.appendChild(clone);
+            block.classList.add('dragging');
+        }, { passive: true });
+        block.addEventListener('touchmove', e => {
+            e.preventDefault();
+            const t = e.touches[0];
+            if (clone) { clone.style.left = (t.clientX - block.offsetWidth / 2) + 'px'; clone.style.top = (t.clientY - 20) + 'px'; }
+            document.querySelectorAll('.s3-drop-zone').forEach(z => { const r = z.getBoundingClientRect(); z.classList.toggle('drag-over', t.clientX >= r.left && t.clientX <= r.right && t.clientY >= r.top && t.clientY <= r.bottom); });
+        }, { passive: false });
+        block.addEventListener('touchend', e => {
+            block.classList.remove('dragging');
+            if (clone) { clone.remove(); clone = null; }
+            const t = e.changedTouches[0];
+            document.querySelectorAll('.s3-drop-zone').forEach(z => { z.classList.remove('drag-over'); const r = z.getBoundingClientRect(); if (t.clientX >= r.left && t.clientX <= r.right && t.clientY >= r.top && t.clientY <= r.bottom) moveS3BlockToZone(z, block.dataset.code); });
+        });
+    }
+
+
+    // ── Stage 4 ──────────────────────────────────────────────────────────────
+    function buildStage4() {
+        const display = document.getElementById('s4-categories-display'); display.innerHTML = '';
+        const isSample = currentScript > 2;
+        const s2Clusters = document.querySelectorAll('.cluster-card');
+        if (!s2Clusters.length) { display.innerHTML = '<p style="color:#94a3b8;font-size:0.82rem;">No categories yet — complete Stages 2 and 3 first.</p>'; return; }
+
+        const allEntries = isSample ? (sampleData[currentScript] || []) : myCodes;
+
+        s2Clusters.forEach((cl, idx) => {
+            const catName = categoryName(cl);
+            const phrase = cl.querySelector('.cluster-category-input').value.trim();
+
+            // Get codes
+            let codes;
+            if (isSample) {
+                codes = cl.dataset.sampleCodes ? JSON.parse(cl.dataset.sampleCodes) : [];
+            } else {
+                if (!cl.querySelectorAll('.pool-card').length) return;
+                codes = [...cl.querySelectorAll('.pool-card')].map(pc => pc.dataset.code);
+            }
+
+            let extractRows = '';
+            codes.forEach(codeName => {
+                allEntries.filter(m => m.code === codeName).forEach(entry => {
+                    extractRows += `<div class="s4-extract-row"><span class="s4-extract-code" style="background:${safeColor(entry.color)};color:${darkOf(entry.color, 25)}">${esc(codeName)}</span><span>"${esc(String(entry.text || '').trim())}"</span></div>`;
+                });
+            });
+
+            const block = document.createElement('div'); block.className = 's4-cat-block';
+            block.innerHTML = `<div class="s4-cat-header"><span class="s4-cat-name">${esc(catName)}</span>${phrase && phrase !== catName ? `<span class="s4-cat-phrase">${esc(phrase)}</span>` : ''}</div><div class="s4-cat-extracts">${extractRows || '<span style="color:#cbd5e1;font-size:0.78rem;">No extracts here.</span>'}</div>`;
+            display.appendChild(block);
+        });
+
+        // Show/hide submit bar (hidden for sample scripts)
+        const s4bar = document.getElementById('s4-submit-bar');
+        if (s4bar) s4bar.style.display = isSample ? 'none' : '';
+    }
+
+    // Category name as the student typed it (Stage 3 renames are mirrored into the
+    // Stage 2 input). Falls back to the "what holds these together" phrase.
+    function categoryName(cl, fallback = '(unnamed)') {
+        const name = (cl.querySelector('.cluster-name-input')?.value || '').trim();
+        const phrase = (cl.querySelector('.cluster-category-input')?.value || '').trim();
+        return name || phrase || fallback;
+    }
+
+    // ── Submissions ───────────────────────────────────────────────────────────
+    function gatherAnalysisData() {
+        const categories = [];
+        document.querySelectorAll('.cluster-card').forEach(cl => {
+            const codes = [...cl.querySelectorAll('.pool-card')].map(c => c.dataset.code);
+            if (!codes.length) return; // skip empty categories
+            const catName = categoryName(cl, '');
+            categories.push({ name: catName, connectedBy: cl.querySelector('.cluster-category-input').value.trim(), codes });
+        });
+        return {
+            type: 'analysis', categories,
+            pattern:  document.getElementById('s4-pattern')?.value.trim()  || '',
+            claim:    document.getElementById('s4-claim')?.value.trim()    || '',
+            evidence: document.getElementById('s4-evidence')?.value.trim() || '',
+            nuance:   document.getElementById('s4-nuance')?.value.trim()   || ''
+        };
+    }
+
+    // ── Cloud sync (overrides original, parses type) ─────────────────────────
+    function syncFromCloud() {
+        const btn = document.getElementById('refresh-btn'); btn.innerText = 'Syncing...';
+        // Instructor-only: the code verified at login is sent with the request.
+        postToApi({ action: 'list', password: instructorCode }).then(result => {
+            const allRows = Array.isArray(result) ? result : (result && Array.isArray(result.rows) ? result.rows : null);
+            if (!allRows) throw new Error('Unexpected reply');
+            submissions = {};
+            if (allRows.length <= 1) { updateTeacherDropdowns(); btn.innerText = 'Sync Submissions'; return; }
+            allRows.forEach((row, index) => {
+                if (index === 0) return;
+                const scriptId = parseInt(String(row[2]).replace(/\D/g, ''));
+                let parsed, dataType = 'codes';
+                try { parsed = JSON.parse(row[3]); if (parsed && parsed.type === 'analysis') dataType = 'analysis'; else if (parsed && parsed.type === 'coding') dataType = 'codes'; } catch(e) { parsed = row[3]; }
+                submissions[`row-${index}`] = { data: parsed, label: `${row[1]} (Script ${scriptId})`, scriptId, dataType };
+            });
+            updateTeacherDropdowns(); btn.innerText = 'Sync Submissions';
+        }).catch(() => { btn.innerText = 'Sync Error'; });
+    }
+
+    // ── Unified teacher review ────────────────────────────────────────────────
+
+    function updateTeacherDropdowns() {
+        // Build combined student list by name, regardless of submission type
+        const keys = Object.keys(submissions).filter(k => submissions[k].scriptId == currentScript);
+        const names = [...new Set(keys.map(k => submissions[k].label.split(' (Script')[0]))];
+        const opts = `<option value="">Select Student…</option>` + names.map(n => `<option value="${esc(n)}">${esc(n)}</option>`).join('');
+        ['sel-student-left','sel-student-right','select-left','select-right'].forEach(id => {
+            const el = document.getElementById(id); if (el) el.innerHTML = opts;
+        });
+    }
+
+    function getKeyForStudent(name, stage) {
+        const type = stage === 1 ? 'codes' : 'analysis';
+        const keys = Object.keys(submissions).filter(k =>
+            submissions[k].scriptId == currentScript &&
+            submissions[k].dataType === type &&
+            submissions[k].label.startsWith(name + ' (Script')
+        );
+        return keys[keys.length - 1] || null; // latest submission
+    }
+
+    function setPaneStage(pane, stage) {
+        paneStage[pane] = stage;
+        const side = pane === 1 ? 'left' : 'right';
+        document.getElementById(`pane-stage-${side}-1`).classList.toggle('active', stage === 1);
+        document.getElementById(`pane-stage-${side}-3`).classList.toggle('active', stage === 3);
+        renderPane(pane);
+    }
+
+    function renderPane(pane) {
+        const side = pane === 1 ? 'left' : 'right';
+        const name = document.getElementById(`sel-student-${side}`).value;
+        const paneEl = document.getElementById(`analysis-pane-${pane}`);
+        const stage = paneStage[pane];
+
+        document.getElementById('col-1').classList.add('hidden');
+        document.getElementById('col-2').classList.add('hidden');
+        document.getElementById('analysis-workspace').style.display = 'flex';
+
+        paneEl.innerHTML = '';
+        if (!name) return;
+
+        const key = getKeyForStudent(name, stage);
+        if (!key) {
+            paneEl.innerHTML = `<p style="color:#94a3b8;font-size:0.82rem;padding:10px 0;">No Stage ${stage} submission found for ${esc(name)}.</p>`;
+            return;
+        }
+
+        const d = submissions[key].data;
+        if (stage === 1) renderCodingPane(paneEl, name, d);
+        else renderAnalysisPane(paneEl, name, d);
+    }
+
+    function renderCodingPane(paneEl, label, d) {
+        const codes = Array.isArray(d) ? d : (d && Array.isArray(d.codes) ? d.codes : []);
+        paneEl.innerHTML = `<div class="analysis-pane-name">${esc(label)} — Stage 1: Coding</div><div class="coding-pane-body" style="background:white;border-radius:var(--radius);border:1px solid var(--border);padding:20px;line-height:3;font-size:0.95rem;color:#1e293b;"></div>`;
+        renderHighlights(paneEl.querySelector('.coding-pane-body'), currentScript, codes, { removable: false });
+    }
+
+    function renderAnalysisPane(paneEl, label, d) {
+        if (!d || d.type !== 'analysis') {
+            paneEl.innerHTML = '<p style="color:#94a3b8;font-size:0.82rem;padding:10px 0;">No Stage 3 submission found.</p>';
+            return;
+        }
+        const cats = Array.isArray(d.categories) ? d.categories : [];
+        let html = `<div class="analysis-pane-name">${esc(label)} — Stage 3–4: Categories &amp; Theme</div>`;
+        html += `<div class="analysis-review-card"><div class="analysis-review-header">Categories (${cats.length})</div><div class="analysis-review-body">`;
+        cats.forEach(c => {
+            html += `<div class="analysis-section"><div class="analysis-section-label">${esc(c.name)}</div>`;
+            if (c.connectedBy) html += `<div style="font-style:italic;color:#7c3aed;font-size:0.75rem;margin-bottom:4px;">"${esc(c.connectedBy)}"</div>`;
+            html += (Array.isArray(c.codes) ? c.codes : []).map(code => `<span class="analysis-cat-chip">${esc(code)}</span>`).join('') + '</div>';
+        });
+        html += '</div></div>';
+        [['Theme', d.pattern]].forEach(([lbl, val]) => {
+            if (!val) return;
+            html += `<div class="analysis-review-card"><div class="analysis-review-header">${lbl}</div><div class="analysis-review-body" style="white-space:pre-wrap;line-height:1.6;">${esc(val)}</div></div>`;
+        });
+        paneEl.innerHTML = html;
+    }
+
+    function toggleComparePane() {
+        comparePaneOpen = !comparePaneOpen;
+        document.getElementById('analysis-pane-2').classList.toggle('hidden', !comparePaneOpen);
+        document.getElementById('toggle-compare-btn').innerText = comparePaneOpen ? 'Single View' : 'Show Both';
+        if (comparePaneOpen) renderPane(2);
+    }
+
+    // Legacy — kept for any old onchange="applyReview()" calls still in DOM
+    function applyReview(side) { renderPane(side); }
+
+    // ── Touch drag (Stage 2 pool cards) ──────────────────────────────────────
+    function addTouchDrag(card) {
+        let clone = null;
+        card.addEventListener('touchstart', e => { clone = card.cloneNode(false); clone.textContent = card.dataset.code; clone.style.cssText = `position:fixed;opacity:0.85;pointer-events:none;z-index:9999;width:${card.offsetWidth}px;padding:6px 12px;border-radius:6px;font-size:0.8rem;font-weight:600;background:${card.style.background};color:${card.style.color};`; document.body.appendChild(clone); card.classList.add('dragging'); }, { passive: true });
+        card.addEventListener('touchmove', e => { e.preventDefault(); const t = e.touches[0]; if (clone) { clone.style.left = (t.clientX - card.offsetWidth/2) + 'px'; clone.style.top = (t.clientY - 20) + 'px'; } document.querySelectorAll('.cluster-drop-zone').forEach(z => { const r = z.getBoundingClientRect(); z.classList.toggle('drag-over', t.clientX >= r.left && t.clientX <= r.right && t.clientY >= r.top && t.clientY <= r.bottom); }); }, { passive: false });
+        card.addEventListener('touchend', e => { card.classList.remove('dragging'); if (clone) { clone.remove(); clone = null; } const t = e.changedTouches[0]; document.querySelectorAll('.cluster-drop-zone').forEach(z => { z.classList.remove('drag-over'); const r = z.getBoundingClientRect(); if (t.clientX >= r.left && t.clientX <= r.right && t.clientY >= r.top && t.clientY <= r.bottom) dropCardIntoZone(z, card.dataset.code); }); });
+    }
+
+
+</script>
+<script src="workbook.js?v=81fde49"></script>
+<script src="tour.js?v=81fde49"></script>
+</body>
+</html>
