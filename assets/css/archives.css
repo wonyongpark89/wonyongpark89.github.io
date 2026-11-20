@@ -1,3 +1,4 @@
+.page-archive .main-wrapper{display:block}
 .archive-main{padding-bottom:var(--s9)}
 .archive-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--s5)}
 .archive-title-row .btn{flex:none;margin-top:var(--s2)}

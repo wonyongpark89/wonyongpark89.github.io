@@ -3,7 +3,7 @@ from html import escape
 import argparse,json
 
 ROOT=Path(__file__).resolve().parent.parent
-VERSION='archives-20261120'
+VERSION='archives-20261120b'
 
 def render(archive):
     key=archive['id']; title=archive['title']; groups=[]; jumps=[]
