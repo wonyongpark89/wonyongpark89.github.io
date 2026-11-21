@@ -7,7 +7,7 @@ Usage:
 Each deck source <week>/src/<deck>.html may contain:
     <!--TITLE:...-->        page title (fills {{TITLE}} in the shared head)
     {{INCLUDE:_file.html}}  shared parts from <week>/src/
-    {{IMG:name}}            image from <week>/src/img/, inlined as a data URI
+    {{IMG:name}}            image (.jpg, .png or .svg) from <week>/src/img/, inlined as a data URI
     {{ICON:name}}           Lucide icon (ISC licence) from <week>/src/icons/
 Slides written as <div data-n class="slide ..."> are numbered in order.
 Output: <week>/<deck>/index.html
@@ -21,7 +21,7 @@ decks = sys.argv[2:] or sorted(p.stem for p in src.glob('*.html') if not p.stem.
 
 def inline_img(m):
     p = next((src / 'img').glob(m.group(1) + '.*'))
-    mime = 'image/png' if p.suffix == '.png' else 'image/jpeg'
+    mime = {'.png': 'image/png', '.svg': 'image/svg+xml'}.get(p.suffix, 'image/jpeg')
     return f'data:{mime};base64,{base64.b64encode(p.read_bytes()).decode()}'
 
 
