@@ -13,6 +13,7 @@ The archive lists are unlisted from the main website navigation. Access is by a 
 ## Direction contract
 
 - Inherit the existing ivory/deep-teal identity and Bricolage Grotesque/Figtree type system in `assets/css/site.css`.
+- Keep archive layout in `assets/css/archives.css`; its scoped `.page-archive .main-wrapper { display: block; }` overrides the incumbent project sidebar grid for these lists.
 - The first viewport shows the archive name, purpose and password form immediately.
 - After unlock, meaningful course/date headings group plain divided rows. Each row names its material and exposes only the formats that exist.
 - No raster assets or thumbnails are needed for this list task.

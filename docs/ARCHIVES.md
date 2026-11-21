@@ -13,6 +13,8 @@ The user chose a password gate for the lists only. Direct HTML/PDF URLs, source 
 3. Run `python tools/build_archives.py`. Use `python tools/build_archives.py --check` to verify the generated indexes and file targets.
 4. Commit the material, catalogue and generated indexes together.
 
+When changing the archive CSS or JavaScript, update `VERSION` in `tools/build_archives.py` and rebuild both lists so their asset URLs change for returning visitors.
+
 To change the shared password, update `password_hash` in both catalogue records with the SHA-256 digest of the new value, then rebuild. The digest is part of the session key, so changing it invalidates old unlock state.
 
 ## Authoring sources
