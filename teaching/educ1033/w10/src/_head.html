@@ -275,6 +275,104 @@ table.tb th.n{text-align:right}
 .docimg{flex:none;border:1px solid var(--rule);box-shadow:0 10px 28px rgba(24,34,31,.12);border-radius:2px;overflow:hidden;background:#fff}
 .docimg img{display:block;width:100%;height:auto}
 </style>
+<style>
+/* ---------- W10 lecture v3: grouping by space and tint, not rules; no icon-heading pairs ---------- */
+/* vertically centred content block between the heading and the source line */
+.vc{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:var(--vc-gap,34px);margin-bottom:var(--vc-mb,30px)}
+/* column heading: colour and serif carry it, no icon */
+.colh{font:600 25px/1.25 var(--serif);color:var(--accent-d);margin:0 0 14px;text-wrap:balance}
+.colh.r{color:var(--rust-d)} .colh.g{color:#6B5114}
+/* tinted panel */
+.pnl{background:var(--panel);border-radius:4px;padding:26px 30px 28px}
+.pnl.t{background:var(--tint)} .pnl.r{background:var(--rust-t)} .pnl.g{background:var(--gold-t)}
+.pnl ul.b li{margin-bottom:12px}
+ul.b.sp li{margin-bottom:20px}
+/* title byline */
+.tt .byl{display:flex;gap:22px;align-items:baseline;font-size:24px;color:var(--on-dark)}
+.tt .byl b{font-weight:600;color:#F2F0EA}
+/* activity questions separated by space */
+.act .qs.sp{display:flex;flex-direction:column;gap:48px}
+.act .qs.sp .q{border:0;padding:0}
+.act .qs.sp .q+.q{color:var(--on-dark)}
+/* outline */
+.ol4{list-style:none;margin:0;padding:0;display:grid;grid-auto-flow:column;grid-template-rows:auto auto;grid-template-columns:1fr 1fr;gap:64px 72px}
+.ol4 li{display:grid;grid-template-columns:76px 1fr;align-items:baseline}
+.ol4 .num{font-size:66px}
+.ol4 span+span{font:500 33px/1.25 var(--serif);color:var(--ink);text-wrap:balance}
+/* numbered keys beside a figure (no rules) */
+.keys{display:grid;gap:22px}
+.keys>div{display:grid;grid-template-columns:36px 1fr;gap:16px;align-items:start}
+.keys .m{width:32px;height:32px;border-radius:50%;background:var(--rust);color:#fff;font:700 16px/32px var(--sans);text-align:center;margin-top:1px}
+.keys .m.ac{background:var(--accent)} .keys .m.g{background:var(--gold)}
+.keys p{font-size:21.5px;line-height:1.45;color:var(--ink2)}
+.keys p b{color:var(--ink);font-weight:650}
+/* figures with their reading */
+.figs{display:grid;gap:20px}
+.figs>div{display:grid;grid-template-columns:var(--fw,140px) 1fr;gap:18px;align-items:baseline}
+.figs p{font-size:21px;line-height:1.45;color:var(--ink2)}
+.figs p b{color:var(--ink);font-weight:650}
+/* Ottawa: five areas of action, one highlighted */
+.acts{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.acts li{background:var(--panel);border-radius:4px;padding:11px 20px;font-size:21px;line-height:1.35;color:var(--ink2)}
+.acts li.hi{background:var(--accent);color:#fff}
+.acts li.hi b{font-weight:650}
+/* health literacy as a rising staircase */
+.stair{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:end}
+.stair>div{border-radius:4px;padding:24px 28px 26px;display:flex;flex-direction:column}
+.stair h2{font:600 34px/1.05 var(--serif);margin:0 0 12px;letter-spacing:-.01em}
+.stair p{font-size:20.5px;line-height:1.45;color:var(--ink2)}
+.stair p+p{margin-top:12px}
+.stair p b{color:var(--ink);font-weight:650}
+/* eight standards, numbered in two columns */
+.std{list-style:none;margin:0;padding:0;display:grid;grid-auto-flow:column;grid-template-rows:repeat(4,auto);grid-template-columns:1fr 1fr;gap:24px 32px}
+.std li{display:grid;grid-template-columns:34px 1fr;align-items:baseline}
+.std .num{font-size:27px}
+.std p{font-size:21px;line-height:1.38;color:var(--ink)}
+/* quoted curriculum statements */
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:28px 56px}
+.qgrid .wide{grid-column:1/-1}
+.qgrid span{display:block;font:650 17px/1.2 var(--sans);color:var(--accent);margin-bottom:8px}
+.qgrid.r span{color:var(--rust)}
+.qgrid p{font:400 22px/1.42 var(--serif);color:var(--ink);text-wrap:pretty}
+/* a three-step sequence */
+.flow{display:grid;grid-template-columns:1fr 36px 1fr 36px 1fr;gap:0 18px;align-items:start}
+.flow .n{font:500 64px/1 var(--serif);color:var(--accent);margin-bottom:16px;font-variant-numeric:lining-nums}
+.flow h2{font:650 25px/1.25 var(--sans);margin:0 0 10px;color:var(--ink)}
+.flow p{font-size:var(--t-body);line-height:1.5;color:var(--ink2)}
+.flow p b{color:var(--ink);font-weight:650}
+.flow .ar{width:36px;height:36px;margin-top:16px;color:#9AA7A1}
+/* 2 × 2 grids */
+.quad{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.quad .pnl{padding:24px 30px 26px}
+.quad h2{font:600 25px/1.25 var(--serif);margin:0 0 8px;color:var(--accent-d)}
+.quad .r h2{color:var(--rust-d)}
+.quad p{font-size:21px;line-height:1.45;color:var(--ink2)}
+.defs{display:grid;grid-template-columns:1fr 1fr;gap:36px 64px;margin:0}
+.defs dt{font:600 31px/1.1 var(--serif);margin:0 0 10px}
+.defs dd{margin:0;font-size:22px;line-height:1.45;color:var(--ink2)}
+.defs dd b{color:var(--ink);font-weight:650}
+/* term list without rules */
+.tlist{display:grid;grid-template-columns:270px 1fr;gap:26px 36px;align-items:baseline;margin:0}
+.tlist dt{font:650 22.5px/1.3 var(--sans);color:var(--accent-d)}
+.tlist dd{margin:0;font-size:22.5px;line-height:1.45;color:var(--ink2)}
+/* a package of components */
+.pkg{display:flex;align-items:center;justify-content:center;gap:26px;background:var(--panel);border-radius:4px;padding:18px 28px;font-size:21.5px;color:var(--ink)}
+.pkg i{font:400 36px/1 var(--serif);font-style:normal;color:var(--accent)}
+/* pupil voices */
+.voices{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;background:var(--tint);border-radius:4px;padding:22px 30px 24px}
+.voices p{font:italic 400 21px/1.38 var(--serif);color:var(--accent-d)}
+.voices span{font:400 15px var(--sans);color:var(--ink2);font-style:normal;white-space:nowrap}
+/* summary trio */
+.trio3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.trio3 .pnl{padding:30px 32px 34px}
+.trio3 h2{font:600 34px/1.1 var(--serif);margin:0 0 14px;letter-spacing:-.01em}
+.trio3 p{font-size:23px;line-height:1.45;color:var(--ink2)}
+/* closing questions */
+.ql{list-style:none;margin:0;padding:0;display:grid;gap:26px}
+.ql li{display:grid;grid-template-columns:52px 1fr;align-items:baseline}
+.ql .num{font-size:40px}
+.ql p{font-size:24px;line-height:1.4}
+</style>
 
 </head>
 <body>
