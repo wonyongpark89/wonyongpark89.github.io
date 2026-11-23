@@ -118,12 +118,18 @@
   function audio(){try{if(!ctx&&AC)ctx=new AC();if(ctx&&ctx.state==='suspended')ctx.resume();}catch(e){}return ctx;}
   function beep(){
     var c=audio(); if(!c)return;
+    var comp=c.createDynamicsCompressor(); comp.threshold.value=-6; comp.ratio.value=4;
+    var master=c.createGain(); master.gain.value=1; master.connect(comp); comp.connect(c.destination);
     var t0=c.currentTime+0.05;
-    for(var i=0;i<3;i++){
-      var o=c.createOscillator(), g=c.createGain(), t=t0+i*0.55;
-      o.type='sine'; o.frequency.value=880;
-      g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.45,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.4);
-      o.connect(g); g.connect(c.destination); o.start(t); o.stop(t+0.45);
+    for(var i=0;i<4;i++){
+      var t=t0+i*0.62;
+      [[880,0.7],[1320,0.45]].forEach(function(f){
+        var o=c.createOscillator(), g=c.createGain();
+        o.type='square'; o.frequency.value=f[0];
+        g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(f[1],t+0.015);
+        g.gain.setValueAtTime(f[1],t+0.38); g.gain.exponentialRampToValueAtTime(0.0001,t+0.46);
+        o.connect(g); g.connect(master); o.start(t); o.stop(t+0.5);
+      });
     }
   }
   function fmt(s){s=Math.max(0,Math.ceil(s));return Math.floor(s/60)+':'+('0'+(s%60)).slice(-2);}
