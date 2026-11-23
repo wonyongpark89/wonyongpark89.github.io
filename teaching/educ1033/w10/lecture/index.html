@@ -459,6 +459,11 @@ ul.b.sp li{margin-bottom:20px}
 .ctxrow{display:flex;align-items:center;gap:36px;margin:-14px 0 24px}
 .ctxrow .ctx{margin:0;flex:1}
 .ctxrow img{flex:none;height:auto;display:block}
+/* highlighted curriculum quotes (talking points) */
+.qgrid.hlq{gap:10px 20px}
+.qgrid.hlq>div{border-radius:4px;padding:12px 18px 14px}
+.qgrid .kq{background:var(--tint)}
+.qgrid.r .kq{background:var(--rust-t)}
 </style>
 
 </head>
@@ -688,13 +693,13 @@ ul.b.sp li{margin-bottom:20px}
   <h1 class="t">By the end of primary, health education covers…</h1>
   <p class="ctx">Selected statements from the curriculum content, quoted from the guidance.</p>
   <div class="vc">
-  <div class="qgrid">
-    <div data-s="1"><span>General wellbeing</span><p>“Pupils should understand that <b>worrying and feeling down are normal</b>, affect everyone at different times, and are <b>not in themselves a sign of a mental health condition</b>.”</p></div>
+  <div class="qgrid hlq">
+    <div class="kq" data-s="1"><span>General wellbeing</span><p>“Pupils should understand that <b>worrying and feeling down are normal</b>, affect everyone at different times, and are <b>not in themselves a sign of a mental health condition</b>.”</p></div>
     <div data-s="2"><span>Healthy eating</span><p>“The principles of <b>planning and preparing</b> a range of <b>healthy meals</b>.”</p></div>
     <div data-s="3"><span>Health protection</span><p>“About <b>personal hygiene and germs</b> including bacteria, viruses, how they are spread and treated, and the <b>importance of handwashing</b>.”</p></div>
-    <div data-s="4"><span>Personal safety</span><p>“About <b>hazards</b> (including fire risks) that may cause harm, injury or risk and <b>ways to reduce risks</b>.”</p></div>
-    <div data-s="5"><span>Personal safety</span><p>“How to <b>recognise risk and keep safe</b> around <b>roads, railways</b>, including level crossings, and <b>water</b>, including the water safety code.”</p></div>
-    <div data-s="6"><span>Basic first aid</span><p>“How to make a <b>clear and efficient call to emergency services</b> if necessary, including the importance of <b>reporting incidents rather than filming them</b>.”</p></div>
+    <div class="kq" data-s="4"><span>Personal safety</span><p>“About <b>hazards</b> (including fire risks) that may cause harm, injury or risk and <b>ways to reduce risks</b>.”</p></div>
+    <div class="kq" data-s="5"><span>Personal safety</span><p>“How to <b>recognise risk and keep safe</b> around <b>roads, railways</b>, including level crossings, and <b>water</b>, including the water safety code.”</p></div>
+    <div class="kq" data-s="6"><span>Basic first aid</span><p>“How to make a <b>clear and efficient call to emergency services</b> if necessary, including the importance of <b>reporting incidents rather than filming them</b>.”</p></div>
   </div>
   </div>
   <p class="src">DfE (2025), Primary health and wellbeing: content to be covered by the end of primary, pp. 21–24.</p>
@@ -706,12 +711,12 @@ ul.b.sp li{margin-bottom:20px}
   <h1 class="t">By the end of secondary, health education covers…</h1>
   <p class="ctx">Secondary teaching builds on primary content. Selected statements, quoted from the guidance.</p>
   <div class="vc">
-  <div class="qgrid r" style="row-gap:24px">
+  <div class="qgrid r hlq">
     <div data-s="1"><span>Mental wellbeing</span><p>“That <b>worrying and feeling down are normal</b>, can affect everyone at different times and are not in themselves a sign of a mental health condition, and that <b>managing those feelings can be helped by seeing them as normal</b>.”</p></div>
-    <div data-s="2"><span>Wellbeing online</span><p>“How <b>advertising and information is targeted at them</b> and how to be a <b>discerning consumer of information online</b>, understanding the prevalence of <b>misinformation and disinformation</b> online, including conspiracy theories.”</p></div>
-    <div class="wide" data-s="3"><span>Health protection</span><p>“How to <b>navigate their local healthcare system</b>: what a GP is; when to use A&amp;E / minor injuries; accessing sexual health and family planning clinics; the role of local pharmacies; and <b>how to seek help</b> via local third sector partners which may have specialist services.”</p></div>
+    <div class="kq" data-s="2"><span>Wellbeing online</span><p>“How <b>advertising and information is targeted at them</b> and how to be a <b>discerning consumer of information online</b>, understanding the prevalence of <b>misinformation and disinformation</b> online, including conspiracy theories.”</p></div>
+    <div class="wide kq" data-s="3"><span>Health protection</span><p>“How to <b>navigate their local healthcare system</b>: what a GP is; when to use A&amp;E / minor injuries; accessing sexual health and family planning clinics; the role of local pharmacies; and <b>how to seek help</b> via local third sector partners which may have specialist services.”</p></div>
     <div data-s="4"><span>Personal safety</span><p>“How to <b>recognise and manage peer influence</b> in relation to <b>risk-taking behaviour</b> and personal safety, including peer influence online and on social media.”</p></div>
-    <div data-s="5"><span>Basic first aid</span><p>“Life-saving skills, including <b>how to administer CPR</b>.” · “The <b>purpose of defibrillators</b>, when one might be needed and <b>who can use them</b>.”</p></div>
+    <div class="kq" data-s="5"><span>Basic first aid</span><p>“Life-saving skills, including <b>how to administer CPR</b>.” · “The <b>purpose of defibrillators</b>, when one might be needed and <b>who can use them</b>.”</p></div>
   </div>
   </div>
   <p class="src">DfE (2025), Secondary health and wellbeing curriculum content, pp. 27–31.</p>
