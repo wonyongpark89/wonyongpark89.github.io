@@ -372,6 +372,32 @@ ul.b.sp li{margin-bottom:20px}
 .ql li{display:grid;grid-template-columns:52px 1fr;align-items:baseline}
 .ql .num{font-size:40px}
 .ql p{font-size:24px;line-height:1.4}
+/* ---------- W10 lecture v4: quote boxes, step flow ---------- */
+.qbox{margin:0;background:var(--tint);border-radius:4px;padding:28px 38px 26px}
+.qbox p{font:italic 400 31px/1.36 var(--serif);color:var(--accent-d);margin:0 0 12px;max-width:1080px;text-wrap:pretty}
+.qbox cite{font-style:normal;font-size:18px;color:var(--ink2)}
+.steps{display:grid;grid-template-columns:1fr 48px 1fr 48px 1fr;align-items:stretch}
+.stp{border-radius:4px;padding:26px 28px 28px;background:var(--tint)}
+.stp.r{background:var(--rust-t)}
+.stp .sn{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:var(--accent);color:#fff;font:500 31px/1 var(--serif);margin-bottom:18px;font-variant-numeric:lining-nums}
+.stp.r .sn{background:var(--rust)}
+.stp h2{font:600 27px/1.2 var(--serif);margin:0 0 10px;color:var(--accent-d)}
+.stp.r h2{color:var(--rust-d)}
+.stp p{font-size:21.5px;line-height:1.48;color:var(--ink2)}
+.stp p b{color:var(--ink);font-weight:650}
+.sa{display:grid;place-items:center;color:#9AA7A1}
+.sa svg{width:34px;height:34px}
+.brk{grid-column:3/6;margin-top:18px;padding-top:14px;border-top:2px solid var(--accent);text-align:center;font-size:20.5px;color:var(--ink2)}
+.brk b{color:var(--ink);font-weight:650}
+.act3 h2{font-size:29px;color:var(--accent-d)} .act3 .r h2{color:var(--rust-d)}
+.act3 p{font-size:22px}
+.act3 .pnl{padding:28px 30px 32px}
+.mts{padding:24px 32px 26px}
+.mts p{font-size:23px;line-height:1.45;color:var(--ink)}
+.mts p b{color:#6B5114;font-weight:650}
+.qgrid p b{font-weight:650;color:var(--accent-d)}
+.qgrid.r p b{color:var(--rust-d)}
+.tl .dot{position:relative;z-index:1}
 </style>
 
 </head>
@@ -422,7 +448,7 @@ ul.b.sp li{margin-bottom:20px}
       <div class="note" data-s="1" style="margin-top:24px">Lessons mostly build capability. Opportunity and motivation often depend on conditions outside the lesson.</div>
     </div>
   </div>
-  <p class="src">Redrawn from Michie, van Stralen &amp; West (2011), <i>Implementation Science</i> 6:42, Figure 1, p. 4. CC BY 2.0.</p>
+  <p class="src">Michie, van Stralen &amp; West (2011), <i>Implementation Science</i> 6:42, Figure 1, p. 4. CC BY 2.0.</p>
   <aside class="notes">Remind students of the meal example from the lecture: knowing how to cook (capability), access to ingredients and a kitchen (opportunity), enjoyment and habit (motivation). This model is the tool for Activity 1.</aside>
 </div></section>
 
@@ -439,7 +465,7 @@ ul.b.sp li{margin-bottom:20px}
     <div style="flex:1" data-s="1">
       <div class="ihd" style="padding-bottom:12px;border-bottom:2px solid var(--rust);margin-bottom:4px"><span class="disc sm r"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></svg></span><p class="hd" style="font-size:24px;color:var(--rust-d);margin:0">Southampton LifeLab</p></div>
       <div class="dr" style="grid-template-columns:150px 1fr"><span class="hd" style="margin:0;color:var(--rust-d)">Programme</span><p>teacher training, <b>eight lessons</b> in school, and a <b>day at the hospital lab</b></p></div>
-      <div class="dr" style="grid-template-columns:150px 1fr"><span class="hd" style="margin:0;color:var(--rust-d)">The day</span><p>ultrasound, DNA extraction, fitness measures, the placenta, <b>Meet the Scientist</b></p></div>
+      <div class="dr" style="grid-template-columns:150px 1fr"><span class="hd" style="margin:0;color:var(--rust-d)">The day</span><p>ultrasound, DNA extraction, fitness measures, <b>Meet the Scientist</b></p></div>
       <div class="dr end" style="grid-template-columns:150px 1fr"><span class="hd" style="margin:0;color:var(--rust-d)">EACH-B</span><p>no demonstrated improvement in <b>diet or physical activity</b>; LifeLab valued, app little used</p></div>
     </div>
   </div>
