@@ -422,6 +422,20 @@ ul.b.sp li{margin-bottom:20px}
 .kt .num{font-size:44px}
 .kt b{font:600 27px/1.25 var(--serif);color:var(--accent-d)}
 .kt p{display:inline;font-size:22px;line-height:1.45;color:var(--ink2);margin-left:10px}
+/* ---------- W10 lecture: CSSF diagram zoom (HTML presentation only) ---------- */
+.czv{position:relative;width:528px;height:544px;flex:none;align-self:center;overflow:hidden;border-radius:4px;background:#fff;border:1px solid var(--rule)}
+.zimg{position:absolute;left:0;top:0;width:100%;transform-origin:0 0;transition:transform 1.1s cubic-bezier(.65,0,.35,1)}
+.zimg img{display:block;width:100%;height:auto}
+.zs{display:none}
+.slide.cz:has(.zs1.on) .zimg{transform:translate(-69.3%,0) scale(2.4)}
+.slide.cz:has(.zs2.on) .zimg{transform:translate(-8.8%,-87.3%) scale(2.4)}
+.slide.cz:has(.zs3.on) .zimg{transform:translate(-133.4%,-83.7%) scale(2.4)}
+.slide.cz:has(.zs4.on) .zimg{transform:translate(-34%,-60%) scale(1.6)}
+.slide.cz:has(.zs5.on) .zimg{transform:none}
+.js .slide.cz:has(.zs2.on):not(:has(.zs5.on)) .k1.on,
+.js .slide.cz:has(.zs3.on):not(:has(.zs5.on)) .k2.on,
+.js .slide.cz:has(.zs4.on):not(:has(.zs5.on)) .k3.on{opacity:.38}
+@media print{.zimg{transform:none!important;transition:none!important}}
 </style>
 
 </head>

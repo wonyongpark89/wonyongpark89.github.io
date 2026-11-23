@@ -410,17 +410,32 @@ ul.b.sp li{margin-bottom:20px}
 .hocx p b{color:var(--ink);font-weight:650}
 .pnl.w{background:#fff;border:1px solid var(--rule)}
 .logo{display:block;width:100%;max-width:440px;height:auto;margin:0 0 14px}
-.sumw{display:flex;gap:44px;height:100%;margin:-44px 0 -56px}
-.sumc{flex:1;display:flex;flex-direction:column;padding-top:44px}
-.sumc .pnl{padding:18px 26px 20px}
-.sumc h2{font:600 26px/1.15 var(--serif);margin:0 0 6px}
-.sumc .pnl p{font-size:20px;line-height:1.42;color:var(--ink2)}
-.sumi{width:400px;flex:none;background-size:cover;background-position:center}
+.slide.sum{padding-right:470px}
+.sum .pnl{padding:18px 26px 20px}
+.sum .pnl h2{font:600 26px/1.15 var(--serif);margin:0 0 6px}
+.sum .pnl p{font-size:20px;line-height:1.42;color:var(--ink2)}
+.sumi{position:absolute;right:0;top:0;bottom:0;width:420px;background-size:cover;background-position:center}
+.defs.d3 dt{font-size:36px;margin-bottom:14px}
+.defs.d3 dd{font-size:23px}
 .kt{list-style:none;margin:0;padding:0;display:grid;gap:22px}
 .kt li{display:grid;grid-template-columns:64px 1fr;align-items:baseline}
 .kt .num{font-size:44px}
 .kt b{font:600 27px/1.25 var(--serif);color:var(--accent-d)}
 .kt p{display:inline;font-size:22px;line-height:1.45;color:var(--ink2);margin-left:10px}
+/* ---------- W10 lecture: CSSF diagram zoom (HTML presentation only) ---------- */
+.czv{position:relative;width:528px;height:544px;flex:none;align-self:center;overflow:hidden;border-radius:4px;background:#fff;border:1px solid var(--rule)}
+.zimg{position:absolute;left:0;top:0;width:100%;transform-origin:0 0;transition:transform 1.1s cubic-bezier(.65,0,.35,1)}
+.zimg img{display:block;width:100%;height:auto}
+.zs{display:none}
+.slide.cz:has(.zs1.on) .zimg{transform:translate(-69.3%,0) scale(2.4)}
+.slide.cz:has(.zs2.on) .zimg{transform:translate(-8.8%,-87.3%) scale(2.4)}
+.slide.cz:has(.zs3.on) .zimg{transform:translate(-133.4%,-83.7%) scale(2.4)}
+.slide.cz:has(.zs4.on) .zimg{transform:translate(-34%,-60%) scale(1.6)}
+.slide.cz:has(.zs5.on) .zimg{transform:none}
+.js .slide.cz:has(.zs2.on):not(:has(.zs5.on)) .k1.on,
+.js .slide.cz:has(.zs3.on):not(:has(.zs5.on)) .k2.on,
+.js .slide.cz:has(.zs4.on):not(:has(.zs5.on)) .k3.on{opacity:.38}
+@media print{.zimg{transform:none!important;transition:none!important}}
 </style>
 
 </head>
