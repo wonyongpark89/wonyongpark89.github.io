@@ -441,6 +441,20 @@ ul.b.sp li{margin-bottom:20px}
 .pnl.rb ul.b{font-size:20px}
 .pnl.rb ul.b li{margin-bottom:6px}
 .sum .pnl{padding:16px 26px 18px}
+/* ---------- activity countdown timer ---------- */
+.timer{margin-left:auto;display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);border-radius:999px;padding:7px 8px 7px 24px}
+.timer .tv{font:500 38px/1 var(--serif);color:#F2F0EA;font-variant-numeric:tabular-nums lining-nums;min-width:92px}
+.timer .tb{width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#F2F0EA;display:grid;place-items:center;cursor:pointer;padding:0}
+.timer .tb:hover{background:var(--accent)}
+.timer .tb:focus-visible{outline:2px solid var(--on-dark2);outline-offset:2px}
+.timer .tb svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.timer .ip{display:block} .timer .pp{display:none}
+.timer.run .ip{display:none} .timer.run .pp{display:block}
+.timer.done .tv{color:var(--pink-l)}
+.timer.done{animation:tflash 1s ease-in-out 3}
+@keyframes tflash{50%{background:rgba(233,169,194,.35)}}
+.present.idle .timer,.present.idle .timer *{cursor:default!important}
+@media print{.timer .tb{display:none}.timer{padding-right:24px}}
 </style>
 
 </head>
@@ -476,12 +490,12 @@ ul.b.sp li{margin-bottom:20px}
 
 <!-- 3 Activity 1 -->
 <section class="frame"><div data-n="3" class="slide dark act">
-  <div class="ahead"><span class="an">Activity 1</span><span class="am"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>In pairs</span><span class="am"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>3 minutes</span></div>
+  <div class="ahead"><span class="an">Activity 1</span><span class="am"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>In pairs</span><span class="am"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>2 minutes</span><span class="timer" data-sec="120"><span class="tv" aria-live="off">2:00</span><button type="button" class="tb ts" aria-label="Start timer"><svg class="ip" viewBox="0 0 24 24"><path d="M7 5v14l12-7z" fill="currentColor" stroke="none"/></svg><svg class="pp" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></svg></button><button type="button" class="tb tr" aria-label="Reset timer"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button></span></div>
   <div class="qs sp">
     <p class="q">Think of one thing you were taught at school about staying healthy or safe.</p>
     <p class="q" data-s="1">Did it change what you did? If not, what got in the way?</p>
   </div>
-  <aside class="notes">Collect two or three examples. Typical answers: healthy eating, road safety, drugs and alcohol, fire drills, online safety. For the second question, listen for answers about cost, access, friends, habit or the school environment. These map onto opportunity and motivation in COM-B later.</aside>
+  <aside class="notes">Start the 2-minute timer with its play button (or press T); it beeps three times at the end. Collect two or three examples. Typical answers: healthy eating, road safety, drugs and alcohol, fire drills, online safety. For the second question, listen for answers about cost, access, friends, habit or the school environment. These map onto opportunity and motivation in COM-B later.</aside>
 </div></section>
 
 <!-- 4 Part 1 -->
@@ -1009,7 +1023,7 @@ ul.b.sp li{margin-bottom:20px}
   <button type="button" id="ngrid" aria-label="Slide overview"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1"/></svg></button>
   <button type="button" id="nnext" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
 </div>
-<div class="hint">→ / Space / click: next · ← back · F full screen · O overview · S speaker notes · move the mouse for controls</div>
+<div class="hint">→ / Space / click: next · ← back · F full screen · O overview · S speaker notes · T timer · move the mouse for controls</div>
 <div id="spk" aria-live="polite"><b>Speaker notes</b><div id="spkt"></div></div>
 <script>
 (function(){
@@ -1078,6 +1092,7 @@ ul.b.sp li{margin-bottom:20px}
     if(k==='o'||k==='O'||k==='Escape'&&!document.fullscreenElement&&present===false){setPresent(!present);return;}
     if(k==='f'||k==='F'){if(!document.fullscreenElement){root.requestFullscreen&&root.requestFullscreen();}else{document.exitFullscreen();}return;}
     if(k==='s'||k==='S'){spk.classList.toggle('on');return;}
+    if((k==='t'||k==='T')&&present){var tm=frames[idx].querySelector('.timer');if(tm&&tm._toggle){tm._toggle();}return;}
     if(!present)return;
     if(k==='ArrowRight'||k==='ArrowDown'||k==='PageDown'||k===' '||k==='Enter'||k==='n'||k==='N'){ev.preventDefault();next();}
     else if(k==='ArrowLeft'||k==='ArrowUp'||k==='PageUp'||k==='Backspace'||k==='p'||k==='P'){ev.preventDefault();prev();}
@@ -1086,7 +1101,7 @@ ul.b.sp li{margin-bottom:20px}
     else if(k==='a'||k==='A'){show(frames[idx],frames[idx]._max);}
   });
   deck.addEventListener('click',function(ev){
-    if(ev.target.closest('a')||ev.target.closest('.video'))return;
+    if(ev.target.closest('a')||ev.target.closest('.video')||ev.target.closest('.timer'))return;
     if(!present){var f=ev.target.closest('.frame');if(f){frames[idx].classList.remove('cur');idx=frames.indexOf(f);setPresent(true);}return;}
     if(ev.clientX<innerWidth*0.15)prev();else next();
   });
@@ -1112,6 +1127,38 @@ ul.b.sp li{margin-bottom:20px}
   idx=(start>0&&start<=frames.length)?start-1:0;
   root.classList.add('present'); fit(); frames[idx].classList.add('cur'); show(frames[idx],0); notes(); updNav();
   if(history.replaceState)history.replaceState(null,'','#'+(idx+1));
+})();
+</script>
+<script>
+/* countdown timer for activity slides: <span class="timer" data-sec="120"> */
+(function(){
+  var AC=window.AudioContext||window.webkitAudioContext, ctx=null;
+  function audio(){try{if(!ctx&&AC)ctx=new AC();if(ctx&&ctx.state==='suspended')ctx.resume();}catch(e){}return ctx;}
+  function beep(){
+    var c=audio(); if(!c)return;
+    var t0=c.currentTime+0.05;
+    for(var i=0;i<3;i++){
+      var o=c.createOscillator(), g=c.createGain(), t=t0+i*0.55;
+      o.type='sine'; o.frequency.value=880;
+      g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.45,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.4);
+      o.connect(g); g.connect(c.destination); o.start(t); o.stop(t+0.45);
+    }
+  }
+  function fmt(s){s=Math.max(0,Math.ceil(s));return Math.floor(s/60)+':'+('0'+(s%60)).slice(-2);}
+  document.querySelectorAll('.timer').forEach(function(el){
+    var total=+el.getAttribute('data-sec')||120, left=total, end=0, iv=null;
+    var tv=el.querySelector('.tv'), bs=el.querySelector('.ts'), br=el.querySelector('.tr');
+    function draw(){tv.textContent=fmt(left);}
+    function stop(){clearInterval(iv);iv=null;el.classList.remove('run');bs.setAttribute('aria-label','Start timer');}
+    function tick(){left=(end-Date.now())/1000;if(left<=0){left=0;stop();el.classList.add('done');beep();}draw();}
+    function start(){audio();if(left<=0)left=total;el.classList.remove('done');end=Date.now()+left*1000;iv=setInterval(tick,200);el.classList.add('run');bs.setAttribute('aria-label','Pause timer');}
+    function toggle(){if(iv)stop();else start();}
+    function reset(){stop();left=total;el.classList.remove('done');draw();}
+    el._toggle=toggle;
+    bs.addEventListener('click',function(e){e.stopPropagation();toggle();this.blur();});
+    br.addEventListener('click',function(e){e.stopPropagation();reset();this.blur();});
+    draw();
+  });
 })();
 </script>
 </body>

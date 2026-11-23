@@ -441,6 +441,20 @@ ul.b.sp li{margin-bottom:20px}
 .pnl.rb ul.b{font-size:20px}
 .pnl.rb ul.b li{margin-bottom:6px}
 .sum .pnl{padding:16px 26px 18px}
+/* ---------- activity countdown timer ---------- */
+.timer{margin-left:auto;display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);border-radius:999px;padding:7px 8px 7px 24px}
+.timer .tv{font:500 38px/1 var(--serif);color:#F2F0EA;font-variant-numeric:tabular-nums lining-nums;min-width:92px}
+.timer .tb{width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#F2F0EA;display:grid;place-items:center;cursor:pointer;padding:0}
+.timer .tb:hover{background:var(--accent)}
+.timer .tb:focus-visible{outline:2px solid var(--on-dark2);outline-offset:2px}
+.timer .tb svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.timer .ip{display:block} .timer .pp{display:none}
+.timer.run .ip{display:none} .timer.run .pp{display:block}
+.timer.done .tv{color:var(--pink-l)}
+.timer.done{animation:tflash 1s ease-in-out 3}
+@keyframes tflash{50%{background:rgba(233,169,194,.35)}}
+.present.idle .timer,.present.idle .timer *{cursor:default!important}
+@media print{.timer .tb{display:none}.timer{padding-right:24px}}
 </style>
 
 </head>
